@@ -1,0 +1,548 @@
+database:
+..........
+store and manage data(collection of data)
+Db table rows  and colums
+
+
+sql:
+..........
+structure query lang to talk with Db
+use it view insert update delete manage data 
+case sensitive: select 
+
+5) RDBMS idea (relationships) 
+ Relational DBMS = tables are related to each other. 
+
+Tables, rows, columns 
+ Table = collection of rows (records) and columns (fields). 
+ Column examples: employee_id, employee_name, salar
+
+ Basic SQL syntax & starter commands 
+ Comments: 
+ Single line: -- note or # note 
+ Multi line: /* note */ 
+
+
+ Rdbms              no sql 
+ strucutre         no structure
+ 
+
+  Data types (why important) 
+  ..............................
+ Excel allows wrong entries (e.g., text in salary). Databases prevent this. 
+ Data types control what values a column can accept (number, text, date, etc.). 
+ This improves data quality and avoids errors. 
+
+in mysql ; optional 
+
+
+
+create table tablename(colname,)
+
+numeriacal data type int float
+float- accent decimal
+character /String datatype-char,varchar
+char : fixed lengt
+varchar ; varable length 
+i
+create table Employee(Empid int ,Ename char(10)salary float,DOJ date )
+
+char                   varchar 
+Use CHAR For
+                          
+Fixed-length data:
+
+Gender (M/F)
+Country code (IND)
+PIN status
+Yes/No flags  
+
+varchar
+...........
+
+Variable-length data:
+
+Name
+Address
+Email
+Comments
+
+datetime 
+date yyy-mm-dd
+datetime yyy mm dd hh mm ss
+boolean true false
+
+Ename char(10)     |  R|  A|  M|  |  |  |
+
+
+inset into employee values( 1,'ram.333,2-3-333),( 11,'ram.333,2-3-333),( 21,'ram.333,2-3-333)
+
+
+select * from tablenam
+
+select * from employee
+.................
+delimeter : any symbol  by default ; is a delimeter 
+
+use sql7
+
+select * from customer; 
+
+select * from category
+
+above execute both query  use ; delimeter 
+
+
+
+...............
+
+
+sub languages 
+.......
+ddl  data defination lang
+create alter drop truncate rename 
+
+DML data manupulation lang 
+insert update deleter 
+
+DCL data control language 
+grant revoke 
+
+tcl  transcation  control lang
+ commit savepoint rollback 
+
+DQL DRl  query and retriva; 
+select 
+
+
+...................
+
+ddl  data defination lang :  deals with strucuture of table 
+
+create alter drop truncate rename 
+ 
+create used to create any db obj 
+table views storeprocedures
+
+drop - used to remove any table from db
+permentaly 
+
+Drop table tablename 
+
+Drop table employee
+
+alter....
+.........
+
+5 use cases in alter 
+
+1 ) aleter used to add new colum in exiting table 
+alter table tablename
+add  column datatype 
+ 
+
+
+alter table employee
+add bonus float
+( bonus colum addd in exiting )
+
+2)  used to remove any exisitng table column
+
+alter table tablename
+drop  table tbname 
+drop column columnname
+
+
+alter table employee 
+drop column bonus
+
+
+
+3) used to change dat atype of any column  in exisitng table 
+
+alter table tbname
+modify column colname newdatatype
+
+
+alter table employe
+modift column Ename varchar(30)
+
+4 )used to rename column name 
+
+alter table tablename
+rename  column oldname to new column 
+
+alter table employee
+rename column DOJ to  DateofJoining 
+
+
+5 used to add primary key for exisitng tab;e 
+
+..................................
+
+
+
+
+
+DML data manupulation lang 
+insert update delet 
+..................................
+
+select * from employees 
+
+Update employeeset salary =1333
+where id=3
+
+
+where : used to give condition and accordingly the data will be updated 
+
+give every employee 10% salary bonus and add bonus columns into table
+
+alter column Employee
+add column  bonus float
+
+select * from employees 
+
+update employee 
+set bonus=0.1 *salary 
+
+Delete used to remove any particular  rows 
+.............
+Delete from employee 
+where id=3;
+
+
+DCL data control lang
+Grant Revoke 
+................................
+these cmds used by database administration
+
+access privilae deniaed
+
+Grant give permision/privilages to any users
+
+Grant privilage_name on object_name to User 
+
+//////////////////
+GRANT Example
+
+Give SELECT permission on ashokdb to user sunil:
+
+GRANT SELECT
+ON ashokdb
+TO sunil;
+
+Give SELECT and INSERT permissions:
+
+GRANT SELECT, INSERT
+ON ashokdb
+TO sunil;
+
+Give all permissions:
+
+GRANT ALL PRIVILEGES
+ON ashokdb
+TO sunil;
+
+
+///////////////////
+
+REVOKE Example
+
+Remove INSERT permission:
+
+REVOKE INSERT
+ON ashokdb
+FROM sunil;
+
+Remove both SELECT and INSERT permissions:
+
+REVOKE SELECT, INSERT
+ON ashokdb
+FROM sunil;
+
+Remove all permissions:
+
+REVOKE ALL PRIVILEGES
+ON ashokdb
+FROM sunil;
+
+.....................................
+
+
+Real-Time Example
+
+Suppose you have an employee table:
+
+CREATE TABLE Employee (
+    eid INT,
+    ename VARCHAR(50),
+    salary DECIMAL(10,2)
+);
+
+Create a user:
+
+CREATE USER 'empuser' IDENTIFIED BY 'password';
+
+Allow only viewing data:
+
+GRANT SELECT
+ON Employee
+TO empuser;
+
+Now empuser can run:
+
+SELECT * FROM Employee;
+
+But cannot run:
+
+INSERT INTO Employee VALUES (1,'Sunil',50000);
+
+Later, if you want to remove even the viewing permission:
+
+REVOKE SELECT
+ON Employee
+FROM empuser;
+.......................................
+
+///////////////////////////
+grant update on Employee to user1
+
+grant update,delete on Employee to user1
+
+Revoke - used to take back permisin from users
+
+Grant privilage_name on object_name to User 
+
+Revoke update on Employee to user1
+
+TCL
+...........
+
+commit rollback savepoint
+
+commit :  used to save  data permentaly into db
+
+syntax
+..............
+commit
+ 
+ .....Rollback :  get data to last commited state or last savepoint
+like control z  undo 
+
+
+-- savepoint : save data temporarly in db
+
+inset into employee values( 1,'ram.333,2-3-333),( 11,'ram.333,2-3-333)
+run above 
+after  insert again 2 rows 
+inset into employee values( 12,'rams.3313,2-3-333),( 121,'rame.3e33,2-3-333),
+
+turn off auto commit 
+2 rows added 
+
+select * from employee
+
+ 4 rows shon in db 
+
+ fter use Rollback 
+ rollback 
+
+ e=run 
+ after last 2 rows not shows
+ we can restore data last commited state 
+
+............................
+
+savepoint :save data temporarly in db 
+
+savepoint s1 
+
+inset into employee values( 112,'rams.3313,2-3-333),( 113,'rame.3e33,2-3-333),
+
+
+SAVEPOINT Example
+
+.................................
+
+INSERT INTO Employee VALUES (1,'Sunil',50000);
+
+SAVEPOINT sp1;
+
+INSERT INTO Employee VALUES (2,'Anil',60000);
+
+SAVEPOINT sp2;
+
+INSERT INTO Employee VALUES (3,'Ravi',45000);
+
+Current data:
+
+eid	ename	salary
+1	Sunil	50000
+2	Anil	60000
+3	Ravi	45000
+Rollback to Savepoint
+ROLLBACK TO sp2;
+Result
+eid	ename	salary
+1	Sunil	50000
+2	Anil	60000
+
+Record 3 is removed.
+
+
+
+
+
+integrati constrain /keys
+not null constrant 
+unique
+primary
+check constraain
+default constrain/keyforign key
+
+
+ not allow null values
+ create table customer(cid int Not null,cname varchar(10))
+ insert into customer value(1,'we'),(2,'er4')
+
+
+ insert into customer value(null,'sss')
+
+unique ( not allow duplicate data)
+......
+
+create table  manager(Managerid int, mName varchar(20) age int, unique(miManageridd) )
+
+-- unique constriant on multiple columns
+create table manager_mul(Managerid int ,mname varchar(20) age int, unique (Managerid,age))
+
+insert into manager_mul(1,'ram' 25)
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+
+
+create database ashok;
+
+create table ashokdb(eid int,ename varchar(10), dateofjoining date) ;
+
+insert into ashokdb values (1,'sunil','12-09-1998'),(2,'vnil','12-11-1998'),(3,'anil','12-02-1998');
+INSERT INTO ashokdb
+VALUES
+(1, 'sunil', '1998-09-12'),
+(2, 'vnil', '1998-11-12'),
+(3, 'anil', '1998-02-12');
+
+select * from ashokdb;
+
+# add column exising data 
+alter table ashokdb add sal float , add id int;
+
+# remove column
+alter table ashokdb 
+drop column sal ,drop  column id ;
+#or 
+alter table ashokdb 
+drop  sal ,drop  id ;
+
+# change datatype 
+
+alter table ashokdb
+modify sal int;
+
+
+# rename colname from existing table 
+
+alter table ashokdb
+rename column Dateofjoining to DOJ;
+
+# truncate  , truncate table tbname
+truncate table employees1;
+
+
+# rename table 
+rename table employees1 to emp;
+
+# DML
+update ashokdb
+set ename='sd'
+where eid=1;
+
+use ashok;
+
+# delete
+delete from ashokdb
+where eid=2;
+
+select * from ashokdb;
+
+
+
+#DCL
+
+GRANT SELECT, INSERT
+ON ashokdb
+TO sunil;
+
+#Give all permissions:
+
+GRANT ALL PRIVILEGES
+ON ashokdb
+TO sunil;
+
+
+
+REVOKE SELECT, INSERT
+ON ashokdb
+FROM sunil;
+
+# tcl 
+#commit save data prmently   by defalut mysql is an autocommit tool,  We need to turn off the autocommit option if we want to use savepoint and rollback
+
+
+# savepoint -- Savepoint - used to save data temporarly at any particular point so that,
+
+# rollback get data back or restore 
+select * from ashokdb;
+
+set autocommit=0;
+
+INSERT INTO ashokdb
+VALUES
+(11, 's1unil', '1998-09-12'),
+(22, 'v1nil', '1998-11-12'),
+(33, 'a1nil', '1998-02-12');
+
+rollback
+
+
+INSERT INTO Employee VALUES (1,'Sunil',50000);
+
+SAVEPOINT sp1;
+
+INSERT INTO Employee VALUES (2,'Anil',60000);
+
+SAVEPOINT sp2;
+
+INSERT INTO Employee VALUES (3,'Ravi',45000);
+
+#Current data:
+
+# eid	ename	salary
+-- 1	Sunil	50000
+-- 2	Anil	60000
+-- 3	Ravi	45000
+Rollback to Savepoint
+ROLLBACK TO sp2;
+#Result
+-- eid	ename	salary
+-- 1	Sunil	50000
+-- 2	Anil	60000
+
+# Record 3 is removed.
+
+
+
+//////////////////////////////////////////////

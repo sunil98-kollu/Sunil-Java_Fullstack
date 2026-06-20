@@ -546,3 +546,242 @@ ROLLBACK TO sp2;
 
 
 //////////////////////////////////////////////
+
+
+
+
+#//////////////////////////////////////////
+
+--  Not null constraint ---  null values--
+ -- Unique constraint - duplicate-- 
+--  Primary key - null values & duplicate-- 
+--  Foreign key - used to create a relationship b/w tables--
+--  Default key --- 
+--  Check constrai
+
+# not null value not null
+-- ...........................
+create table customer(cid int not null, cname varchar(20));
+
+insert into customer values (1,'sunil'),(2,'ssd');
+insert into customer values ('sunil'),(2,'ssd');
+insert into customer values (null,'ramu');
+
+
+select * from customer ;
+
+ # unique not allow duplicate values 
+ -- ........................
+ -- creating unique key on single column
+ 
+ create table  manager(mid int, mname varchar(20), age int unique);
+ 
+ insert into manager values(1,'ss',12),(1,'ss',12),(1,'ss',12);
+# duplicate entries  12 formanager .age 
+
+ insert into manager values(1,'ss',12),(2,'sws',12);
+
+-- Creating unique key on multiple columns
+create table manager_mul (mid int ,mname varchar(10),
+age int,unique(mid,age));
+
+ insert into manager_mul values(11,'ss',12),(12,'sws',12);
+  insert into manager_mul values(12,'ss',22);
+  # above sucussfully eexecute cuz we mention unioque both id age not for individual 
+select * from manager_mul;
+
+
+
+
+# primary not null and duplicate ( every table atleast one pk)
+
+create table category(cid int primary key, cname varchar(20));
+
+insert into category values (1,'ss'),(1,'ee');  
+-- above not eexcute gives dupliate etry for key category PRIMARY
+
+
+--  define pk already existing table 
+--  alter table tablename 
+--  alter primarykey(colname);
+ 
+ 
+ show create table category;
+-- 'category',
+--  'CREATE TABLE `category` (\n 
+--  `cid` int NOT NULL,\n  `cname` varchar(20) DEFAULT NULL,\n
+--  PRIMARY KEY (`cid`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci'
+
+
+ #Check  -ensures that all values in a column satisfy a specific condition or rule
+ 
+ create table users (userid int, name varchar(20),age int CHECK (age>=18));
+insert into users values (1,'john',21);
+insert into users values (2,'sam',12);  #not  insert check constrsint chk is voilted 
+
+# Default key - allows us to set any defalut value-- The DEFAULT constraint allows us to set a default value for a column when we don't want to-- provide any value during the insertion of a row.
+create table orders(order_id int,order_status varchar(20) DEFAULT 'pending');
+insert into orders(order_id)  values (1),(2) ;-- here we need to insert data for remaining columns only
+
+insert into orders(order_id)   -- if we not give  order_id not execute (column count not match any value )  
+select * from orders;
+ 
+ 
+ create table cus(order_id int,order_status varchar(20) DEFAULT 'pending');
+insert into cus(order_id)  values (1),(2) ;-- here we need to insert data for remaining columns only
+
+
+# forign KEy  :- relationship bt two table (refer to another table pk) 
+
+
+# forign KEy  :- relationship bt two table (refer to another table pk) 
+
+create table course_Details(cid int primary key, cname varchar(20),duration int);
+insert into course_Details values(1,'sql',35),(2,'java',45),(3,'pyhhon',55);
+select * from course_Details;
+
+create table Students (Sid int primary key, sname varchar(20),Course_id int,
+foreign key(Course_id) references Course_Details(cid));
+
+
+insert into students values (1101,'Raj',2),(1102,'Sam',1),(1103,'John',1);
+select * from Students;
+
+insert into students values (1104,'Raj',4);
+-- This will throw error because course id 4 is not there in cid column of Course_Details table\
+
+/*
+ Using Truncate command on Foreign key tables
+truncate table Course_Details
+drop table Course_Details
+-- If we use trunacte/drop on Course_Details, it throws error because we used references
+-- of this table in students table
+-- So to remove Course_Details table /Parent table we have 2 options-- Option-1. We can drop Students table/child table. By doing this foreign key relation-- will be deleted and then we use trunacte/drop on Course_Details table
+
+Drop table students
+
+-- Option-2. Without dropping Students table/child table we can only remove the foreign key
+-- relationship by using below syntax of alter command-- syn
+alter table tbname
+drop foreign key constraint_name
+
+-- To know the constraint_name we can use the below syntax
+show create table students
+CREATE TABLE `students` (
+`Sid` int NOT NULL,
+`sname` varchar(20) DEFAULT NULL,
+`Course_id` int DEFAULT NULL,
+PRIMARY KEY (`Sid`),
+KEY `Course_id` (`Course_id`),
+CONSTRAINT `students_ibfk_1` FOREIGN KEY (`Course_id`) REFERENCES `course_details`
+(`cid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+*/
+
+-- To remove foreign key relation,
+alter table students
+drop foreign key students_ibfk_1-- Now i can use truncate/drop command on Course_Details table /Parent table.
+-- truncate table Course_Detail
+
+
+
+
+/*
+ forign KEy  isert update delete trunc drop
+Foreign Key + INSERT / UPDATE / DELETE / TRUNCATE / DROP (Real Understanding)
+
+Foreign Key mainly affects how data operations behave between parent and child tables.
+
+Example Setup
+Parent Table: Department
+CREATE TABLE Department (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(50)
+);
+Child Table: Employee
+CREATE TABLE Employee (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    dept_id INT,
+    FOREIGN KEY (dept_id) REFERENCES Department(dept_id)
+);
+
+1. INSERT with Foreign Key
+✔ Correct Insert
+INSERT INTO Department VALUES (1, 'IT');
+
+INSERT INTO Employee VALUES (101, 'Sunil', 1);
+❌ Wrong Insert
+INSERT INTO Employee VALUES (102, 'Anil', 5);
+
+👉 Error:
+
+dept_id = 5 does not exist in Department
+Foreign key violation
+2. UPDATE with Foreign Key
+
+✔ Valid Update
+
+UPDATE Employee
+SET dept_id = 1
+WHERE emp_id = 101;
+
+❌ Invalid Update
+
+UPDATE Employee
+SET dept_id = 10
+WHERE emp_id = 101;
+
+👉 Error:
+
+10 not present in Department table
+3. DELETE with Foreign Key
+Case 1: Parent delete
+
+❌ Without CASCADE
+
+DELETE FROM Department WHERE dept_id = 1;
+
+👉 Error:
+
+Employee records still depend on Department
+
+✔ With CASCADE
+
+FOREIGN KEY (dept_id)
+REFERENCES Department(dept_id)
+ON DELETE CASCADE;
+
+👉 Now:
+
+DELETE FROM Department WHERE dept_id = 1;
+
+✔ Automatically deletes related employees
+
+4. TRUNCATE with Foreign Key
+TRUNCATE TABLE Department;
+
+❌ Result (Most Databases)
+
+Not allowed if referenced by child table
+Because TRUNCATE does not check row-by-row integrity
+
+👉 Must first:
+
+DELETE FROM Employee;
+TRUNCATE TABLE Department;
+5. DROP with Foreign Key
+DROP TABLE Department;
+
+❌ Error if dependency exists
+
+Employee table depends on Department
+
+✔ Correct way
+DROP TABLE Employee;
+DROP TABLE Department;
+
+*/
+
+
+

@@ -1233,12 +1233,30 @@ Stream Operations
 -> Intermediate Operational methods will perform operations on the stream and returns a new Stream
 
 					Ex: filter ( ) , map ( ) etc....
-
+filter()
+map()
+flatMap()
+sorted()
+distinct()
+limit()
+skip()
+peek()
 
 -> Terminal Operational methods will take input and will provide result as output.
 
 					Ex:  count ( ) 
-
+Common Terminal Operations
+forEach()
+collect()
+count()
+reduce()
+min()
+max()
+findFirst()
+findAny()
+anyMatch()
+allMatch()
+noneMatch() 
 
 ===================
 Filtering with Streams
@@ -1290,6 +1308,8 @@ public class FirstDemo {
 		
 	}
 }
+
+
 
 
 ==========================
@@ -2176,12 +2196,605 @@ Map<String, Long> map1 = emps.stream().collect(Collectors.groupingBy(Employee::g
 
 
 
+flatMap() transforms and flattens nested collections or streams into a single stream.
+
+
+
+List<String> names = List.of("java", "spring");
+
+names.stream()
+     .map(String::toUpperCase)
+     .forEach(System.out::println);
+List<List<String>> lists =
+        List.of(List.of("A","B"), List.of("C","D"));
+
+lists.stream()
+     .flatMap(List::stream)
+     .forEach(System.out::println);
+
+
+A
+B
+C
+D
+
+Step 3: flatMap(List::stream)
+
+Converts each inner list into a stream and flattens them:
+
+Stream<A, B, C, D>
+
+Equivalent to:
+
+.flatMap(list -> list.stream())
+Step 4: forEach(System.out::println)
+
+Prints each element:
+
+A
+B
+C
+D
+
+
+
+///////////////////////
+
+
+package com.org.Java8;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class CollectorJAva {
+
+	String name;
+	String country;
+	double sal;
+
+	public CollectorJAva(String name, String country,double sal) {
+		this.name = name;
+		this.country = country;
+		this.sal=sal;
+	} 
+	@Override
+	public String toString() {
+		return "Person [name=" + name + ", country=" + country + ",sal=" + sal + "]";
+	}
+	public static void main(String[] args) {
+		
+		CollectorJAva c1= new CollectorJAva("john","usa",122.1);
+		CollectorJAva c2= new CollectorJAva("Stev","USA",2222.2);
+		CollectorJAva c3= new CollectorJAva("ss","Uk",3434.4);
+
+		// create list obj convert into stream()   process data 
+		//.args. collect(Collect .tolist(0 convert filtered stram back to list ))
+        List<CollectorJAva> persons = Arrays.asList(c1,c2,c3);
+		
+		List<CollectorJAva> indians = persons.stream()
+									  .filter(p -> p.country.startsWith("u"))
+									  .collect(Collectors.toList());
+		
+		indians.forEach(i -> System.out.println(i));
+		
+		
+//		List<CollectorJAva> sal=persons.stream()
+//				.filter(p->p.sal>200).collect(Collectors.toList());
+//		
+//		sal.forEach(i-> System.out.println(i));
+	
+		
+		// categorize the data / grouping the data 
+List<CollectorJAva> list = Arrays.asList(c1,c2,c3);
+		
+		Map<String, List<CollectorJAva>> data = list.stream()
+			.collect(Collectors.groupingBy(e -> e.name));
+		
+		System.out.println(data);
+	
+	}
+	
+}
+
+
+package com.org.java8_1;
+
+public class Optional {
+
+Optional is a container object used to avoid NullPointerException.
+
+1. Optional.of()
+.....................................
+.......................................
+Used when value is definitely not null.
+
+import java.util.Optional;
+
+public class OptionalOfExample {
+    public static void main(String[] args) {
+
+        Optional<String> name = Optional.of("Sunil");
+
+        System.out.println(name.get());
+    }
+}
+
+Output
+
+Sunil
+2. Optional.ofNullable()
+.....................................
+.......................................
+
+Used when value may be null.
+
+import java.util.Optional;
+
+public class OptionalOfNullableExample {
+    public static void main(String[] args) {
+
+        String name = null;
+
+        Optional<String> optional = Optional.ofNullable(name);
+
+        System.out.println(optional.isPresent());
+    }
+}
+
+Output
+
+false
+3. Optional.empty()
+.....................................
+.......................................
+Creates an empty Optional.
+
+import java.util.Optional;
+
+public class EmptyExample {
+    public static void main(String[] args) {
+
+        Optional<String> optional = Optional.empty();
+
+        System.out.println(optional.isPresent());
+    }
+}
+
+Output
+
+false
+4. isPresent()
+.....................................
+.......................................
+Checks whether a value exists.
+
+import java.util.Optional;
+
+public class IsPresentExample {
+    public static void main(String[] args) {
+
+        Optional<String> name = Optional.of("Sunil");
+
+        if(name.isPresent()) {
+            System.out.println("Value Found");
+        }
+    }
+}
+
+Output
+
+Value Found
+5. ifPresent()
+.....................................
+.......................................
+Executes code only if value exists.
+
+import java.util.Optional;
+
+public class IfPresentExample {
+    public static void main(String[] args) {
+
+        Optional<String> name = Optional.of("Sunil");
+
+        name.ifPresent(System.out::println);
+    }
+}
+
+Output
+
+Sunil
+6. orElse()
+.....................................
+.......................................
+Returns default value if Optional is empty.
+
+import java.util.Optional;
+
+public class OrElseExample {
+    public static void main(String[] args) {
+
+        String name = null;
+
+        String result =
+                Optional.ofNullable(name)
+                        .orElse("Default User");
+
+        System.out.println(result);
+    }
+}
+
+Output
+
+Default User
+7. orElseGet()
+.....................................
+.......................................
+
+Default value generated using Supplier.
+
+import java.util.Optional;
+
+public class OrElseGetExample {
+    public static void main(String[] args) {
+
+        String result =
+                Optional.ofNullable(null)
+                        .orElseGet(() -> "Generated User");
+
+        System.out.println(result);
+    }
+}
+
+Output
+
+Generated User
+8. orElseThrow()
+.....................................
+.......................................
+Throws exception if value is absent.
+
+import java.util.Optional;
+
+public class OrElseThrowExample {
+    public static void main(String[] args) {
+
+        String name = Optional.ofNullable(null)
+                .orElseThrow(() ->
+                        new RuntimeException("Name Not Found"));
+
+        System.out.println(name);
+    }
+}
+
+Output
+
+Exception in thread "main"
+java.lang.RuntimeException: Name Not Found
+
+9. map() with Optional
+.....................................
+.......................................
+Transform value if present.
+
+import java.util.Optional;
+
+public class OptionalMapExample {
+    public static void main(String[] args) {
+
+        Optional<String> name = Optional.of("sunil");
+
+        String result = name
+                .map(String::toUpperCase)
+                .orElse("NA");
+
+        System.out.println(result);
+    }
+}
+
+Output
+
+SUNIL
+
+10. filter() with Optional
+.....................................
+.......................................
+import java.util.Optional;
+
+public class OptionalFilterExample {
+    public static void main(String[] args) {
+
+        Optional<String> name = Optional.of("Sunil");
+
+        Optional<String> result =
+                name.filter(n -> n.length() > 5);
+
+        System.out.println(result.isPresent());
+    }
+}
+
+Output
+
+true
+
+Real-Time Example (Interview Favorite)
+
+Without Optional:
+.....................................
+.......................................
+Employee emp = repository.findById(101);
+
+if(emp != null){
+    System.out.println(emp.getName());
+}
+
+With Optional:
+.....................................
+.......................................
+Optional<Employee> emp =
+        repository.findById(101);
+
+emp.ifPresent(e ->
+        System.out.println(e.getName()));
+
+Or:
+
+String name = repository.findById(101)
+                        .map(Employee::getName)
+                        .orElse("Employee Not Found");
+                        
+                        
+Frequently Asked Interview Question
+Difference between orElse() and orElseGet()
+Optional<String> name = Optional.of("Sunil");
+
+System.out.println(
+        name.orElse(getDefaultName())
+);
+
+getDefaultName() executes even when the value exists.
+
+Optional<String> name = Optional.of("Sunil");
+
+System.out.println(
+        name.orElseGet(() -> getDefaultName())
+);
+
+getDefaultName() executes only when the Optional is empty.
+
+Interview Answer
+Optional.of() → Value must not be null.
+Optional.ofNullable() → Value may be null.
+isPresent() → Check existence.
+ifPresent() → Execute if value exists.
+orElse() → Return default value.
+orElseGet() → Lazily generate default value.
+orElseThrow() → Throw exception if empty.
+map() → Transform Optional value.
+filter() → Apply condition on Optional value.
+
+
+......................................................................................
+......................................................................................
+
+
+optional Real-Time Examples (Spring Boot / Banking / E-commerce)
+..........................
+......................................
+1. Find Employee by ID (Most Common Spring Boot Example)
+..........................
+......................................
+Without Optional:
+..........................
+......................................
+Employee employee = employeeRepository.findById(101);
+
+if(employee != null) {
+    System.out.println(employee.getName());
+}
+
+Problem:
+
+May throw NullPointerException.
+
+With Optional:
+..........................
+......................................
+Optional<Employee> employee =
+        employeeRepository.findById(101);
+
+employee.ifPresent(emp ->
+        System.out.println(emp.getName()));
+        
+2. User Login
+..........................
+......................................
+Optional<User> user =
+        userRepository.findByEmail(email);
+
+if(user.isPresent()) {
+    System.out.println("Login Success");
+} else {
+    System.out.println("User Not Found");
+}
+
+Better:
+
+userRepository.findByEmail(email)
+              .ifPresent(user ->
+                      System.out.println("Login Success"));
+3. Banking – Find Account
+..........................
+......................................
+
+Optional<Account> account =
+        accountRepository.findByAccountNumber("12345");
+
+Account acc = account.orElse(
+        new Account("Guest", 0)
+);
+
+System.out.println(acc.getName());
+
+Output when account not found:
+
+Guest
+4. E-commerce – Find Product
+..........................
+......................................
+
+String productName =
+        productRepository.findById(101)
+                         .map(Product::getName)
+                         .orElse("Product Not Available");
+
+System.out.println(productName);
+
+If product exists:
+
+iPhone 17
+
+If not:
+
+Product Not Available
+
+5. Insurance – Find Policy
+..........................
+......................................
+
+Policy policy =
+        policyRepository.findByPolicyNumber("POL123")
+                        .orElseThrow(() ->
+                                new RuntimeException("Policy Not Found"));
+
+If policy doesn't exist:
+
+RuntimeException: Policy Not Found
+
+6. Employee Salary Processing
+..........................
+......................................
+Optional<Employee> emp =
+        employeeRepository.findById(101);
+
+double salary = emp.map(Employee::getSalary)
+                   .orElse(0.0);
+
+System.out.println(salary);
+
+7. Customer Mobile Number Validation
+..........................
+......................................
+Optional<String> mobile =
+        Optional.ofNullable(customer.getMobile());
+
+String result =
+        mobile.orElse("Mobile Number Missing");
+
+System.out.println(result);
+
+8. REST API Response
+..........................
+......................................
+Service Layer:
+
+public Employee getEmployee(Long id) {
+
+    return employeeRepository.findById(id)
+            .orElseThrow(() ->
+                    new EmployeeNotFoundException(
+                            "Employee Not Found"));
+}
+
+Controller:
+
+@GetMapping("/{id}")
+public Employee getEmployee(@PathVariable Long id) {
+    return employeeService.getEmployee(id);
+}
+
+This is a very common Spring Boot pattern.
+
+9. Configuration Value
+..........................
+......................................
+
+String serverName =
+        Optional.ofNullable(System.getenv("SERVER_NAME"))
+                .orElse("localhost");
+
+System.out.println(serverName);
+
+10. Nested Object Null Handling
+..........................
+......................................
+Without Optional:
+........................................
+......................................
+if(employee != null &&
+   employee.getDepartment() != null) {
+
+    System.out.println(
+        employee.getDepartment().getName());
+}
+
+With Optional:
+..........................................
+.............................................
+String deptName =
+        Optional.ofNullable(employee)
+                .map(Employee::getDepartment)
+                .map(Department::getName)
+                .orElse("No Department");
+
+System.out.println(deptName);
+Spring Boot Interview Question
+Repository Method
+public interface EmployeeRepository
+        extends JpaRepository<Employee, Long> {
+
+}
+
+findById() returns:
+
+Optional<Employee>
+
+Usage:
+
+Optional<Employee> emp =
+        employeeRepository.findById(1L);
+
+or
+
+Employee emp =
+        employeeRepository.findById(1L)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Employee Not Found"));
+Interview Answer
+
+Why Optional?
+..........................
+......................................
+Avoids NullPointerException.
+Makes null handling explicit.
+Improves readability.
+Commonly used in Spring Data JPA (findById() returns Optional<T>).
+Works well with map(), filter(), ifPresent(), orElse(), and orElseThrow().
+
+Most common real-world usage:
+
+Employee employee =
+        employeeRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Employee Not Found"));
+
+This is one of the most frequently asked Optional examples in Spring Boot interviews.
 
 
 
 
 
 
-
-
-
+}

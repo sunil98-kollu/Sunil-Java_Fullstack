@@ -1,0 +1,220 @@
+Every API you have ever used that returns a clean error message, with the right status code,
+and no stack trace in the response, had someone who thought carefully about this chapter
+
+
+REQUEST VALIDATION FLOW
+Client Request
+|
+v
+DispatcherServlet -> routes to controller method
+|
+v
+@RequestBody -> Jackson deserialises JSON into DTO
+
+@Valid / @Validated -> Bean Validation runs on DTO fields
+|
++-- FAIL --> MethodArgumentNotValidException
+| |
+| v
+| @RestControllerAdvice -> structured error response
+|
++-- PASS --> Controller method executes -> Service
+
+
+1.2 Triggering Validation with @Valid
+
+
+1.3 @Valid vs @Validated- The Distinction That Matters
+............................................
+@Valid is part of the standard Java Bean Validation API (javax.validation). @Validated is
+Spring's own extension. They both trigger validation but @Validated adds one capability:
+validation groups
+
+
+@Valid vs @Validated comparison
+// @Valid- standard, works on method parameters in controllers
+public ResponseEntity<?> create(@Valid @RequestBody UserRequestDTO dto) {}
+// @Validated- Spring extension, supports validation groups
+// Also required when you want to validate method parameters
+// in a @Service class (not just @RequestBody in controllers)
+@Validated
+@Service
+public class UserService {
+ public void processUser(@NotNull @Valid UserRequestDTO dto) {
+ // Validation runs here too, inside the service
+ }
+}
+// Also used for group-based conditional validation:
+public interface OnCreate {}
+public interface OnUpdate {}
+public class UserRequestDTO {
+ @NotNull(groups = OnCreate.class)
+ private String email; // required on create, optional on update
+}
+// Controller selects which group to validate
+@PostMapping
+public ResponseEntity<?> create(
+ @Validated(OnCreate.class) @RequestBody UserRequestDTO dto) {}
+
+
+ ✓ In interviews: @Valid is sufficient for controller-level validation. Use @Validated when
+you need method-level validation inside service classes, or when you have different rules for
+create vs update operations.
+
+
+Annotation           Passes                        Fails
+@NotNull            "hello" | "" | " "             null
+@NotEmpty          "hello" | " "                   null | ""
+@NotBlank          "hello"                         null | "" | " "
+@Size(min=2,
+max=50)            "hi" | "hello"                   "a" | 66-char string
+
+
+
+empty string, and whitespace-only strings in one annotation. @NotNull on a String field passes
+for blank inputs, which is rarely what you want.
+@NotNull has a legitimate use on non-String types: Integer, Long, Boolean, enum fields. You
+cannot put @NotBlank on an Integer. Use @NotNull there, combined with @Min or @Max if you
+need range checks.
+One place to NOT use them: on fields you expect to be optional. If a user's phone number is
+genuinely optional in your system, do not put @NotBlank on it. Add @Size only if it is provided,
+using @Size alone (which allows null) or a custom validator.
+
+
+1.5 A Production-Quality Request DTO
+............................................
+
+Here is what a real request DTO looks like when validation is applied thoughtfully, not just
+sprayed on every fiel
+
+UserRequestDTO.java
+public class UserRequestDTO {
+ @NotBlank(message = "Name is required")
+ @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
+ private String name;
+ @NotBlank(message = "Email is required")
+ @Email(message = "Must be a valid email address")
+ private String email;
+ @NotBlank(message = "Password is required")
+ @Size(min = 8, message = "Password must be at least 8 characters")
+ private String password;
+ @NotNull(message = "Age is required")
+ @Min(value = 18, message = "Must be at least 18 years old")
+
+@Max(value = 120, message = "Age value is not realistic")
+ private Integer age;
+ // Optional field- no @NotBlank, only size constraint if provided
+ @Size(max = 15, message = "Phone number too long")
+ private String phone;
+ // getters and setters
+}
+
+
+1.6 Nested Object Validation
+..................................
+
+When a DTO contains another object as a field, constraints on the inner object are ignored
+unless you explicitly annotate the field with @Valid. This is one of the most missed pieces of
+validation in fresher code.
+Nested validation with @Valid on the inner object
+public class OrderRequestDTO {
+ @NotBlank(message = "Product name is required")
+ private String productName;
+ @NotNull(message = "Shipping address is required")
+ @Valid // <-- Without this, AddressDTO constraints are NOT checked
+ private AddressDTO shippingAddress;
+}
+public class AddressDTO {
+ @NotBlank(message = "Street is required")
+ private String street;
+ @NotBlank(message = "City is required")
+ private String city;
+ @Pattern(regexp = "^[0-9]{6}$", message = "Pincode must be 6 digits")
+ private String pincode;
+}
+
+
+EXCEPTION PROPAGATION FLOW
+Controller / Service / Repository
+|
+| throws exception
+v
+DispatcherServlet -> looks for a handler
+|
+v
+@RestControllerAdvice
+|
++-> @ExceptionHandler(MethodArgumentNotValidException)
++-> @ExceptionHandler(UserNotFoundException)
++-> @ExceptionHandler(HttpMessageNotReadableException)
++-> @ExceptionHandler(Exception) // fallback
+|
+v
+Structured ApiErrorResponse -> Client
+
+
+
+2.2 @RestControllerAdvice vs @ControllerAdvice
+.....................................
+
+@ControllerAdvice is the base annotation. It intercepts exceptions globally, but it does not
+assume anything about the response format. If you use it, you need to add @ResponseBody to
+each handler method, or your methods will try to resolve a view instead of returning JSON.
+
+
+@RestControllerAdvice combines @ControllerAdvice and @ResponseBody. Every handler
+method automatically serialises its return value to JSON. That is what you want in a REST API.
+
+@ControllerAdvice vs @RestControllerAdvice
+// Old way- requires @ResponseBody on each method
+@ControllerAdvice
+public class GlobalExceptionHandler {
+ @ExceptionHandler(UserNotFoundException.class)
+ @ResponseBody // <-- must not forget this
+ public ResponseEntity<?> handleNotFound(...) { ... }
+}
+
+
+
+/ Modern way- @ResponseBody is implicit on all methods
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+ @ExceptionHandler(UserNotFoundException.class)
+ public ResponseEntity<?> handleNotFound(...) { ... }
+}
+
+✓ Use @RestControllerAdvice. It is the correct choice for REST APIs. If an interviewer
+asks why, say: it combines @ControllerAdvice and @ResponseBody, ensuring all exception
+handler methods return JSON without needing additional annotations on each one
+
+
+
+
+2.3 Designing a Consistent Error Response
+.......................
+.......................
+
+
+Spring's default error response looks different from your success responses. In a production
+system, clients should be able to parse errors the same way they parse successes. A consistent
+structure is not optional. It is the contract.
+Target error response structure
+// The structure every error response follows
+{
+ "timestamp": "2024-06-15T10:32:44",
+ "status": 400,
+ "message": "Validation failed",
+ "errors": {
+ "email": "Must be a valid email address",
+ "name": "Name is required"
+ },
+ "path": "/api/users"
+}
+
+
+
+
+2.4 The Global Exception Handler- Complete Implementation
+........................
+..........................
+

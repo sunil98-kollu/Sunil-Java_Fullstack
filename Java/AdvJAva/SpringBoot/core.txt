@@ -1,0 +1,365 @@
+Spring Framework = The powerful foundation. Requires lots of configuration.
+Spring Boot = Spring + sensible defaults + auto-configuration + embedded server.
+Spring Boot doesn't replace Spring. It makes Spring easier to use
+
+Anyone can say that. Say instead: Spring
+Boot auto-configures your application based on the dependencies on the classpath, provides an embedded
+server, and removes the need for boilerplate XML configuration while still using the Spring Framework
+
+
+4. @SpringBootApplication- The Three-in-One Annotation
+...................
+start the class of SB
+
+@SpringBootApplication
+public class MyApp {
+public static void main(String[] args) {
+SpringApplication.run(MyApp.class, args);
+}
+}
+
+@Configuration
+................
+It's the modern Java-based
+replacement for XML configuration
+
+,@EnableAutoConfiguration:-based on pom starters it provides configuration to run boot app 
+................................
+, @componentScn:-  identify spring bean avaliable in app, nd regiter them in IOC
+.......................
+identify the spring bean avaliable in project
+scan the base package
+then scan the sub packeage 
+
+
+Project Structure- Where Everything Lives
+..................
+
+yapp/
+├── src/
+│ ├── main/
+│ │ ├── java/
+│ │ │ └── com/myapp/
+│ │ │ ├── MyAppApplication.java ← main class
+│ │ │ ├── controller/
+│ │ │ ├── service/
+│ │ │ ├── repository/
+│ │ │ └── model/
+│ │ └── resources/
+│ │ ├── application.properties ← config
+│ │ ├── static/ ← CSS, JS, images
+│ │ └── templates/ ← Thymeleaf views
+│ └── test/
+│ └── java/
+│ └── com/myapp/
+│ └── MyAppApplicationTests.java
+├── pom.xm
+
+
+Properties vs YAML: Same purpose, different format. YAML is cleaner for nesting; properties is simpler
+to manage
+
+
+9. How a Spring Boot Application Actually Starts
+................
+
+main() → 
+SpringApplication.run()
+ → context creation
+  → component scan 
+  → auto-config
+→ beans
+ → server starts.
+
+
+
+///////////////////////////
+
+
+CHAPTER 2 - THE ANNOTATION ARSENAL
+........................................
+........................................
+
+
+ What is a Bean?
+ ..................
+
+
+Ioc don’t want create bean ,
+I want to create bean obj by own 
+method level
+
+
+
+2. @Component vs @Service vs @Repository vs @Controller
+...........
+
+class is managed by ioc container 
+rep java class as spring bean
+spring will auto detech this class  through component scanning ,register it as spring bean 
+
+also called as component, specially our  class contains Busoiness logic , we use as @servie
+
+intreact woth Db,  used to automate (DAO) class as sprign bean
+automate exception transclation from jdbc into pring Databse exception 
+
+handle mvc ,return viwname
+
+return Api response 
+
+
+Autowiring
+.................
+performing DI 
+
+
+3. Dependency Injection.
+..........................
+
+injecting one class obj into target class obj 
+
+controller class method should call service 
+service class method should call DAo
+
+initlizing values using constrictor
+initlizing values usingsetter 
+In production code, always use Lombok's @RequiredArgsConstructor to avoid the boilerplate:
+
+Field Injection (NOT Recommended ❌)
+......................................
+Dependencies are injected directly into variables using @Autowired.
+
+Example
+@Service
+public class OrderService {
+
+    @Autowired
+    private PaymentService paymentService;
+
+    public void placeOrder() {
+        paymentService.pay();
+    }
+}
+Problems
+
+❌ Hard to test (cannot inject mock easily)
+❌ Breaks encapsulation
+❌ Hidden dependencies
+❌ Cannot make fields final
+
+
+2. Setter Injection (Optional Dependency)
+.........................................
+Dependencies are injected via setter methods.
+
+Example
+@Service
+public class OrderService {
+
+    private PaymentService paymentService;
+
+    @Autowired
+    public void setPaymentService(
+            PaymentService paymentService) {
+
+        this.paymentService = paymentService;
+    }
+
+    public void placeOrder() {
+        paymentService.pay();
+    }
+}
+Advantages
+........................
+✔ Good for optional dependencies
+✔ Can change dependency at runtime
+
+Disadvantages
+......
+❌ Object may be partially initialized
+❌ Not immutable
+
+3. Constructor Injection (BEST PRACTICE ⭐)
+.........................................
+Dependencies are passed through constructor.
+
+Example
+@Service
+public class OrderService {
+
+    private final PaymentService paymentService;
+
+    public OrderService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+
+    public void placeOrder() {
+        paymentService.pay();
+    }
+}
+Advantages
+..........................................
+✔ Immutable (use final)
+✔ Easy to test (mock injection)
+✔ Fully initialized object
+✔ Best for required dependencies
+
+(Lombok generates constructor automatically)
+
+y construtor preffered 
+...........................
+
+Constructor injection is preferred over field and setter injection because it ensures mandatory dependencies are provided at object creation time, supports immutability, and improves testability and maintainability.
+
+
+@RequiredArgsConstructor // generates constructor for all final fields
+public class OrderService {
+private final UserService userService;
+private final PaymentService paymentService;
+// No @Autowired anywhere. Spring finds the Lombok-generated constructor.
+// Both fields are final. This class is safe, testable, and clean.
+
+
+4. @Primary vs @Qualifier
+Resolves conflict when multiple beans of same type exist
+
+@Primary
+,.................................
+.............................
+
+Marks one bean as the default bean.
+
+@Service
+@Primary
+public class CreditCardPaymentService
+        implements PaymentService {
+
+    public void pay() {
+        System.out.println("Credit Card Payment");
+    }
+}
+
+Injection
+
+@Autowired
+private PaymentService paymentService;
+
+Output:
+
+Credit Card Payment
+
+
+PaymentService
+   |
+   |-- UPI
+   |-- Credit Card (@Primary)
+   |-- Net Banking
+
+@Qualifier
+.....................................
+Used when you want a specific bean.
+
+@Service("upiPayment")
+public class UPIPaymentService
+        implements PaymentService {
+
+}
+@Service("creditCardPayment")
+public class CreditCardPaymentService
+        implements PaymentService {
+
+}
+Injection
+
+@Autowired
+
+@Qualifier("upiPayment")
+private PaymentService paymentService;
+
+Output:
+.......................
+UPI Payment
+
+Spring injects the bean with name upiPayment.
+
+
+. Autowire by Type (Default in Spring)
+
+Spring injects dependency based on class type.
+How it works
+
+Spring checks:
+
+PaymentService type → finds UpiPaymentService
+
+So it injects automatically.
+
+
+
+Autowire by Name
+....................
+Spring injects dependency based on variable name / bean name.
+
+@Service("upiPaymentService")
+public class UpiPaymentService
+            implements PaymentService {
+@Service("cardPaymentService")
+public class CardPaymentService
+        implements PaymentService {
+
+ Injection by Name
+ .............................
+@Autowired
+private PaymentService upiPaymentService;
+
+ Variable name = upiPaymentService
+
+
+By Type
+........
+Spring injects dependency by matching the class type. It is the default behavior of @Autowired.
+
+By Name
+...............
+Spring injects dependency by matching the bean name with the variable name.
+
+
+What the interviewer expects:
+"When Spring finds multiple beans of the same type, it throws
+NoUniqueBeanDefinitionException at startup. @Primary marks one implementation
+as the default for type-based injection. @Qualifier resolves a specific bean
+by name when the default isn't what you need. For large codebases, I'd prefer
+custom qualifier annotations over string-based @Qualifier because they're
+type-safe, refactor-friendly, and navigable in IDEs.
+
+
+Bean Lifecycle: What Actually Happens:
+.................................
+.........................................
+
+tep 1 Spring calls the constructor (bean is instantiated)
+© The Spring Boot Playbook - Premium Edition | Page 26
+The Spring Boot Playbook | Chapter 2: Annotation Arsenal (Top 1% Edition)
+Step 2 Dependencies are injected (constructor params or @Autowired fields)
+Step 3 BeanPostProcessors run their beforeInitialization hooks
+Step 4 @PostConstruct method is called (YOUR initialization logic)
+Step 5 InitializingBean.afterPropertiesSet() called (if implemented)
+Step 6 @Bean(initMethod=...) called (if specified)
+Step 7 BeanPostProcessors run their afterInitialization hooks
+>>> BEAN IS FULLY READY. SERVING REQUESTS. <<<
+Step 8 @PreDestroy method is called (YOUR cleanup logic)
+Step 9 DisposableBean.destroy() called (if implemented)
+Step 10 Bean is removed from context and eligible for GC
+
+
+Scope New Instance Per Use Case
+singleton ApplicationContext (once) Stateless services, repos, config- the vast majority of
+beans
+prototype Every getBean() / injection Stateful builders, per-operation processors
+request HTTP request Request-specific data holders
+session HTTP session User session state (use carefully in distributed systems)
+application ServletContext (once) App-wide shared web data (rare)
+
+
+
+

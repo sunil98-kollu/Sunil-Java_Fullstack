@@ -1,0 +1,221 @@
+
+
+
+
+
+
+
+
+
+ClassCastException
+..............
+class Bank {}
+
+class SBI extends Bank {}
+
+class HDFC extends Bank {}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Bank bank = new HDFC();
+
+        SBI sbi = (SBI) bank; // Runtime Error
+    }
+}
+o/p
+......
+ClassCastException
+
+
+Exception handling is used to handle runtime errors so that the program does not crash abnormally.
+
+
+Example:
+
+Divide by zero
+
+NullPointerException
+
+ArrayIndexOutOfBoundsException
+
+Keyword	Purpose
+try 	Write risky code
+catch	Handle exception
+finally	Always executes
+throw	Explicitly throw exception
+throws	Declare exception
+
+
+try {
+    // risky code
+} catch (Exception e) {
+    // handling code
+} finally {
+    // cleanup code
+}
+
+
+public class Test {
+    public static void main(String[] args) {
+        try {
+            int a = 10 / 0;
+        } catch (ArithmeticException e) {
+            System.out.println("Cannot divide by zero");
+        }
+        System.out.println("Program continues...");
+    }
+}
+
+
+try {
+    int arr[] = new int[5];
+    arr[10] = 20;
+} catch (ArithmeticException e) {
+    System.out.println("Arithmetic error");
+} catch (ArrayIndexOutOfBoundsException e) {
+    System.out.println("Array index error");
+}
+
+
+
+try {
+    int x = 10 / 2;
+} catch (Exception e) {
+    System.out.println("Error");
+} finally {
+    System.out.println("Finally always executes");
+}
+finally runs whether exception occurs or not.
+
+Checked vs Unchecked Exceptions (INTERVIEW 🔥)
+Checked               	Unchecked
+Compile-time	         Runtime
+Must handle	             Optional
+IOException             NullPointerException
+SQLException	         ArithmeticException
+
+checked
+...............................
+Checked at compile time
+Must be handled using try-catch or declared using throws
+Occur due to external reasons
+
+examples
+...................
+IOException
+SQLException
+FileNotFoundException
+ClassNotFoundException
+
+
+import java.io.FileInputStream;
+
+public class Test {
+    public static void main(String[] args) {
+        FileInputStream fis = new FileInputStream("test.txt");
+    }
+}
+
+
+//
+///import java.io.FileInputStream;
+
+public class Test {
+    public static void main(String[] args) {
+        try {
+            FileInputStream fis = new FileInputStream("test.txt");
+        } catch (Exception e) {
+            System.out.println("File not found");
+        }
+    }
+}
+
+
+
+
+custom exception
+.........
+class InvalidAgeException extends Exception {
+    InvalidAgeException(String msg) {
+        super(msg);
+    }
+}
+
+class Test {
+    public static void main(String[] args) throws InvalidAgeException {
+        int age = 16;
+        if (age < 18)
+            throw new InvalidAgeException("Not eligible to vote");
+    }
+}
+
+
+
+unchecked exception
+.....................
+public class Test {
+    public static void main(String[] args) {
+        int a = 10 / 0;   // Runtime error
+    }
+}
+
+null pointer
+...................
+String s = null;
+System.out.println(s.length()); // Runtime exception
+
+examples
+...........
+Checked → File not found, DB connection issue
+
+Unchecked → Null access, divide by zero
+
+
+throw	                                          throws
+Used to explicitly throw an exception	          Used to declare an exception
+Used inside method body	                          Used in method signature
+Throws one exception at a time	                  Can declare multiple exceptions
+
+throw
+....................
+
+
+public class ThrowExample {
+
+    static void checkAge(int age) {
+        if (age < 18) {
+            throw new ArithmeticException("Not eligible to vote");
+        } else {
+            System.out.println("Eligible to vote");
+        }
+    }
+
+    public static void main(String[] args) {
+        checkAge(16);
+    }
+}
+
+throw creates and gives an exception
+Program stops at throw
+Exception message is shown
+
+throws
+...........
+import java.io.*;
+
+public class ThrowsExample {
+
+    static void readFile() throws IOException {
+        FileReader fr = new FileReader("test.txt");
+    }
+
+    public static void main(String[] args) throws IOException {
+        readFile();
+    }
+}
+throws IOException declares possible exception
+Exception handled by JVM (if not caught)
+
+
+

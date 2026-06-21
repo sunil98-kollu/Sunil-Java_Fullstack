@@ -1,0 +1,160 @@
+
+cache 
+.......
+ 2 types 
+ transactional table 
+ non transactional tables
+
+ application performing DML operation on table those tables are transactional
+ex:- users_tbl,product_tbl
+application performance only  DQL (select) operation on table those are non translationa
+Ex:- countries_table
+
+
+=> It is not recommended to read static data from DB table everytime. Because DB call is costly operation which will reduce performance of the application.	
+
+	( driver loading + connection + query execution + data process + close conn )		
+
+
+Note: To improve performance of the application we need to maintain cache.	
+
+cache is temprory storage layer to access faster retrival
+
+Cache we can implement in 2 ways
+
+		1) Local Cache
+
+		2) Distributed cache
+
+
+   What is Local Cache ?
+======================		
+
+=> Local cache is stored within the application instance (in-memory).
+
+=> It is fast because data is kept in the same JVM / process.
+
+
+benfits
+.....
+data storage in application memory
+performance faster 
+each instance maintaon its own copy of data 
+good for single node app
+
+limitation
+....................
+not shared across mul instance 
+data is lost we restart our app
+
+example  of local cache
+..............
+concuremthashmap
+EHcache
+
+What is Distributed Cache ?	
+============================	
+
+=> Distributed cache is stored outside of the application, usually in a separate server or cluster.
+
+Benfits 
+.............
+sharedacross all app instance
+consistance data across all microservices 
+data is preserved even if app restarts 
+suitable for cloud , microservies ad app with scaling
+
+limitation
+..................
+slightu slower than local cache (network calls)
+req additional infrastructure
+
+EX 
+reddis gemfiles hazlaecast
+
+When to use which cache ?	
+=============================
+
+==> Single server app ----------> Local cache is better
+
+==> Microservices -------------> Distributed cache is better	 
+
+==> App with multiple instances (scaling) ---------> Distributed cache is better
+
+==> Max Performance (ultra fast) -----------> Local cache is better
+
+==> Need shared state across instances --------> Distributed cache is better
+
+
+Reddis
+..........
+means remote dictionary server
+open source in memory data store 
+used as database cache message broker 
+main purposr cache used to imporve performance our by read and write operation 
+
+reddisis know for speed flexibility ease and use 
+
+ one stop solution when you want to prform  quick read and write access
+
+==================================
+Redis Server Setup in Redis Cloud
+==================================
+
+=> Setup Redis DB Using Redis cloud
+
+	Login URL : https://cloud.redis.io/#/login
+
+    https://cloud.redis.io/#/
+
+
+	Note: Sign in with google
+
+=> Under free subscription, create redis db. After creating, note down below details
+
+	Redis Endpoint URL : redis-14084.c15.us-east-1-2.ec2.cloud.redislabs.com:14084
+
+	Redis Port : 14084
+
+	username : default
+
+	Password : k73B6I5fRBGSBOXwigyYA1UuQIZ070Kg
+
+Note: Our Redis Server is ready in cloud, now we can develop SpringBoot application to connect with Redis Server.
+
+
+==================================
+SpringBoot with Redis Integration
+==================================
+
+@@@@ SpringBoot with Redis Server Integration Project :: https://github.com/ashokitschool/SpringBoot_Redis_Cloud_DB_App.git
+
+
+## Step-1 : Create springboot app with below dependencies
+
+		1) web-starter
+		2) starter-data-redis
+		3) jedis
+		4) devtools	
+
+<dependency>
+	<groupId>redis.clients</groupId>
+	<artifactId>jedis</artifactId>
+</dependency>
+
+## Step-2 :: Configure redis db server details in application.properties file			
+
+	spring.data.redis.url=redis-14274.c14.us-east-1-3.ec2.redns.redis-cloud.com
+	spring.data.redis.port=14274
+	spring.data.redis.username=default
+	spring.data.redis.password=mloJMznGT7DeTWisr8NCI32nHwkx8HKO
+
+## Step-3 :: Create RedisConfig class to establish connect with Redis Server
+
+## Step-4 :: Create Entity to represent data (@RedisHash)
+
+## Step-5 :: Create Repository to perform CRUD operations
+
+## Step-6 :: Create REST Controller with HTTP methods
+
+## Step-7 :: Test the application from postman.

@@ -1,0 +1,87 @@
+
+
+factory
+.....................
+......................
+that creates objects without exposing the object creation logic to the client.
+
+
+public interface Payment {
+
+    void pay();
+}
+
+public class UPIPayment implements Payment {
+
+    @Override
+    public void pay() {
+
+        System.out.println(
+                "UPI Payment");
+    }
+}
+
+Credit Card Payment
+public class CardPayment implements Payment {
+
+    @Override
+    public void pay() {
+
+        System.out.println(
+                "Card Payment");
+    }
+}
+
+Step 3:
+...................................
+ Factory Class
+public class PaymentFactory {
+
+    public static Payment getPayment(
+            String type) {
+
+        if(type.equalsIgnoreCase("UPI")) {
+            return new UPIPayment();
+        }
+
+        if(type.equalsIgnoreCase("CARD")) {
+            return new CardPayment();
+        }
+
+        throw new IllegalArgumentException(
+                "Invalid Payment Type");
+    }
+}
+
+Step 4: Client Code
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Payment payment =
+            PaymentFactory.getPayment("UPI");
+
+        payment.pay();
+    }
+}
+
+Output
+UPI Payment
+
+Real-Time Examples
+Notification System
+Notification
+     |
+     |-- EmailNotification
+     |-- SMSNotification
+     |-- WhatsAppNotification
+
+
+ Where is Factory Pattern used in Spring?
+
+Examples:
+
+BeanFactory
+ApplicationContext
+getBean()    

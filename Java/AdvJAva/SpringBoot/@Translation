@@ -1,0 +1,16 @@
+
+
+Transactions and @Transactional
+........
+
+Here's a real scenario. You're building a payment feature. A user transfers money from Account
+A to Account B. Your code does two things: debit Account A, then credit Account B.
+Now imagine the server crashes after the debit but before the credit. The money is gone from A
+but never reached B. The user is going to have a very bad day, and so are yo
+
+
+Spring uses a proxy around your service method. When the method starts, Spring opens a
+database transaction. When the method finishes without errors, Spring commits it. If any
+unchecked exception is thrown, Spring rolls back everything that happened inside that method.
+
+

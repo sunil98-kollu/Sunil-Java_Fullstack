@@ -1,0 +1,7 @@
+What are the most important Java features after Java 8?
+Java 9 → Module System
+Java 10 → var
+Java 11 → HttpClient API
+Java 14/16 → Records
+Java 17 → Sealed Classes
+Java 21 → Virtual Threads, Pattern Matching for Switch

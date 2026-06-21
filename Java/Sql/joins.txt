@@ -1,0 +1,520 @@
+create table customers(Id int primary key,Name varchar(10));
+insert into customers values (1,'A'),(2,'B'),(3,'C'),(4,'D');
+
+create table age(Id int primary key,Age int);
+insert into age values (1,21),(2,22),(3,23),(5,24);
+
+
+
+create database joinstable;
+
+use joinstable;
+
+#joins
+
+create table customers(Id int primary key,Name varchar(10));
+insert into customers values (1,'A'),(2,'B'),(3,'C'),(4,'D');
+
+create table age(Id int primary key,Age int);
+insert into age values (1,21),(2,22),(3,23),(5,24);
+
+select * from customers;
+select * from age;
+
+# Inner join - It returns the common data from 2 tables based on the common column-- syntax
+select * from table1
+inner join table2
+on table1.commoncol = table2.commoncol;
+
+select * from customers
+inner join age
+on customers.id=age.id;
+
+-- using table name before common column name
+select customer.id,name,age from customer
+inner join age
+on customer.ID = age.ID;
+-- Writing joining using alais names
+select * from customer as c
+inner join age as a
+on c.id = a.id;
+
+# Full join - In mysql we cannot perform full join-- but if we want to perform we need to use Union-- Union - used to combine the result set of two or more select queries-- syntax
+select * from table1
+left join table2
+on table1.commoncol = table2.commoncol
+UNION
+select * from table1
+right join table2
+on table1.commoncol = table2.commoncol;
+
+
+select * from customers
+left join age
+on customers.id=age.id
+UNION 
+select * from customers
+right join age
+on customers.id=age.id;
+
+
+-- left join  display left &  matching of right  , non matching return null
+ select * from customers 
+ left join age 
+ on customers.id=age.id;
+ 
+  select * from customers 
+ right join age 
+ on customers.id=age.id;
+ 
+ 
+-- Natural join - if there is common col b/w 2 tables,
+-- it will create a join b/w them 
+-- it displays common data b/w them just like inner join
+
+
+-- but common col will be identified by sql itself, because of this we don't give common column
+-- name in syntax i.e we don't use ON
+-- in output it displays common col name only once-- In natural join we can change join type also, using left or right
+select * from customers
+natural left join age;
+
+
+- -- Cross Join - cartesian product
+..........................................................
+..........................................................
+-- it will combine each row with all the rows in other table
+
+select * from customers
+cross join age;
+
+-- Self join - joining any table with itself
+..........................................................
+..........................................................
+
+create table tb_employees
+(ID int, ename char(10),manager_id int);
+insert into tb_employees
+values (1,'A',2),(2,'B',3),(3,'C',1),(4,'D',1),(5,'E',1);
+select * from tb_employees;
+
+-- Display enames and manager names
+select * from tb_employees;
+select e.ename,m.ename as Manager_Name from tb_employees as e
+inner join tb_employees as m
+on e.manager_id = m.id;
+
+
+
+-- Group by Clause-- Having Clause
+..........................................................
+..........................................................
+-- Group by clause - When we want to analyse about the group of data we use group by clause.
+-- Group by clause - is used with aggregate functions like min(),max(),sum(),avg(),count() to
+# summarize-- the data based on specific columns-- grouping will be done based on gender,score,location or any other columns based on our
+
+
+-- Having Clause - If we want to filter the grouped data, then we use having clause
+..........................................................
+..........................................................
+-- Having clause - used to filter the data but on that data which we are grouping
+-- Having clause is used whenever we want to filter the data which we aggregated or on
+-- the data which we used group by clause.
+
+# sub query 
+..........................................................
+..........................................................
+-- If a query is nested in another query to retrive
+-- the results, then that query is called as sub query-- Basically sub query contains 2 parts
+-- 1.Inner query/sub query
+-- 2. Outer query/ main query
+
+# display the employees details whose salary is less than-- the average salary of all the employees
+
+select * from employees where salary < 56500; -- - static way
+
+select * from emp where sal < (select avg(sal) from emp);
+
+-- sub query/ inner query - we need to write inside paranthesis only
+-- the output of  inner query will become input for the outer query
+
+# types of sub queries
+-- Single row sub query/Scalar sub query
+-- Multi Row Sub query
+-- Correlated sub query
+-- Non correlated sub query
+
+-- Single row sub query/Scalar sub query - it returns a single value
+..........................................................
+..........................................................
+-- if a sub query returns single value, then it is called as single row sub query
+
+-- agg functions - min,max,sum,count,avg -it displays single value only-- so mostly we use Aggregate functions in Single Row Sub query and for comparing the
+# conditions we use-- single valued operators - =,>,<,>=,<=,!=
+
+
+-- Fetch the data of those transactions where amount paid is-- greater than average amount
+select * from payment where amount >
+(select avg(amount) from payment);
+
+
+-- Find the second highest amount from payments-- without sub queries
+select * from payment
+order by amount desc
+limit 1,1;
+-- using sub queries;
+
+select max(amount) from payment where amount <
+(select max(amount) from payment);
+-- 50,49
+-- 50<50
+-- 49<50
+
+
+
+/*
+
+Single Row Subquery (Scalar Subquery) – Interview Questions & Answers
+
+A Single Row Subquery returns only one row and one value.
+
+It is commonly used with:
+
+=
+>
+<
+>=
+<=
+<>
+Question 1
+Find employees whose salary is greater than the salary of Sunil.
+SELECT *
+FROM Employee
+WHERE salary >
+(
+    SELECT salary
+    FROM Employee
+    WHERE emp_name = 'Sunil'
+);
+Interview Explanation
+Inner query returns Sunil's salary.
+Outer query finds employees earning more than Sunil.
+Question 2
+Find employees working in the same department as Anil.
+SELECT *
+FROM Employee
+WHERE dept_id =
+(
+    SELECT dept_id
+    FROM Employee
+    WHERE emp_name = 'Anil'
+);
+Question 3
+Find employees earning the highest salary.
+SELECT *
+FROM Employee
+WHERE salary =
+(
+    SELECT MAX(salary)
+    FROM Employee
+);
+Question 4
+Find employees earning the lowest salary.
+SELECT *
+FROM Employee
+WHERE salary =
+(
+    SELECT MIN(salary)
+    FROM Employee
+);
+Question 5
+Find employees hired on the latest joining date.
+SELECT *
+FROM Employee
+WHERE joining_date =
+(
+    SELECT MAX(joining_date)
+    FROM Employee
+);
+Question 6
+Find employees whose salary is above the company average.
+SELECT *
+FROM Employee
+WHERE salary >
+(
+    SELECT AVG(salary)
+    FROM Employee
+);
+Question 7
+Find the department having the maximum department ID.
+SELECT *
+FROM Department
+WHERE dept_id =
+(
+    SELECT MAX(dept_id)
+    FROM Department
+);
+Question 8
+Find employees who belong to the IT department.
+SELECT *
+FROM Employee
+WHERE dept_id =
+(
+    SELECT dept_id
+    FROM Department
+    WHERE dept_name = 'IT'
+);
+Question 9
+Find customers who placed the latest order.
+SELECT *
+FROM Orders
+WHERE order_date =
+(
+    SELECT MAX(order_date)
+    FROM Orders
+);
+Question 10 (Banking Real-Time)
+Find accounts having balance greater than the average balance.
+SELECT *
+FROM Account
+WHERE balance >
+(
+    SELECT AVG(balance)
+    FROM Account
+);
+Interview Tricky Question
+What happens if a single-row subquery returns multiple rows?
+SELECT *
+FROM Employee
+WHERE dept_id =
+(
+    SELECT dept_id
+    FROM Department
+);
+Error
+Subquery returns more than 1 row
+Solution
+
+Use IN instead of =:
+
+SELECT *
+FROM Employee
+WHERE dept_id IN
+(
+    SELECT dept_id
+    FROM Department
+);
+Interview Answer
+What is a Single Row Subquery?
+
+A Single Row Subquery is a subquery that returns exactly one row and one value. It is commonly used with comparison operators such as =, >, <, >=, and <=.
+
+Example
+SELECT *
+FROM Employee
+WHERE salary >
+(
+    SELECT AVG(salary)
+    FROM Employee
+);
+
+The inner query returns one value (average salary), and the outer query compares employee salaries against
+
+*/
+-- Multi Row Subquery - if a sub query returns more than 1 row as a output, then it is called as Multi Row Subquery
+..........................................................
+..........................................................
+select * from employees;
+select * from departments;
+-- Display the employees whose salary is equal to the salary
+-- of atleast one employee in depti
+
+select * from employees
+where salary IN
+(select salary from employees
+where department_id = 2);
+-- 75k
+-- 60k
+-- 65k
+
+
+-- Display details of employees who work in-- departments with more than 1 employee-- we need to find number of employees working in each department
+select * from employees where
+department_id IN
+(select department_id from employees
+group by department_id
+having count(*)>1);
+# 2,3,4
+
+
+/*
+
+
+Multi-Row Subquery in SQL
+
+A Multi-Row Subquery returns more than one row.
+
+Since multiple values are returned, we use:
+
+IN
+ANY
+ALL
+EXISTS
+NOT IN
+
+❌ Do not use = because multiple rows will be returned.
+
+Example Tables
+Department
+dept_id	dept_name
+1	IT
+2	HR
+3	Finance
+Employee
+emp_id	emp_name	dept_id	salary
+101	Sunil	1	50000
+102	Anil	2	60000
+103	Ravi	3	70000
+Question 1
+Find employees working in IT and HR departments.
+SELECT *
+FROM Employee
+WHERE dept_id IN
+(
+    SELECT dept_id
+    FROM Department
+    WHERE dept_name IN ('IT', 'HR')
+);
+Output
+Sunil
+Anil
+Question 2
+Find employees who belong to departments present in Department table.
+SELECT *
+FROM Employee
+WHERE dept_id IN
+(
+    SELECT dept_id
+    FROM Department
+);
+Question 3
+Find employees not working in HR.
+SELECT *
+FROM Employee
+WHERE dept_id NOT IN
+(
+    SELECT dept_id
+    FROM Department
+    WHERE dept_name='HR'
+);
+Question 4 (ANY)
+Employees earning more than ANY employee in HR department.
+SELECT *
+FROM Employee
+WHERE salary > ANY
+(
+    SELECT salary
+    FROM Employee
+    WHERE dept_id = 2
+);
+Meaning
+Greater than at least one value
+Question 5 (ALL)
+Employees earning more than ALL employees in HR.
+SELECT *
+FROM Employee
+WHERE salary > ALL
+(
+    SELECT salary
+    FROM Employee
+    WHERE dept_id = 2
+);
+Meaning
+Greater than every value returned
+Question 6 (EXISTS)
+Find departments that have employees.
+SELECT *
+FROM Department d
+WHERE EXISTS
+(
+    SELECT 1
+    FROM Employee e
+    WHERE d.dept_id = e.dept_id
+);
+Real-Time Banking Example
+Find customers having accounts in multiple branches.
+SELECT *
+FROM Customer
+WHERE customer_id IN
+(
+    SELECT customer_id
+    FROM Account
+);
+Real-Time E-Commerce Example
+Find customers who placed orders.
+SELECT *
+FROM Customer
+WHERE customer_id IN
+(
+    SELECT customer_id
+    FROM Orders
+);
+Single Row vs Multi-Row Subquery
+Feature	Single Row	Multi Row
+Returns	One value	Multiple values
+Operators	=, >, <	IN, ANY, ALL, EXISTS
+Example	AVG(salary)	List of dept_ids
+Common Interview Question
+What error occurs if we use = with a multi-row subquery?
+SELECT *
+FROM Employee
+WHERE dept_id =
+(
+    SELECT dept_id
+    FROM Department
+);
+Error
+Subquery returns more than 1 row
+Correct
+SELECT *
+FROM Employee
+WHERE dept_id IN
+(
+    SELECT dept_id
+    FROM Department
+);
+Interview Answer
+
+A Multi-Row Subquery returns multiple rows. Since more than one value is returned, operators like IN, ANY, ALL, and EXISTS are used instead of =. It is commonly used to compare data against a list of values returned by another query.
+
+Example
+SELECT *
+FROM Employee
+WHERE dept_id IN
+(
+    SELECT dept_id
+    FROM Department
+);
+
+This returns all employees whose department exists in the Department table
+
+
+
+*/
+-- - Non Correlated Sub query - If inner query/sub query is not related-- to outer query then that is called as Non Correlated Sub query-- If we can able to execute inner queries seperatly, then it is-- Non Correlated Sub query-- Correlated sub query - If inner query/sub query is related-- to outer query then that is called as Correlated Sub query
+..........................................................
+..........................................................
+
+-- Fetch the firstname and lastname of the customers who
+-- made atleast 30 transactions
+
+-- Fetch the firstname and lastname of the customers who-- made atleast 30 transactions
+select first_name,last_name from customer as c
+where 30 <
+(select count(*) from payment as p
+where p.customer_id = c.customer_id)
+
+
+-- Joins are better to use instead of sub queries
+
+

@@ -1,0 +1,269 @@
+
+Data Hiding :  
+.................
+ Our internal data should not go out directly that is outside person can't access 
+our internal data directly. 
+
+ By using private modifier we can implement data hiding. 
+Example: 
+class Account  { 
+ private double balance; 
+ ......................; 
+ ......................; 
+}
+
+
+Abstraction :  
+ Hide internal implementation and just highlight the set of services, is called 
+abstraction. 
+By using abstract classes and interfaces we can implement abstraction.
+
+The main advantages of Abstraction are:  
+1. We can achieve security as we are not highlighting our internal 
+
+
+Encapsulation :  
+ Binding of data and corresponding methods into a single unit is called 
+Encapsulation . 
+ If any java class follows data hiding and abstraction such type of class is said to 
+be encapsulated clas
+
+Encapsulation=Datahiding+Abstraction  
+Example:  
+
+
+
+IS-A Relationship(inheritance) :  
+1. Also known as inheritance. 
+2. By using "extends" keywords we can implement IS-A relationship. 
+3. The main advantage of IS-A relationship is reusability. 
+
+class Parent { 
+ public void methodOne(){ } 
+} 
+class Child extends Parent { 
+ public void methodTwo() { } 
+} 
+ 
+
+ HAS-A relationship: 
+1. HAS-A relationship is also known as composition (or) aggregation. 
+2. There is no specific keyword to implement HAS-A relationship but mostly we 
+can use new operator. 
+3. The main advantage of HAS-A relationship is reusability. 
+
+
+
+Composition: Strong HAS-A relationship where the child object cannot exist without the parent object.
+.....................
+Aggregation: Weak HAS-A relationship where the child object can exist independently of the parent object.
+..............................
+
+
+Examples
+Composition: House → Room, Car → Engine, Bank Account → Passbook
+Aggregation: Department → Employee, Team → Player, Bank Account → Customer
+
+
+Polymorphism: 
+......................
+
+Same name with different forms is the concept of polymorphism.  
+Example 1: We can use same abs() method for int type, long type, float type etc. 
+Example:  
+1. abs(int) 
+2. abs(long) 
+3. abs(float)
+
+ compile time / overloading 
+
+ Method name must be same.
+Parameters must be different (number, type, or order).
+
+
+class Calculator {
+
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    int add(int a, int b, int c) {
+        return a + b + c;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Calculator cal = new Calculator();
+
+        System.out.println(cal.add(10, 20));
+        System.out.println(cal.add(10, 20, 30));
+    }
+}
+
+
+runtime poly / overriding 
+
+Method name must be same.
+Parameters must be same. impletion diffrent 
+Cannot override final, static, or private methods.
+
+
+class Bank {
+
+    void interestRate() {
+        System.out.println("General Interest Rate");
+    }
+}
+
+class SBI extends Bank {
+
+    @Override
+    void interestRate() {
+        System.out.println("SBI Interest Rate: 7%");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Bank bank = new SBI();
+
+        bank.interestRate();   //SBI Interest Rate: 7%
+    }
+}The reference type is Bank, but the actual object is SBI. JVM decides which method to call at runtime.
+
+
+costructor
+..............
+ constructor is to perform initialization of an object.
+same name of class 
+no rreturn type 
+can overloaded 
+
+Constructor Vs instance block: 
+.......................
+1. Both instance block and constructor will be executed automatically for every 
+object creation but instance block 1st followed by constructo
+
+Default constructor: 
+1. For every class in java including abstract classes also constructor concept is 
+applicable. 
+2. If we are not writing at least one constructor then compiler will generate default 
+constructor. 
+3. If we are writing at least one constructor then compiler won't generate any 
+default constructor. 
+
+
+Overloaded constructors :  
+...............
+A class can contain more than one constructor and all these constructors having the 
+same name but different arguments and hence these constructors are considered as 
+overloaded constructors. 
+  
+Example:  
+class Test {  
+ Test(double d){  
+   System.out.println("double-argument constructor");  
+ }  
+ Test(int i) {  
+ this(10.5);  
+ System.out.println("int-argument constructor");  
+ }  
+ Test() {  
+  this(10); 
+   System.out.println("no-argument constructor");  
+ }  
+ public static void main(String[] args) {  
+ Test t1=new Test();  //no-argument constructor/int-argument  
+                     //constructor/double-argument constructor  
+ Test t2=new Test(10); 
+            //int-argument constructor/double-argument constructor  
+ Test t3=new Test(10.5);//double-argument constructor  
+  }  
+}  
+
+
+
+Static block:  
+..................
+ Static blocks will be executed at the time of class loading 
+
+
+
+Type Casting in Java
+/.......................
+Type Casting means converting one data type into another data type.
+
+There are 2 types:
+
+Implicit Casting (Widening) smaller data type to a larger data type.
+Explicit Casting (Narrowing) a larger data type to a smaller data type manually.
+
+byte → short → int → long → float → double
+          ↘
+           char
+
+    int num = 100;
+        double d = num;   // automatic conversion
+
+        System.out.println(num);  // 1100
+        System.out.println(d);   //100.00
+
+
+
+        double d = 99.99;
+        int num = (int) d;
+
+        System.out.println(d); // 99.99
+        System.out.println(num); // 99
+
+Object Type Casting
+...................
+Used in inheritance.
+
+Upcasting
+.................
+Child object assigned to Parent reference.
+
+
+class Bank {}
+
+class SBI extends Bank {}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Bank bank = new SBI(); // Upcasting
+    }
+}
+Features
+Automatic
+Safe
+Most common in Runtime Polymorphism
+
+Downcasting
+.......................
+Parent reference converted back to Child reference.
+
+class Bank {}
+
+class SBI extends Bank {
+
+    void loan() {
+        System.out.println("SBI Loan");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Bank bank = new SBI();
+
+        SBI sbi = (SBI) bank; // Downcasting
+        sbi.loan();
+    }
+}  
+
+//SBI Loan

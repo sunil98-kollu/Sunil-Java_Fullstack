@@ -1,0 +1,558 @@
+data type:
+..........
+
+int x ;
+double y ; 
+char c ;
+boolean b ;
+String s ;
+
+
+in java every variable ,and every expresion has some type 
+each and every data type is clearly define , every assinment should be checkd by compiler for type compatablity
+
+because of above reasons we can conclude java is strongly typed programing language 
+
+
+java not consider as pure object oriented progreaming language
+cuz several oop feature not satsfied by java 
+like operator overloadog and multiple inheritance etc
+more over we are depending on primitive data type which or non objects 
+java is not pure object oriented programming language but it is a object oriented programming language
+
+in java primitive data types 
+
+8
+ 
+byte
+short   
+int
+long
+floating poit data type
+float
+double
+
+non numeric data types 
+
+char
+boolean
+
+int x=10;
+int x=-10;
+double d = -10.5;
+
+except boolean and char remaing data types are  are singned data typescuz cn rep both +ve and -ve numbers 
+
+byte
+.......
+
+size 1 byte=8 bits
+range -128 to 127
+
+
+maxValue    128          msb most significant bit
+minValue    128          lsb least significant bit
+
+0 +ve 
+1 -ve 
+
+
+
+byte b=10; valid
+byte b=128; invalid cuz 128 is out of range of byte data type
+byte b=127; valid
+byte b=-128; valid   ce: possible loss of precision because 128 is out of range of byte data type
+byte b = 10.5; ce: incompatible types: possible lossof precision from double to byte
+byte b = true ; ce: incompatible types: boolean cannot be converted to byte
+byte b = 'a'; ce: incompatible types: possible loss of precision from char to byte
+
+byte is best choise  if we want to handle data in streams eithr from file or network ( file support form )
+
+
+
+short
+.......
+size 2 byte=16 bits
+
+size 2 byte=16 bits
+range -32768 to 32767 (-2 15 to 2 15-1 )
+
+
+short s= 32767 valid
+short s= -32768 valid
+short s= 32768 invalid cuz plp found int req:short
+
+short s=true; ce: incompatible types: boolean cannot be converted to short
+short s='a'; ce: incompatible types: possible loss of precision from char to short
+
+
+
+short is best choise for 16 bit processor like 8085 but  these processors are completly out dated 
+and hence corresponding short data type also dated data type 
+
+int
+...............
+size 4 byte=32 bits
+range -2 31 to 2 31-1
+
+-2147483648 to 2147483647
+
+int i=2147483647; valid
+int i=-2147483648; valid    
+int i=2147483648; invalid cuz plp found long req:int
+int i=-2147483649; invalid cuz plp found long req:int
+int i=true; ce: incompatible types: boolean cannot be converted to int
+int i='a'; ce: incompatible types: possible loss of precision from char to int
+
+floating point data type .
+..............................
+ float   double 
+ 6 to 6     14 to 15 decimal digits precision
+ size 4 byte=32 bits   size 8 byte=64 bits
+ range 1.4e-45 to 3.4e+38   range 4.9e-324 to 1.7e+308
+
+
+bolean 
+ 
+ in java no size of boolean 
+range  NA  ( but allowed values are true or false )
+
+boolean b=true; valid
+boolean b=false; valid
+boolean b=10; ce: incompatible types: boolean cannot be converted to boolean
+boolean b='a'; ce: incompatible types: boolean cannot be converted to boolean
+boolean b=0; ce: incompatible types: boolean cannot be converted to boolean
+boolean b=1; ce: incompatible types: boolean cannot be converted to boolean
+boolean is best choice for flags and conditions
+
+
+char
+size 2 byte=16 bits
+range 0 to 65535 (Unicode character set)
+
+ols lanf c c++ ascii code base and nof allowed to handle only 256 characters
+to rep these 256 cahrcters 1 byte=8 bits is sufficent but java is designed to handle all the languages in the world and hence it is designed to handle 65536 characters and hence char data type is of size 2 byte=16 bits
+
+but java is 
+unicde base and noof different unic=ode char are > graterthan 256 and lessthat <=65536 
+ to rep these many char we go for 16 bits 
+
+
+| Type    | Default | Size    | Range                          | Wrapper   |
+|---------|---------|---------|--------------------------------|-----------|
+| byte    | 0       | 1 byte  | -128 to 127                    | Byte      |
+| short   | 0       | 2 bytes | -32,768 to 32,767              | Short     |
+| int     | 0       | 4 bytes | -2,147,483,648 to 2,147,483,647| Integer   |
+| long    | 0L      | 8 bytes | -9.2e18 to 9.2e18              | Long      |
+| float   | 0.0f    | 4 bytes | ~±3.4e38 (6-7 sig digits)      | Float     |
+| double  | 0.0d    | 8 bytes | ~±1.7e308 (15-16 sig digits)   | Double    |
+| boolean | false   | JVM-dep | true / false                   | Boolean   |
+| char    | \u0000  | 2 bytes | 0 to 65,535 (Unicode)          | Character |
+
+
+null is default of all reference data type
+
+
+
+literals 
+.....
+int x=10;
+
+int data type  x = name of variable /identifieer 10 
+10  constant value  value assigned to variable is called literal or constant value
+
+
+integral data type literals
+
+int x=10; 10 is int literal
+long l=10L; 10L is long literal
+
+
+integral leterals 
+...
+int x=10; 10 is int literal
+for integral data types byte short int long w can specify literal value in the following ways 
+
+
+decimal literals (base 10)
+allowed digits are zeros to 9 (0-9)
+int x=10
+
+
+octal literal (base 8)
+
+allowed digits are 0 to 7 (0-7)
+int x=010; // prefix with 0 
+
+
+hexa decimal form base 16
+
+allowed digits are 0 to 9 and a to f (0-9 and a-f)
+int x=0x10; // prefix with 0x or 0X
+
+
+int x=10 is decimal literal
+int x=0786;  invalid integral value to large 
+int x= 0777;  valid octal literal cuz 7 is valid octal digit
+int x= 0XFace valid hexadecimal literal cuz f a c e are valid hexadecimal digits
+int x= 0xFace valid hexadecimal literal cuz f a c e are valid hexadecimal digits
+
+int x=10; // decimal literal
+long l=10L; // decimal literal with long suffix
+int x=10l Plp foud long req int 
+long l=10;
+
+
+byte b =10 valid
+bytr b=128 invalid cuz 128 is out of range of byte data type
+byte b=127 valid
+
+short s =32767l valid
+short  s = 32768  invalid cuz 32768 is out of range of short data type
+
+
+
+
+
+binary literal (base 2)
+
+allowed digits are 0 and 1 (0-1)
+int x=0b10; // prefix with 0b or 0B
+
+floating point literals
+
+float f=10.5f; 10.5f is float literal
+double d=10.5; 10.5 is double literal
+double d=10.5d; 10.5d is double literal
+
+float f=123.456 ce found doblr req float 
+float f = 123.456F valid cuz 123.456F is float literal
+float f = 123.456f valid cuz 123.456f is float literal
+by default every floating point literal is of double type and hence we cant ssign directly to float variable 
+but we can specify floating point literal as float type bysuffix with f or F
+
+
+double d =123.456D valid cuz 123.456D is double literal
+
+boolean literals
+
+boolean b=true; true is boolean literal
+boolean b=false; false is boolean literal
+
+character literals
+char c='a'; 'a' is character literal
+char c='\u0061'; '\u0061' is unicode character literal for 'a'
+
+every ecape character  is char literal
+
+
+char c='a'; valid
+char c='ab'; ce: unclosed character literal
+char c=''; ce: empty character literal
+char c=' '; valid (space character)
+char c=a; ce: incompatible types: char cannot be converted to character
+char c='1'; valid (character literal for '1')   
+
+
+String literals
+String s="Hello"; "Hello" is string literal
+String s='Hello'; ce: incompatible types: char cannot be converted to String
+
+\n new line 
+\t  horizantal tab  
+\r carriage return
+\b backspace    
+\f form feed
+\' single quote
+\" double quote
+\\ backslash
+
+
+
+
+
+type ofvariable
+...........................
+
+primitive variable
+
+int x=10;
+
+ref variable Student s= new Student();
+
+based on t type of value rep by a variable 
+all var are divided into 2 types 
+
+primitive variable and reference variable
+
+primitive variable
+can be used to rep primitive values 
+ int short long float double char boolean byte
+
+reference variable
+
+can be used to rep reference object 
+String, Student, Employee, etc (any class type)
+
+Student s = new Student();
+s is reference variable which is used to rep object of Student class
+
+s is pointing to object of Student class and hence s is reference variable
+
+
+instance variable,
+ static 
+ and local variable
+
+based on position of decleration and behaviour allvariables are divided into 3 types 
+
+ instance variable,
+ static 
+ and local variable
+
+instance variable 
+.........
+if a value of varibale varied from object to object 
+such type of variable calld instance variable
+
+for every object a separate copy of instance variable  will e created 
+
+
+instance varible should be declare with in class directly but out side of method or bloc kor constructor 
+instance varible will be created when the obj time creation and destroy at the time of bj destruction 
+hence scop of instance vaible is a exactly same as scope of object 
+
+instace varible will be stored in heep memory as a part of object 
+
+
+class test 
+int x =10;
+main(){
+    syso(x);   // non static varible x cant be ref from a static context 
+    test t = new test();
+    syso(t.x);  // valid cuz t is ref variable and t.x is instance variable
+}
+
+// we can nt  access instance  var from directly static area , but we can access using obj ref 
+
+public void  m1({
+    syso(x)
+})
+but we can access instance varibl  directly from insance ara 
+.......................
+Class Student
+{
+int roll
+String name 
+
+
+} 
+Student s1 = new Student();
+Student s2 = new Student();
+
+
+name  name 
+roll  roll
+
+s1    s2 
+
+in the case of instance variable  for every object a seperate copy will created but 
+in the case of static variables a single copy  will be created at class clvel shared by evey obj of class 
+
+where we declare static variable 
+with in class direclt y
+
+static variable shoild be declare with  class 
+but outside of method or block or constructor 
+
+static variables will be created at the of class loading and destroy at time of class unloadig
+hence scope of static variable is exactly same as scope of class
+static variable will be stored in method area as a part of class
+
+java test class (Clas Test)
+....................
+
+star jvm 
+create and start main thread 
+locate test class file 
+load test.class........................ static varible creation and initialization
+execute main()method 
+unload test.class   .................. static varible destrtion
+terminate main thread
+shutdown jvm
+
+
+class Test {
+    static int a=11;
+    main(){
+        Test t =new Test();
+       syso(t.a=20);  // valid but not recommended to access static var using obj ref
+      syso(Test.a=30); // valid and recommended way to access static var using class name
+    syso(a); // valid but not recommended to access static var using obj ref
+    }
+}
+
+ we can access ststic varible directtly from both instance and statica area but recommended way to access static variable is using class name
+
+class Test {
+    static int a=11;
+    main(){
+syso(a); // valid but not recommended to access static var using obj ref
+  
+  public void m1(){
+syso(a); // valid but not recommended to access static var using obj ref
+  }
+    }
+}
+
+// for static varible jvm will provide default not req to perform explicit initialization 
+Class Test{
+    ststic int x ;
+    static double d ;
+    static string s ;
+
+    main(){
+        syso(x); // 0
+        syso(d); // 0.0
+        syso(s); // null
+    }
+}
+
+// static vrile also know as class level variable or fields 
+Class Test{
+    ststic int x=10 ;
+  int y=20;
+    static string s ;
+min(){
+    Test t1=new Test();     t1    5___212   
+    t1.x=212;                t2    10__111
+    t1.y=111;
+   Test t2= new Test();
+   syso(t1.x+""+t2.y); // 212 + 20
+
+
+}
+
+}
+
+// sometime we neeed tempory vaiable  in program 
+inside a method  or block or constructor  such type of variables or not local variables  temporary stack or automatic varible 
+local variable should be declare with in method or block or constructor
+local variable store inside stack memory
+local varibale created eexcuting block in which we declare it once block execution complete automatically local variable will destroy 
+hence scope of local variable is block in which we declare it
+
+local var temprory var stack var automatic var
+
+class Test{
+
+    main(){
+        int i=0;
+        for(i=0;i<10;i++){
+            int j=100; // local variable j is created in every iteration of loop and destroy at the end of each iteration
+            syso(i+" "+j);
+        }
+        syso(i +" "+j); // ce: cannot find symbol j cuz j is local variable and its scope is only within the loop block
+    }                      // cant find symbol :variable j locion: class Test
+}
+
+clas Test{
+    main(){
+        try{
+            int j= Integer.parseInt("test"); // local variable i is created in try block and destroy at the end of try block
+        }
+        catch(NumberFormatException e){
+           j=10;
+        }
+        syso(j); // ce: cannot find symbol j cuz j is local variable and its scope is only within the catch block   
+    }
+}
+
+
+var- arg methods 
+..........................
+ we can declare a method with variable no. Of 
+arguments such type of methods are called var-arg methods. 
+
+Varargs allows a method to accept zero or more values of the same type using ...
+
+returnType methodName(dataType... variableName)
+
+void show(int... a, String b) // ❌ not allowed
+void show(String msg, int... a) // ✔ correct
+
+ methodOne(int... x) (valid) 
+2. methodOne(int ...x) (valid) 
+3. methodOne(int...x) (valid) 
+4. methodOne(int x...) (invalid) 
+5. methodOne(int. ..x) (invalid) 
+6. methodOne(int .x..) (invalid)
+
+class Test  
+{ 
+ public static void sum(int... x) 
+ { 
+    int total=0; 
+    for(int i=0;i<x.length;i++) 
+    { 
+ 
+ total=total+x[i]; 
+        } 
+         System.out.println("The sum :"+total); 
+} 
+public static void main(String[] args) 
+{ 
+ sum(); 
+ sum(10); 
+ sum(10,20); 
+ sum(10,20,30,40); 
+ } 
+} 
+Output: 
+The sum: 0 
+The sum: 10 
+The sum: 30 
+The sum: 100 
+
+Main() 
+..............
+
+ The order of modifiers is not important that is instead of public static we can 
+take static public. 
+2. We can declare string[] in any acceptable form  
+o String[] args 
+o String []args 
+o String args[] 
+3. Instead of args we can use any valid java identifier. 
+4. We can replace string[] with var-arg parameter.  
+Example: main(String... args)  
+5. main() method can be declared with the following modifiers.  
+final, synchronized, strictfp.  
+
+class Test {  
+7.  static final syncronized strictfp public void  main(String... ask){ 
+8.   System.out.println("valid  main method"); 
+9.  } 
+10. } 
+11. output : 
+12. valid main method 
+1. public static void main(String args){} (invalid)  ]
+. public synchronized final strictfp void main(String[] args){} (invalid)  
+3. public static void Main(String... args){} (invalid)  
+4. public static int main(String[] args){} //int return type we can't take //(invalid)  
+5. public static synchronized final strictfp void main(String... args){}(valid)  
+6. public static void main(String... args){}(valid)  
+7. public void main(String[] args){}(invalid)  
+
+ 
+It seems to be overriding concept is applicable for static methods but it is not overriding 
+it is method hiding. 
+
+
+
+various memory area in java
+............................
+
+stach ;  local variable
+heap ; instance variable
+method area ; static variable static blocks  refences

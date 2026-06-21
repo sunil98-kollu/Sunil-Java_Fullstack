@@ -1,0 +1,1138 @@
+
+Banking – Filter High Balance Accounts
+import java.util.Arrays;
+import java.util.List;
+
+public class HighBalanceAccounts {
+    public static void main(String[] args) {
+
+        List<Double> balances = Arrays.asList(
+                50000.0, 150000.0, 80000.0, 250000.0);
+
+        balances.stream()
+                .filter(balance -> balance > 100000)
+                .forEach(System.out::println);
+    }
+}
+
+Output
+
+150000.0
+250000.0
+12. Banking – Count Active Accounts
+import java.util.Arrays;
+import java.util.List;
+
+public class ActiveAccounts {
+    public static void main(String[] args) {
+
+        List<String> accounts = Arrays.asList(
+                "ACTIVE", "INACTIVE",
+                "ACTIVE", "ACTIVE");
+
+        long count = accounts.stream()
+                .filter(status -> status.equals("ACTIVE"))
+                .count();
+
+        System.out.println("Active Accounts: " + count);
+    }
+}
+
+Output
+
+Active Accounts: 3
+13. Banking – Find Maximum Transaction
+import java.util.Arrays;
+import java.util.List;
+
+public class MaximumTransaction {
+    public static void main(String[] args) {
+
+        List<Double> transactions = Arrays.asList(
+                5000.0, 25000.0, 12000.0, 80000.0);
+
+        double maxTransaction = transactions.stream()
+                .max(Double::compare)
+                .get();
+
+        System.out.println("Highest Transaction: " + maxTransaction);
+    }
+}
+
+Output
+
+Highest Transaction: 80000.0
+14. Insurance – Filter Eligible Customers
+import java.util.Arrays;
+import java.util.List;
+
+public class EligibleCustomers {
+    public static void main(String[] args) {
+
+        List<Integer> ages = Arrays.asList(
+                15, 25, 40, 65, 30);
+
+        ages.stream()
+                .filter(age -> age >= 18 && age <= 60)
+                .forEach(System.out::println);
+    }
+}
+
+Output
+
+25
+40
+30
+15. Insurance – Sum of Claim Amounts
+import java.util.Arrays;
+import java.util.List;
+
+public class ClaimAmountSum {
+    public static void main(String[] args) {
+
+        List<Double> claims = Arrays.asList(
+                100000.0, 200000.0, 150000.0);
+
+        double total = claims.stream()
+                .mapToDouble(Double::doubleValue)
+                .sum();
+
+        System.out.println("Total Claim Amount: " + total);
+    }
+}
+
+Output
+
+Total Claim Amount: 450000.0
+16. Finance – Salary Processing
+import java.util.Arrays;
+import java.util.List;
+
+public class SalaryProcessing {
+    public static void main(String[] args) {
+
+        List<Double> salaries = Arrays.asList(
+                30000.0, 45000.0, 60000.0, 80000.0);
+
+        salaries.stream()
+                .map(salary ->
+                        salary < 50000
+                                ? salary * 1.10
+                                : salary)
+                .forEach(System.out::println);
+    }
+}
+
+Output
+
+33000.0
+49500.0
+60000.0
+80000.0
+17. Finance – Taxable Income List
+import java.util.Arrays;
+import java.util.List;
+
+public class TaxableIncome {
+    public static void main(String[] args) {
+
+        List<Double> incomes = Arrays.asList(
+                300000.0, 600000.0,
+                800000.0, 450000.0);
+
+        incomes.stream()
+                .filter(income -> income > 500000)
+                .forEach(System.out::println);
+    }
+}
+
+Output
+
+600000.0
+800000.0
+18. E-commerce – Filter Expensive Products
+import java.util.Arrays;
+import java.util.List;
+
+public class ExpensiveProducts {
+    public static void main(String[] args) {
+
+        List<Double> prices = Arrays.asList(
+                5000.0, 15000.0,
+                25000.0, 8000.0);
+
+        prices.stream()
+                .filter(price -> price > 10000)
+                .forEach(System.out::println);
+    }
+}
+
+Output
+
+15000.0
+25000.0
+19. E-commerce – Sort Product Prices
+import java.util.Arrays;
+import java.util.List;
+
+public class SortProductPrices {
+    public static void main(String[] args) {
+
+        List<Double> prices = Arrays.asList(
+                15000.0, 5000.0,
+                25000.0, 8000.0);
+
+        prices.stream()
+                .sorted()
+                .forEach(System.out::println);
+    }
+}
+
+Output
+
+5000.0
+8000.0
+15000.0
+25000.0
+20. E-commerce – Count Out-of-Stock Products
+import java.util.Arrays;
+import java.util.List;
+
+public class OutOfStockProducts {
+    public static void main(String[] args) {
+
+        List<Integer> stock = Arrays.asList(
+                10, 0, 25, 0, 15, 0);
+
+        long count = stock.stream()
+                .filter(quantity -> quantity == 0)
+                .count();
+
+        System.out.println("Out Of Stock Products: " + count);
+    }
+}
+
+Output
+
+Out Of Stock Products: 3
+
+
+
+filter() + map() Together
+
+Filter salaries above ₹50,000 and then add a bonus of ₹5,000.
+
+import java.util.Arrays;
+import java.util.List;
+
+public class FilterMapExample {
+    public static void main(String[] args) {
+
+        List<Integer> salaries =
+                Arrays.asList(30000, 60000, 70000, 40000);
+
+        salaries.stream()
+                .filter(salary -> salary > 50000)
+                .map(salary -> salary + 5000)
+                .forEach(System.out::println);
+    }
+}
+Output
+65000
+75000
+What is flatMap()?
+
+flatMap() is used when each element contains a collection, and you want a single flattened stream.
+
+Example
+import java.util.Arrays;
+import java.util.List;
+
+public class FlatMapExample {
+    public static void main(String[] args) {
+
+        List<List<String>> departments = Arrays.asList(
+                Arrays.asList("Sunil", "Ravi"),
+                Arrays.asList("John", "David")
+        );
+
+        departments.stream()
+                .flatMap(List::stream)
+                .forEach(System.out::println);
+    }
+}
+Output
+Sunil
+Ravi
+John
+David
+Interview Question: map() vs flatMap()
+Using map()
+List<List<String>> list = Arrays.asList(
+        Arrays.asList("A", "B"),
+        Arrays.asList("C", "D"));
+
+list.stream()
+    .map(x -> x)
+    .forEach(System.out::println);
+
+Output:
+
+[A, B]
+[C, D]
+
+Using flatMap()
+....
+list.stream()
+    .flatMap(List::stream)
+    .forEach(System.out::println);
+
+Output:
+
+A
+B
+C
+D
+One-Line Interview Answer
+filter() → Select elements.
+map() → Transform elements.
+flatMap() → Transform and flatten nested collections into a single stream.
+
+
+
+
+Frequently Asked Stream API Interview Methods
+filter()    // Select records based on condition
+map()       // Transform data
+sorted()    // Sort elements
+distinct()  // Remove duplicates
+count()     // Count records
+max()       // Maximum value
+min()       // Minimum value
+sum()       // Sum values (IntStream/DoubleStream)
+collect()   // Convert Stream to List/Set
+forEach()   // Iterate and print
+
+
+
+-> Intermediate Operational methods will perform operations on the stream and returns a new Stream
+
+					Ex: filter ( ) , map ( ) etc....
+
+
+-> Terminal Operational methods will take input and will provide result as output.
+
+					Ex:  count ( ) 
+
+
+
+Interview Answer
+Intermediate Operations
+filter()
+map()
+flatMap()
+sorted()
+distinct()
+limit()
+skip()
+peek()
+
+
+Terminal Operations
+
+
+forEach()
+collect()
+count()
+reduce()
+min()
+max()
+findFirst()
+findAny()
+anyMatch()
+allMatch()
+noneMatch()
+
+
+Stream API Interview Examples
+1. filter()
+...............................
+Filters elements based on a condition.
+
+List<Integer> numbers = Arrays.asList(10, 20, 30, 40, 50);
+
+numbers.stream()
+       .filter(n -> n > 30)
+       .forEach(System.out::println);
+
+Output
+................
+40
+50
+2. map()
+....................
+Transforms each element.
+
+List<String> names = Arrays.asList("sunil", "ravi");
+
+names.stream()
+     .map(String::toUpperCase)
+     .forEach(System.out::println);
+
+Output
+
+SUNIL
+RAVI
+
+
+3. .flatMap()
+.................................................
+....................................................
+Flattens nested collections.
+
+List<List<String>> list = Arrays.asList(
+        Arrays.asList("Java", "Spring"),
+        Arrays.asList("React", "JS")
+);
+
+list.stream()
+    .flatMap(List::stream)
+    .forEach(System.out::println);
+
+Output
+
+Java
+Spring
+React
+JS
+4. sorted()
+.................................................
+....................................................
+Sorts elements.
+
+List<Integer> nums = Arrays.asList(40, 10, 30, 20);
+
+nums.stream()
+    .sorted()
+    .forEach(System.out::println);
+
+Output
+
+10
+20
+30
+40
+5. distinct()
+.................................................
+....................................................
+Removes duplicates.
+
+List<Integer> nums = Arrays.asList(10, 20, 20, 30, 30);
+
+nums.stream()
+    .distinct()
+    .forEach(System.out::println);
+
+Output
+
+10
+20
+30
+6. limit()
+.................................................
+....................................................
+Limits the number of elements.
+
+List<Integer> nums = Arrays.asList(10, 20, 30, 40, 50);
+
+nums.stream()
+    .limit(3)
+    .forEach(System.out::println);
+
+Output
+
+10
+20
+30
+7. skip()
+.................................................
+....................................................
+Skips elements.
+
+List<Integer> nums = Arrays.asList(10, 20, 30, 40, 50);
+
+nums.stream()
+    .skip(2)
+    .forEach(System.out::println);
+
+Output
+
+30
+40
+50
+8. peek()
+.................................................
+....................................................
+Used for debugging.
+
+List<Integer> nums = Arrays.asList(10, 20, 30);
+
+nums.stream()
+    .peek(System.out::println)
+    .count();
+
+Output
+
+10
+20
+30
+
+
+
+Terminal Operations
+.................................................
+....................................................
+.................................................
+....................................................
+9. forEach()
+.................................................
+....................................................
+List<String> names = Arrays.asList("Sunil", "Ravi");
+
+names.stream()
+     .forEach(System.out::println);
+10. collect()
+.................................................
+....................................................
+Convert stream to List.
+
+List<Integer> result = Arrays.asList(10, 20, 30)
+                             .stream()
+                             .filter(n -> n > 15)
+                             .collect(Collectors.toList());
+
+System.out.println(result);
+
+Output
+
+[20, 30]
+
+11. count()
+.................................................
+....................................................
+long count = Arrays.asList(10, 20, 30, 40)
+                   .stream()
+                   .filter(n -> n > 20)
+                   .count();
+
+System.out.println(count);
+
+Output
+
+2
+
+12. reduce()
+.................................................
+....................................................
+
+Used for sum/product.
+
+int sum = Arrays.asList(10, 20, 30)
+                .stream()
+                .reduce(0, Integer::sum);
+
+System.out.println(sum);
+
+Output
+
+60
+
+13. min()
+.................................................
+....................................................
+
+int min = Arrays.asList(50, 10, 30)
+                .stream()
+                .min(Integer::compare)
+                .get();
+
+System.out.println(min);
+
+Output
+
+10
+
+14. max()
+
+.................................................
+....................................................
+int max = Arrays.asList(50, 10, 30)
+                .stream()
+                .max(Integer::compare)
+                .get();
+
+System.out.println(max);
+
+Output
+
+50
+15. findFirst()
+.................................................
+....................................................
+
+int first = Arrays.asList(10, 20, 30)
+                  .stream()
+                  .findFirst()
+                  .get();
+
+System.out.println(first);
+
+Output
+
+10
+16. findAny()
+int value = Arrays.asList(10, 20, 30)
+                  .stream()
+                  .findAny()
+                  .get();
+
+System.out.println(value);
+
+Output
+
+10
+
+(In parallel streams, it may return any element.)
+
+17. anyMatch()
+.................................................
+....................................................
+
+Checks whether at least one element matches.
+
+boolean result = Arrays.asList(10, 20, 30)
+                       .stream()
+                       .anyMatch(n -> n > 25);
+
+System.out.println(result);
+
+Output
+
+true
+18. allMatch()
+.................................................
+....................................................
+
+Checks whether all elements match.
+
+boolean result = Arrays.asList(10, 20, 30)
+                       .stream()
+                       .allMatch(n -> n > 5);
+
+System.out.println(result);
+
+Output
+
+true
+
+
+19. noneMatch()
+.................................................
+....................................................
+Checks whether no element matches.
+
+boolean result = Arrays.asList(10, 20, 30)
+                       .stream()
+                       .noneMatch(n -> n > 50);
+
+System.out.println(result);
+
+Output
+
+true
+
+Most Asked Interview Combination
+
+List<String> names = Arrays.asList(
+        "Sunil",
+        "Ravi",
+        "John",
+        "Sunil"
+);
+
+List<String> result = names.stream()
+                           .filter(name -> name.length() > 4)
+                           .map(String::toUpperCase)
+                           .distinct()
+                           .sorted()
+                           .collect(Collectors.toList());
+
+System.out.println(result);
+
+Output
+
+[JOHN, SUNIL]
+Interview Explanation
+filter() → Select records.
+map() → Transform records.
+distinct() → Remove duplicates.
+sorted() → Sort data.
+collect() → Convert Stream to List
+
+
+1) distinct ( )  => To get unique elements from the Stream
+
+2) limit ( long maxSize )  => Get elements from the stream based on given size
+
+3) skip (long n)  => It is used to skip given number of elements from starting position of the stream 
+
+
+
+. partitioningBy() Example
+...................................................................
+Used to split data into two groups (true/false).
+
+Example: Even and Odd Numbers
+import java.util.*;
+import java.util.stream.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+        List<Integer> nums =
+                Arrays.asList(1,2,3,4,5,6,7,8);
+
+        Map<Boolean, List<Integer>> result =
+                nums.stream()
+                    .collect(Collectors.partitioningBy(
+                            n -> n % 2 == 0));
+
+        System.out.println(result);
+    }
+}
+Output
+{
+ false=[1, 3, 5, 7],
+ true=[2, 4, 6, 8]
+}
+2. anyMatch()
+.........................................................
+Checks whether at least one element matches the condition.
+
+List<Integer> nums =
+        Arrays.asList(10,20,30,40);
+
+boolean result =
+        nums.stream()
+            .anyMatch(n -> n > 25);
+
+System.out.println(result);
+Output
+true
+
+Because:
+
+30 > 25
+40 > 25
+3. allMatch()
+................................................
+Checks whether all elements match the condition.
+......................................................
+List<Integer> nums =
+        Arrays.asList(10,20,30,40);
+
+boolean result =
+        nums.stream()
+            .allMatch(n -> n > 5);
+
+System.out.println(result);
+Output
+true
+Example
+boolean result =
+        nums.stream()
+            .allMatch(n -> n > 20);
+
+Output:
+
+false
+4. reduce() Example
+................................................
+
+Used to reduce multiple values into a single value.
+
+Sum of Numbers
+List<Integer> nums =
+        Arrays.asList(10,20,30,40);
+
+int sum =
+        nums.stream()
+            .reduce(0,
+                    (a,b) -> a+b);
+
+System.out.println(sum);
+Output
+100
+Internal Working
+0+10=10
+10+20=30
+30+30=60
+60+40=100
+
+Find Maximum
+...................................................
+int max =
+        nums.stream()
+            .reduce(Integer.MIN_VALUE,
+                    Integer::max);
+
+System.out.println(max);
+
+Output:
+
+40
+5. Convert List to Map
+.....................................................................
+Example
+List<String> names =
+        Arrays.asList("Sunil","Ravi","Raj");
+
+Convert:
+
+Sunil → 5
+Ravi  → 4
+Raj   → 3
+Map<String,Integer> map =
+        names.stream()
+             .collect(Collectors.toMap(
+                     name -> name,
+                     String::length));
+
+System.out.println(map);
+Output
+{Sunil=5, Ravi=4, Raj=3}
+Employee List to Map
+Map<Integer,String> map =
+        employees.stream()
+                 .collect(Collectors.toMap(
+                         Employee::getId,
+                         Employee::getName));
+
+Output:
+
+101=Sunil
+102=Ravi
+
+6. Merge Two Lists
+...............................................
+Traditional
+List<Integer> list1 =
+        Arrays.asList(1,2,3);
+
+List<Integer> list2 =
+        Arrays.asList(4,5,6);
+Java 8
+
+List<Integer> merged =
+        Stream.concat(
+                list1.stream(),
+                list2.stream())
+              .collect(Collectors.toList());
+
+System.out.println(merged);.
+
+Output
+[1, 2, 3, 4, 5, 6]
+7. map() Example
+............................
+Used when one input produces one output.
+
+Square Numbers
+List<Integer> nums =
+        Arrays.asList(1,2,3,4);
+
+nums.stream()
+    .map(n -> n*n)
+    .forEach(System.out::println);
+Output
+1
+4
+9
+16
+Flow
+1 → 1
+2 → 4
+3 → 9
+4 → 16
+
+One input → One output.
+
+8. flatMap() Example
+..................................
+Used when each element contains multiple elements.
+
+List of Lists
+List<List<String>> list =
+        Arrays.asList(
+                Arrays.asList("Java","Spring"),
+                Arrays.asList("React","Angular")
+        );
+Using map()
+..........................................
+list.stream()
+    .map(List::stream)
+    .forEach(System.out::println);
+
+Output:
+
+java.util.stream.ReferencePipeline...
+java.util.stream.ReferencePipeline...
+
+Returns streams.
+
+Using flatMap()
+................................................
+list.stream()
+    .flatMap(List::stream)
+    .forEach(System.out::println);
+Output
+Java
+Spring
+React
+Angular
+Flow
+[
+ [Java, Spring],
+ [React, Angular]
+]
+       ↓
+flatMap
+       ↓
+Java
+Spring
+React
+Angular
+
+//////////////////////////////////
+ 
+Collectors in Java 8
+
+Collectors is a utility class in the java.util.stream.Collectors package used to collect Stream results into collections, maps, strings, grouping, partitioning, etc.
+
+import java.util.stream.Collectors;
+1. Collect to List
+List<String> names =
+        Arrays.asList("Sunil", "Ravi", "Raj");
+
+List<String> result =
+        names.stream()
+             .filter(name -> name.startsWith("R"))
+             .collect(Collectors.toList());
+
+System.out.println(result);
+Output
+[Ravi, Raj]
+2. Collect to Set
+List<Integer> nums =
+        Arrays.asList(1,2,2,3,3,4);
+
+Set<Integer> result =
+        nums.stream()
+            .collect(Collectors.toSet());
+
+System.out.println(result);
+Output
+[1, 2, 3, 4]
+3. joining()
+
+Convert stream elements into a single String.
+
+List<String> names =
+        Arrays.asList("Java","Spring","React");
+
+String result =
+        names.stream()
+             .collect(Collectors.joining(","));
+
+System.out.println(result);
+Output
+Java,Spring,React
+4. counting()
+
+Count elements.
+
+long count =
+        names.stream()
+             .collect(Collectors.counting());
+
+System.out.println(count);
+Output
+3
+5. summingInt()
+List<Integer> nums =
+        Arrays.asList(10,20,30);
+
+int sum =
+        nums.stream()
+            .collect(Collectors.summingInt(
+                    Integer::intValue));
+
+System.out.println(sum);
+Output
+60
+6. averagingInt()
+double avg =
+        nums.stream()
+            .collect(Collectors.averagingInt(
+                    Integer::intValue));
+
+System.out.println(avg);
+Output
+20.0
+7. groupingBy() ⭐ Most Asked
+
+Group employees by department.
+
+Map<String,List<Employee>> map =
+        employees.stream()
+                 .collect(Collectors.groupingBy(
+                         Employee::getDepartment));
+Output
+IT=[Emp1, Emp2]
+HR=[Emp3]
+Simple Example
+List<String> names =
+        Arrays.asList("Sunil","Ravi","Raj","Kiran");
+Map<Integer,List<String>> result =
+        names.stream()
+             .collect(Collectors.groupingBy(
+                     String::length));
+
+System.out.println(result);
+Output
+{
+3=[Raj],
+4=[Ravi],
+5=[Sunil, Kiran]
+}
+8. partitioningBy()
+
+Split into true/false groups.
+
+Map<Boolean,List<Integer>> result =
+        nums.stream()
+            .collect(Collectors.partitioningBy(
+                    n -> n % 2 == 0));
+
+System.out.println(result);
+Output
+{
+false=[1,3,5],
+true=[2,4,6]
+}
+9. toMap()
+
+Convert List to Map.
+
+List<String> names =
+        Arrays.asList("Sunil","Ravi","Raj");
+
+Map<String,Integer> map =
+        names.stream()
+             .collect(Collectors.toMap(
+                     name -> name,
+                     String::length));
+
+System.out.println(map);
+Output
+{Sunil=5, Ravi=4, Raj=3}
+10. mapping()
+
+Used inside grouping operations.
+
+Map<String,List<String>> result =
+        employees.stream()
+                 .collect(Collectors.groupingBy(
+                         Employee::getDepartment,
+                         Collectors.mapping(
+                             Employee::getName,
+                             Collectors.toList()
+                         )));
+Output
+IT=[Sunil,Ravi]
+HR=[Raj]
+11. maxBy()
+
+Find maximum element.
+
+Optional<Integer> max =
+        nums.stream()
+            .collect(Collectors.maxBy(
+                    Integer::compareTo));
+
+System.out.println(max.get());
+Output
+30
+12. minBy()
+Optional<Integer> min =
+        nums.stream()
+            .collect(Collectors.minBy(
+                    Integer::compareTo));
+
+System.out.println(min.get());
+Output
+10
+13. collectingAndThen()
+
+Perform additional operation after collection.
+
+List<String> result =
+        names.stream()
+             .collect(Collectors.collectingAndThen(
+                     Collectors.toList(),
+                     Collections::unmodifiableList));
+
+Creates a read-only list.
+
+Real-Time Employee Example
+Map<String, Double> avgSalary =
+        employees.stream()
+                 .collect(Collectors.groupingBy(
+                         Employee::getDepartment,
+                         Collectors.averagingDouble(
+                                 Employee::getSalary)));
+
+Output:
+
+IT = 65000
+HR = 45000
+
+
+//////////////////////////////////////
+
+
+Most Frequently Asked Collectors
+Collector	Purpose
+toList()	Convert stream to List
+toSet()	Convert stream to Set
+joining()	Combine strings
+counting()	Count elements
+summingInt()	Sum values
+averagingInt()	Average values
+groupingBy()	Group elements
+partitioningBy()	Split true/false
+toMap()	Convert to Map
+mapping()	Transform during grouping
+maxBy()	Maximum value
+minBy()	Minimum value
+
+
+Collectors.toList()
+Collectors.toSet()
+Collectors.toMap()
+Collectors.groupingBy()
+Collectors.partitioningBy()
+Collectors.joining()
+Collectors.counting()
+Collectors.summingInt()
+//////////////////////

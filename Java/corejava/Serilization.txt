@@ -1,0 +1,104 @@
+
+serilization  bytestream to object   
+fileoutputStream f=new fileoutputStream("emp.ser")
+ObjectOutPutStream o = new Objectoutputstream()  
+o.writeObject(emp)
+
+sdeerilization   object to   bytestream  
+fileinputStream f=new fileinputStream("emp.ser")
+ObjectinputStream o = new Objectinputstream()  
+o.readObject()
+
+
+
+Serialization
+.................
+
+converting an object into a byte stream so that it can be stored in a file, database, or sent over a network.
+
+import java.io.Serializable;
+
+class Employee implements Serializable {
+
+    int id;
+    String name;
+
+    Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+
+import java.io.*;
+
+public class SerializeDemo {
+
+    public static void main(String[] args) throws Exception {
+
+        Employee emp =
+            new Employee(101, "Sunil");
+
+        ObjectOutputStream out =
+            new ObjectOutputStream(
+                new FileOutputStream("emp.ser"));
+
+        out.writeObject(emp);
+
+        out.close();
+
+        System.out.println("Object Serialized");
+    }
+}
+
+Output
+Object Serialized
+
+
+Deserialization
+.......................
+
+Definition
+
+Deserialization is the process of converting a byte stream back into an object.
+
+import java.io.*;
+
+public class DeserializeDemo {
+
+    public static void main(String[] args) throws Exception {
+
+        ObjectInputStream in =
+            new ObjectInputStream(
+                new FileInputStream("emp.ser"));
+
+        Employee emp =
+            (Employee) in.readObject();
+
+        in.close();
+
+        System.out.println(emp.id);
+        System.out.println(emp.name);
+    }
+}
+
+
+Output
+101
+Sunil
+
+
+Why Use Serialization?
+1. Save Objects to File
+Application
+    ↓
+Object
+    ↓
+File
+
+Real-Time Uses
+File storage
+Network communication
+Distributed systems
+Caching (Redis)
+Session management

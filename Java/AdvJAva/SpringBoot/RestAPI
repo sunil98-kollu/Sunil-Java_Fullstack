@@ -1,0 +1,190 @@
+
+
+REST
+.............
+ is an architectural style for designing networked applications using HTTP. It's stateless, uses standard
+HTTP methods, and returns data in JSON or XML.
+
+ SOAP
+ ...................
+  is a protocol with strict standards, XML-only, and more
+overhead. REST is lightweight and preferred for modern web APIs. Most companies use REST today.
+
+
+2. The Flow: Client → Controller → Service → Repository
+
+ient (Browser/Postman/Mobile App)
+ │
+ ▼
+ Controller ← receives the HTTP request, validates basic input
+ │
+ ▼
+ Service ← business logic lives here
+ │
+ ▼
+ Repository ← talks to the database
+ │
+ ▼
+ Database
+
+
+3. HTTP Methods- GET, POST, PUT, DELETE
+.......................
+GET   Fetch data. Should never change anything on the server.
+POST  Create a new resource. Sends data in the request body.
+PUT    Update an existing resource. Replaces the whole thing.
+PATCH    Partially update a resource. Just change what you specify.
+DELETE     Remove a resource from the server.
+
+
+4. HTTP Status Codes- What Your API Says Back
+...............................
+
+200 OK Everything worked. You're returning data.
+201 Created A new resource was successfully created (after POST).
+204 No Content Success, but nothing to return (like after DELETE).
+
+400 Bad Request Client sent invalid data. Their fault, not yours.
+401 Unauthorized User is not authenticated (not logged in).
+403 Forbidden User is authenticated but doesn't have permission.
+404 Not Found The resource doesn't exist.
+500 Internal Server Error Something broke on the server side. Your fault.
+
+
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+ // GET /api/products
+ @GetMapping
+ public List<Product> getAll() {
+ return productService.getAll();
+ }
+ // GET /api/products/5
+ @GetMapping("/{id}")
+ public Product getById(@PathVariable Long id) {
+ return productService.getById(id);
+ }
+ // POST /api/products
+ @PostMapping
+ public ResponseEntity<Product> create(@RequestBody Product product) {
+ Product saved = productService.save(product);
+ return ResponseEntity.status(201).body(saved);
+ }
+ // PUT /api/products/5
+ @PutMapping("/{id}")
+ public Product update(@PathVariable Long id,
+ @RequestBody Product product) {
+ return productService.update(id, product);
+ }
+ // DELETE /api/products/5
+ @DeleteMapping("/{id}")
+ public ResponseEntity<Void> delete(@PathVariable Long id) {
+ productService.delete(id);
+ return ResponseEntity.noContent().build(); // 204
+ }
+}
+
+RequestParam
+..................................
+Used to read query parameters from the URL. (key vale from url) 
+
+URL
+GET /employees?id=101
+
+Multiple Request Parameters
+..............................
+
+
+@GetMapping("/search")
+public String search(
+        @RequestParam String name,
+        @RequestParam String city) {
+
+    return name + " " + city;
+}
+Request
+GET /search?name=Sunil&city=Hyderabad
+Output
+Sunil Hyderabad
+
+@PathVariable
+...................
+Used to extract values from the URL path.
+@RestController
+@RequestMapping("/employees")
+public class EmployeeController {
+
+    @GetMapping("/{id}")
+    public String getEmployee(
+            @PathVariable int id) {
+
+        return "Employee Id: " + id;
+    }
+}
+GET /employees/101
+Output ;
+Employee Id: 101
+
+Multiple Path Variables
+.................
+@GetMapping("/{id}/{name}")
+public String getEmployee(
+        @PathVariable int id,
+        @PathVariable String name) {
+
+    return id + " " + name;
+}
+
+
+
+9. @RequestBody- Reading What the Client Sends
+..............
+When a client sends a POST or PUT request, 
+
+JSON.
+@RequestBody tells Spring to take that JSON and convert it into a Java object automatically.
+
+
+/ Client sends this JSON:
+// { "name": "Laptop", "price": 75000 }
+@PostMapping("/products")
+public ResponseEntity<Product> create(@RequestBody Product product) {
+ // 'product' is already a Java object here
+ // product.getName() → "Laptop"
+ // product.getPrice() → 75000
+ Product saved = productService.save(product);
+ return ResponseEntity.status(201).body(saved);
+}
+
+
+10. ResponseEntity- Full Control Over Your Response
+..................................
+
+provide our own responsity like status codes 
+
+
+// Simple return- Spring sets 200 OK automatically
+@GetMapping("/user/{id}")
+public User getUser(@PathVariable Long id) {
+ return userService.findById(id);
+}
+// ResponseEntity- you control the status code
+@GetMapping("/user/{id}")
+public ResponseEntity<User> getUser(@PathVariable Long id) {
+ User user = userService.findById(id);
+ if (user == null) {
+ return ResponseEntity.status(404).build(); // no body
+ }
+ return ResponseEntity.ok(user); // 200 with body
+}
+// Creating a resource- return 201 with Location header
+@PostMapping("/users")
+public ResponseEntity<User> createUser(@RequestBody User user) {
+ User saved = userService.save(user);
+ return ResponseEntity
+ .status(201)
+ .header("Location", "/users/" + saved.getId())
+ .body(saved);
+}
+
+

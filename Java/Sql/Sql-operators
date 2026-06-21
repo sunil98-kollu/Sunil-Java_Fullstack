@@ -1,0 +1,381 @@
+🔥 Summary Table
+Operation	Foreign Key Impact
+INSERT	Must exist in parent table
+UPDATE	Cannot change to invalid parent value
+DELETE	Restricted or cascades
+TRUNCATE	Usually blocked if referenced
+DROP	Must drop child table first
+💡 Real-Time Example
+E-commerce System
+Customer → Orders
+
+If you try:
+
+Insert order with invalid customer ❌
+Delete customer with orders ❌ (unless CASCADE)
+Drop Customer table while orders exist ❌
+⚡ Interview Answer (Short)
+
+Foreign key enforces referential integrity. It restricts INSERT and UPDATE to valid parent values, controls DELETE using CASCADE or RESTRICT, and prevents TRUNCATE and DROP when dependent child tables exist.
+
+If you want, I can next give:
+✔ 
+ON DELETE CASCADE interview tricky questions
+✔ 
+JOIN vs Foreign Key relation
+✔ OR 
+real-time diagram explanation (very important for interviews)
+
+Explain JOIN vs Foreign Key relation
+JOIN vs Foreign Key Relationship (Very Important Interview Concept)
+
+Both JOIN and Foreign Key are related, but they are not the same thing.
+
+🔗 1. Foreign Key (Database Relationship Concept)
+
+A Foreign Key is a column in a table that creates a relationship between two tables.
+
+Example
+CREATE TABLE Department (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(50)
+);
+CREATE TABLE Employee (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    dept_id INT,
+    FOREIGN KEY (dept_id) REFERENCES Department(dept_id)
+);
+What it does?
+Ensures data integrity
+Prevents invalid data insertion
+Maintains relationship between tables
+
+👉 Example
+
+sql operators
+Fast answer
+
+SQL operators are special keywords or symbols used in SQL statements to perform operations on data.
+
+1. Arithmetic Operators
+
+Used for mathematical calculations.
+
+Operator	Description	Example
++	Addition	SELECT salary + 1000 FROM employees;
+-	Subtraction	SELECT salary - 500 FROM employees;
+*	Multiplication	SELECT salary * 12 FROM employees;
+/	Division	SELECT salary / 2 FROM employees;
+%	Modulus (remainder)	SELECT 10 % 3;
+2. Comparison Operators
+
+Used to compare values.
+
+Operator	Description	Example
+=	Equal to	WHERE age = 25
+!= or <>	Not equal to	WHERE age <> 25
+>	Greater than	WHERE salary > 50000
+<	Less than	WHERE salary < 50000
+>=	Greater than or equal to	WHERE age >= 18
+<=	Less than or equal to	WHERE age <= 60
+3. Logical Operators
+
+Used to combine conditions.
+
+Operator	Description	Example
+AND	All conditions must be true	WHERE age > 18 AND city = 'London'
+OR	At least one condition must be true	WHERE city = 'Paris' OR city = 'Rome'
+NOT	Negates a condition	WHERE NOT age = 18
+4. Special Operators
+BETWEEN
+
+Checks whether a value lies within a range.
+
+SELECT * FROM employees
+WHERE salary BETWEEN 30000 AND 50000;
+IN
+
+Checks whether a value matches any value in a list.
+
+SELECT * FROM employees
+WHERE department IN ('HR', 'IT', 'Finance');
+LIKE
+
+Used for pattern matching.
+
+SELECT * FROM employees
+WHERE name LIKE 'A%';
+
+Common wildcards:
+
+% → any number of characters
+_ → exactly one character
+IS NULL
+
+Checks for NULL values.
+
+SELECT * FROM employees
+WHERE manager_id IS NULL;
+EXISTS
+
+Checks whether a subquery returns any rows.
+
+SELECT * FROM departments d
+WHERE EXISTS (
+    SELECT 1
+    FROM employees e
+    WHERE e.department_id = d.department_id
+);
+ANY / ALL
+
+Compare a value with a set of values returned by a subquery.
+
+WHERE salary > ALL (
+    SELECT salary
+    FROM employees
+    WHERE department = 'HR'
+);
+5. Set Operators
+
+Used to combine results from multiple queries.
+
+Operator	Description
+UNION	Combines results and removes duplicates
+UNION ALL	Combines results including duplicates
+INTERSECT	Returns common rows
+EXCEPT / MINUS	Returns rows from first query not in second
+
+Example:
+
+SELECT city FROM customers
+UNION
+SELECT city FROM suppliers;
+Summary
+Arithmetic: +, -, *, /, %
+Comparison: =, !=, <>, >, <, >=, <=
+Logical: AND, OR, NOT
+Special: BETWEEN, IN, LIKE, IS NULL, EXISTS, ANY, ALL
+Set: UNION, UNION ALL, INTERSECT, EXCEPT/MINUS
+
+These are the most commonly used SQL operators in querying and manipulating database data.
+
+limit 
+LIMIT in SQL
+
+The LIMIT clause is used to restrict the number of rows returned by a query.
+
+👉 It is mainly used for:
+
+Pagination
+Fetching top records
+Performance optimization
+Basic Syntax
+SELECT * FROM table_name
+LIMIT n;
+
+👉 n = number of rows to display
+
+Example 1: Get first 5 employees
+SELECT * FROM Employee
+LIMIT 5;
+Example 2: Top 3 highest salaries
+SELECT * FROM Employee
+ORDER BY salary DESC
+LIMIT 3;
+
+👉 First sort, then limit
+
+Example 3: Pagination (Very Important)
+Page 1 (First 5 records)
+SELECT * FROM Employee
+LIMIT 5 OFFSET 0;
+Page 2 (Next 5 records)
+SELECT * FROM Employee
+LIMIT 5 OFFSET 5;
+
+👉 Formula:
+
+OFFSET = (page - 1) * limit
+Real-Time Example
+E-commerce Product Listing
+SELECT * FROM Products
+ORDER BY price DESC
+LIMIT 10;
+
+👉 Shows top 10 expensive products
+
+MySQL vs Oracle
+Database	Syntax
+MySQL	LIMIT 10
+PostgreSQL	LIMIT 10
+Oracle (old)	ROWNUM <= 10
+Oracle (new)	FETCH FIRST 10 ROWS ONLY
+Oracle Example
+SELECT * FROM Employee
+FETCH FIRST 5 ROWS ONLY;
+Interview Answer
+
+The LIMIT clause is used to restrict the number of rows returned by a query. It is commonly used in pagination and fetching top records from a database.
+
+One-Line Memory Trick
+
+👉 LIMIT = controls number of rows returned in result set
+
+If you want, I can next explain:
+✔ 
+LIMIT vs ROWNUM vs FETCH
+✔ 
+Top-N queries interview questions
+✔ 
+Pagination real-time Spring Boot example
+
+OFFSET 
+Fast answer
+
+Could you clarify what you mean by “Offset”?
+
+For example, are you asking about:
+
+An offset in programming or databases (e.g., SQL OFFSET)?
+An offset in design/printing (offset printing)?
+An offset in accounting or finance?
+A mathematical or engineering offset?
+Something else?
+
+A little more context will help me give the right answer.
+
+offset ex sql 
+OFFSET in SQL
+
+The OFFSET clause is used to skip a number of rows before returning the result set.
+
+👉 It is mainly used for:
+
+Pagination
+Skipping initial records
+Showing next pages of data
+Basic Syntax
+SELECT * FROM table_name
+LIMIT n OFFSET m;
+n = number of rows to display
+m = number of rows to skip
+Example 1: Simple OFFSET
+Employee Table
+SELECT * FROM Employee
+LIMIT 5 OFFSET 0;
+
+👉 Meaning:
+
+Skip 0 rows
+Show first 5 rows
+Example 2: Skip first 5 rows
+SELECT * FROM Employee
+LIMIT 5 OFFSET 5;
+
+👉 Meaning:
+
+Skip first 5 records
+Show next 5 records
+Example 3: Pagination (Very Important)
+Page calculation
+Page 1 → OFFSET 0
+Page 2 → OFFSET 5
+Page 3 → OFFSET 10
+Query
+SELECT * FROM Employee
+LIMIT 5 OFFSET 10;
+
+👉 Shows page 3 data (records 11–15)
+
+Real-Time Example
+E-commerce Product Listing
+SELECT * FROM Products
+ORDER BY price DESC
+LIMIT 10 OFFSET 20;
+
+👉 Meaning:
+
+Skip top 20 expensive products
+Show next 10 products
+OFFSET Formula
+OFFSET = (page number - 1) * limit
+
+LIMIT vs OFFSET
+...............................
+Feature	     LIMIT	                         OFFSET
+
+Purpose	     Number of rows to show	     Number of rows to skip
+Usage	     Restrict output size	    Pagination control
+Example 	 LIMIT 5	                    OFFSET 10
+
+Find the transaction details of top 5 amounts
+select * from payment
+order by amount desc
+limit 5
+
+Bottom 5 amounts
+select * from payment
+order by amount
+limit 5
+
+-- find the second lowest amount from payment
+select * from payment
+order by amount asc
+limit 1,1
+
+ Distinct clause
+ -- - used to display unique values from columns
+select * from payment    -- To display unique staff_id from payment
+select distinct staff_id from payment
+
+-- sequence of writing SQL query
+select
+distinct
+from
+where
+order by
+limit
+
+ Like Operator 
+ - used to find pattern matching of the data
+ -- wildcards - 2
+ -- % (percentile) - any number of characters
+ -- underscore(_) - single character
+
+select * from customer-- Fetch the details of customers whose name starting with M
+select * from customer
+where first_name like 'M%'
+
+- Fetch the details of customers whose name ending with M
+select * from customer
+where first_name like '%M'
+
+- Fetch the details of customers whose name starting and ending with M
+select * from customer
+where first_name like 'M%M'
+
+SELECT * FROM customer
+WHERE first_name LIKE 'T_M';
+Meaning:
+T → first character must be T
+_ → any single character
+M → last character must be M
+Valid Matches
+first_name
+TSM
+TAM
+T9M
+T M (space also counts as character in some DBs)
+
+7 letter country A
+select * from country
+where country like 'A______
+
+SELECT * FROM country
+WHERE country LIKE 'A%i_';
+
+_ = one character, % = many characters
+*/
+
+

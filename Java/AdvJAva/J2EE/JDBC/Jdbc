@@ -1,0 +1,141 @@
+1. Statement
+..................................................
+.....................................................
+
+
+Used for static SQL queries.
+
+Example
+import java.sql.*;
+
+public class StatementDemo {
+    public static void main(String[] args) throws Exception {
+
+        Connection con =
+            DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/test",
+                "root",
+                "root");
+
+        Statement stmt = con.createStatement();
+
+        ResultSet rs =
+            stmt.executeQuery("select * from employee");
+
+        while(rs.next()) {
+            System.out.println(
+                rs.getInt("id") + " "
+                + rs.getString("name"));
+        }
+
+        con.close();
+    }
+}
+Drawback
+String name = "' OR '1'='1";
+String query =
+    "select * from employee where name='" + name + "'";
+
+SQL Injection possible.
+
+PreparedStatement
+...............................................
+...............................................
+
+Used when query contains dynamic values.
+
+Example
+import java.sql.*;
+
+public class PreparedStmtDemo {
+
+    public static void main(String[] args) throws Exception {
+
+        Connection con =
+            DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/test",
+                "root",
+                "root");
+
+        String sql =
+            "insert into employee values(?,?,?)";
+
+        PreparedStatement ps =
+            con.prepareStatement(sql);
+
+        ps.setInt(1, 101);
+        ps.setString(2, "Sunil");
+        ps.setDouble(3, 50000);
+
+        int rows = ps.executeUpdate();
+
+        System.out.println(rows + " row inserted");
+
+        con.close();
+    }
+}
+
+. CallableStatement
+.............................................
+...............................................
+Used to call Stored Procedures.
+
+Stored Procedure
+CREATE PROCEDURE getEmployee(
+    IN empid INT
+)
+BEGIN
+    SELECT * FROM employee
+    WHERE id = empid;
+END;
+Java Example
+import java.sql.*;
+
+public class CallableStmtDemo {
+
+    public static void main(String[] args)
+            throws Exception {
+
+        Connection con =
+            DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/test",
+                "root",
+                "root");
+
+        CallableStatement cs =
+            con.prepareCall(
+                "{call getEmployee(?)}");
+
+        cs.setInt(1, 101);
+
+        ResultSet rs = cs.executeQuery();
+
+        while(rs.next()) {
+            System.out.println(
+                rs.getInt("id") + " "
+                + rs.getString("name"));
+        }
+
+        con.close();
+    }
+}
+
+
+Statement
+.....................
+Executes static SQL queries.
+Query compiled every time.
+Slower and vulnerable to SQL Injection.
+
+PreparedStatement
+.....................
+Executes parameterized queries.
+Supports ? placeholders.
+Faster and prevents SQL Injection.
+Most commonly used.
+
+CallableStatement
+.........................................
+Used to call stored procedures.
+Supports IN, OUT, and INOUT parameters.
+Better for database-side business logic.

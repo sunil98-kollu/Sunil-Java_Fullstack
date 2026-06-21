@@ -1,0 +1,621 @@
+
+package com.org.Al;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+
+public class ArrayListBank {
+
+	int customerId;
+	String name;
+	String accountType;
+	double balance;
+	
+	public ArrayListBank(int customerId, String name, String accountType,double  balance ){
+		this .accountType=accountType;
+		this.customerId=customerId;
+		this.name=name;
+		this.balance=balance;
+		
+	}
+	void display() {
+		System.out.println(customerId +" "+ name+" "+ accountType+" "+ balance);
+	}
+	
+public static void main(String[] args) {
+	
+	
+	ArrayList<ArrayListBank> customer=new ArrayList<ArrayListBank>();
+	customer.add(new ArrayListBank(1, "sunil", "saving", 12231.1));
+	customer.add(new ArrayListBank(12, "vsu", "curent", 12321.1));
+	customer.add(new ArrayListBank(13, "anil", "curent", 1211.1));
+	customer.add(new ArrayListBank(14, "mah", "closed", 131.1));
+
+
+for(ArrayListBank c:customer) {
+	c.display();
+	
+}
+System.out.println("&&**");
+for(ArrayListBank c:customer) {
+	if(c.balance>=1000){
+ c.display();	
+	}
+}
+
+//for(ArrayListBank c:customer) {
+//	Iterator<ArrayListBank> it = customer.iterator();
+//	while (it.hasNext()) {
+//	    ArrayListBank c1 = it.next();
+//	    
+//	    if (c1.accountType.equals("closed")) {
+//	        it.remove(); // ✅ safe removal
+//	    }
+//	}
+//		
+//}
+System.out.println("&reomve**");
+
+customer.removeIf(c -> c.accountType.equals("closed"));
+System.out.println("check");
+for (ArrayListBank c : customer) {
+	if(c.customerId==1) {
+    c.display();
+	}
+}
+
+}
+}
+
+//
+//Iterator<ArrayListBank> it = customer.iterator();
+//
+//while (it.hasNext()) {
+//    ArrayListBank c = it.next();
+//    
+//    if (c.accountType.equals("closed")) {
+//        it.remove(); // ✅ safe removal
+//    }
+//}
+
+package com.org.Al;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class ArrayListItems {
+	
+	public static void main(String[] args) {
+		
+	// al is best for accesing get 0(1) , inser.delte slow
+		// ll is slow access 0(n) insert delete fast 
+	ArrayList<Integer> a=new ArrayList<Integer>();
+	a.add(11);
+	a.add(12);
+	
+ System.out.println(a);	
+ a.addFirst(111);
+ System.out.println(a);
+ a.add(0, 112);
+ System.out.println(a);
+ a.contains(11);
+ System.out.println(a);
+ 
+ System.out.println(a.contains(11));
+System.out.println(a.equals(11));
+System.out.println(a.hashCode());
+System.out.println(a.toArray());
+System.out.println(a.iterator());
+System.out.println(a.listIterator());
+
+System.out.println(a.isEmpty());
+
+ //System.out.println(a.containsAll()); //containsAll(a) → “Does a contain all elements of a?” ✔️ (always true)
+
+ 
+	}
+}
+
+
+
+package com.org.Al;
+
+import java.util.LinkedList;
+
+public class Linked {
+
+	public static void main(String[] args) {
+		
+		LinkedList<Integer> ll=new LinkedList<Integer>();
+		ll.add(12);
+		ll.add(122);
+		ll.add(133);
+		System.out.println(ll);
+		System.out.println(ll.add(11));
+		ll.addFirst(11);
+		System.out.println(ll);
+		
+	}
+}
+
+
+package com.org.Al;
+
+import java.util.LinkedList;
+
+public class LinkedBank {
+
+	int trancId;
+	int accNumber;
+	String transactionType;
+	double balance;
+	
+	public LinkedBank(int trancId, int accNumber, String transactionType,double balance){
+		this.trancId=trancId;
+		this.accNumber=accNumber;
+		this.transactionType=transactionType;
+		this.balance=balance;
+	}
+        
+	void display() {
+		System.out.println(trancId +""+accNumber+""+transactionType+""+ balance);
+	}
+	public static void main(String[] args) {
+		System.out.println("*");
+	LinkedList<LinkedBank> l= new LinkedList<LinkedBank>();
+	
+	l.add(new LinkedBank(1, 121, "cridit", 223.23));
+	l.add(new LinkedBank(2, 131, "debt", 2123.23));
+	l.add(new LinkedBank(3, 141, "cridit", 2243.23));
+	l.add(new LinkedBank(4, 151, "ept", 2235.23));
+	
+	for(LinkedBank ll: l) {
+		ll.display();
+	}
+	
+    l.addFirst(new LinkedBank(0, 100, "credit", 1000));
+  l.remove();
+	
+	}
+	
+}
+
+//
+//
+//// ✅ Add at beginning
+//list.addFirst(new Transaction(0, 100, "credit", 1000));
+//
+//// ✅ Add at end
+//list.addLast(new Transaction(4, 104, "debit", 1500));
+//
+//// ✅ Remove oldest transaction (first one)
+//list.removeFirst();
+//
+//// ✅ Final list
+//System.out.println("\nFinal Transactions:");
+//for (Transaction t : list) {
+//    t.display();
+//}
+
+package com.org.Al;
+
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.ListIterator;
+import java.util.Vector;
+
+public class ListIteratorBank {	
+
+
+	int productId;
+	String pname;
+	double price;
+	
+	public ListIteratorBank(int productId, String pname,double  price ){
+		this.price=price;
+		this.productId=productId;
+		this.pname=pname;		
+	}
+	void display() {
+		System.out.println(productId +" "+ pname+" "+ price);
+	}
+	
+	public static void main(String[] args) {
+		
+		ArrayList<ListIteratorBank> it= new ArrayList<ListIteratorBank>();
+		it.add(new ListIteratorBank(1, "saving", 12231.1));
+		it.add(new ListIteratorBank(2, "curent", 12321.1));
+		it.add(new ListIteratorBank(3, "curent", 1211.1));
+
+ListIterator<ListIteratorBank> lb=it.listIterator();
+while(lb.hasNext()) {  // hasnext is boolean checks and retunr 
+	ListIteratorBank val= lb.next(); // object 
+	if(val.productId==1) {
+		val.price=100;
+	}
+	  lb.add(new ListIteratorBank(4, "ss", 3000));
+	  
+	val.display();
+}
+System.out.println("prev");
+while(lb.hasPrevious()) {  // hasnext is boolean checks and retunr 
+	ListIteratorBank val= lb.previous(); // object 
+	val.display();
+}
+//
+//ListIterator<ListIteratorBank> lbp=it.listIterator();
+//
+//while(lbp.hasPrevious()) {  // hasnext is boolean checks and retunr 
+//	ListIteratorBank val= lbp.previous(); // object 
+//	if(val.productId==1) {
+//		val.price=100;
+//	}
+//	val.display();
+//
+//}
+}
+}
+
+
+
+
+	//List iterator  only for list al ll 
+	// can move forward backword '//can add remove update
+	ArrayList<Integer> al= new ArrayList<Integer>();
+	al.add(12);
+	al.add(133);
+	al.add(1344);
+	// access element one by one 
+	//  hasnext check net ele exist 
+	// return next element
+	
+	ListIterator<Integer> it= al.listIterator();
+	while(it.hasNext()) {
+		int val=it.next();
+		System.out.println(val);
+	}
+	System.out.println("*");
+	while(it.hasPrevious()) {
+		int val=it.previous();
+		System.out.println(val);
+	}
+	
+	System.out.println("emnuration ");
+	//Enumeration is an old interface used to iterate over elements (before Iterator)
+//	Used for Vector, Hashtable
+//	Only read access
+//	Only forward direction
+	// has more Checks if more elements exist
+	// return next element 
+	Vector<String> v = new Vector<>();
+    v.add("Sunil");
+    v.add("Anil");
+    v.add("Vsu");
+
+    Enumeration<String> e = v.elements();
+
+    while (e.hasMoreElements()) {
+        String name = e.nextElement();
+        System.out.println(name);
+    }
+    System.out.println("hashtable");
+    
+    Hashtable<Integer, String> ht = new Hashtable<>();
+    ht.put(1, "A");
+    ht.put(2, "B");
+
+    Enumeration<Integer> keys = ht.keys();
+
+    while (keys.hasMoreElements()) {
+        Integer key = keys.nextElement();
+        System.out.println(key + " " + ht.get(key));
+    }
+    
+
+
+
+
+package com.org.Al;
+
+import java.util.HashSet;
+
+public class HashSetPolicy {
+
+	
+
+	int policyId;
+	int policyNumber;
+	
+	public HashSetPolicy(int policyId,int policyNumber ){
+		this.policyId=policyId;
+		this.policyNumber=policyNumber;
+		
+	}
+	void display() {
+		System.out.println(policyId +" "+ policyNumber);
+	}
+	
+	public static void main(String[] args) {
+		
+		HashSet<HashSetPolicy> h= new HashSet();
+		
+		h.add(new HashSetPolicy(1, 12321321));
+		h.add(new HashSetPolicy(12, 334233));
+		h.add(new HashSetPolicy(13, 43434));
+		h.add(new HashSetPolicy(14, 12521321));
+		
+		for(HashSetPolicy hp:h) {
+			hp.display();
+		}
+	}
+}
+
+/*
+ You are storing objects, not integers.
+
+👉 By default:
+
+Every object is treated as unique
+Even if policyNumber is same
+❌ Example (Duplicate NOT prevented)
+h.add(new HashSetPolicy(1, 123));
+h.add(new HashSetPolicy(2, 123)); // ❌ still added
+
+👉 Because Java compares object reference, not values
+
+✅ Solution: Override equals() and hashCode() ⭐
+  */
+
+
+/*
+import java.util.*;
+
+public class InterestRateDemo {
+    public static void main(String[] args) {
+
+        // ✅ Store interest rates (sorted automatically)
+        TreeSet<Double> rates = new TreeSet<>();
+
+        // ✅ Add rates
+        rates.add(6.5);
+        rates.add(7.2);
+        rates.add(5.8);
+        rates.add(6.9);
+        rates.add(7.2); // duplicate ignored
+
+        // ✅ Display all rates (sorted)
+        System.out.println("All Interest Rates:");
+        for (Double r : rates) {
+            System.out.println(r);
+        }
+
+        // ✅ Lowest and Highest
+        System.out.println("\nLowest Rate: " + rates.first());
+        System.out.println("Highest Rate: " + rates.last());
+
+        // ✅ Check if rate exists
+        double search = 6.5;
+        if (rates.contains(search)) {
+            System.out.println("\nRate " + search + " exists");
+        } else {
+            System.out.println("\nRate not found");
+        }
+
+        // ✅ Remove outdated rate
+        rates.remove(5.8);
+
+        // ✅ Final list
+        System.out.println("\nAfter Removal:");
+        for (Double r : rates) {
+            System.out.println(r);
+        }
+    }
+}
+*/
+
+
+
+    package com.org.Al;
+
+import java.util.HashMap;
+
+public class Map {
+
+	
+	public static void main(String[] args) {
+		// key cant ddup value duplicate 
+		HashMap<Integer, String> h=new HashMap<Integer, String>();
+		h.put(1,"sun");
+		h.put(2,"mah");
+		h.put(3,"anil");
+		h.put(4,"anil");
+		System.out.println(h);//{1=sun, 2=mah, 3=anil}
+
+		System.out.println(h.containsKey(1));
+		System.out.println(h.containsValue("sun"));
+		System.out.println(h.get(2));
+	}
+}
+
+package com.org.Al;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
+public class HashMapAcc {
+	 String accountHolderName;
+	    double balance;
+	    String branch;
+
+	    HashMapAcc(String accountHolderName, double balance, String branch) {
+	        this.accountHolderName = accountHolderName;
+	        this.balance = balance;
+	        this.branch = branch;
+	    }
+
+	    void display(String accNumber) {
+	        System.out.println(accNumber + " | " + accountHolderName + " | ₹" 
+	                + balance + " | " + branch);
+	    }
+
+	    public static void main(String[] args) {
+
+	        HashMap<String, HashMapAcc> map = new HashMap<>();
+
+	        //  Add accounts
+	        map.put("ACC101", new HashMapAcc("Sunil", 15000, "Hyderabad"));
+	        map.put("ACC102", new HashMapAcc("Ravi", 8000, "Chennai"));
+	        map.put("ACC103", new HashMapAcc("Anil", 5000, "Bangalore"));
+	        map.put("ACC104", new HashMapAcc("Priya", 20000, "Mumbai"));
+	        map.put("ACC105", new HashMapAcc("Neha", 12000, "Delhi"));
+
+	        // 2️⃣ Display all accounts
+	        System.out.println("All Accounts:");
+	        for (Map.Entry<String, HashMapAcc> entry : map.entrySet()) {
+	            entry.getValue().display(entry.getKey());
+	        }
+
+	        // 3️⃣ Search account
+	        String searchAcc = "ACC102";
+
+	        System.out.println("\nSearch Result:");
+	        if (map.containsKey(searchAcc)) {
+	            map.get(searchAcc).display(searchAcc);
+	        } else {
+	            System.out.println("Account not found");
+	        }
+
+	        // 4️⃣ Deposit (update balance)
+	        String depositAcc = "ACC103";
+	        double depositAmount = 2000;
+
+	        if (map.containsKey(depositAcc)) {
+	        	HashMapAcc acc = map.get(depositAcc);
+	            acc.balance += depositAmount;
+	            System.out.println("\nUpdated Balance for " + depositAcc + ": ₹" + acc.balance);
+	        }
+
+	        // 5️⃣ Remove closed account
+	        String closedAcc = "ACC105";
+	        map.remove(closedAcc);
+
+	        // 6️⃣ Display updated list
+	        System.out.println("\nUpdated Account List:");
+	        for (Map.Entry<String, HashMapAcc> entry : map.entrySet()) {
+	            entry.getValue().display(entry.getKey());
+	        }
+	    }
+}
+
+
+
+package com.org.Al;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public class LinkedHashMapOrder {
+
+	String customerName;
+	String productName;
+	int orderAmount;
+	
+	public LinkedHashMapOrder(String customerName,String productName,int orderAmount) {
+	this.customerName=customerName;
+	this.productName=productName;
+	this.orderAmount=orderAmount;
+	}
+	
+	void display() {
+		System.out.println(customerName +""+ productName+""+orderAmount);
+		
+	}
+	public static void main(String[] args) {
+		
+		LinkedHashMap<String, LinkedHashMapOrder> lh=new LinkedHashMap<String, LinkedHashMapOrder>();
+		
+		lh.put("12", new LinkedHashMapOrder("sunil","order",1211));
+		lh.put("32", new LinkedHashMapOrder("anil","pur",3444));
+		lh.put("34", new LinkedHashMapOrder("vn","od",23));
+
+		for(Map.Entry<String, LinkedHashMapOrder> entry : lh.entrySet()) {
+			entry.getValue().display();
+		
+		}
+		
+		double total=0;
+		for(LinkedHashMapOrder o :lh.values()) {
+			total+=o.orderAmount;
+			
+		}
+		System.out.println(total);
+		
+		
+//			for (Map.Entry<String, HashMapAcc> entry : map.entrySet()) {
+//	            entry.getValue().display(entry.getKey());
+//	        }
+
+	}
+}
+ 
+        // ✅ Automatically sorted by stockSymbol
+        TreeMap<String, Stock> stocks = new TreeMap<>();
+
+        // ✅ Add stocks
+        stocks.put("TCS", new Stock("Tata Consultancy", 3500));
+        stocks.put("INFY", new Stock("Infosys", 1500));
+        stocks.put("HDFC", new Stock("HDFC Bank", 1600));
+        stocks.put("RELIANCE", new Stock("Reliance", 2500));
+
+        // ✅ Display all stocks (sorted)
+        System.out.println("All Stocks:");
+        for (Map.Entry<String, Stock> entry : stocks.entrySet()) {
+            entry.getValue().display(entry.getKey());
+        }
+
+        // ✅ First and Last Entry
+        System.out.println("\nFirst Stock:");
+        stocks.firstEntry().getValue().display(stocks.firstKey());
+
+        System.out.println("\nLast Stock:");
+        stocks.lastEntry().getValue().display(stocks.lastKey());
+
+        // ✅ Update stock price
+        stocks.get("INFY").price = 1700;
+
+        // ✅ Remove delisted stock
+        stocks.remove("HDFC");
+
+        // ✅ Final list
+        System.out.println("\nAfter Updates:");
+        for (Map.Entry<String, Stock> entry : stocks.entrySet()) {
+            entry.getValue().display(entry.getKey());
+        }
+    }
+}
+
+
+
+package com.org.Al;
+
+import java.util.concurrent.ConcurrentHashMap;
+
+public class Concurent {
+
+public static void main(String[] args) {
+	
+	ConcurrentHashMap<Integer,String> c=new ConcurrentHashMap<Integer, String>();
+	
+	c.put(1, "sunil");
+	c.put(2,"anil");
+	c.put(3, "ss");
+	c.put(4, "ss");
+	System.out.println(c);
+}
+}

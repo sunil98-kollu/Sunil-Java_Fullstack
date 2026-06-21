@@ -1,0 +1,349 @@
+single repository
+..................
+
+class should have only one reason to change 
+each one has separate class 
+
+for account service account logic 
+for accountRepo d operation 
+for notification service send Emaill
+
+2) o -> open closed principal 
+open for extension closed for modification 
+Adding a new payment type requires a new class only.
+
+
+L → Liskov Substitution Principle (LSP)
+.....................................
+
+child class should replace by its parent class without breaking functionalty
+
+
+I → Interface Segregation Principle (ISP)
+..................................
+
+
+Problem
+Basic ATM does not support loans.
+Still forced to implement applyLoan().
+
+
+
+D → Dependency Inversion Principle (DIP)
+............................................
+high level modu;e should not depend on low level modules 
+
+
+supposebank application using sql db  later need to change another mongodb all servicesneedto change 
+
+
+single repository
+..................
+
+class should have only one reason to change 
+
+//bad code 
+clas Employee{
+
+    public void calSal(){
+        syso("sal cal");
+    }
+    public void saveEmp(){
+        syso("save DB");
+    }
+    public void generateReport(){
+        syso("generation report");
+    }
+}
+
+// good code 
+
+each one has separate  class 
+
+ p Class CalSal{
+  public void calculateSalary() {}
+}
+
+p class EmployeeRepository {
+    public void saveEmployee() {}
+}
+
+p class ReportService {
+    public void generateReport() {}
+}
+...............................
+for account service account logic 
+for accountRepo d operation 
+for notification service send Emaill
+
+
+2) o -> open closed principal 
+open for extension closed for modification 
+Adding a new payment type requires a new class only.
+
+
+//bad 
+
+p class paymentServvice{
+
+    p void pay(String type){
+if(type.equals("card")){
+    syso("card pay");
+}else if (type.equals("UPI")){
+    syso("upi")
+}
+
+    }
+}
+
+
+// good 
+
+Interface Payment{
+    void pay();
+}
+
+p class card extends payment{
+    p v pay(){
+        syso("card");
+    }
+}
+
+p v upi extends payment{
+
+    p v pay()
+    syso("upi)
+}
+Adding a new payment type requires a new class only.
+
+
+L → Liskov Substitution Principle (LSP)
+.....................................
+
+child class should replace by its parent class without baking functionalty
+
+ Bad Example: Bird and Penguin
+ ......................................
+Parent
+class Bird {
+
+    public void fly() {
+        System.out.println("Flying");
+    }
+}
+Child
+class Penguin extends Bird {
+
+    @Override
+    public void fly() {
+        throw new UnsupportedOperationException(
+                "Penguins cannot fly");
+    }
+}
+Usage
+Bird bird = new Penguin();
+bird.fly();
+
+
+ Good Example: Banking System
+..............................
+Parent Class
+
+class Account {
+
+    public void withdraw(double amount) {
+        System.out.println("Withdraw successful");
+    }
+}
+Child Classes
+class SavingsAccount extends Account {
+
+    @Override
+    public void withdraw(double amount) {
+        System.out.println("Savings Account Withdraw");
+    }
+}
+class CurrentAccount extends Account {
+
+    @Override
+    public void withdraw(double amount) {
+        System.out.println("Current Account Withdraw");
+    }
+}
+Usage
+Account account = new SavingsAccount();
+account.withdraw(1000);
+
+or
+
+Account account = new CurrentAccount();
+account.withdraw(1000);
+
+Output
+Savings Account Withdraw
+
+
+
+I → Interface Segregation Principle (ISP)
+..................................
+
+
+Problem
+Basic ATM does not support loans.
+Still forced to implement applyLoan().
+
+
+Bad Example (ATM System)
+........................................
+Large Interface
+interface ATMOperations {
+
+    void withdraw();
+
+    void deposit();
+
+    void printPassbook();
+
+    void applyLoan();
+}
+ATM Machine
+class BasicATM implements ATMOperations {
+
+    public void withdraw() {
+        System.out.println("Withdraw");
+    }
+
+    public void deposit() {
+        System.out.println("Deposit");
+    }
+
+    public void printPassbook() {
+        System.out.println("Print Passbook");
+    }
+
+    public void applyLoan() {
+        throw new UnsupportedOperationException();
+    }
+}
+Problem
+Basic ATM does not support loans.
+Still forced to implement applyLoan().
+
+ISP Violated.
+
+Good Example (ATM System)
+......................................
+
+Separate Interfaces
+interface Withdrawable {
+    void withdraw();
+}
+interface Depositable {
+    void deposit();
+}
+interface LoanApplicable {
+    void applyLoan();
+}
+Basic ATM
+class BasicATM implements Withdrawable, Depositable {
+
+    public void withdraw() {
+        System.out.println("Withdraw");
+    }
+
+    public void deposit() {
+        System.out.println("Deposit");
+    }
+}
+Loan Kiosk
+class LoanKiosk implements LoanApplicable {
+
+    public void applyLoan() {
+        System.out.println("Loan Applied");
+    }
+}
+
+ Each class implements only required methods.
+
+ ISP Followed.
+
+D → Dependency Inversion Principle (DIP)
+............................................
+high level modu;e should not depend on low level modules 
+
+
+supposebank application using sql db  later need to change another mongodb all servicesneedto change 
+
+
+Bad Example
+.....................
+Low-Level Module
+class MySQLDatabase {
+
+    public void saveTransaction() {
+        System.out.println("Transaction saved in MySQL");
+    }
+}
+
+High-Level Module
+class TransactionService {
+
+    private MySQLDatabase db =
+            new MySQLDatabase();
+
+    public void processTransaction() {
+        db.saveTransaction();
+    }
+}
+Problem
+
+Suppose tomorrow the bank wants to use MongoDB:
+
+class MongoDatabase {
+    public void saveTransaction() {}
+}
+
+Now you must modify:
+Tightly coupled.
+
+
+Good Example
+.................. (Banking Application)
+Abstraction
+
+
+interface Database {
+
+    void saveTransaction();
+}
+
+MySQL Implementation
+
+class MySQLDatabase implements Database {
+
+    public void saveTransaction() {
+        System.out.println("Saved in MySQL");
+    }
+}
+
+MongoDB Implementation
+
+class MongoDatabase implements Database {
+
+    public void saveTransaction() {
+        System.out.println("Saved in MongoDB");
+    }
+}
+Service
+class TransactionService {
+
+    private Database database;
+
+    public TransactionService(Database database) {
+        this.database = database;
+    }
+
+    public void processTransaction() {
+        database.saveTransaction();
+    }
+}

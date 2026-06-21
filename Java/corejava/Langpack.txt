@@ -1,0 +1,376 @@
+
+The following is the list of all methods present in java.lang Object class : 
+1. public String toString();  
+2. public native int hashCode(); 
+3. public boolean equals(Object o); 
+4. protected native Object clone()throws CloneNotSupportedException; 
+5. public final Class getClass(); 
+6. protected void finalize()throws Throwable; 
+7. public final void wait() throws InterruptedException; 
+8. public final native void wait()throws InterruptedException; 
+9. public final void wait(long ms,int ns)throws InterruptedException; 
+10. public final native void notify(); 
+11. public final native void notifyAll(); 
+
+
+toString( ) method : \
+........................
+
+1. We can use this method to get string representation of an object. 
+2. Whenever we are try to print any object reference internally toString() method 
+will be executed. 
+
+3. If our class doesn't contain toString() method then Object class toString() 
+method will be executed. 
+
+4. Example:  
+.............................
+
+5. System.out.println(s1); => super(s1.toString()); 
+
+
+6. Example 1: 
+
+7. class Student 
+8. { 
+9. String name; 
+10. int rollno; 
+11. Student(String name, int rollno) 
+12. { 
+13. this.name=name; 
+14. this.rollno=rollno; 
+15. } 
+16. public static void main(String args[]){ 
+17. Student s1=new Student("saicharan",101); 
+18. Student s2=new Student("ashok",102); 
+19. System.out.println(s1); 
+20. System.out.println(s1.toString()); 
+21. System.out.println(s2); 
+22. } 
+23. } 
+
+24. Output: 
+..............
+25. Student@3e25a5 
+26. Student@3e25a5 
+27. Student@19821f 
+
+
+9. In the above program Object class toString() method got executed which is 
+implemented as follows.
+
+ public String toString() { 
+   return getClass().getName() + "@" + 
+     Integer.toHexString(hashCode()); 
+       } 
+  
+      here  getClass().getName()  =>  
+classname@hexa_decimal_String_representation_of_hashCode  
+
+
+ Example Without Overriding
+ .........................................
+class Employee {
+    int id = 101;
+    String name = "Sunil";
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Employee emp = new Employee();
+        System.out.println(emp);
+    }
+}
+
+Output
+Employee@15db9742
+
+Not very useful.
+
+Overriding toString()
+class Employee {
+    int id;
+    String name;
+
+    Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{id=" + id +
+               ", name='" + name + "'}";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Employee emp = new Employee(101, "Sunil");
+        System.out.println(emp);
+    }
+}
+
+Output
+Employee{id=101, name='Sunil'}
+
+
+
+
+hashCode() method :  Returns an integer hash value for an object.
+...........................
+
+1. For every object jvm will generate a unique number which is nothing but 
+hashCode. 
+
+
+Used by collections like:
+
+HashMap
+HashSet
+Hashtable
+
+to store and retrieve objects efficiently.
+
+
+class Employee {
+    int id;
+
+    Employee(int id) {
+        this.id = id;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        Employee e1 = new Employee(101);
+
+        System.out.println(e1.hashCode());
+    }
+}
+
+Sample Output
+................
+366712642
+
+(The value may vary each run.)
+
+
+.....
+Overriding hashCode()
+...............................
+
+
+class Employee {
+    int id;
+
+    Employee(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+}
+
+Now:
+
+Employee e1 = new Employee(101);
+
+System.out.println(e1.hashCode());
+
+Output
+............................
+
+101
+
+
+
+26. What is the difference between == operator and .equals( ) method ?  
+In general we can use 
+.equals( ) for content comparision
+as == operator  for reference comparision  
+27.   
+28.    String  s1=new String("ashok");  
+29.    String  s2=new  String("ashok");  
+30.    System.out.println(s1==s2);  //false  
+31.    System.out.println(s1.equals(s2));  //true  
+Feature 	==	                                           equals()
+Checks	 Reference to same object  (memory address)	      Content/value
+
+String s1 = new String("Java");
+String s2 = new String("Java");
+
+s1 -----> [Java]
+s2 -----> [Java]
+
+s1 == s2          → false
+s1.equals(s2)     → true
+
+String s1 = "Java";
+String s2 = "Java";
+
+System.out.println(s1 == s2); // true 
+
+
+getClass() method : 
+....................................
+
+This method returns runtime class definition of an object. 
+
+Example : 
+...........
+
+class  Test implements Cloneable  { 
+ public static void main(String[] args)throws 
+CloneNotSupportedException   { 
+  Object o=new String("ashok"); 
+  System.out.println("Runtime object type of o is 
+:"+o.getClass().getName()); 
+ } 
+} 
+Output: 
+Runtime object type of o is: java.lang. String 
+
+
+
+
+finalize( ) : 
+Just before destroying an object GC calls finalize( ) method to perform CleanUp 
+activities . 
+ 
+wait( ) , notify( ) , notifyAll( ) 
+We can use these methods for inter thread communication  
+
+
+
+StringBuffer                                                             StringBuilder  
+Every method present in StringBuffer is                                     No method present in StringBuilder is  synchronized.
+synchronized. 
+                                                                             No method present in StringBuilder is synchronized. 
+ Thread  safe.                                                                    Not  Thread  safe.
+                                                                                  
+operate simultaneously on the StringBuilder                                       object hence StringBuilder is not Thread safe.
+
+String vs StringBuffer vs StringBuilder : 
+..........................................................
+1. If the content is fixed and won't change frequently then we should go for String.  
+2. If the content will change frequently but Thread safety is required then we 
+should go for StringBuffer. 
+3. If the content will change frequently and Thread safety is not required then we 
+should go for StringBuilder. 
+
+
+
+Wrapper Classes in Java
+....................................
+
+A Wrapper Class converts a primitive data type into an object.
+
+Java provides wrapper classes in the package java.lang.
+
+Primitive Types and Wrapper Classes
+Primitive Type	Wrapper Class
+byte	Byte
+short	Short
+int	Integer
+long	Long
+float	Float
+double	Double
+char	Character
+boolean	Boolean
+
+
+Why Do We Need Wrapper Classes?
+1. Collections Store Objects Only
+
+public static void main(String[] args) {
+
+        List<Integer> list = new ArrayList<>();
+
+        list.add(100);
+        list.add(200);
+
+        System.out.println(list);
+
+Utility Methods
+        .
+int num = Integer.parseInt("123");
+
+System.out.println(num);
+
+Output:
+
+123
+
+
+
+
+Autoboxing
+/////////////////////////////
+
+Automatic conversion of a primitive type into its wrapper object.
+
+int num = 100;
+
+Integer obj = num; // Autoboxing
+
+System.out.println(obj);
+
+Output:
+
+100
+
+
+Unboxing
+......
+Automatic conversion of a wrapper object into a primitive type.
+
+Integer obj = 200;
+
+int num = obj; // Unboxing
+
+System.out.println(num);
+
+Output:
+
+200
+
+
+
+Useful Wrapper Class Methods
+..............................
+Convert String to Integer
+..............................
+String str = "100";
+
+int num = Integer.parseInt(str);
+
+Convert Integer to String
+.............
+int num = 100;
+
+String str = String.valueOf(num);
+
+
+Find Maximum
+..............................
+System.out.println(Integer.max(10, 20));
+ 
+Find Minimum
+.......................................
+System.out.println(Integer.min(10, 20));
+
+
+
+
+
+
+
+
+
+
+
+

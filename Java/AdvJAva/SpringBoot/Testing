@@ -1,0 +1,14 @@
+
+
+Unit Test                                           Integration Test
+Tests one class or method in isolation                      Tests multiple components working together
+Dependencies are replaced with mocks                  Real dependencies- DB, services- are used (or
+near-real)
+Runs in milliseconds, no Spring context needed         Slower- starts Spring context, sometimes a real
+DB
+Easy to pinpoint failures                              Failure could come from anywhere in the chain
+Example: testing a Service method alone with
+Mockito                                                 Example: full HTTP request through controller to
+DB
+
+

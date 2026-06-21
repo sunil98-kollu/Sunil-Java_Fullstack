@@ -1,0 +1,184 @@
+
+
+JPA is the "what to do". Hibernate is the "how to do it".
+
+
+• JPA is the specification. Hibernate is the implementation that does the real work.
+• JPA is the specification. Hibernate is the implementation that does the real work.
+
+@Entity marks a class as a database table. Requires a no-arg constructor.
+
+@Table lets you override the table name - useful when connecting to existing databases
+ @Id marks the primary key. @GeneratedValue(strategy = GenerationType.IDENTITY) tells
+the DB to auto-generate it.
+• Entity lifecycle has four states: Transient, Managed, Detached, Removed. The key one to know is
+Managed - JPA tracks it and saves changes automatically (dirty checking).
+
+application.properties is where you put your DB URL, credentials, and Hibernate settings like
+ddl-auto and show-sql.
+
+ddl-auto=update for development. ddl-auto=none or validate for production. Never create
+in production.
+
+
+3. Why Do We Even Use ORM?
+Before ORM, developers wrote 
+.........................
+
+
+plain JDBC code. You'd manually create a connection, write SQL strings,
+execute them, loop through ResultSets, and map each column to a Java field by hand. It worked - but it was
+tedious, error-prone, and full of boilerplate.
+Here's a rough idea of what that looked like:
+// Without ORM - old school JDBC
+Connection conn = DriverManager.getConnection(url, user, pass);
+PreparedStatement ps = conn.prepareStatement(
+ "SELECT * FROM users WHERE id = ?"
+);
+ps.setLong(1, userId);
+ResultSet rs = ps.executeQuery();
+if (rs.next()) {
+ User user = new User();
+ user.setId(rs.getLong("id"));
+ user.setName(rs.getString("name"));
+ user.setEmail(rs.getString("email"));
+}
+// ... close everything manually. Don't forget or you'll leak connections.
+Now compare that to what JPA gives you:
+// With JPA + Spring Data
+
+
+User user = userRepository.findById(userId).orElseThrow();
+// That's it. One line.
+
+
+
+ORM doesn't remove SQL from your life completely. It hides it. For complex queries, you still need to
+understand SQL - JPA just handles the boring CRUD for you.
+
+
+4 . @Entity - Telling JPA This Class Is a Table
+
+..............................
+The moment you put @Entity on a class, you're saying: "Hey Hibernate, this Java class maps to a database table 
+
+
+@Entity
+public class Prod
+
+5. @Table - When the Default Name Doesn't Work
+..................................
+
+@Entity
+@Table(name = "tbl_products") // maps to this exact table name in the DB
+public class Product {
+
+
+}
+
+
+6. @Id and @GeneratedValue - The Primary Key Story
+
+...............
+
+Every entity needs a primary key. That's not a JPA rule - that's a database rule. @Id tells JPA which field is the
+primary key. Simple enough.
+
+The interesting part is @GeneratedValue. This tells JPA how the primary key value should be generated. You
+don't want to assign IDs manually 
+
+GenerationType.             AUTO JPA picks the strategy based on the database. Default option but unpredictable
+                            across DBs.
+GenerationType.IDENTITY     Uses the database's auto-increment. Most common choice for MySQL and
+                            PostgreSQL.
+GenerationType.SEQUENCE     Uses a DB sequence object. Common in Oracle and PostgreSQL for
+                            performance reasons.
+GenerationType.TABLE        Uses a separate table to track ID values. Rarely used. Slow. Avoid in most
+                              cases
+
+
+For most beginner and intermediate projects - especially ones using MySQL - you'll see
+GenerationType.IDENTITY. This tells the database to handle the auto-increment. 
+
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+
+
+7. Entity Lifecycle - Keep It Simple for Now
+This is a topic that can go very deep - but for fresher-level interviews, you just need the basic picture. A JPA
+entity can be in one of four states at any given time:
+• Transient: The object exists in Java memory but JPA doesn't know about it. You just did new
+Product() and haven't saved it yet.
+• Managed (Persistent): JPA is tracking this object. Any changes you make to it will automatically be
+saved to the database when the transaction commits. This is the state after
+entityManager.persist() or after loading from a repository.
+• Detached: The object was managed, but the persistence context closed (session ended). Changes to it
+won't be saved automatically.
+• Removed: Marked for deletion. Will be deleted from the database when the transaction commits.
+
+8. Connecting Spring Boot to a Database
+.........................
+
+# Database connection
+spring.datasource.url=jdbc:mysql://localhost:3306/myappdb
+spring.datasource.username=root
+spring.datasource.password=yourpassword
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+# JPA / Hibernate settings
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+none        Hibernate does nothing to the schema. You manage it yourself. Use this in
+            production.
+validate     Checks that the schema matches your entities. Throws an error if it doesn't. Safe for
+             production.
+update       Adds new columns/tables as you add new fields. Never drops anything. Good for
+             development.
+create       Drops and recreates all tables on every startup. You lose all data. Development only.
+create-     drop Like create, but also drops everything when the app shuts down. Testing onl
+
+9. How It All Connects - The Full Picture
+.............
+ing Boot reads application.properties
+ → Gets the DB URL, username, password
+2. Spring Boot creates a DataSource (connection pool via HikariCP by default)
+ → Manages a pool of database connections so we're not creating one per request
+3. Hibernate scans for @Entity classes
+ → Finds Product, User, Order etc. and maps them to tables
+4. Hibernate applies ddl-auto strategy
+ → Creates, updates, or validates the schema
+5. Spring Data JPA creates Repository implementations
+ → UserRepository, ProductRepository etc. are ready to use
+6. Your app is up. Requests come in, repositories do their job.
+
+
+INTERVIEW QUESTION
+How does Spring Boot connect to a database? Walk me through it.
+..........................
+
+How to answer: Spring Boot reads the datasource configuration from application.properties - the URL,
+credentials, and driver. It creates a DataSource bean backed by HikariCP as the connection pool. Hibernate
+then scans for @Entity classes and maps them to database tables. Spring Data JPA generates repository
+implementations on top of that. 
+
+
+
+
+
+3. The N+1 Query Problem
+.............................
+...............................
+you load 10 users. For each user, JPA lazily fetches their orders. That is 1 query to get the users, then 10 more
+queries to get each user's orders. 11 queries total instead of 1. With 100 users it becomes 101 queries.
+This happens silently. Your code looks clean. The SQL log (show-sql=true) tells the real story. Under any
+real load, this kind of query pattern will be noticeable.
+The fix: use JOIN FETCH in a JPQL query or annotate your repository method with @EntityGraph. Both tell
+JPA to load the users and their orders in a single query
+
+// N+1 problem - one extra query per user
+List<User> users = userRepository.findAll();
+users.forEach(u -> System.out.println(u.getOrders())); // triggers N queries
+// Fix with JOIN FETCH
+@Query("SELECT u FROM User u JOIN FETCH u.orders")
+List<User> findAllWithOrders();

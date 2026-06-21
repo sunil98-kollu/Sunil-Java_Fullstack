@@ -1,0 +1,19 @@
+
+\
+1. @OneToOne / @ManyToOne: The owning side holds @JoinColumn. The inverse side uses mappedBy.
+Only the owning side writes the FK. Setting the inverse alone does nothing.
+2. @OneToMany: FK lives on the Many side, always. Initialize collections (new ArrayList<>) to avoid
+NullPointerExceptions.
+3. Both sides must be set: In bidirectional relationships, set both sides in code. Use helper methods on
+the parent to enforce this consistently.
+4. mappedBy: Marks the inverse side. Value = Java field name on the owning side. One owner. One
+observer. Wrong value causes startup error.
+5. @ManyToMany: Fine for pure associations. When you need data on the relationship, replace with an
+intermediate entity. Never cascade REMOVE.
+6. LAZY / EAGER: LAZY is the correct default for collections. Fix LazyInitializationException with JOIN
+FETCH or @Transactional. Never with EAGER on a collection.
+7. Cascade: PERSIST for save propagation. ALL when child lifecycle is tied to parent. Never cascade
+REMOVE on @ManyToMany. Never ALL on @ManyToOne.
+8. Infinite loop: Caused by serializing bidirectional entities. Fix with DTOs- don't return entities from
+controllers
+

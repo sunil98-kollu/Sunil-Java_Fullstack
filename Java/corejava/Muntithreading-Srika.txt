@@ -1053,3 +1053,380 @@ Runnable                      Callable
 run()	                      call()
 No Return	                  Returns Value
 No Checked Exception	      Can Throw Exception
+
+
+
+
+ Multithreading - Important Thread Methods (Interview Guide)
+1. start()
+..................................................
+.....................................................
+Starts a new thread and invokes run() internally.
+
+class MyThread extends Thread {
+    public void run() {
+        System.out.println("Thread Running");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        MyThread t = new MyThread();
+        t.start();
+    }
+}
+2. run()
+..................................................
+.....................................................
+Contains the task to be executed by the thread.
+
+class MyThread extends Thread {
+    public void run() {
+        System.out.println("Inside Run Method");
+    }
+}
+3. sleep()
+..................................................
+.....................................................
+Pauses the current thread for a specified time.
+
+public class SleepDemo {
+    public static void main(String[] args)
+            throws InterruptedException {
+
+        System.out.println("Start");
+
+        Thread.sleep(3000);
+
+        System.out.println("End");
+    }
+}
+
+Output after 3 seconds:
+
+Start
+End
+4. join()
+..................................................
+.....................................................
+Makes one thread wait for another thread to finish.
+
+class MyThread extends Thread {
+    public void run() {
+        for(int i=1;i<=5;i++) {
+            System.out.println(i);
+        }
+    }
+}
+
+public class JoinDemo {
+    public static void main(String[] args)
+            throws InterruptedException {
+
+        MyThread t = new MyThread();
+
+        t.start();
+
+        t.join();
+
+        System.out.println("Main Thread");
+    }
+}
+5. yield()
+..................................................
+.....................................................
+Suggests the scheduler to give chance to another thread.
+
+class MyThread extends Thread {
+    public void run() {
+        for(int i=1;i<=5;i++) {
+            System.out.println(Thread.currentThread().getName());
+            Thread.yield();
+        }
+    }
+}
+6. currentThread()
+..................................................
+.....................................................
+Returns currently executing thread.
+
+public class CurrentThreadDemo {
+
+    public static void main(String[] args) {
+
+        System.out.println(
+            Thread.currentThread().getName()
+        );
+    }
+}
+
+Output:
+
+main
+7. getName()
+..................................................
+.....................................................
+Returns thread name.
+
+Thread t = new Thread();
+
+System.out.println(t.getName());
+
+Output:
+
+Thread-0
+
+8. setName()
+..................................................
+.....................................................
+Changes thread name.
+
+Thread t = new Thread();
+
+t.setName("Worker");
+
+System.out.println(t.getName());
+
+Output:
+
+Worker
+
+
+9. getPriority()
+..................................................
+.....................................................
+Returns thread priority.
+
+Thread t = new Thread();
+
+System.out.println(t.getPriority());
+
+Output:
+
+5
+
+Default priority = 5
+
+10. setPriority()
+..................................................
+.....................................................
+Sets thread priority.
+
+Thread t = new Thread();
+
+t.setPriority(10);
+
+System.out.println(t.getPriority());
+
+Range:
+
+MIN_PRIORITY = 1
+NORM_PRIORITY = 5
+MAX_PRIORITY = 10
+
+
+11. isAlive()
+..................................................
+.....................................................
+Checks whether thread is running.
+
+class MyThread extends Thread {
+    public void run() {
+        System.out.println("Running");
+    }
+}
+
+public class AliveDemo {
+
+    public static void main(String[] args) {
+
+        MyThread t = new MyThread();
+
+        System.out.println(t.isAlive());
+
+        t.start();
+
+        System.out.println(t.isAlive());
+    }
+}
+
+12. interrupt()
+..................................................
+.....................................................
+Interrupts a sleeping/waiting thread.
+
+class MyThread extends Thread {
+
+    public void run() {
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            System.out.println("Interrupted");
+        }
+    }
+}
+
+public class InterruptDemo {
+
+    public static void main(String[] args) {
+
+        MyThread t = new MyThread();
+
+        t.start();
+
+        t.interrupt();
+    }
+}
+Object Class Thread Communication Methods
+
+These methods must be called inside a synchronized block.
+
+13. wait()
+..................................................
+.....................................................
+Thread waits until notified.
+
+synchronized(obj) {
+    obj.wait();
+}
+
+
+14. notify()
+..................................................
+.....................................................
+Wakes one waiting thread.
+
+synchronized(obj) {
+    obj.notify();
+}
+
+15. notifyAll()
+..................................................
+.....................................................
+
+Wakes all waiting threads.
+
+synchronized(obj) {
+    obj.notifyAll();
+}
+
+
+Executor Framework Methods
+..................................................
+.....................................................
+submit()
+..................................................
+.....................................................
+ExecutorService executor =
+        Executors.newFixedThreadPool(2);
+
+executor.submit(() ->
+        System.out.println("Task"));
+shutdown()
+..................................................
+.....................................................
+Stops accepting new tasks.
+
+executor.shutdown();
+shutdownNow()
+
+Stops immediately.
+
+executor.shutdownNow();
+
+Synchronization Methods
+..................................................
+.....................................................
+
+synchronized Method :- sysnchronization is used to stop  multiple threads can access  , The entire method is locked.
+..................................
+public synchronized void withdraw() {
+
+}
+synchronized Block  :-Only a specific section of code is locked. 
+.................................
+synchronized(this) {
+
+}
+Realtime Banking Example
+class Account {
+
+    private int balance = 10000;
+
+    public synchronized void withdraw(int amount) {
+
+        if(balance >= amount) {
+
+            balance -= amount;
+
+            System.out.println(
+                Thread.currentThread().getName()
+                + " Withdrawn " + amount
+            );
+        }
+    }
+}
+
+Two users withdrawing simultaneously:
+
+Account account = new Account();
+
+Thread t1 = new Thread(() ->
+        account.withdraw(5000));
+
+Thread t2 = new Thread(() ->
+        account.withdraw(5000));
+
+t1.start();
+t2.start();
+
+Synchronization prevents data inconsistency.
+
+Thread Lifecycle
+NEW
+ ↓
+RUNNABLE
+ ↓
+RUNNING
+ ↓
+WAITING / BLOCKED / TIMED_WAITING
+ ↓
+TERMINATED
+Most Asked Interview Questions
+Difference between start() and run()?
+start()	run()
+Creates new thread	Normal method call
+Executes concurrently	Executes in current thread
+JVM invokes run()	Programmer invokes directly
+Difference between sleep() and wait()?
+sleep()	wait()
+Thread class method	Object class method
+Doesn't release lock	Releases lock
+Time-based	Notification-based
+Difference between synchronized method and block?
+Method	Block
+Locks entire method	Locks only specific code
+Less efficient	More efficient
+Thread Methods Commonly Asked in Interviews
+start()
+run()
+sleep()
+join()
+yield()
+currentThread()
+getName()
+setName()
+getPriority()
+setPriority()
+isAlive()
+interrupt()
+
+wait()
+notify()
+notifyAll()
+
+submit()
+shutdown()
+shutdownNow()
+

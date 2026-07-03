@@ -27,3 +27,241 @@ iv. For each
  Continue statement  
  Labeled break and continue statements  
  Do-while vs continue (The most dangerous combination)  
+
+
+
+.........................
+...................
+
+The argument to the if statement should be Boolean by mistake if we are providing any 
+other type we will get "compile time error".  
+
+Example 1:  
+ public class ExampleIf{  
+public static void main(String args[]){  
+int x=0;  
+if(x)  
+{  
+System.out.println("hello");  
+}else{  
+System.out.println("hi");  
+}}}  
+OUTPUT:  
+Compile time error:  
+
+D:\Java>javac ExampleIf.java  
+ExampleIf.java:4: incompatible types  
+found   : int  
+required: boolean  
+if(x)  
+
+Example 2:  
+
+public class ExampleIf{  
+public static void main(String args[]){  
+int x=10;  
+if(x=20)  
+{  
+System.out.println("hello");  
+} 
+else{  
+System.out.println("hi");  
+ 
+
+
+}}}  
+OUTPUT:  
+Compile time error  
+D:\Java>javac ExampleIf.java  
+ExampleIf.java:4: incompatible types  
+found   : int  
+required: boolean  
+if(x=20)
+
+
+Example 3:  
+public class ExampleIf{  
+public static void main(String args[]){  
+int x=10;  
+if(x==20)  
+{  
+System.out.println("hello");  
+}else{  
+System.out.println("hi");  
+}}}  
+OUTPUT:  
+Hi 
+
+
+Both else part and curly braces are optional. 
+Without curly braces we can take only one statement under if, but it should not be 
+declarative statement. 
+Example 6:  
+ public class ExampleIf{  
+public static void main(String args[]){  
+if(true)  
+System.out.println("hello");  
+}}  
+OUTPUT:  
+Hello  
+
+
+Switch:  matching conditions 
+........
+..........
+If several options are available then it is not recommended to use if-else we should go 
+for switch statement.Because it improves readability of the code. 
+Syntax:  
+switch(x)  
+{  
+case 1:  
+action1  
+case 2:  
+action2
+
+
+
+ITERATIVE STATEMENTS: 
+....................
+While loop: 
+if we don't know the no of iterations in advance then best loop is while loop: 
+Example 1:  
+while(rs.next()) 
+{ 
+} 
+Example 2:  
+while(e.hasMoreElements()) 
+{ ---------- ---------- ---------- 
+} 
+Example 3:  
+while(itr.hasNext()) 
+{ ---------- ---------- ---------- 
+} 
+The argument to the while statement should be Boolean type. If we are using any other 
+type we will get compile time error. 
+
+
+Do-while: 
+If we want to execute loop body at least once then we should go for do-while.
+
+Curly braces are optional. 
+Without curly braces we can take only one statement between do and while and it 
+should not be declarative statement.  
+ 
+ 
+Example 1:  
+public class ExampleDoWhile{ 
+public static void main(String args[]){ 
+do 
+System.out.println("hello"); 
+while(true); 
+}} 
+Output: 
+Hello (infinite times). 
+Example 2:  
+public class ExampleDoWhile{ 
+public static void main(String args[]){ 
+do; 
+while(true); 
+}} 
+Output: 
+Compile successful. 
+................
+For Loop: 
+.........
+
+This is the most commonly used loop and best suitable if we know the no of iterations in 
+advance. 
+
+
+Increment and decrement section: 
+Here we can take any java statement including s.o.p also. 
+Example:  
+public class ExampleFor{ 
+public static void main(String args[]){ 
+int i=0; 
+for(System.out.println("hello");i<3;System.out.println("hi")){ 
+i++; 
+}}} 
+Output: 
+D:\Java>javac ExampleFor.java 
+D:\Java>java ExampleFor 
+Hello 
+Hi 
+Hi 
+HI
+
+For each:(Enhanced for loop) 
+.............................
+ For each Introduced in 1.5version. 
+ Best suitable to retrieve the elements of arrays and collections. 
+Example 1:  
+Write code to print the elements of single dimensional array by normal for loop and 
+enhanced for loop. 
+Example: 
+
+Difference between Iterable and Iterator: 
+Iterable  Iterator 
+It is related to forEach loop It is related to Collection 
+The target element in forEach loop should 
+be Iterable 
+
+We can use Iterator to get objects one by 
+one from the collection 
+
+Iterator present in java.lang package        Iterator present in java.util package 
+contains only one method iterator()            contains 3 methods hasNext(), next(), remove() 
+Introduced in 1.5 version Introduced in 1.2 version
+
+
+Transfer statements: 
+Break statement:  
+We can use break statement in the following cases.  
+ Inside switch to stop fall-through. 
+ Inside loops to break the loop based on some condition. 
+ Inside label blocks to break block execution based on some condition. 
+
+Inside switch : 
+We can use break statement inside switch to stop fall-through  
+Example 1:  
+class Test{ 
+public static void main(String args[]){ 
+int x=0; 
+switch(x) 
+{ 
+case 0: 
+    System.out.println("hello"); 
+     break ; 
+case 1: 
+    System.out.println("hi"); 
+} 
+ 
+Output: 
+D:\Java>javac Test.java 
+D:\Java>java Test 
+Hello 
+
+Continue statement: 
+We can use continue statement to skip current iteration and continue for the next 
+iteration. 
+Examp
+
+
+We can use continue only inside loops if we are using anywhere else we will get compile 
+time error saying "continue outside of loop". 
+Example:  
+class Test 
+{ 
+public static void main(String args[]){ 
+int x=10; 
+if(x==10); 
+continue; 
+System.out.println("hello"); 
+} 
+} 
+Output: 
+Compile time error. 
+D:\Enum>javac Test.java 
+Test.java:6: continue outside of loop 
+continue; 
+

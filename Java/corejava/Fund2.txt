@@ -1,3 +1,392 @@
+
+ Java operator precedence:  
+1. Unary operators: [] , x++ , x-- , ++x , --x , ~ , ! , new , <type>  
+2. Arithmetic operators : * , / , % , + , - .  
+3. Shift operators :  >> , >>> , << . 
+4. Comparision operators : <, <=,>,>=, instanceof. 
+5. Equality operators: == , !=  
+6. Bitwise operators: & , ^ , | . 
+7. Short circuit operators: && , || . 
+8. Conditional operator: (?:) 
+9. Assignment operators: += , -= , *= , /= , %= . . .  
+
+
+...........................
+...........................
+Increment Operator 
+...................
+pre-increment ex : y=++x ; 
+post-increment ex: y=x++;  
+
+Decrement Operator 
+.......................
+pre-decrement ex : y=--x ; 
+post-decrement ex : y=x-- ;
+
+increment & decrement operators we can apply only for variables but not for 
+constant values.other wise we will get compile time error 
+int x = 4;  
+     int y = ++x;  
+        System.out.pritnln(y);  //output : 5  
+
+  int x = 4;  
+    int y = ++4;  
+    System.out.pritnln(y); //  C.E: unexpected type  required: varialbe  found : value
+
+Expression initial value of x   value of y final value of x 
+y=++x           10                  11       11 
+y=x++             10             10            11 
+y=--x             10 9 9 
+y=x--               10 10 9 
+
+...................................
+
+Increment & decrement operators we can apply only for variables but not for 
+constant values.other wise we will get compile time error .
+
+We can't perform nesting of increment or decrement operator, other wise we will 
+get compile time error
+
+ For the final variables we can't apply increment or decrement operators ,other 
+wise we will get compile time error 
+
+We can apply increment or decrement operators even for primitive data types 
+except boolean 
+
+
+
+
+  Arithmetic Operator : 
+  ......................................
+  ....................................
+1. If we apply any Arithmetic operation b/w 2 variables a & b , 
+the result type is always max(int , type of a , type of b)  
+2. Example :  
+3.  
+4. byte + byte=int 
+5. byte+short=int   
+6. short+short=int 
+7. short+long=long 
+8. double+float=double 
+9. int+double=double 
+10. char+char=int 
+11. char+int=int 
+12. char+double=double 
+13.        
+14. System.out.println('a' + 'b');  // output : 195 
+15. System.out.println('a' + 1);  // output : 98 
+16. System.out.println('a' + 1.2);  // output : 98.2
+
+String Concatenation operator : 
+.............................
+1. The only overloaded operator in java is ' + ' operator some times it access 
+arithmetic addition operator & some times it access String concatenation 
+operator.  
+2. If acts as one argument is String type , then '+' operator acts as concatenation 
+and If both arguments are number type , then operator acts as arithmetic 
+operator  
+3. Ex :  
+4. String a="ashok";  
+int  b=10 , c=20 , d=30 ;  
+System.out.println(a+b+c+d);  //output : ashok102030  
+System.out.println(b+c+d+a); //output : 60ashok   
+System.out.println(b+c+a+d); //output : 30ashok30   
+System.out.println(b+a+c+d); //output : 10ashok 2030 
+
+
+
+
+Equality Operators : (== , !=)  
+...................................
+1. We can apply equality operators for every primitive type including boolean type 
+also  
+2.   System.out.println(10 == 20) ;  //false 
+3.   System.out.println('a' == 'b' );   //false 
+4.   System.out.println('a' == 97.0 )  //true  
+5.   System.out.println(false == false)   //true 
+
+We can apply equality operators for object types also . 
+For object references r1 and r2 , r1 == r2 returns true if and only if both r1 and 
+r2 pointing to the same object. i.e., == operator meant for reference-comparision 
+Or address-comparision.  
+7.   Thread t1=new Thread( ) ; 
+8.   Thread t2=new Thread( ); 
+9.   Thread t3=t1 ; 
+10.   System.out.println(t1==t2);  //false 
+11.   System.out.println(t1==t3);  //true 
+
+
+
+
+instanceof operator :  
+..............................
+ We can use the instanceof operator to check whether the given an object is 
+perticular type or not 
+
+object instanceof ClassName  
+true  -> if object belongs to the class/subclass
+false -> otherwise
+
+class Account {
+}
+
+class SavingsAccount extends Account {
+}
+
+class CurrentAccount extends Account {
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Account account = new SavingsAccount();
+
+        System.out.println(account instanceof SavingsAccount);  //true 
+        System.out.println(account instanceof Account);  // true 
+        System.out.println(account instanceof CurrentAccount);  // false 
+    }
+}
+
+
+Bitwise Operators : ( & , | , ^)  
+.............................
+...............................
+
+1. & (AND) :  If both arguments are true then only result is true. 
+2. | (OR) :  if at least one argument is true. Then the result is true. 
+3. ^ (X-OR) :  if both are different arguments. Then the result is true.  
+Example: 
+System.out.println(true&false);//false 
+System.out.println(true|false);//true 
+System.out.println(true^false);//true 
+We can apply bitwise operators even for integral types also.  
+Example: 
+System.out.println(4&5);//4            using binary digits  
+System.out.println(4|5);//5      4-->100 
+System.out.println(4^5);//1      5-->101
+
+
+Bitwise complement (~) (tilde symbol) operator:  
+....................................
+.....................................
+1. We can apply this operator only for integral types but not for boolean types.  
+ 2. Example : 
+3. System.out.println(~true); // CE :opetator ~ can not be applied to  
+boolean 
+4. System.out.println(~4);  //-5 
+5.  
+6. description about above program : 
+7. 4-->  0 000.......0100                0-----+ve 
+8. ~4--> 1 111.......1011                 1--- -ve
+
+Boolean complement (!) operator:
+..................
+.................
+This operator is applicable only for boolean types but not for integral types.  
+Example :  
+ 
+Example:  
+System.out.println(!true);//false 
+System.out.println(!false);//true 
+System.out.println(!4);//CE : operator ! can not be applied to int 
+Summary:  
+& 
+|      Applicable for both boolean and integral types. 
+^ 
+~ --------Applicable for integral types only but not for boolean types. 
+! --------Applicable for boolean types only but not for integral types. 
+
+Short circuit (&&, ||) operators:  
+.............
+.............
+
+
+
+Example :  
+     int x=10 , y=15 ; 
+     if(++x < 10  ||  ++y > 15) {    //instead of || using  &,&&, | 
+operators 
+      x++; 
+     } 
+     else { 
+      y++; 
+     } 
+      
+     System.out.println(x+"----"+y);
+
+
+Type Cast Operator : 
+.............................................. 
+There are 2 types of type-casting  
+1. implicit   a smaller data type into a larger data type
+2. explicit  
+
+implicit type casting :  
+........................
+  assigning lower datatype value to higher datatype variable 
+then implicit type cast will be performed 
+
+int num = 100;
+double value = num;   // Implicit conversion
+
+System.out.println(value);   100.0
+
+7. Example 1: 
+..........................
+8. int x='a'; 
+9. System.out.println(x);//97 
+10. Note: Compiler converts char to int type automatically by implicit type casting.  
+byt  ↓short ↓int ↓long  ↓float  ↓double
+
+explicitlyt
+..............
+e assigning bigger data type value to the smaller data type 
+variable then explicit type casting is required.
+
+ double salary = 50000.75;
+ int amount = (int) salary;   // Explicit conversion
+  System.out.println(amount);
+
+
+conditional Operator (? :) 
+........................... 
+The only possible ternary operator in java is conditional operator  
+ Ex 1 : 
+ int x=(10>20)?30:40; 
+ System.out.println(x); //40 
+  
+ Ex 2 : 
+ int x=(10>20)?30:((40>50)?60:70); 
+ System.out.println(x); //70 
+
+Assignment Operator :  
+......................
+........................
+There are 3 types of assignment operators  
+1. Simple assignment: 
+Example: int x=10;  
+2. Chained assignment:  
+3. Example: 
+4. int a,b,c,d; 
+5. a=b=c=d=20; 
+6. System.out.println(a+"---"+b+"---"+c+"---"+d);//20---20---20---20 
+7. int b , c , d ; 
+8. int a=b=c=d=20 ;  //valid 
+
+We can't perform chained assignment directly at the time of declaration. 
+Example 2: 
+ 
+int a=b=c=d=30; 
+ CE : can not find symbol 
+   symbol : variable b 
+   location : class Test
+
+   Compound assignment:  
+   .........................
+   ..........................
+
+1. Sometimes we can mixed assignment operator with some other operator 
+to form compound assignment operator.  
+2. Ex: 
+3. int a=10 ; 
+4. a +=20 ; 
+5. System.out.println(a);  //30 
+6. The following is the list of all possible compound assignment operators in 
+java
+
+. In the case of compound assignment operator internal type casting will be 
+performed automatically by the compiler (similar to increment and 
+decrement operators.) 
+
+Conditional Operator (? :)  
+.................................
+................................
+The only possible ternary operator in java is conditional operator  
+ Ex 1 : 
+ int x=(10>20)?30:40; 
+ System.out.println(x); //40 
+  
+ Ex 2 : 
+ int x=(10>20)?30:((40>50)?60:70); 
+ System.out.println(x); //70
+
+
+new operator :  
+.................
+....................
+
+1. We can use "new" operator to create an object. 
+2. There is no "delete" operator in java because destruction of useless objects is the 
+responsibility of garbage collector. 
+
+
+[ ] operator: 
+..................................
+
+We can use this operator to declare under construct/create arrays
+
+
+
+ Java operator precedence:  
+1. Unary operators: [] , x++ , x-- , ++x , --x , ~ , ! , new , <type>  
+2. Arithmetic operators : * , / , % , + , - .  
+3. Shift operators :  >> , >>> , << . 
+4. Comparision operators : <, <=,>,>=, instanceof. 
+5. Equality operators: == , !=  
+6. Bitwise operators: & , ^ , | . 
+7. Short circuit operators: && , || . 
+8. Conditional operator: (?:) 
+9. Assignment operators: += , -= , *= , /= , %= . . .  
+
+There is no precedence for operands before applying any operator all operands will be 
+evaluated from left to right.  
+Example: 
+class OperatorsDemo { 
+ public static void main(String[] args) { 
+  System.out.println(m1(1)+m1(2)*m1(3)/m1(4)*m1(5)+m1(6)); 
+ } 
+ public static int m1(int i) { 
+  System.out.println(i); 
+  return i; 
+ } 
+} 
+
+ 
+Ex 2: 
+ 
+int i=1; 
+i+=++i + i++ + ++i + i++; 
+System.out.println(i); //13 
+ 
+description :  
+i=i +  ++i  +  i++   +  ++i  +   i++ ; 
+i=1+2+2+4+4; 
+i=13;
+
+
+new Vs newInstance( ) :
+....................
+.......................
+ new is an operator to create an objects , if we know class name at the beginning 
+then we can create an object by using new operator . 
+
+ public  class Test { 
+5.    public static void main(String[] args) Throws Exception { 
+6.     Object o=Class.forName(arg[0]).newInstance( ) ; 
+7.     System.out.println(o.getClass().getName( ) ); 
+8.    } 
+9.  } 
+.
+
+new                                                                           newInstance( )  
+new is an operator , which can be  used to create an object          newInstance( ) is a method , present in class Class , which can be used to create an object 
+Test t= new Test( );                                                 Object o=Class.forName(arg[0]).newInstance( );  
+
+
+
+
+
 increment & decrement operators    ++ x  x++ 
 2. arithmetic operators 
 3. string concatenation operators 
@@ -23,12 +412,12 @@ increment & decrement operators    ++ x  x++
 
 
 Increment Operator 
-
+...................
 pre-increment ex : y=++x ; 
 post-increment ex: y=x++;  
 
 Decrement Operator 
-
+.......................
 pre-decrement ex : y=--x ; 
 post-decrement ex : y=x-- ;
 
@@ -87,6 +476,15 @@ System.out.println(x);    //output :11
   System.out.println(b);  
   CE : operator ++ can't be applied to boolean 
 
+In the case of Increment & Decrement operators internal type casting will be performed 
+automatically by the compiler 
+     b++;  => b=(type of b)b+1; 
+     
+    Ex: 
+    byte b=10; 
+    b++; 
+    System.out.println(b);  //output : 11
+
 
 
   Arithmetic Operator : 
@@ -109,6 +507,169 @@ the result type is always max(int , type of a , type of b)
 14. System.out.println('a' + 'b');  // output : 195 
 15. System.out.println('a' + 1);  // output : 98 
 16. System.out.println('a' + 1.2);  // output : 98.2
+
+In integral arithmetic (byte , int , short , long) there is no way to represents 
+infinity , if infinity is the result we will get the ArithmeticException / by zero  
+System.out.println(10/0); // output RE : ArithmeticException / by zero  
+But in floating point arithmetic(float , double) there is a way represents infinity.  
+System.out.println(10/0.0); // output : infinity  
+ 
+ 
+For the Float & Double classes contains the following constants :  
+1. POSITIVE_INFINITY  
+2. NEGATIVE_INFINITY 
+Hence , if infinity is the result we won't get any ArithmeticException in floating 
+point arithmetics  
+Ex :  
+System.out.println(10/0.0); // output : infinity  
+System.out.println(-10/0.0); // output : - infinity 
+
+ NaN(Not a Number) in integral arithmetic (byte , short , int , long) there is no 
+way to represent undefine the results. Hence the result is undefined we will get 
+ArithmericException in integral arithmetic  
+System.out.println(0/0); // output RE : ArithmeticException / by zero
+
+
+ NaN(Not a Number) in integral arithmetic (byte , short , int , long) there is no 
+way to represent undefine the results. Hence the result is undefined we will get 
+ArithmericException in integral arithmetic  
+System.out.println(0/0); // output RE : ArithmeticException / by zero
+
+
+But floating point arithmetic (float , double) there is a way to represents 
+undefined the results . 
+For the Float , Double classes contains a constant NaN , Hence the result is 
+undefined we won't get ArithmeticException in floating point arithmetics . 
+System.out.println(0.0/0.0); // output : NaN  
+System.out.println(-0.0/0.0); // output : NaN 
+
+ For any 'x' value including NaN , the following expressions returns false  
+ 
+ 
+20.   // Ex :  x=10; 
+21. System.out.println(10 < Float.NaN );   // false 
+22. System.out.println(10 <= Float.NaN );  // false 
+23. System.out.println(10 > Float.NaN );   // false 
+24. System.out.println(10 >= Float.NaN );  // false 
+25. System.out.println(10 == Float.NaN );   // false 
+26. System.out.println(Float.NaN == Float.NaN );  // false 
+27.          
+28. System.out.println(10 != Float.NaN );    //true 
+29. System.out.println(Float.NaN != Float.NaN );  //true     
+
+30. ArithmeticException :  
+1. It is a RuntimeException but not compile time error 
+2. It occurs only in integral arithmetic but not in floating point arithmetic. 
+3. The only operations which cause ArithmeticException are : ' / ' and ' % ' 
+
+String Concatenation operator : 
+.............................
+1. The only overloaded operator in java is ' + ' operator some times it access 
+arithmetic addition operator & some times it access String concatenation 
+operator.  
+2. If acts as one argument is String type , then '+' operator acts as concatenation 
+and If both arguments are number type , then operator acts as arithmetic 
+operator  
+3. Ex :  
+4. String a="ashok";  
+int  b=10 , c=20 , d=30 ;  
+System.out.println(a+b+c+d);  //output : ashok102030  
+System.out.println(b+c+d+a); //output : 60ashok   
+System.out.println(b+c+a+d); //output : 30ashok30   
+System.out.println(b+a+c+d); //output : 10ashok 2030  
+
+ Example :  
+a=b+c+d ;  
+       
+CE : incompatible type  
+  found : int  
+  required : java.lang.String 
+
+Relational Operators(< , <= , > , >= )  
+........................
+................
+We can apply relational operators for every primitive type except boolean . 
+
+
+1.  System.out.println(10 < 10.5);    //true 
+2.  System.out.println('a' > 100.5);    //false 
+3.  System.out.println('b'  >  'a');    //true 
+4.  System.out.println(true > false);     
+5.   //CE : operator  >  can't  be  applied  to  boolean , boolean 
+
+ We can't apply relational operators for object types  
+ 
+ 
+7. System.out.println("ashok123" > "ashok"); 
+8.  //  CE: operator > can't be applied to java.lang.String , 
+java.lang.String 
+  
+9. Nesting of relational operator is not allowed  
+ 
+ 
+10. System.out.println(10 >  20 > 30); //  System.out.println(true  > 
+30); 
+11.   //CE : operator  > can't  be  applied  to  boolean , int
+
+
+Equality Operators : (== , !=)  
+...................................
+1. We can apply equality operators for every primitive type including boolean type 
+also  
+2.   System.out.println(10 == 20) ;  //false 
+3.   System.out.println('a' == 'b' );   //false 
+4.   System.out.println('a' == 97.0 )  //true  
+5.   System.out.println(false == false)   //true 
+
+We can apply equality operators for object types also . 
+For object references r1 and r2 , r1 == r2 returns true if and only if both r1 and 
+r2 pointing to the same object. i.e., == operator meant for reference-comparision 
+Or address-comparision.  
+7.   Thread t1=new Thread( ) ; 
+8.   Thread t2=new Thread( ); 
+9.   Thread t3=t1 ; 
+10.   System.out.println(t1==t2);  //false 
+11.   System.out.println(t1==t3);  //true 
+
+
+12). To use the equality operators between object type compulsory these should be 
+some relation between argument types(child to parent , parent to child) , 
+Otherwise we will get Compiletime error incompatible types  
+13. Thread t=new Thread( ) ; 
+14. Object o=new Object( ); 
+15. String s=new String("durga"); 
+16. System.out.println(t ==o);    //false 
+17. System.out.println(o==s);     //false 
+18. System.out.println(s==t);     
+19. CE : incompatible types :  java.lang.String and java.lang.Thread 
+
+20. For any object reference of on r==null is always false , but null==null is always 
+true .  
+21.  String s= new String("ashok"); 
+22.  System.out.println(s==null);  //output : false 
+23.  String   s=null ; 
+24.  System.out.println(r==null);  //true  
+25.  System.out.println(null==null); //true 
+
+26. What is the difference between == operator and .equals( ) me
+In general we can use .equals( ) for content comparision where as == operator 
+for reference comparision  
+
+
+27.   
+28.    String  s1=new String("ashok");  
+29.    String  s2=new  String("ashok");  
+30.    System.out.println(s1==s2);  //false  
+31.    System.out.println(s1.equals(s2));  //true 
+
+
+
+
+
+
+
+
+
 
 
 instanceof operator :  
@@ -151,8 +712,96 @@ if (obj instanceof String) {
     System.out.println(str.toUpperCase());
 
 
-    Type Cast Operator : 
-    .............................................. 
+To use instance of operator compulsory there should be some relation between 
+argument types (either child to parent Or parent to child Or same type) 
+Otherwise we will get compile time error saying inconvertible types 
+
+Bitwise Operators : ( & , | , ^)  
+.............................
+...............................
+
+1. & (AND) :  If both arguments are true then only result is true. 
+2. | (OR) :  if at least one argument is true. Then the result is true. 
+3. ^ (X-OR) :  if both are different arguments. Then the result is true.  
+Example: 
+System.out.println(true&false);//false 
+System.out.println(true|false);//true 
+System.out.println(true^false);//true 
+We can apply bitwise operators even for integral types also.  
+Example: 
+System.out.println(4&5);//4            using binary digits  
+System.out.println(4|5);//5      4-->100 
+System.out.println(4^5);//1      5-->101
+
+
+Bitwise complement (~) (tilde symbol) operator:  
+....................................
+.....................................
+1. We can apply this operator only for integral types but not for boolean types.  
+ 2. Example : 
+3. System.out.println(~true); // CE :opetator ~ can not be applied to  
+boolean 
+4. System.out.println(~4);  //-5 
+5.  
+6. description about above program : 
+7. 4-->  0 000.......0100                0-----+ve 
+8. ~4--> 1 111.......1011                 1--- -ve
+
+Boolean complement (!) operator:
+..................
+.................
+This operator is applicable only for boolean types but not for integral types.  
+
+ 
+Example :  
+ 
+Example:  
+System.out.println(!true);//false 
+System.out.println(!false);//true 
+System.out.println(!4);//CE : operator ! can not be applied to int 
+Summary:  
+& 
+|      Applicable for both boolean and integral types. 
+^ 
+~ --------Applicable for integral types only but not for boolean types. 
+! --------Applicable for boolean types only but not for integral types. 
+
+Short circuit (&&, ||) operators:  
+.................
+.............
+
+These operators are exactly same as normal bitwise operators &(AND), |(OR) except 
+the following differences.  
+& , | && , || 
+Both arguments should be evaluated    Second argument evaluation is optional.   
+always. 
+Relatively performance is low.     Relatively performance is high. 
+Applicable for both integral and  Applicable only for boolean types but not for  integral types.
+boolean types.                             
+ 
+x&&y : y will be evaluated if and only if x is true.(If x is false then y won't be evaluated 
+i.e., If x is ture then only y will be evaluated)  
+x||y : y will be evaluated if and only if x is false.(If x is true then y won't be evaluated i.e., 
+If x is false then only y will be evaluated) 
+
+
+Example :  
+     int x=10 , y=15 ; 
+     if(++x < 10  ||  ++y > 15) {    //instead of || using  &,&&, | 
+operators 
+      x++; 
+     } 
+     else { 
+      y++; 
+     } 
+      
+     System.out.println(x+"----"+y);
+
+
+
+
+Type Cast Operator : 
+.............................................. 
 There are 2 types of type-casting  
 1. implicit  
 2. explicit  
@@ -166,13 +815,13 @@ Diagram:
  6.   
 
 7. Example 1: 
-
+..........................
 8. int x='a'; 
 9. System.out.println(x);//97 
 10. Note: Compiler converts char to int type automatically by implicit type casting.  
 
 11. Example 2: 
-
+...............
 12. double d=10; 
 13. System.out.println(d);//10.0 
 Note: Compiler converts int to double type automatically by implicit type 
@@ -190,6 +839,73 @@ The only possible ternary operator in java is conditional operator
  int x=(10>20)?30:((40>50)?60:70); 
  System.out.println(x); //70 
 
+Assignment Operator :  
+......................
+........................
+There are 3 types of assignment operators  
+1. Simple assignment: 
+Example: int x=10;  
+2. Chained assignment:  
+3. Example: 
+4. int a,b,c,d; 
+5. a=b=c=d=20; 
+6. System.out.println(a+"---"+b+"---"+c+"---"+d);//20---20---20---20 
+7. int b , c , d ; 
+8. int a=b=c=d=20 ;  //valid 
+
+We can't perform chained assignment directly at the time of declaration. 
+Example 2: 
+ 
+int a=b=c=d=30; 
+ CE : can not find symbol 
+   symbol : variable b 
+   location : class Test
+
+   Compound assignment:  
+   .........................
+   ..........................
+
+1. Sometimes we can mixed assignment operator with some other operator 
+to form compound assignment operator.  
+2. Ex: 
+3. int a=10 ; 
+4. a +=20 ; 
+5. System.out.println(a);  //30 
+6. The following is the list of all possible compound assignment operators in 
+java
+
+. In the case of compound assignment operator internal type casting will be 
+performed automatically by the compiler (similar to increment and 
+decrement operators.) 
+
+Conditional Operator (? :)  
+.................................
+................................
+The only possible ternary operator in java is conditional operator  
+ Ex 1 : 
+ int x=(10>20)?30:40; 
+ System.out.println(x); //40 
+  
+ Ex 2 : 
+ int x=(10>20)?30:((40>50)?60:70); 
+ System.out.println(x); //70
+
+
+new operator :  
+.................
+....................
+
+1. We can use "new" operator to create an object. 
+2. There is no "delete" operator in java because destruction of useless objects is the 
+responsibility of garbage collector. 
+
+
+[ ] operator: 
+..................................
+
+We can use this operator to declare under construct/create arrays
+
+
 
  Java operator precedence:  
 1. Unary operators: [] , x++ , x-- , ++x , --x , ~ , ! , new , <type>  
@@ -202,14 +918,56 @@ The only possible ternary operator in java is conditional operator
 8. Conditional operator: (?:) 
 9. Assignment operators: += , -= , *= , /= , %= . . .  
 
+There is no precedence for operands before applying any operator all operands will be 
+evaluated from left to right.  
+Example: 
+class OperatorsDemo { 
+ public static void main(String[] args) { 
+  System.out.println(m1(1)+m1(2)*m1(3)/m1(4)*m1(5)+m1(6)); 
+ } 
+ public static int m1(int i) { 
+  System.out.println(i); 
+  return i; 
+ } 
+} 
+
+ 
+Ex 2: 
+ 
+int i=1; 
+i+=++i + i++ + ++i + i++; 
+System.out.println(i); //13 
+ 
+description :  
+i=i +  ++i  +  i++   +  ++i  +   i++ ; 
+i=1+2+2+4+4; 
+i=13;
 
 
+new Vs newInstance( ) :
+....................
+.......................
+ new is an operator to create an objects , if we know class name at the beginning 
+then we can create an object by using new operator . 
+2. newInstance( ) is a method presenting class " Class " , which can be used to 
+create object. 
+. If we don't know the class name at the beginning and its available dynamically 
+Runtime then we should go for newInstance() method  
+
+ public  class Test { 
+5.    public static void main(String[] args) Throws Exception { 
+6.     Object o=Class.forName(arg[0]).newInstance( ) ; 
+7.     System.out.println(o.getClass().getName( ) ); 
+8.    } 
+9.  } 
+
+. If dynamically provide class name is not available then we will get the 
+RuntimeException saying ClassNotFoundException  
+11. To use newInstance( ) method compulsory corresponding class should contains 
+no argument constructor , otherwise we will get the RuntimeException saying 
+InstantiationException. 
 
 
-
-
-
-
-
-
-
+new                                                                           newInstance( )  
+new is an operator , which can be  used to create an object          newInstance( ) is a method , present in class Class , which can be used to create an object 
+Test t= new Test( );                                                 Object o=Class.forName(arg[0]).newInstance( );  

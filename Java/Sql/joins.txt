@@ -12,6 +12,7 @@ on table1.commoncol = table2.commoncol;
 
 
 # Full join - In mysql we cannot perform full join-- but if we want to perform we need to use Union-- Union - used to combine the result set of two or more select queries-- syntax
+
 select * from table1
 left join table2
 on table1.commoncol = table2.commoncol

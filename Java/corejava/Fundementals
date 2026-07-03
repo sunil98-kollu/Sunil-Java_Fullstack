@@ -1,3 +1,402 @@
+
+Identifier   :- A name in java program is called identifier. It may be class name, method name, 
+variable name and label name. 
+Rule 1: The only allowed characters in java identifiers are:  
+1) a to z 
+2) A to Z 
+3) 0 to 9 
+4) _ (underscore) 
+5) $ 
+
+Example: 
+
+1) total_number-------valid 
+2) Total#------------------invalid 
+
+
+data type :-
+
+| Type    | Default | Size    | Range                          | Wrapper   |
+|---------|---------|---------|--------------------------------|-----------|
+| byte    | 0       | 1 byte  | -128 to 127                    | Byte      |
+| short   | 0       | 2 bytes | -32,768 to 32,767              | Short     |
+| int     | 0       | 4 bytes | -2,147,483,648 to 2,147,483,647| Integer   |
+| long    | 0L      | 8 bytes | -9.2e18 to 9.2e18              | Long      |
+| float   | 0.0f    | 4 bytes | ~±3.4e38 (6-7 sig digits)      | Float     |
+| double  | 0.0d    | 8 bytes | ~±1.7e308 (15-16 sig digits)   | Double    |
+| boolean | false   | JVM-dep | true / false                   | Boolean   |
+| char    | \u0000  | 2 bytes | 0 to 65,535 (Unicode)          | Character |
+
+
+literals 
+.....
+int x=10;
+
+int data type  x = name of variable /identifieer 10 
+10  constant value  value assigned to variable is called literal or constant value
+
+
+integral data type literals
+
+int x=10; 10 is int literal
+long l=10L; 10L is long literal
+
+
+integral leterals 
+...........................
+int x=10; 10 is int literal
+for integral data types byte short int long w can specify literal value in the following ways 
+
+
+decimal literals (base 10)
+allowed digits are zeros to 9 (0-9)
+int x=10
+
+
+octal literal (base 8)
+
+allowed digits are 0 to 7 (0-7)
+int x=010; // prefix with 0 
+
+
+hexa decimal form base 16
+
+allowed digits are 0 to 9 and a to f (0-9 and a-f)
+int x=0x10; // prefix with 0x or 0X
+
+
+type ofvariable
+...........................
+
+primitive variable
+..........
+int x=10;
+
+ref variable 
+....................
+Student s= new Student();
+
+based on t type of value rep by a variable 
+all var are divided into 2 types 
+
+primitive variable and reference variable
+
+primitive variable
+can be used to rep primitive values 
+ int short long float double char boolean byte
+
+reference variable
+..............................
+
+can be used to rep reference object 
+String, Student, Employee, etc (any class type)
+
+Student s = new Student();
+s is reference variable which is used to rep object of Student class
+
+s is pointing to object of Student class and hence s is reference variable
+
+
+Feature	     Instance Variable	     Static Variable	Local Variable
+................................................................................
+Declared	 Inside class,            outside methods	            Inside class with static	Inside method/constructor/block
+Belongs To	  Object	                 Class                   	Method/Block
+Memory	       Heap	                     Method Area (Class Area)	      Stack
+Default Value	  Yes	Yes	No
+
+class Employee {
+
+    int id;          // Instance variable
+    String name;     // Instance variable
+  static String company = "TCS"; 
+
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Employee e1 = new Employee();
+        e1.id = 101;
+        e1.name = "Sunil";
+
+        Employee e2 = new Employee();
+        e2.id = 102;
+        e2.name = "Ravi";
+
+        System.out.println(e1.id + " " + e1.name);
+        System.out.println(e2.id + " " + e2.name);
+      // static 
+           System.out.println(Employee.company);
+            
+            // local variable
+         int age = 25; // Local variable
+        System.out.println(age);
+    }
+}
+
+ we can access ststic varible directtly from both instance and statica area but recommended way to access static variable is using class name
+
+class Test {
+    static int a=11;
+    main(){
+syso(a); // valid but not recommended to access static var using obj ref
+  
+  public void m1(){
+syso(a); // valid but not recommended to access static var using obj ref
+  }
+    }
+}
+
+var- arg methods 
+..........................
+ we can declare a method with variable no. Of 
+arguments such type of methods are called var-arg methods. 
+
+Varargs allows a method to accept zero or more values of the same type using ...
+
+returnType methodName(dataType... variableName)
+
+void show(int... a, String b) // ❌ not allowed
+void show(String msg, int... a) // ✔ correct
+
+ methodOne(int... x) (valid) 
+2. methodOne(int ...x) (valid) 
+3. methodOne(int...x) (valid) 
+4. methodOne(int x...) (invalid) 
+5. methodOne(int. ..x) (invalid) 
+6. methodOne(int .x..) (invalid)
+
+class Test  
+{ 
+ public static void sum(int... x) 
+ { 
+    int total=0; 
+    for(int i=0;i<x.length;i++) 
+    { 
+ 
+ total=total+x[i]; 
+        } 
+         System.out.println("The sum :"+total); 
+} 
+public static void main(String[] args) 
+{ 
+ sum(); 
+ sum(10); 
+ sum(10,20); 
+ sum(10,20,30,40); 
+ } 
+} 
+Output: 
+The sum: 0 
+The sum: 10 
+The sum: 30 
+The sum: 100 
+
+
+Main
+..................
+................
+The main() method is the entry point of a Java application. When you run a Java program, the JVM looks for the main() method and starts execution from there
+
+
+public
+The method is accessible from anywhere.
+
+static
+The main() method belongs to the class, not to an object.
+
+void
+
+The main() method does not return any value.
+
+main
+
+It is the predefined method name recognized by the JVM as the program's starting point
+
+String[] args
+
+Used to receive command-line arguments.
+
+Even though above syntax is very strict but the following changes are acceptable to 
+main() method.  
+1. The order of modifiers is not important that is instead of public static we can 
+take static public. 
+2. We can declare string[] in any acceptable form  
+o String[] args 
+o String []args 
+o String args[] 
+3. Instead of args we can use any valid java identifier. 
+4. We can replace string[] with var-arg parameter.  
+Example: main(String... args)  
+5. main() method can be declared with the following modifiers.  
+final, synchronized, strictfp.  
+6. class Test {  
+7.  static final syncronized strictfp public void  main(String... ask){ 
+8.   System.out.println("valid  main method"); 
+9.  } 
+10. } 
+11. output : 
+12. valid main method 
+
+ 
+Case 1 : 
+Overloading of the main() method is possible but JVM always calls string[] argument 
+main() method only.  
+
+Can We Overload main()?
+
+Yes.
+
+public class Test {
+
+    public static void main(String[] args) {
+
+        System.out.println("Original Main");
+
+        main(10);
+    }
+
+    public static void main(int x) {
+
+        System.out.println(x);
+    }
+}
+
+Original Main
+10
+
+->Can We Override main()?
+
+No.
+
+The main() method is static, and static methods cannot be overridden (they can only be hidden).
+
+Why Is main() Static?
+
+Because the JVM needs to execute the program before any object exists.
+
+
+Command line arguments: 
+....................................
+........................................
+
+
+
+
+
+various memory area in java
+............................
+
+stack memory  :  local variable
+heap : instance variable( object data )
+method area : static variable static blocks  refences  ( class data)
+
+
+
+
+
+
+Identifier
+.......................
+.......................
+A name in java program is called identifier. It may be class name, method name, 
+variable name and label name. 
+
+Rules to define java identifiers: 
+Rule 1: The only allowed characters in java identifiers are:  
+1) a to z 
+2) A to Z 
+3) 0 to 9 
+4) _ (underscore) 
+5) $ 
+Rule 2: If we are using any other character we will get compile time error. 
+Example: 
+
+1) total_number-------valid 
+2) Total#------------------invalid 
+
+Rule 3: identifiers are not allowed to starts with digit. 
+Example:  
+1) ABC123---------valid 
+2) 123ABC---------invalid 
+Rule 4: java identifiers are case sensitive up course java language itself treated as case 
+sensitive language. 
+Example:  
+class Test{ 
+int number=10; 
+int Number=20; 
+int NUMBER=20; we can differentiate with case.  
+int NuMbEr=30; 
+} 
+Rule 5: There is no length limit for java identifiers but it is not recommended to take 
+more than 15 lengths.  
+ 
+Rule 6: We can't use reserved words as identifiers. 
+Example:  
+ int if=10; --------------invalid 
+Rule 7: All predefined java class names and interface names we use as identifiers.  
+ 
+Example 1:  
+class Test 
+{ 
+public static void main(String[] args){ 
+int String=10; 
+System.out.println(String); 
+}} 
+
+
+Output: 
+10 
+
+
+
+Reserved words: 
+..........................
+...............................
+In java some identifiers are reserved to associate some functionality or meaning such 
+type of reserved identifiers are called reserved words. 
+
+keywords 50  used key words 48 unused keywoerd 2 
+
+reserveed literals -3   , true false null 
+
+Keywords for modifiers:(11) 
+1) public  
+2) private  
+3) protected 
+4) static 
+5) final  
+6) abstract  
+7) synchronized  
+8) native  
+9) strictfp(1.2 version)  
+10) transient 
+ 
+
+Keywords for exception handling:(6) 
+1) try 
+2) catch 
+3) finally  
+4) throw 
+5) throws 
+6) assert(1.4 version)
+
+
+Class related keywords:(6) 
+
+1) class 
+2) package 
+3) import 
+4) extends 
+5) implements 
+
+Object related keywords:(4) 
+1) new 
+2) instanceof  
+3) super  
+4) this 
+
 data type:
 ..........
 
@@ -6,6 +405,7 @@ double y ;
 char c ;
 boolean b ;
 String s ;
+
 
 
 in java every variable ,and every expresion has some type 
@@ -278,7 +678,9 @@ primitive variable
 
 int x=10;
 
-ref variable Student s= new Student();
+ref variable 
+
+Student s= new Student();
 
 based on t type of value rep by a variable 
 all var are divided into 2 types 
@@ -290,6 +692,7 @@ can be used to rep primitive values
  int short long float double char boolean byte
 
 reference variable
+..............................
 
 can be used to rep reference object 
 String, Student, Employee, etc (any class type)
@@ -534,6 +937,7 @@ class Test {
 8.   System.out.println("valid  main method"); 
 9.  } 
 10. } 
+
 11. output : 
 12. valid main method 
 1. public static void main(String args){} (invalid)  ]
@@ -553,6 +957,6 @@ it is method hiding.
 various memory area in java
 ............................
 
-stach ;  local variable
-heap ; instance variable
-method area ; static variable static blocks  refences
+stack memory  :  local variable
+heap : instance variable( object data )
+method area : static variable static blocks  refences  ( class data)

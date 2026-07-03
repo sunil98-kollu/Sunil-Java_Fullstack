@@ -182,3 +182,952 @@ users.forEach(u -> System.out.println(u.getOrders())); // triggers N queries
 // Fix with JOIN FETCH
 @Query("SELECT u FROM User u JOIN FETCH u.orders")
 List<User> findAllWithOrders();
+
+
+
+/////////////////////////////////////////////
+////////////////////////////////////////////
+
+
+=================
+Spring Data JPA
+=================
+
+JPA : Java Persistence API
+
+=> JPA is used to communicate with Databases by using Java applications.
+
+=> We have several options to communicate with database using java applications
+
+		1) JDBC  (boiler plate code)
+
+		2) Spring JDBC (we have to write queries, data will be represented in text format)
+
+		3) Hibernate (ORM : Object Relation Mapping)
+
+		4) Spring ORM (Internaly it uses Hibernate +  It reduces boilerplate code)
+
+		5) Spring Data JPA (It is developed on top of Spring ORM)
+
+
+==========================
+What is Spring Data JPA ?
+==========================
+
+=> Spring Data JPA is part of the Spring Data project.
+
+=> Spring Data JPA is used to simplify Database Operations.
+
+=> It reduces boiler plate code to implement data access logic.
+
+### Note: By Writing just 1 line of code we can perform CRUD operations in database table. ###
+
+=> Spring Data JPA internally uses JPA specification. Hibernate is an implementation for JPA.
+
+
+Note: Hibernate internally uses JDBC to execute SQL queries with database.
+
+
+	Our Application --> Spring Data JPA --> Hibernate --> JDBC --> Driver --> Database
+
+Advantages with Spring Data JPA	
+=================================	
+
+1) Automatic Repository Implementation : If we create Repository interface then Data JPA will implement that in Runtime
+
+2) Query Methods : Allows you to define queries just by method names.
+		
+		ex: public List<Emp> findByEmpGender(String gender);
+
+3) JPQL & Native Queries :	You can use @Query annotation to write custom JPQL or native SQL queries.
+
+4) Pagination and Sorting : Built-in support via Pageable and Sort parameters.
+
+5) Transaction Management : Integrates smoothly with Spring's transaction management.do 
+
+
+Core Concepts of Spring Data JPA
+==================================
+
+	1) Data Source
+
+	2) Entity
+
+	3) Repository Interfaces
+
+
+=====================
+What is Datasource ?	
+=====================
+
+=> DataSource represents database server connection properties.
+
+Note: We need to configure datasource properties in "application.properties" file.
+
+		spring.datasource.url=
+		spring.datasource.username=
+		spring.datasource.password=
+
+=====================
+What is Entity ?
+=====================
+
+=> Entity is a java class which is mapped with database table. We will use below annotations in entity class.
+
+
+		@Entity : Represents java class as entity class (mandatory)
+
+		@Table : Map class name with table name (optional)
+
+		@Id : represents the variable mapped with PK column (mandatory)
+
+		@Column : Map entity class variable with DB table column name (optional)
+
+=====================
+What is Repository ?		
+=====================
+
+=> Repository is an interface provided by Data JPA to perform CRUD operations.
+
+Note: In data jpa mainley we have 2 repository interfaces 
+
+1) CrudRepository : We can perform CRUD Operations
+
+2) JpaRepository : CRUD Operations + Sorting + Pagination + Query By Example (QBE)
+
+Ex: 
+
+public interface EmpRepository extends CrudRepository<Employee, Integer> {
+
+}
+
+
+======================
+Environment Setup
+======================
+
+1) Database Setup 
+	 - MySQL DB Server 
+	 - MySQL workbench (Client s/w)
+	 
+@@ MySQL DB Installation Video : https://www.youtube.com/watch?v=EsAIXPIsyQg	 
+
+@@ Oracle DB Installation Video : https://www.youtube.com/watch?v=-RrYpn-ACAk	 
+
+@@ Data JPA First Application with Oracle DB :: https://www.youtube.com/watch?v=ZGKHCJsp4hg	
+
+
+
+=======================================
+Developing First Data JPA Application
+=======================================
+
+
+1) Create SpringBoot application with below dependencies
+
+	a) starter-data-jpa
+	b) mysql-driver	
+	c) project-lombok
+
+2) Configure datasource & ORM properties in application.properties file	
+
+3) Create Entity class (table mapping)
+
+4) Create Our Repository interface by extending CrudRepository interface.
+
+5) Create Service class and inject Repository and write required methods
+
+6) Test app by calling service class methods from start class.
+
+
+==================================
+CrudRepository interface methods
+===================================
+
+1) save (T obj) : INSERT or UPDATE single record ==> (UPSERT)
+
+2) saveAll (List<T> objs) : INSERT or UPDATE list of records ==> (UPSERT)
+
+3) findById(Id id) : Retrieve record using Primary Column Value
+
+4) findAllById(List<ID> ids) : Retrieve records using multiple Primary Column Values
+
+5) findAll( ) : Retrieve all records from table
+
+6) exitsById(ID id) : Verify record is present in table or not.
+
+7) count ( ) : To get count of total records present in table.
+
+8) deleteById (ID id) : Delete record based on given Primary Key value
+
+9) deleteAllById (List<ID> ids) : Delete list of records based on given Primary Key values
+
+10) delete(T obj) : Delete record based on given entity obj
+
+11) deleteAll(List<T> objs) : Delete records based on given entities
+
+12) deleteAll ( ) : Delete all records from table.
+
+
+
+
+
+==============================================
+Working with findByXXX() methods in data jpa 
+==============================================
+
+=> To retrieve table data based on primary column value(s) we have predefined methods in data jpa like 
+
+		1) findById(ID id)
+
+		2) findAllById(List<ID> ids)
+
+####### Q) How to retrive records based on non-primary column values ? ########
+
+=> Based on project requirement we need to retrieve records based on non-primary column values also like below
+
+Ex : 
+
+select * from user where gender='Male'
+
+select * from user where country = 'India'
+
+select * from user where country ='India' and gender='Fe-Male';
+
+=> To achieve above requirement we can use findBy<XXX>() methods in Data JPA.
+
+=> When we are working with findBy methods method name is very important because based on method name only DATA JPA will construct query and will execute that query.
+
+
+-------------------------------------------------------------------------------------------
+
+@Entity
+@Data
+public class UserInfo {
+	
+	@Id
+	private Integer userId;
+	private String name;
+	private String gender;
+	private String country;
+	private Integer age;
+
+}
+-------------------------------------------------------------------------------------------
+
+public interface UserInfoRepository extends CrudRepository<UserInfo, Integer>{
+	
+	// select * from user_info where country=?
+	public List<UserInfo> findByCountry(String country);
+	
+	// select * from user_info where gender=?
+	public List<UserInfo> findByGender(String gender);
+	
+	// select * from user_info where country=? and gender=?
+	public List<UserInfo> findByCountryAndGender(String country, String gender);
+
+	// select * from user_info where age >= 40
+	public List<UserInfo> findByAgeGreaterThanEqual(Integer age);
+
+	// select * from user_info where country=? and gender=?
+	public List<UserInfo> findByCountryAndAgeGreaterThanEqual(String country, Integer age);
+
+}
+
+----------------------------------------------------------------------------------
+
+Note : findBy methods are used only to retrieve records from table (will not support for DML).
+
+----------------------------------------------------------------------------------
+
+========================================
+Working with Custom Queries in data jpa 
+========================================
+
+=> We can write our own queries and we can ask Data JPA to execute our queries that is called as Custom Query.
+
+=> We will write custom queries in Repository interface using abstract methods.
+
+=> To execute custom queries we will use "@Query" annotation.
+
+=> Custom queries we can write in 2 ways 
+
+		1) Native SQL
+
+		2) HQL / JPQL
+
+
+=> SQL stands for structured query language.		
+=> HQL stands for Hibernate query language.
+
+=> SQL queries are database dependent.
+=> HQL queries are database In-dependent.
+
+=> SQL queries we can execute in database directley
+=> HQL queries can't be executed in database directley.
+
+Note-1 : HQL queries should be converted into SQL queries before execution.
+Note-2 : To convert HQL to SQL we have Dialect classes. 
+Note-3 : For every database dedicated Dialect class is available.
+
+	Ex: OracleDialect, MySQLDialect, PostGresDialect etc....
+
+=> In SQL queries we will use table name and column names directley.
+=> In HQL queries we will use Entity class name and Entity class variable names.
+
+
+SQL : select * from user_info_tbl
+HQL : From UserInfo
+
+SQL : select * from user_info_tbl where user_id = ?
+HQL : From UserInfo where userId = ?
+
+SQL : select user_id, user_name from user_info_tbl
+HQL : select userId, userName from UserInfo
+
+Ex : 
+
+
+	@Query("from UserInfo")
+	public List<UserInfo> getData1();
+
+	@Query(value = "select * from user_info", nativeQuery = true)
+	public List<UserInfo> getData2();
+
+
+
+DML : Insert / update / delete  ==> Transaction is required
+
+DQL : Select ==> Transaction is not required
+
+=> If we want to execute custom query for "insert / update / delete" then we should use below 2 annoations
+
+			** @Transactional
+
+			** @Modifying	
+
+```
+@Modifying
+@Query("delete from UserInfo where userId = :userId")
+public void m3(Integer userId);			
+```
+=================================
+Q) Which is better SQL or HQL ?
+=================================
+
+
+=> SQL queries will give better performance because of direct execution.
+
+=> HQL queries requires conversion so performance will be low when compared with SQL.
+
+
+Maintenence wise HQL is better beacuse there are DB independent.
+
+Performance Wise SQL is better.
+
+
+===============
+JpaRepository
+===============
+
+=> This is a predefined data jpa interface which is used to perform DB operations.
+
+=> Using JPA Repository we can perform below operations
+
+			1) CRUD Operations
+
+			2) Sorting
+
+			3) Pagination
+
+			4) Query By Example (QBE)
+
+
+  ~~~~~~~ JpaRepository  = CrudRepository + Pagination + Sorting + QBE	~~~~~~~
+
+
+==================
+What is Sorting ?
+==================
+
+=> It is used to retrieve records in ascending or descending order.
+
+Note: When we use sort in data jpa, it will add order by clause to the query.
+
+```
+public void getUserswithSort() {
+
+	Sort sort = Sort.by("age").descending();
+
+	List<UserInfo> users = userRepo.findAll(sort);
+
+	users.forEach(System.out::println);
+
+}
+```
+
+======================
+What is Pagination ?
+======================
+
+=> The process dividing records into multiple pages.
+
+Ex: If we have 1 lakh records in table it is not recommended to display one lakh records in single page.
+
+=> In realtime we need to implement pagination in our application.
+
+	flipkart --> will display 24 records in one page 
+
+	gmail ---> will display 100 records in inbox
+
+
+```
+public void getUserswithPagination() {
+
+	Integer pageNum = 2; // we will get from UI
+	Integer pageSize = 3; // it is fixed
+
+	PageRequest pageReq = PageRequest.of(pageNum - 1, pageSize);
+
+	Page<UserInfo> page = userRepo.findAll(pageReq);
+	
+	List<UserInfo> users = page.getContent();
+
+	users.forEach(System.out::println);
+
+}
+```
+
+==================
+Query By Example 
+==================
+
+=> It is used to construct dynamic query based on filter conditions.
+
+```
+public void qbe() {
+	
+	UserInfo user = new UserInfo();
+	user.setGender("Male");
+	user.setCountry("India");
+	
+	Example<UserInfo> of = Example.of(user);
+	List<UserInfo> usersList = userRepo.findAll(of);
+	
+	usersList.forEach(System.out::println);
+	
+}
+```
+
+
+=====================================
+How to work with In memory Database
+=====================================
+
+=> Oracle & MySQL Databases are called as External databases. We need to download and install these databases in our system.
+
+=> Data stored in External Databases is permanent. Data remains perminently even if our application is not running.
+
+=> Spring Boot supports In Memory databases also like H2.
+
+=> In Memory DB means when app starts DB will come and when app stopped then DB will be removed.
+
+Note: In Memory DBs are used for practice purpose and for POC (Proof of concept) development.
+
+------------------ working with In-Memory database ---------------
+
+## Step-1 : Create boot app with below dependencies
+
+		1) data-jpa-starter
+		2) h2 driver
+		3) web-starter
+		4) project lombok
+
+## Step-2 : Configure datasource props in "application.properties" file	
+
+# Data source properties
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=ashokit
+spring.datasource.password=abc@123
+
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+
+
+## Step-3 : Create Entity class & repo interface
+
+## Step-4 : Create Service class with business methods
+
+## Step-5 : Run the application and check h2-console in browser using below URL
+
+		URL : http://localhost:8080/h2-console/
+
+
+=============
+Generators	
+=============		
+
+=> When we are working with ORM framework for DB Operations, primary key is mandatory in every DB table.
+
+=> Primary Key is a constraint which is used to maintain unique records in the table.
+
+=> Primary key is a combination of 2 contraints
+
+		@ Primary Key  = NOT NULL + UNIQUE
+
+
+=> While inserting records in table, We shouldn't set primary key column values to entity manually in the program.		
+
+=> Generators are used to generate values for primary key columns.
+
+=> In Data JPA we have below 5 strategies for generators
+
+			1) Auto (dependes on DB Hibernate decides automatically)
+
+			2) IDENTITy (mysql -> auto_increment)
+
+			3) SEQUENCE (Oracle)
+
+			4) TABLE (maintains seperate table for only primary keys)
+
+			5) UUID (alphanumeric) (Ex: 446b9b23-748e-4556-9978-520e3f4c6314)
+
+
+@@ Custom Generator Example Video : https://youtu.be/IijGVtT9ZPk?si=gyjATE7nMgllX_kH	
+
+
+========================
+Spring Boot Profiles
+========================
+
+=> SpringBoot Profiles are used to maintain environment specific configurations.
+
+=> In real-time we will have multiple environments to test our application.
+		
+			1) DEV 
+
+			2) SIT
+
+			3) UAT
+
+			4) PILOT
+
+			5) PROD (LIVE)
+
+
+=> DEV env used by developers to perform code integration testing.			
+
+=> SIT env used by testers to perform system integration testing.
+
+=> UAT env used by client side team to perform user acceptance testing.
+
+=> PILOT env used for pre-prod testing with real data.
+
+=> PROD env used for live deployment. End users will access the application which is running in PROD Env.
+
+		~~~~~~~~~~~~~~~	Note: ENV to ENV some properties will be different  ~~~~~~~~~~~~~
+
+Ex: datasource, smtp, payment gateway, kafka ...
+
+
+=> When we are deploying application to paritcular environment we need to make changes to application.properties file.
+
+=> Everytime changing properties file is not recommended. It is time taking process and there is a chance of doing mistakes also.
+
+~~~~~~~~~~ Note: To avoid these problems we will use Spring Boot Profiles concept. ~~~~~~~~~~
+
+=> Using profiles, we will create seperate properties for every env like below..
+
+
+			application.properties    (main)
+
+			application-dev.properties
+
+			application-sit.properties
+
+			application-uat.properties
+
+			application-pilot.properties
+
+			application-prod.properties
+
+
+=> From which file it should load the properties that we are going to configure in main "application.properties" file. This is called as activating profile.
+
+			spring.profiles.active=sit
+
+
+==================================================================================================
+
+Assignment-1 : Insert Record in table using Custom Generator
+
+Assignment-2 : Develop Data JPA application with Composite Primary key
+
+Assignment-3: Develop Data jpa application to connect with multiple databases.
+
+			Emp Record : Insert in MySQL DB.
+
+			Product Record : Insert in H2 DB.
+
+
+*Note: After completing these 3 tasks, share screenshots here for review.. If u guys complete above 3 assignments then we will discuss next topic.*
+
+====================================================================================================
+
+
+==========================
+Timestamping in Data JPA
+==========================
+
+=> Timestamping in Spring Data JPA means automatically storing & updating date-time values like created_date and last_updated date for entities.
+
+```
+@Entity
+@Data
+public class Product {
+
+	@Id
+	private Integer productId;
+
+	private String productName;
+
+	private Double productPrice;
+
+	@CreationTimestamp
+	@Column(updatable = false)
+	private LocalDate dateCreated;
+
+	@UpdateTimestamp
+	@Column(insertable = false)
+	private LocalDate lastUpdated;
+
+}
+```
+
+========================
+Transaction Management	
+========================
+
+=> Tx means single unit amount of work.
+
+=> When we perform DML (insert, update, delete) operations with database then tx are very very important.
+
+Note: For select operations tx is not required.	
+
+				sender account -----------------> reciever account
+
+				-- deduct amt here ----------------- credit amount here
+
+				    -- op-1 success	-----------------   op-2 failed
+
+=> If both operations are successfull then we will call it as sucessfull transaction.
+
+Note: If tx is successful then we should commit that tx. Commit means saving data changes permanently in database.
+
+=> If any one operation is failed then we will call it as failure transaction.
+
+Note: If tx is failed then we should rollback that tx. Rollback means undo our dml operation.
+
+Note: When we are working with Transactions we need to follow Atomocity principle.
+
+~~~~~~~~~~~~~~~~~~~~~~ Atomicity Means either all or none. ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+@Transactional
+public void savePersonWithAddress() {
+
+	Person p = new Person();
+	p.setName("Raj");
+	p.setGender("Male");
+	p.setCountry("India");
+	p.setAge(20);
+
+	personRepo.save(p); 
+	
+	int i = 10/0; ================================Exception
+
+	Address aa = new Address();
+	a.setCity("Hyd");
+	a.setState("TG");
+	a.setCounty("India");
+	a.setPersonId(p.getId())
+
+	addrRepo.save(a);
+
+}
+
+
+=> Without rollbackFor = Exception.class, => only runtime exceptions trigger a rollback by default.
+
+=> With rollbackFor = Exception.class, => all exceptions (checked and unchecked) cause rollback.
+
+=> Transactions only commit if the method completes successfully without any exceptions.
+
+
+```
+@Transactional
+public void saveUsers() throws IOException {
+   ...
+   if (someCondition) {
+       throw new IOException("File not found");
+   }
+}
+```
+
+=> By default, no rollback will  happen for above method beacuse IOException is a checked exception.
+
+=> To make rollback work for such checked exceptions, you must write: 
+
+		@Transactional(rollbackFor = IOException.class)
+
+======================
+Association Mapping
+======================
+
+=> For every application multiple database tables will be available. Those Tables will have relationships.
+
+=> One table data will have relationship with another table data like below...
+
+
+Ex-1 : Employee and Address (one emp can have mutliple addresses)
+
+Ex-2 : Country and State (one country having multiple states)
+
+Ex-3 : Book and Author (one author can publish multiple books)
+
+Ex-4 : User and Role (one user can have multiple roles)
+
+
+Note: To establish relationships among db tables we will use FOREGIN KEY concept.
+
+
+=> Association mapping is used to represent DB tables relationships in Entity classes.
+
+=> Relationships we can divide into 4 types
+
+		1) One To One
+
+		2) One To Many
+
+		3) Many To One
+
+		4) Many To Many
+
+
+############  1) One To One #############
+
+	Ex: Person & Passport
+
+Note: One record in parent table will have relationship with one record in child table.
+
+		Ex: One person will have only one passport.
+
+Note: Here we can store person_id as a foreign_key in passport_table (or) we can store passport_id as foreign_key in person_tbl to represent relationship.		
+
+
+=> To represent one to one relationship among entities we will use @OneToOne annotation.
+
+=> To represent foregin key we will use @JoinColumn annotation.
+
+----------------------------------------------------------------------------------------------
+
+@Entity
+@Setter
+@Getter
+public class Person {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer personId;
+	private String personName;
+	private LocalDate dob;
+
+	@OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+	private Passport passport;
+
+}
+---------------------------------------------------------------------------------------------------------------
+@Entity
+@Setter
+@Getter
+public class Passport {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer passportId;
+	private String passportNum;
+	private LocalDate issuedDate;
+	private LocalDate expDate;
+
+	@OneToOne
+	@JoinColumn(name = "person_id")
+	private Person person;
+}
+---------------------------------------------------------------------------------------------------------------
+public void savePersonWithPassport() {
+
+		Passport passport = new Passport();
+		passport.setPassportNum("K8HKHK6");
+		passport.setIssuedDate(LocalDate.now());
+		passport.setExpDate(LocalDate.now().plusYears(10));
+
+		Person person = new Person();
+		person.setPersonName("John");
+		person.setDob(LocalDate.now().minusYears(20));
+
+		// association mapping
+		passport.setPerson(person);
+		person.setPassport(passport);
+
+		// saving data
+		personRepo.save(person);
+
+}
+------------------------------------------------------------------------------------------------
+
+public void getPerson(int personId) {
+		personRepo.findById(personId);
+}
+
+------------------------------------------------------------------------------------------------
+
+// left join query for above method
+select * from person p
+left join pasport pp
+on p.person_id=pp.person_id
+where p.person_id=1
+
+
+@@@@@@@ Note : A LEFT JOIN (also called LEFT OUTER JOIN) in SQL is used to combine records from two tables 
+â€” returning all records from the left table and the matching records from the right table.
+
+------------------------------------------------------------------------------------------------
+
+
+
+############ 2) One To Many #################
+
+	Ex : Employee with addresses
+
+	Ex : Author with Books
+
+	Ex : Trainer with Courses
+
+	Ex : Category with Products
+
+	Ex : University with Colleges
+
+
+Note: One record in parent table will have relationship with multiple records in child table.
+
+	Ex: One employee will have multiple addresses (present & permanent)	
+
+Note: We should store emp_id as foregin key in address table.	
+
+=> To represent one to many relationship we will use @OneToMany annotation.
+
+Note: In OneToMany relation default FETCH TYPE is LAZY thats means only parent will loaded by default.
+
+If we want to load child records also along with parent record then we can set Fetch Type as EAGER like below...
+
+```
+
+@OneToMany(mappedBy = "emp", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+private List<Address> addrList;```
+
+
+#### 4) Many To Many #####
+
+
+		Ex: Users with Roles
+
+Note: Multiple users will have relationship with multiple roles.
+
+
+
+=============================
+What is Connection Pooling?
+=============================
+
+=> Connection Pooling is the process of keeping set of DB connections ready to use in our application.
+
+=> Connection Pooling improves
+		
+		1) Performance (less time for opening/closing connection)
+
+		2) Resoure Usage (limited no.of concurrent DB connection)
+
+=> By default, HikariCP is used as the connection pool (since Spring Boot 2.0).
+
+=> We can customize hikari cp connection pooling properties like below
+
+
+# Connection Pool Configuration (HikariCP)
+spring.datasource.hikari.minimum-idle=5
+spring.datasource.hikari.maximum-pool-size=20
+spring.datasource.hikari.idle-timeout=30000
+spring.datasource.hikari.connection-timeout=30000
+spring.datasource.hikari.pool-name=AshokIT-CP
+
+=> We have below alternate connection pools
+
+		1) DBCP2
+
+		2) Tomcat
+
+==============================================================================
+
+
+1) What is Spring Data JPA
+
+2) Advantages of Spring Data JPA
+
+3) Core Concepts of Spring Data JPA
+
+4) What is Data Source
+
+5) What is Entity class
+
+6) What is Repository Interface
+
+7) CrudRepo vs JpaRepo
+
+8) Data JPA Application Development
+
+9) CrudRepo methods
+
+10) findByXXX( ) methods
+
+11) Custom Queries with @Query
+
+12) SQL vs HQL queries
+
+13) DML Operations with Custom Queries
+
+14) JpaRepository methods
+
+15) What is Pagination
+
+16) Sorting
+
+17) Query By Example
+
+18) Generators
+
+19) Custom Generator
+
+20) Working with H2 Database (in-memory)
+
+21) SpringBoot Profiles
+
+22) Composite Primary key
+
+23) Connecting with Multiple Databases using SpringBoot
+
+24) What is Timestamping
+
+25) What is Connection Pooling?
+
+26) Association Mapping
+
+/////////////////////////////////

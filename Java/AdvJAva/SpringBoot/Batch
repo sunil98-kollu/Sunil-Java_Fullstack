@@ -1,0 +1,79 @@
+
+================
+Spring Batch 
+================
+
+=> Spring Batch is a lightweight and powerful framework for processing large volumes of data.
+
+=> It is robust framework designed for building batch processing applications in Java.
+
+
+==========================
+What is Batch Processing?
+==========================
+
+=> Batch processing involves executing a series of automated jobs, it involves:
+
+	1) Reading large volumes of data
+
+	2) Processing data in chunks
+
+	3) Writing processed data somewhere (ex: file, database etc..)
+
+
+======================================
+Batch Processing Real-time Usecases
+======================================
+
+1) Sending Bulk Msg and Bulk Email to Customers
+
+2) Sending salaries to all employees in a company
+
+3) Sending Bank Account Statement to Account Holders
+
+4) Sending bill payment reminder to credit card holders
+
+5) Sending Insurance or Medical Plan Renewal Reminders
+
+6) Read Millions of records from File then process it and store in database.
+
+
+==================================
+Spring Batch Module Key Concepts
+==================================
+
+	1) ItemReader
+
+	2) ItemProcessor
+
+	3) ItemWriter
+
+	4) Step
+
+	5) Job
+
+	6) JobLauncher
+
+	7) JobRepository
+
+
+ItemReader : It is used to read data from the source 	
+
+ItemProcessor : It is used to process the data
+
+ItemWriter : It is used to write the data to destination
+
+Step : It represents sequence of our batch execution (reader + processor + writer)
+
+Job : It is used to represents set of steps for batch processing
+
+JobLauncher: It is used to start the job exeuction.
+
+JobRepository :  To maintain job execution history and steps info
+
+
+================================================================================
+
+Spring Batch Example : https://spring.io/guides/gs/batch-processing
+
+==================================================================================

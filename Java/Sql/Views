@@ -1,0 +1,331 @@
+ 
+ #view
+ #................  
+ -- Views - it is a way of storing a query-- view - virtual table
+select * from film;
+select * from film;
+#where rating = 'PG'; 
+-- syn-- create view viewname as-- quer
+
+ 
+INSERT INTO MarkView(NAME, ADDRESS)
+VALUES("John","German");
+ 
+ CREATE TABLE Employee (
+    emp_id INT,
+    emp_name VARCHAR(50),
+    salary DECIMAL(10,2),
+    dept_id INT
+);
+ 
+ INSERT INTO Employee
+VALUES
+(101, 'Sunil', 50000, 1),
+(102, 'Anil', 60000, 2),
+(103, 'Ravi', 70000, 1);
+ 
+ CREATE VIEW employee_view AS
+SELECT emp_id, emp_name, salary
+FROM Employee;
+ 
+ SELECT * FROM employee_view;
+ 
+ #Create a View with a Condition
+ 
+ CREATE VIEW high_salary_view AS
+SELECT emp_id, emp_name, salary
+FROM Employee
+WHERE salary > 55000;
+ 
+ SELECT * FROM high_salary_view;
+ 
+ # creat view using json 
+ 
+ CREATE TABLE Department (
+    dept_id INT,
+    dept_name VARCHAR(30)
+);
+ 
+ INSERT INTO Department
+VALUES
+(1, 'IT'),
+(2, 'HR');
+
+CREATE VIEW emp_dept_vemployee_viewiew AS
+SELECT e.emp_id,
+       e.emp_name,
+       d.dept_name
+FROM Employee e
+JOIN Department d
+ON e.dept_id = d.dept_id;
+ 
+ SELECT * FROM emp_dept_view;
+ 
+ # A view is always created using a SELECT query, not an INSERT statement.
+ 
+ create view V_filmPG as
+select * from film
+where rating = 'PG'
+
+select * from V_filmPG
+
+-- using alter in view
+alter view V_filmPG as
+select * from film
+where rating = 'PG' and length >100
+
+-- Drop view
+
+drop view viewname
+drop view V_filmPG
+
+-- update and delete-- distinct clause, or aggregate functions, or group by clause
+-- views will become non updatable
+use sql8
+select * from employees
+create view Vempsal as
+select * from employees
+where salary >45000
+
+
+
+ # ER  
+ # entity relations  : how tables are relate to any dbs 
+
+ cleck database reverseengineer
+
+
+////////////////////////////////////
+
+Index
+.................
+
+Think of the index in a book.
+
+Without an index: You read every page to find a topic.
+With an index: You go directly to the required page.
+
+A database index works the same way.
+
+Syntax
+
+Create Index
+
+CREATE INDEX index_name
+ON Employee(emp_id);
+
+Create Unique Index
+
+CREATE UNIQUE INDEX idx_email
+ON Employee(email);
+
+Show Index (MySQL)
+.....................
+
+SHOW INDEX FROM Employee;
+
+
+Drop Index
+
+DROP INDEX idx_email
+ON Employee;
+
+
+
+# Types of Indexes
+.......
+#1. Primary Index..
+..........................
+# Automatically created for the primary key.
+
+CREATE TABLE Employee (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50)
+);
+
+# No need to create it manually.
+
+
+
+2. Unique Index
+...................
+Prevents duplicate values.
+
+CREATE UNIQUE INDEX idx_email
+ON Employee(email);
+Valid
+sunil@gmail.com
+anil@gmail.com
+Invalid
+sunil@gmail.com
+sunil@gmail.com
+
+Duplicate values are not allowed.
+
+
+3. Composite Index
+,.........................
+Created on multiple columns.
+
+CREATE INDEX idx_dept_salary
+ON Employee(dept_id, salary);
+
+Useful for queries like:
+
+SELECT *
+FROM Employee
+WHERE dept_id=1
+AND salary>50000;
+
+
+
+1. Clustered Index
+........................................
+
+A Clustered Index stores the actual table data in the order of the indexed column.
+
+The table rows are physically sorted.
+
+Only one clustered index can exist per table because data can be physically ordered only one way.
+
+Example (SQL Server)
+CREATE TABLE Employee (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50),
+    salary DECIMAL(10,2)
+);
+
+When you create a PRIMARY KEY, SQL Server creates a Clustered Index by default( sae data sorted manaer) (unless specified otherwise).
+
+Employee Table
+emp_id	emp_name	salary
+101	Sunil	50000
+102	Anil	60000
+103	Ravi	70000
+104	Kumar	55000
+
+The rows are physically stored in emp_id order.
+
+Searching:
+..............................
+SELECT *
+FROM Employee
+WHERE emp_id = 103;
+
+The database quickly reaches the correct location because the data itself is ordered.
+
+Real-Time Banking Example
+..............................
+Account Table
+.......................................
+account_no	customer	balance
+1001	Sunil	50000
+1002	Anil	70000
+1003	Ravi	30000
+
+Create:
+....................................
+CREATE CLUSTERED INDEX idx_account
+ON Account(account_no);
+
+Searching:
+
+SELECT *
+FROM Account
+WHERE account_no = 1002;
+
+The database directly locates the record.
+
+2. Non-Clustered Index
+...................................
+A Non-Clustered Index is a separate data structure.
+....................
+It stores:
+
+Indexed column values
+A pointer (row locator) to the actual table row
+
+The table data is not physically reordered.
+
+A table can have multiple non-clustered indexes.
+
+Example
+
+CREATE NONCLUSTERED INDEX idx_name
+ON Employee(emp_name);
+
+Searching:
+
+SELECT *
+FROM Employee
+WHERE emp_name='Sunil';
+
+The database:
+...............
+Index
+...........
+Sunil  --------> Row 101
+
+Anil   --------> Row 102
+
+Ravi   --------> Row 103
+
+It first finds "Sunil" in the index, then follows the pointer to retrieve the full row from the table.
+
+Real-Time E-Commerce Example
+.........................................
+Product Table
+.............................
+product_id	product_name	price
+101	Laptop	50000
+102	Mouse	1000
+103	Keyboard	2000
+
+Create index:
+.............................
+CREATE NONCLUSTERED INDEX idx_product_name
+ON Product(product_name);
+
+Search:
+
+SELECT *
+FROM Product
+WHERE product_name='Laptop';
+
+The index quickly finds "Laptop" and points to the corresponding table row.
+
+Visualization
+.......................................
+Clustered Index
+Table
+
+101  Sunil
+102  Anil
+103  Ravi
+104  Kumar
+
+↑
+Data physically sorted
+Non-Clustered Index
+Index
+
+Anil   -----> Row 102
+Kumar  -----> Row 104
+Ravi   -----> Row 103
+Sunil  -----> Row 101
+
+↓
+
+Actual Table
+
+101 Sunil
+102 Anil
+103 Ravi
+104 Kumar
+
+The index is ordered, but the table rows remain where they are.
+
+
+why index  
+
+fetch data fster  from emp 3 it will search 

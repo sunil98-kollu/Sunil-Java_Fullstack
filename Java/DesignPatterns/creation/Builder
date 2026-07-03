@@ -1,0 +1,181 @@
+
+
+creational design pattern used to construct complex objects step-by-step.
+
+
+Problem (Without Builder)
+..............................
+Bad Approach
+...........................
+public class Employee {
+
+    private int id;
+    private String name;
+    private String email;
+    private String department;
+    private double salary;
+
+    public Employee(int id, String name, String email,
+                    String department, double salary) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.department = department;
+        this.salary = salary;
+    }
+}
+Issues
+
+❌ Too many constructor parameters
+❌ Hard to read
+❌ Error-prone
+❌ Not flexible for optional fields
+
+Solution: Builder Pattern ⭐
+.............................
+................................
+Step 1: Create Class with Builder
+.............................
+public class Employee {
+
+    private final int id;
+    private final String name;
+    private final String email;
+    private final String department;
+    private final double salary;
+
+    private Employee(Builder builder) {
+        this.id = builder.id;
+        this.name = builder.name;
+        this.email = builder.email;
+        this.department = builder.department;
+        this.salary = builder.salary;
+    }
+
+    // Getters
+    public int getId() { return id; }
+    public String getName() { return name; }
+
+    // Builder Class
+    public static class Builder {
+
+        private int id;
+        private String name;
+        private String email;
+        private String department;
+        private double salary;
+
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder setDepartment(String department) {
+            this.department = department;
+            return this;
+        }
+
+        public Builder setSalary(double salary) {
+            this.salary = salary;
+            return this;
+        }
+
+        public Employee build() {
+            return new Employee(this);
+        }
+    }
+}
+
+
+Step 2: Usage
+.......................
+................
+
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Employee emp =
+                new Employee.Builder()
+                        .setId(101)
+                        .setName("Sunil")
+                        .setEmail("sunil@gmail.com")
+                        .setDepartment("IT")
+                        .setSalary(50000)
+                        .build();
+
+        System.out.println(emp.getName());
+    }
+}
+Output
+Sunil
+
+
+Real-Time Example (Spring Boot Style)
+............................................
+
+
+DTO Creation (Very Common Use)
+
+EmployeeDTO dto =
+        EmployeeDTO.builder()
+                .id(101)
+                .name("Sunil")
+                .salary(50000)
+                .build();
+
+(This is often generated using Lombok @Builder)
+
+Lombok Builder (Industry Standard)
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class Employee {
+
+    private int id;
+    private String name;
+    private String email;
+}
+
+Usage:
+
+Employee emp = Employee.builder()
+        .id(101)
+        .name("Sunil")
+        .email("test@gmail.com")
+        .build();
+Advantages
+
+✔ Improves readability
+✔ Handles many parameters easily
+✔ Supports optional fields
+✔ Immutable object creation
+✔ Avoids telescoping constructors
+
+When to Use Builder Pattern?
+
+✔ When object has many fields
+✔ When many fields are optional
+✔ When you want immutable objects
+✔ When constructor becomes unreadable
+
+Real-Time Use Cases
+Spring Boot DTOs
+API Request/Response objects
+Configuration objects
+Hibernate entity construction
+Microservice payloads
+

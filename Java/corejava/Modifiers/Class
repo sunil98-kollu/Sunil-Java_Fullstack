@@ -1,0 +1,254 @@
+1. class
+....................................
+....................................
+A class is a blueprint for creating objects.
+
+Banking Example
+class BankAccount {
+
+    String accountNumber = "ACC1001";
+    double balance = 50000;
+
+    void checkBalance() {
+        System.out.println("Balance: ₹" + balance);
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        BankAccount account = new BankAccount();
+        account.checkBalance();
+    }
+}
+
+Output
+....................................
+....................................
+Balance: ₹50000.0
+
+Real-Time Use Case
+
+Customer
+BankAccount
+Employee
+Transaction
+2. package
+....................................
+....................................
+A package is used to organize related classes.
+
+Banking Example
+package com.bank.service;
+
+public class AccountService {
+
+    public void deposit() {
+        System.out.println("Amount Deposited");
+    }
+}
+
+Folder Structure
+
+com
+ └── bank
+      └── service
+             AccountService.java
+
+Real-Time Use Case
+
+com.bank.controller
+com.bank.service
+com.bank.repository
+com.bank.entity
+com.bank.dto
+
+Spring Boot projects use packages extensively to organize code.
+
+3. import
+....................................
+....................................
+import allows you to use classes from another package.
+
+Banking Example
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        List<String> accounts = new ArrayList<>();
+
+        accounts.add("ACC1001");
+        accounts.add("ACC1002");
+
+        System.out.println(accounts);
+    }
+}
+
+Output
+
+[ACC1001, ACC1002]
+
+Real-Time Use Case
+
+import java.util.List;
+import java.time.LocalDate;
+import java.sql.Connection;
+
+4. extends
+....................................
+....................................
+Used for inheritance (IS-A relationship).
+
+Banking Example
+class Account {
+
+    void checkBalance() {
+        System.out.println("Checking Balance");
+    }
+}
+
+class SavingsAccount extends Account {
+
+    void calculateInterest() {
+        System.out.println("Interest Calculated");
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        SavingsAccount account = new SavingsAccount();
+
+        account.checkBalance();
+        account.calculateInterest();
+    }
+}
+
+Output
+
+Checking Balance
+Interest Calculated
+
+Real-Time Use Case
+
+Account
+   ↑
+SavingsAccount
+CurrentAccount
+LoanAccount
+
+All account types inherit common account functionality.
+
+5. implements
+....................................
+....................................
+Used when a class implements an interface.
+
+Banking Example
+interface Payment {
+
+    void pay(double amount);
+}
+
+class UpiPayment implements Payment {
+
+    @Override
+    public void pay(double amount) {
+
+        System.out.println("Paid ₹" + amount + " using UPI");
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Payment payment = new UpiPayment();
+
+        payment.pay(5000);
+    }
+}
+
+Output
+
+Paid ₹5000.0 using UPI
+
+Real-Time Use Case
+
+Payment
+   ↑
+UPIPayment
+CardPayment
+NetBankingPayment
+
+Each payment type provides its own implementation.
+
+6. interface
+....................................
+....................................
+An interface defines a contract that implementing classes must follow.
+
+Banking Example
+interface Payment {
+
+    void pay(double amount);
+}
+
+class CreditCardPayment implements Payment {
+
+    @Override
+    public void pay(double amount) {
+
+        System.out.println("Credit Card Payment Successful");
+    }
+}
+
+class NetBankingPayment implements Payment {
+
+    @Override
+    public void pay(double amount) {
+
+        System.out.println("Net Banking Payment Successful");
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Payment payment1 = new CreditCardPayment();
+        payment1.pay(3000);
+
+        Payment payment2 = new NetBankingPayment();
+        payment2.pay(7000);
+    }
+}
+
+Output
+
+Credit Card Payment Successful
+Net Banking Payment Successful
+
+Real-Time Use Case
+....................................
+....................................
+Interfaces are commonly used for:
+
+Payment Gateway
+Notification Service
+SMS Service
+Email Service
+Logging Service
+Interview Summary
+Keyword	Banking Example
+class	BankAccount, Customer, Transaction
+package	com.bank.service, com.bank.controller
+import	Import List, LocalDate, Connection
+extends	SavingsAccount extends Account
+implements	UpiPayment implements Payment
+interface	Payment, Notification, LoanService

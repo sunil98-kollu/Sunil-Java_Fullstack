@@ -1,0 +1,118 @@
+
+==============
+Spring Core
+==============
+
+1) Core java vs Adv. Java vs Frameworks
+
+2) What is framework & why ?
+
+3) JAVA Based Frameworks
+
+4) Spring Framework introduction
+
+5) Spring Arhitecture (Modules)
+
+6) Spring Core Module Overview
+
+7) IOC Container
+
+8) Dependency Injection
+
+9) Constructor Injection
+
+10) Setter Injection
+
+11) Field Injection (Reflection API)
+
+12) Bean Scopes
+
+13) Bean Lifecycle
+
+14) Spring Core Annotations
+
+	- @Component
+	- @Service
+	- @Repository
+	- @Configuration
+	- @Bean
+	- @ComponentScan
+	- @Autowired
+	- @Qualifier
+	- @Primary
+	- @Scope
+	- @PostConstruct
+	- @PreDestroy
+
+15) Autowiring (byName & byType)	
+
+16) AnnotationConfigApplicationContext
+
+=================
+Spring DAO/JDBC
+=================
+
+1) JDBC vs Spring JDBC
+
+2) Data Source
+
+3) JdbcTemplate
+		- update ()
+		- query ()
+
+4) RowMapper
+
+=================
+Spring ORM
+=================
+
+1) Spring ORM introduction
+
+2) What is Entity class
+	
+	- @Entity
+	- @Table
+	- @Id
+	- @Column
+
+3) Hibernate Properties	
+
+	- dialect
+	- hbm2ddl.auto
+	- show_sql
+	- format_sql
+
+4) Spring ORM Architecture
+
+	- Datasource
+	- SessionFactory	
+	- Session
+	- HibernateTxManager
+	- HibernateTemplate
+
+5) Spring ORM Application development
+
+6) HibernateTemplate class methods
+
+	- save()
+	- update()
+	- saveOrUpdate()
+	- get()
+	- load()
+	- loadAll()
+	- find()
+	- delete()
+
+7) Project Lombok
+	
+	- @Setter
+	- @Getter
+	- @ToString
+	- @EqualsAndHashCode
+	- @SneakyThrows
+	- @Slf4J
+	- @NoArgsConstructor
+	- @AllArgsConstructor
+	- @Data
+
+=================================================

@@ -1,0 +1,222 @@
+
+1. new
+.....................................
+
+The new keyword is used to create an object in memory.
+
+Banking Example
+class BankAccount {
+
+    String accountNumber = "ACC1001";
+
+    void checkBalance() {
+        System.out.println("Balance: ₹50,000");
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        // Creating an object using new
+        BankAccount account = new BankAccount();
+
+        account.checkBalance();
+    }
+}
+
+Output
+.....................................
+Balance: ₹50,000
+Real-Time Use Case
+
+Whenever a new customer opens an account:
+
+BankAccount account = new BankAccount();
+
+A new object is created in the heap memory.
+
+2. instanceof
+.....................................
+The instanceof operator checks whether an object belongs to a particular class or interface.
+
+Banking Example
+class Account {
+}
+
+class SavingsAccount extends Account {
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Account account = new SavingsAccount();
+
+        System.out.println(account instanceof SavingsAccount);
+        System.out.println(account instanceof Account);
+    }
+}
+
+Output
+.....................................
+true
+true
+Real-Time Use Case
+
+A banking application can determine the account type before applying business logic.
+
+if (account instanceof SavingsAccount) {
+
+    System.out.println("Apply Savings Interest");
+}
+3. super
+
+The super keyword refers to the immediate parent class.
+
+It is used to:
+
+Call the parent class constructor.
+Access parent class methods.
+Access parent class variables.
+Banking Example
+class Account {
+
+    void display() {
+        System.out.println("Account Details");
+    }
+}
+
+class SavingsAccount extends Account {
+
+    void displayAccount() {
+
+        super.display();
+
+        System.out.println("Savings Account");
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        SavingsAccount account = new SavingsAccount();
+
+        account.displayAccount();
+    }
+}
+
+Output
+.....................................
+Account Details
+Savings Account
+Calling Parent Constructor
+class Account {
+
+    Account() {
+        System.out.println("Account Created");
+    }
+}
+
+class SavingsAccount extends Account {
+
+    SavingsAccount() {
+
+        super();
+
+        System.out.println("Savings Account Created");
+    }
+}
+
+Output
+.....................................
+Account Created
+Savings Account Created
+
+Real-Time Use Case
+
+A SavingsAccount inherits common account details from the Account class.
+
+4. this
+.....................................
+The this keyword refers to the current object.
+
+It is commonly used to:
+
+Distinguish instance variables from local variables.
+Call another constructor in the same class.
+Pass the current object.
+Banking Example
+class BankAccount {
+
+    int accountId;
+    String customerName;
+
+    BankAccount(int accountId, String customerName) {
+
+        this.accountId = accountId;
+        this.customerName = customerName;
+    }
+
+    void display() {
+
+        System.out.println(accountId);
+        System.out.println(customerName);
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        BankAccount account =
+                new BankAccount(101, "Sunil");
+
+        account.display();
+    }
+}
+
+Output
+.....................................
+101
+Sunil
+
+Constructor Chaining Using this()
+class BankAccount {
+
+    BankAccount() {
+
+        this(101);
+
+        System.out.println("Default Constructor");
+    }
+
+    BankAccount(int id) {
+
+        System.out.println("Account ID: " + id);
+    }
+}
+
+Output
+.....................................
+Account ID: 101
+Default Constructor
+Real-Time Use Case
+
+When creating a bank account, constructor parameters initialize the object's fields.
+
+Interview  Summary
+Keyword	Banking Example
+new	Create a new BankAccount object
+instanceof	Check whether an account is a SavingsAccount
+super	Access parent Account class methods or constructor
+this	Initialize current object's account details and chain constructors
+
+
+this vs super
+this	super
+Refers to the current object	Refers to the immediate parent object
+Accesses current class members	Accesses parent class members
+Calls another constructor in the same class using this()	Calls the parent constructor using super()
+Used for constructor chaining	Used for inheritance

@@ -1,0 +1,169 @@
+
+==============
+Apache kafka
+==============
+
+=> Kafka is used as a message broker (mediator between applications).
+
+=> Kafka is used as distributed streaming platform.
+
+=> Kafka is used for real-time data processing.
+
+=> Kafka helps to send data from one application to another application asynchronsouly.
+
+=> Kafka extremely fast, scalable, and reliable.
+
+=> Kafka Can process millions of messages per second.
+
+=> Kafka software is free and open source, developed by Apache org.
+
+
+=> Kafka works based on pub-sub model.
+
+		publisher : The application which stores msgs in kafka
+
+		subscriber : The application which reads msgs from kafka
+
+
+===============
+Kafka usecases
+===============			
+
+1) swiggy & zomoto orders processing
+
+2) ola, uber and rapido cabs booking
+
+3) Flights journey data processing
+
+
+===================
+Kafka Architecture
+===================
+
+1) Zookeeper (Provides runtime to run kafka server)
+
+2) Kafka Server (Message Broker)
+
+3) Kafka Topic (Message queue , to store msgs)
+
+4) Publisher Application (The appliation which sends msgs to kafka topic)
+
+5) Subscriber Application (The application which recieves msgs from kafka topic)
+
+
+======================================
+Kafka Setup
+======================================
+
+-> We can setup kafka in multiple ways
+
+	1) Manual setup 
+
+	2) Using Docker Compose
+
+	3) Setup in Cloud (Ex: AWS Kinesis)
+
+Note: In real-time project, kafka admin team will be available to manage kafka setup, kafka topics and kafka security.	
+
+
+======================================
+Apache Kafka Manual Setup In Windows
+======================================
+
+## Step-1 : Download Zookeeper from below URL
+
+   URL : https://dlcdn.apache.org/zookeeper/
+
+## Step-2 : Download Apache Kafka from below URL
+
+	URL : https://downloads.apache.org/kafka/     
+
+
+## Step-3 : Set Path to ZOOKEEPER in Environment variables upto bin folder.
+
+	Ex=> E:\softwares\apache-zookeeper-3.9.2-bin\bin
+
+
+### Note: Copy "zookeeper.properties" and "server.properties" files from "kafka/config" folder to "kafka/bin/windows" folder. ###
+
+## Step-4 : Start Zookeeper server using below command from "kafka/bin/windows" folder
+
+    Command : $ zookeeper-server-start.bat zookeeper.properties		
+
+
+## Step-5: Start Kafka Server using below command from "kafka/bin/windows" folder
+
+    Command : $ kafka-server-start.bat server.properties    
+
+
+Note: If kafka server is getting stopped, delete kafka logs from temp folder
+
+
+## Step-6 : Create Kakfa Topic using below command from "kafka/bin/windows" folder
+
+Command : $ kafka-topics.bat --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic ashokit_orders_topic
+
+## Step-7 : View created Topics using below command
+
+   Command : kafka-topics.bat --list --bootstrap-server localhost:9092
+
+==================================================================================
+
+## Partition 
+
+=> A topic in Kafka is divided into multiple partitions.
+
+ðŸ‘‰ Partition = split of a topic where messages are stored in order
+
+			Topic Name : orders
+
+			Partitions : orders-0
+						 	orders-1
+						 	orders-2
+
+			Msgs : 
+
+				orders-0 : msg1, msg4, msg7
+				orders-1 : msg2, msg5, msg8
+				orders-2 : msg3, msg6, msg9						 	
+
+
+	-> Parallel processing (many consumers can read data at a time)
+	-> Scalability
+	-> Order is mantained with in partition
+
+## Offset
+
+=> Offset = position of a message inside a partition
+=> Each message has a unique number called offset.
+
+Example (Partition 0):
+
+offset 0 â†’ "order created"
+offset 1 â†’ "payment done"
+offset 2 â†’ "order shipped"
+
+Partition = where message is stored  
+Offset = which number message is
+
+Note: Kafka will store data like below
+
+(topic, partition, offset)
+
+orders, partition 1, offset 5
+
+
+
+### Consumer Group : 
+
+A consumer group = group of consumers working together to read a topic.
+
+Topic Name = orders
+Partitions = 3
+Consumers in group = 3
+
+Consumer-1 â†’ partition 0  
+Consumer-2 â†’ partition 1  
+Consumer-3 â†’ partition 2  
+
+Note: One partition is read by only one consumer in a group.   

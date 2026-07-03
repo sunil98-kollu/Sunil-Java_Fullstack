@@ -1,0 +1,206 @@
+
+y docker 
+exists
+wt is docker 
+docker arc explined 
+docker instalition
+contaisation sb app
+docker file port mapping env config
+docker compose 
+docker volume 
+docker network
+
+
+.................
+...............
+
+
+
+bob dev   windows jav a 25 mysql 8 mongo 6 
+
+alice qa   linux java 17 mysql 7 mongo 5 
+
+
+Docker is a containerization platform used to package an application along with its dependencies, libraries, and configurations into a Container.
+
+A container can run consistently on any system that has Docker installed
+
+Before Docker:
+
+Application works on Developer Machine
+Fails on Testing/Production due to dependency differences
+
+Docker solves this problem by packaging everything together.
+
+
+docker --version   check version
+docker info diaplay system wide docker info
+docker help lis all the  the dockeer commands 
+
+
+image commands 
+
+docker pull <image>  download image from docker hub 
+docker images list all avaliable images
+docker rmi <image> 
+
+advtage
+
+very fast performance
+lightweight
+consistency
+esy to learn and iss
+better resource usage
+support microservices
+cloudly friendly
+
+
+
+
+key topics 
+
+concepts of contaniersation
+understanding virtualzation and contaniersation
+raise of container and their impact on development
+use cases andvtg of containers
+docker ecosystem and archeture
+overview of docker components ( docker demon docker cliet image containers re 
+docker engine and its components
+docker hub
+working with docker continers
+docker commands 
+interacting with containers
+managening containers life cycle 
+setting up docker env
+run your 1st continers
+executing cmds with a commnada
+
+
+contaniersation
+....................packig your app + all req ffiles into one unit
+this container can run anywhrer without changing anything
+
+virtulization vscontanisation
+
+each vm has : full os
+heacy size
+need more memory
+slow to start
+
+
+contanization
+
+use container instead of vm
+containers share same OS
+
+
+lifght weight ,faster and efficient 
+ex : docker 
+
+
+Raise od containers??
+fast developemt and deploymet 
+works in all env
+easy to scale the application 
+widly  used in cloud computing and microservices 
+
+
+use cases of containers
+running the web app
+microservices projects 
+devops piplines 
+testing different
+clouddeployment
+
+adv
+
+light weight fast no dependcy issue easy to move  better resurce ua\sage
+
+docker eco system and arc
+
+docker engine 
+docker daemon
+docker client
+image container reistery
+
+docker archeture
+.............
+
+developer uses docker clinet
+clinet sendsreq to docker daemon
+pull image from registery
+
+
+
+docker cmds
+
+dokr --version check docker version
+doker info display system  wide docker info
+docker help  list all docker cmds
+
+
+image commands 
+
+docker pull <image>  download an image from docker  hub 
+docker image  list of all available images
+docker rmi<image> remove docker image
+docker build -t <name>  build an image from docker file 
+docker tag<Image> <new name> rename an image
+docker push <image> push image to docker hub 
+
+
+
+container cmds 
+ 
+docker run <image> create start a container 
+docker run  -d  <image>   run container in background 
+docker run -it   <image>    run container interactive mode 
+docker  ps     list running container
+docker ps -a    list all container including stopped 
+docker stop <container>  stop a running container 
+docker  start <container> start a running container 
+
+docker  restart <contaner> restart container 
+docker  rm <container > remove a container 
+docker  exec -t <container>-> view container logs 
+ docker  logs <container> view container logs
+docker  inspect  < get the detailed container info
+
+...............
+...............
+
+
+
+@RestController
+public class Hello
+{
+@RequestMapping("/hello")
+public String hello("/hello"){
+return "java";
+
+}
+@RequestMapping("/hello1")
+public String hello("/hello"){
+return "java";
+}
+@RequestMapping("/hello2")
+public String hello("/hello"){
+return "java";
+}
+
+}
+
+/////////////////////////
+
+create docker file in sb 
+FROM eclipse-temurin:21-jdk
+workDIR /app
+COPY target/app.jar app.jar 
+EXPOSE 0000
+EnteryPoint ["java", "jar","app.jar"]
+
+rit clic k run as maven build 
+jar file generated
+
+
+

@@ -1,0 +1,124 @@
+Linux
+......................
+comunity based os 
+open source 
+cli based ( comand line ) ( create folder like that )
+multi user os ( connect with same pipline multi users)
+high ssecurity
+for busines use 
+
+windos
+........
+paid
+GUi ( raphical user interface 
+manualy right click rename delete  like that ))
+sinlge user based
+securit y feature
+recomanded for personal use 
+
+
+
+
+Linex history
+...................
+....................
+
+inspired by minus os 
+(li)nux +minux = linus
+llinux distrunution
+
+amazon Linuxred hat 
+ubantu
+cent os 
+suse
+kali linux
+fedora etc
+
+
+
+create instance  ec2  pemfile 
+
+ssh cmd 
+
+copy ssh cmd  execute cmd 
+
+ contine ? yes 
+
+
+wt is kernal in linux
+..........
+kernal is heart of linux 
+main componet 
+core interface bt computer Hw and its processess
+
+kernal does 
+..
+memory management'
+process management
+devices driers 
+system calls and security
+
+
+everything is rep as file in linux 
+
+root
+home    etc    opt 
+
+
+/bin essential ready to run program(binaries)
+
+/boot static files of the boot loader ( run our linux machine)
+/dev device files  avaliable 
+/etc host specific sytem config
+
+man 
+info 
+help
+theese are documentation cmds
+
+whoami  curently logged in user 
+pwd 
+cal 05 2030  taht cal display
+uname system info 
+
+arch  system arc details 
+uptime  machine is up and runing
+free how much memory use and free 
+clear  clear trminal 
+
+...............
+....................
+
+ls list down content avaliable 
+
+ mkdir devops 
+
+ ls 
+ ine directory creater  name devops 
+ mkdir aws 
+ rmdir remove emprt director 
+ 
+ multiple directory
+..............
+
+mk dir one thow three 
+
+ls-1 alphabetic ordr diplay(asending)
+
+ls-lt reverse of alpha(decend)
+
+ls-ltr latest files on top 
+
+ls-la display hidden files (starts with)
+
+touch : to create empty files 
+        & touch f1.txt f2.txt 
+
+rm : to delete files/non-empty directories
+     $ rm <file-name>
+     $rm *.rmt
+     $rm a*.txt
+     $rm -rf <dir-name>
+  mv : rename and move fron=m one loc to another loc 
+      $ mv > present-name> <new-name>
+      $mv> <present-location> <new-location>   

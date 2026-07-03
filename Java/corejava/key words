@@ -1,0 +1,651 @@
+# Java Reserved Words (Keywords) with Examples
+
+Java has **53 reserved words (keywords)**. These words have predefined meanings and **cannot be used as identifiers** (variable names, class names, method names, etc.).
+
+---
+
+# 1. Reserved Words for Data Types (8)
+
+These keywords define primitive data types.
+
+| Keyword | Description      | Example                          |
+| ------- | ---------------- | -------------------------------- |
+| byte    | 8-bit integer    | `byte age = 25;`                 |
+| short   | 16-bit integer   | `short marks = 100;`             |
+| int     | 32-bit integer   | `int salary = 50000;`            |
+| long    | 64-bit integer   | `long population = 8000000000L;` |
+| float   | Single precision | `float price = 99.5f;`           |
+| double  | Double precision | `double pi = 3.14159;`           |
+| char    | Single character | `char grade = 'A';`              |
+| boolean | true/false       | `boolean active = true;`         |
+
+### Example
+
+```java
+public class DataTypesExample {
+
+    public static void main(String[] args) {
+
+        byte age = 25;
+        short marks = 95;
+        int salary = 50000;
+        long mobile = 9876543210L;
+        float price = 99.99f;
+        double pi = 3.14159;
+        char grade = 'A';
+        boolean isActive = true;
+
+        System.out.println(age);
+        System.out.println(isActive);
+    }
+}
+```
+
+---
+
+# 2. Reserved Words for Flow Control (11)
+
+Used to control the execution flow.
+
+| Keyword  | Example                |
+| -------- | ---------------------- |
+| if       | `if(age > 18)`         |
+| else     | `else {}`              |
+| switch   | `switch(choice)`       |
+| case     | `case 1:`              |
+| default  | `default:`             |
+| for      | `for(int i=0;i<5;i++)` |
+| do       | `do{ }while();`        |
+| while    | `while(i<5)`           |
+| break    | `break;`               |
+| continue | `continue;`            |
+| return   | `return value;`        |
+
+### Example
+
+```java
+public class FlowExample {
+
+    public static void main(String[] args) {
+
+        int age = 20;
+
+        if(age >= 18)
+            System.out.println("Eligible");
+        else
+            System.out.println("Not Eligible");
+
+        for(int i=1;i<=3;i++) {
+            System.out.println(i);
+        }
+    }
+}
+```
+
+---
+
+# 3. Keywords for Modifiers (11)
+
+These modify classes, methods, and variables.
+
+| Keyword      | Purpose                     | Example                       |
+| ------------ | --------------------------- | ----------------------------- |
+| public       | Accessible everywhere       | `public class Test`           |
+| private      | Accessible within class     | `private int id;`             |
+| protected    | Package + subclass          | `protected void show()`       |
+| static       | Belongs to class            | `static int count;`           |
+| final        | Cannot change               | `final int MAX = 100;`        |
+| abstract     | Incomplete class/method     | `abstract class Shape`        |
+| synchronized | Thread safety               | `synchronized void deposit()` |
+| native       | Calls native code           | `native void print();`        |
+| strictfp     | Floating-point precision    | `strictfp class Demo`         |
+| transient    | Ignore during serialization | `transient String password;`  |
+| volatile     | Updated across threads      | `volatile boolean running;`   |
+
+### Example
+
+```java
+public class Employee {
+
+    public static String company = "TCS";
+
+    private int id;
+
+    final double PI = 3.14;
+}
+```
+
+---
+
+# 4. Keywords for Exception Handling (6)
+
+| Keyword | Example                         |
+| ------- | ------------------------------- |
+| try     | `try{}`                         |
+| catch   | `catch(Exception e){}`          |
+| finally | `finally{}`                     |
+| throw   | `throw new RuntimeException();` |
+| throws  | `throws IOException`            |
+| assert  | `assert age > 18;`              |
+
+### Example
+
+```java
+public class ExceptionExample {
+
+    public static void main(String[] args) {
+
+        try {
+            int result = 10 / 0;
+        } catch (ArithmeticException e) {
+            System.out.println("Exception");
+        } finally {
+            System.out.println("Completed");
+        }
+    }
+}
+```
+
+---
+
+# 5. Class Related Keywords (6)
+
+| Keyword    | Purpose                  | Example                        |
+| ---------- | ------------------------ | ------------------------------ |
+| class      | Create class             | `class Employee`               |
+| package    | Organize classes         | `package com.bank;`            |
+| import     | Import package           | `import java.util.*;`          |
+| extends    | Inheritance              | `class Dog extends Animal`     |
+| implements | Interface implementation | `class Car implements Vehicle` |
+| interface  | Create interface         | `interface Payment`            |
+
+### Example
+
+```java
+package com.bank;
+
+interface Payment {
+
+    void pay();
+}
+
+class UPI implements Payment {
+
+    public void pay() {
+        System.out.println("UPI Payment");
+    }
+}
+```
+
+---
+
+# 6. Object Related Keywords (4)
+
+| Keyword    | Purpose             | Example                   |
+| ---------- | ------------------- | ------------------------- |
+| new        | Create object       | `new Employee();`         |
+| instanceof | Check object type   | `obj instanceof Employee` |
+| super      | Access parent class | `super.display();`        |
+| this       | Current object      | `this.id = id;`           |
+
+### Example
+
+```java
+class Animal {
+
+    void sound() {
+        System.out.println("Animal");
+    }
+}
+
+class Dog extends Animal {
+
+    Dog() {
+        super.sound();
+    }
+}
+
+public class Test {
+
+    int id;
+
+    Test(int id) {
+        this.id = id;
+    }
+
+    public static void main(String[] args) {
+
+        Dog d = new Dog();
+
+        System.out.println(d instanceof Dog);
+    }
+}
+```
+
+Output:
+
+```text
+Animal
+true
+```
+
+---
+
+# Quick Interview Revision
+
+## Data Types
+
+```text
+byte short int long float double char boolean
+```
+
+## Flow Control
+
+```text
+if else switch case default
+for while do break continue return
+```
+
+## Modifiers
+
+```text
+public private protected
+static final abstract
+synchronized native strictfp
+transient volatile
+```
+
+## Exception Handling
+
+```text
+try catch finally
+throw throws assert
+```
+
+## Class Related
+
+```text
+class package import
+extends implements interface
+```
+
+## Object Related
+
+```text
+new instanceof super this
+```
+
+---
+
+# Interview Answer
+
+> **Java reserved words (keywords) are predefined words with special meanings that cannot be used as identifiers. They are categorized into data type keywords, flow control keywords, modifier keywords, exception handling keywords, class-related keywords, and object-related keywords.**
+
+
+//////////////////////////////
+
+
+# Java Modifier Keywords with Real-Time Examples (Interview Guide)
+
+## 1. `public`
+
+A `public` class, method, or variable is accessible from anywhere in the application.
+
+### Real-Time Example
+
+A REST API endpoint should be accessible to other classes.
+
+```java
+public class EmployeeService {
+
+    public void getEmployees() {
+        System.out.println("Employee List");
+    }
+}
+```
+
+Usage
+
+```java
+EmployeeService service = new EmployeeService();
+service.getEmployees();
+```
+
+**Use Case:** Spring Boot Controllers and Services expose public methods.
+
+---
+
+## 2. `private`
+.............................................
+............................................
+A `private` member is accessible only within the same class.
+
+### Real-Time Example
+.............................................
+............................................
+Bank account balance should not be modified directly.
+
+```java
+public class BankAccount {
+
+    private double balance = 5000;
+
+    public double getBalance() {
+        return balance;
+    }
+}
+```
+
+Usage
+
+```java
+BankAccount account = new BankAccount();
+
+// account.balance = 10000;   // ❌ Compilation Error
+
+System.out.println(account.getBalance());
+```
+
+**Use Case:** Protect sensitive fields like password, salary, account balance.
+
+---
+
+## 3. `protected`
+.............................................
+............................................
+Accessible within the same package and by subclasses in other packages.
+
+### Real-Time Example
+
+```java
+class Employee {
+
+    protected void calculateBonus() {
+        System.out.println("Employee Bonus");
+    }
+}
+
+class Manager extends Employee {
+
+    public void showBonus() {
+        calculateBonus();
+    }
+}
+```
+
+**Use Case:** Parent class functionality shared with child classes.
+
+---
+
+## 4. `static`
+.............................................
+............................................
+Belongs to the class instead of an object.
+
+### Real-Time Example
+
+```java
+public class Bank {
+
+    static String bankName = "SBI";
+}
+```
+
+Usage
+
+```java
+System.out.println(Bank.bankName);
+```
+
+Every account belongs to the same bank, so only one copy of `bankName` is needed.
+
+Another example:
+
+```java
+Math.sqrt(25);
+```
+
+`Math.sqrt()` is a static method.
+
+---
+
+## 5. `final`
+.............................................
+............................................
+Prevents modification.
+
+### Final Variable
+
+```java
+final double PI = 3.14159;
+```
+
+Cannot change:
+
+```java
+PI = 3.15; // ❌ Error
+```
+
+### Final Method
+.............................................
+............................................
+```java
+class Vehicle {
+
+    final void start() {
+        System.out.println("Starting...");
+    }
+}
+```
+
+Child classes cannot override `start()`.
+
+### Final Class
+.............................................
+............................................
+```java
+final class Utility {
+}
+```
+
+Cannot be extended.
+
+**Real-Time Example:** `String` is a `final` class to maintain immutability.
+
+---
+
+## 6. `abstract`
+.............................................
+............................................
+Represents incomplete classes or methods.
+
+### Real-Time Example
+
+```java
+abstract class Payment {
+
+    abstract void pay();
+}
+
+class UpiPayment extends Payment {
+
+    @Override
+    void pay() {
+        System.out.println("UPI Payment");
+    }
+}
+```
+
+**Use Case:** Different payment methods implement the same operation differently.
+
+---
+
+## 7. `synchronized`
+.............................................
+............................................
+Allows only one thread at a time to execute a method or block.
+
+### Real-Time Banking Example
+
+```java
+class BankAccount {
+
+    private int balance = 1000;
+
+    public synchronized void withdraw(int amount) {
+
+        balance -= amount;
+
+        System.out.println("Remaining Balance: " + balance);
+    }
+}
+```
+
+Without `synchronized`, two users withdrawing simultaneously could produce an incorrect balance.
+
+**Use Case:** Banking, ticket booking, inventory management.
+
+---
+
+## 8. `native`
+.............................................
+............................................
+Declares that the method is implemented in another language (typically C/C++).
+
+### Example
+
+```java
+public class Printer {
+
+    native void print();
+}
+```
+
+Implementation is provided using JNI (Java Native Interface).
+
+**Real-Time Use Cases:**
+
+* Camera access
+* Bluetooth
+* Fingerprint scanners
+* Device drivers
+
+---
+
+## 9. `strictfp`
+.............................................
+............................................
+Ensures floating-point calculations produce consistent results across platforms.
+
+### Example
+
+```java
+public strictfp class Calculator {
+
+    double calculate() {
+        return 10.0 / 3;
+    }
+}
+```
+
+**Real-Time Use Cases:**
+
+* Banking interest calculations
+* Scientific applications
+* Financial software
+
+> **Note:** As of Java 17, `strictfp` is largely obsolete because floating-point behavior is standardized, but the keyword is still valid.
+
+---
+
+## 10. `transient`
+.............................................
+............................................
+Prevents a field from being serialized.
+
+### Example
+
+```java
+import java.io.Serializable;
+
+class User implements Serializable {
+
+    String username;
+
+    transient String password;
+}
+```
+
+Serialization:
+.............................................
+............................................
+```java
+User user = new User();
+user.username = "sunil";
+user.password = "secret123";
+```
+
+After deserialization:
+
+```text
+username = sunil
+password = null
+```
+
+**Real-Time Use Cases:**
+
+* Passwords
+* OTPs
+* Session tokens
+* Credit card CVV
+
+---
+
+## 11. `volatile`
+.............................................
+............................................
+Ensures that changes made by one thread are immediately visible to other threads.
+
+### Example
+
+```java
+class Server {
+
+    volatile boolean running = true;
+
+    public void stop() {
+        running = false;
+    }
+}
+```
+
+Another thread checking `running` will immediately see the updated value.
+
+**Real-Time Use Cases:**
+
+* Server shutdown flags
+* Feature toggles
+* Application status indicators
+* Thread communication
+
+---
+
+# Interview Summary
+
+| Keyword        | Real-Time Example                          |
+| -------------- | ------------------------------------------ |
+| `public`       | REST API methods, service methods          |
+| `private`      | Password, balance, salary fields           |
+| `protected`    | Parent-child class functionality           |
+| `static`       | Company name, utility methods, constants   |
+| `final`        | `String` class, constants, utility classes |
+| `abstract`     | Payment gateways, vehicle hierarchy        |
+| `synchronized` | Banking transactions, ticket booking       |
+| `native`       | Camera, Bluetooth, fingerprint access      |
+| `strictfp`     | Financial and scientific calculations      |
+| `transient`    | Passwords, OTPs, session data              |
+| `volatile`     | Server status, thread communication        |
+
+# Interview One-Liner
+
+> **Modifier keywords control the accessibility, inheritance, object creation, concurrency, serialization, and runtime behavior of Java classes, methods, and variables. They are widely used in enterprise applications to improve security, maintainability, and thread safety.**

@@ -1,0 +1,224 @@
+1. try
+....................................
+The try block contains code that may throw an exception.
+
+Banking Example
+public class Bank {
+
+    public static void main(String[] args) {
+
+        int balance = 5000;
+        int withdrawAmount = 1000;
+
+        try {
+
+            int remainingBalance = balance - withdrawAmount;
+
+            System.out.println("Remaining Balance: " + remainingBalance);
+
+        } catch (Exception e) {
+
+            System.out.println("Transaction Failed");
+        }
+    }
+}
+
+Output
+....................................
+Remaining Balance: 4000
+
+Use Case: Withdrawal, fund transfer, payment processing.
+
+2. catch
+....................................
+The catch block handles exceptions thrown inside the try block.
+
+Banking Example
+public class Bank {
+
+    public static void main(String[] args) {
+
+        try {
+
+            int amount = 1000 / 0;
+
+        } catch (ArithmeticException e) {
+
+            System.out.println("Invalid Transaction");
+        }
+    }
+}
+
+Output
+....................................
+Invalid Transaction
+
+Use Case: Invalid calculations, payment failures, database exceptions.
+
+3. finally
+....................................
+The finally block always executes whether an exception occurs or not.
+
+Banking Example
+public class Bank {
+
+    public static void main(String[] args) {
+
+        try {
+
+            System.out.println("Transaction Started");
+
+        } finally {
+
+            System.out.println("Closing Database Connection");
+        }
+    }
+}
+
+Output
+
+Transaction Started
+Closing Database Connection
+
+Use Case:
+
+Close database connection
+Close file
+Release resources
+Close network connection
+
+
+4. throw
+....................................
+
+The throw keyword is used to manually throw an exception.
+
+Banking Example
+public class Bank {
+
+    public static void withdraw(double balance, double amount) {
+
+        if (amount > balance) {
+
+            throw new RuntimeException("Insufficient Balance");
+        }
+
+        System.out.println("Withdrawal Successful");
+    }
+
+    public static void main(String[] args) {
+
+        withdraw(5000, 7000);
+    }
+}
+
+Output
+....................................
+Exception in thread "main"
+java.lang.RuntimeException:
+Insufficient Balance
+
+Use Case:
+
+Insufficient balance
+Invalid account number
+Invalid PIN
+5. throws
+....................................
+The throws keyword declares that a method may throw an exception, leaving handling to the caller.
+
+Banking Example
+import java.io.IOException;
+
+class BankStatement {
+
+    public void downloadStatement() throws IOException {
+
+        throw new IOException("Unable to Download Statement");
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        BankStatement statement = new BankStatement();
+
+        try {
+
+            statement.downloadStatement();
+
+        } catch (IOException e) {
+
+            System.out.println(e.getMessage());
+        }
+    }
+}
+
+Output
+....................................
+Unable to Download Statement
+
+Use Case:
+
+File handling
+Database operations
+Network communication
+
+
+6. assert
+....................................
+
+assert is used during development to verify assumptions. If the condition is false and assertions are enabled (-ea), an AssertionError is thrown.
+
+Banking Example
+public class Bank {
+
+    public static void main(String[] args) {
+
+        double balance = 5000;
+
+        assert balance >= 0 : "Balance cannot be negative";
+
+        System.out.println("Account is Valid");
+    }
+}
+
+Output (Assertions Enabled)
+....................................
+Account is Valid
+
+If:
+
+double balance = -500;
+
+Output:
+
+java.lang.AssertionError:
+Balance cannot be negative
+
+Use Case:
+
+Validate internal business rules
+Check developer assumptions
+Debugging and testing
+
+Note: Assertions are disabled by default. Run the JVM with -ea (Enable Assertions) to activate them.
+....................................
+throw vs throws
+throw	throws
+Used to explicitly throw an exception	Declares that a method may throw an exception
+Used inside a method	Used in the method signature
+Throws one exception object at a time	Can declare multiple exception types
+
+Example: throw new RuntimeException();	Example: void read() throws IOException
+
+Interview Summary
+Keyword	Banking Example
+
+try	  Fund transfer, withdrawal
+catch	Handle transaction failure
+finally	Close database connection
+throw	Throw "Insufficient Balance" exception
+throws	Declare file/database exceptions
+assert	Verify account balance or business rules during development

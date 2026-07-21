@@ -68,11 +68,11 @@ int x=0x10; // prefix with 0x or 0X
 type ofvariable
 ...........................
 
-primitive variable
+primitive variable   :  can be used to rep primitive values  9 int short long float double char boolean byte
 ..........
 int x=10;
 
-ref variable 
+ref variable    : ref object 
 ....................
 Student s= new Student();
 
@@ -82,6 +82,7 @@ all var are divided into 2 types
 primitive variable and reference variable
 
 primitive variable
+........
 can be used to rep primitive values 
  int short long float double char boolean byte
 
@@ -102,7 +103,7 @@ Feature	     Instance Variable	     Static Variable	Local Variable
 Declared	 Inside class,            outside methods	            Inside class with static	Inside method/constructor/block
 Belongs To	  Object	                 Class                   	Method/Block
 Memory	       Heap	                     Method Area (Class Area)	      Stack
-Default Value	  Yes	Yes	No
+Default Value	  Yes	                      Yes	                    No
 
 class Employee {
 
@@ -193,6 +194,38 @@ The sum: 10
 The sum: 30 
 The sum: 100 
 
+Equivalence between var arg parameter and one dimensional array :
+
+ 
+
+Case 1 :
+...............................
+wherever one dimensional array is present we can replace it with a var arg parameter.
+    m1(int [ ] x)  ⇒ m1(int... x)
+
+
+Ex: main(String[] args) ⇒ main(String…  args);
+
+
+Case2 :
+.................
+wherever the var arg parameter is present we can’t replace it with a one dimensional array.
+        m1(int… x) ⇒ m1(int[ ] x) ;
+
+
+Note :
+.........................
+ m1(int… x) ⇒ int[] x;
+
+
+We can call this method by passing any number of int values and x will become a one- dimensional int array.
+.......................
+m1(int[].. x) ⇒ int[][] x;
+
+........................
+we can call this method by passing a group of dimension arrays and x will become a 2-0 int array.
+
+
 
 Main
 ..................
@@ -275,6 +308,22 @@ The main() method is static, and static methods cannot be overridden (they can o
 Why Is main() Static?
 
 Because the JVM needs to execute the program before any object exists.
+
+We can declare main() method the following modifiers also
+
+final   2) synchronized   3) strictfp
+
+
+→ Which of the following main() method declarations are valid
+
+                public static void main(String args); //Invalid
+                public static void Main(String[] args); //Invalid
+                public void main(String args[]);//Invalid
+                public static int main(String args[]);//Invali
+                final  synchronized strictfp Public static void main(String args[]);//Invalid
+                final  synchronized strictfp public static void main(String args[]); //valid
+
+public static void main(String…  args); //valid
 
 
 Command line arguments: 

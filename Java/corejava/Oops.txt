@@ -14,6 +14,7 @@ class Account  {
 
 
 Abstraction :  
+........................
  Hide internal implementation and just highlight the set of services, is called 
 abstraction. 
 By using abstract classes and interfaces we can implement abstraction.
@@ -21,8 +22,97 @@ By using abstract classes and interfaces we can implement abstraction.
 The main advantages of Abstraction are:  
 1. We can achieve security as we are not highlighting our internal 
 
+Abstraction Using Abstract Class
+.......................................
+
+Example
+abstract class BankAccount {
+
+    abstract void withdraw(double amount);
+
+    public void checkBalance() {
+        System.out.println("Balance: ₹50,000");
+    }
+}
+
+class SavingsAccount extends BankAccount {
+
+    @Override
+    void withdraw(double amount) {
+        System.out.println("Withdrawn ₹" + amount);
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        BankAccount account = new SavingsAccount();
+
+        account.checkBalance();
+        account.withdraw(5000);
+    }
+}
+Output
+Balance: ₹50,000
+Withdrawn ₹5000.0
+Explanation
+withdraw() is abstract because different account types may implement it differently.
+checkBalance() is common for all accounts, so it has a concrete implementation.
+
+Abstraction Using Interface
+...................................
+
+Example
+interface Payment {
+
+    void pay(double amount);
+}
+
+class UpiPayment implements Payment {
+
+    @Override
+    public void pay(double amount) {
+
+        System.out.println("UPI Payment: ₹" + amount);
+    }
+}
+
+class CreditCardPayment implements Payment {
+
+    @Override
+    public void pay(double amount) {
+
+        System.out.println("Credit Card Payment: ₹" + amount);
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Payment payment = new UpiPayment();
+
+        payment.pay(2500);
+    }
+}
+Output
+UPI Payment: ₹2500.0
+Explanation
+
+The client only calls pay(). Whether it's UPI or a credit card is hidden behind the interface
+
+Abstract Class                                                   	Interface
+Can have abstract and concrete methods	                           Primarily defines behavior (can also have default and static methods)
+Can have constructors and instance variables	                   No constructors; fields are public static final by default
+Supports single inheritance	                                       A class can implement multiple interfaces
+Uses extends	                                                    Uses implements
+
+
+
 
 Encapsulation :  
+........................
  Binding of data and corresponding methods into a single unit is called 
 Encapsulation . 
  If any java class follows data hiding and abstraction such type of class is said to 
@@ -31,9 +121,54 @@ be encapsulated clas
 Encapsulation=Datahiding+Abstraction  
 Example:  
 
+class BankAccount {
+
+    private double balance;
+
+    public BankAccount(double balance) {
+        this.balance = balance;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void deposit(double amount) {
+
+        if (amount > 0) {
+            balance += amount;
+        }
+    }
+
+    public void withdraw(double amount) {
+
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+        } else {
+            System.out.println("Insufficient Balance");
+        }
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        BankAccount account = new BankAccount(50000);
+
+        account.deposit(10000);
+        account.withdraw(5000);
+
+        System.out.println("Balance: ₹" + account.getBalance());
+    }
+}
+Output
+Balance: ₹55000.0
 
 
-IS-A Relationship(inheritance) :  
+
+IS-A Relationship(inheritance) :  agregation extends 
+.................  
 1. Also known as inheritance. 
 2. By using "extends" keywords we can implement IS-A relationship. 
 3. The main advantage of IS-A relationship is reusability. 
@@ -46,7 +181,8 @@ class Child extends Parent {
 } 
  
 
- HAS-A relationship: 
+ HAS-A relationship:  compositions  losly couple new operator  create object 
+ ...................
 1. HAS-A relationship is also known as composition (or) aggregation. 
 2. There is no specific keyword to implement HAS-A relationship but mostly we 
 can use new operator. 
@@ -76,7 +212,7 @@ Example:
 3. abs(float)
 
  compile time / overloading 
-
+............................................
  Method name must be same.
 Parameters must be different (number, type, or order).
 
@@ -104,7 +240,7 @@ public class Main {
 
 
 runtime poly / overriding 
-
+....................................
 Method name must be same.
 Parameters must be same. impletion diffrent 
 Cannot override final, static, or private methods.
@@ -133,6 +269,31 @@ public class Main {
         bank.interestRate();   //SBI Interest Rate: 7%
     }
 }The reference type is Bank, but the actual object is SBI. JVM decides which method to call at runtime.
+
+
+
+
+IIQ : In how many ways we can create an object ? (or) In 
+..............................................
+
+how many ways get an object in java ? 
+1. By using new Operator :  
+2. Test t = new Test(); 
+3. By using newInstance() :(Reflection Mechanism)  
+4. Test t=(Test)Class.forName("Test").newInstance(); 
+5. By using Clone() :  
+6. Test t1 = new Test(); 
+7. Test t2 = (Test)t1.Clone(); 
+8. By using Factory methods :  
+9. Runtime r = Runtime.getRuntime(); 
+10. DateFormat df = DateFormat.getInstance(); 
+11. By using Deserialization :  
+12. FileInputStream fis = new FileInputStream("abc.ser"); 
+13. ObjectInputStream ois = new ObjectInputStream(fis); 
+14. Test t = (Test)ois.readObject();
+
+
+
 
 
 costructor
@@ -267,3 +428,206 @@ public class Main {
 }  
 
 //SBI Loan
+
+
+
+////////////////////////////////////////
+
+Static vs Non-Static Methods and Blocks in Java (Interview Guide)
+1. Static Method
+....................................
+
+A static method belongs to the class, not to an object.
+
+Can be called without creating an object.
+Can access only static members directly.
+Cannot use this or super.
+
+Banking Example
+.....................
+class Bank {
+
+    static String bankName = "SBI";
+
+    static void displayBankName() {
+        System.out.println(bankName);
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Bank.displayBankName();
+    }
+}
+Output
+SBI
+
+Real-Time Use Cases
+.......................
+Utility methods
+Factory methods
+Math.sqrt()
+Collections.sort()
+
+2. Non-Static Method
+..................................................
+...........................................
+A non-static (instance) method belongs to an object.
+
+Requires an object to call it.
+Can access both static and non-static members.
+Banking Example
+class BankAccount {
+
+    private double balance = 50000;
+
+    void checkBalance() {
+        System.out.println("Balance: ₹" + balance);
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        BankAccount account = new BankAccount();
+
+        account.checkBalance();
+    }
+}...
+
+Output
+...........
+Balance: ₹50000.0
+
+Real-Time Use Cases
+........................................
+Deposit
+Withdraw
+Transfer money
+Check balance
+Static Block
+
+A static block executes only once when the class is loaded by the JVM, before main().
+
+Banking Example
+...........................
+class Bank {
+
+    static {
+
+        System.out.println("Loading Bank Configuration...");
+    }
+
+    public static void main(String[] args) {
+
+        System.out.println("Application Started");
+    }
+}
+..........................................
+Output
+Loading Bank Configuration...
+Application Started
+
+Real-Time Use Cases
+
+Load configuration
+Initialize database drivers
+Read properties files
+One-time application setup
+
+Non-Static Block (Instance Initializer Block)
+..................................................................
+A non-static block executes every time an object is created, before the constructor.
+
+Banking Example
+class Customer {
+
+    {
+
+        System.out.println("Customer Object Created");
+    }
+
+    Customer() {
+
+        System.out.println("Constructor Called");
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        new Customer();
+        new Customer();
+    }
+}
+Output
+Customer Object Created
+Constructor Called
+Customer Object Created
+Constructor Called
+
+Real-Time Use Cases
+
+Common object initialization
+Logging object creation
+Shared initialization code for multiple constructors
+Execution Order
+class Demo {
+
+    static {
+
+        System.out.println("1. Static Block");
+    }
+
+    {
+
+        System.out.println("2. Instance Block");
+    }
+
+    Demo() {
+
+        System.out.println("3. Constructor");
+    }
+
+    public static void main(String[] args) {
+
+        new Demo();
+    }
+}
+
+Output
+1. Static Block
+2. Instance Block
+3. Constructor
+
+
+Static                        vs Non-Static Method
+Static Method	               Non-Static Method
+Belongs to class	            Belongs to object
+Called using class name	                 Called using object
+No object required                 	Object required
+
+Can access only static members directly	Can access both static and non-static members
+Cannot use this or super	Can use this and super
+
+Static Block vs Non-Static Block
+Static Block	Non-Static Block
+Runs once when the class loads	Runs every time an object is created
+Executes before main()	Executes before the constructor
+Used for one-time initialization	Used for per-object initialization
+No object required	Requires object creatio
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////

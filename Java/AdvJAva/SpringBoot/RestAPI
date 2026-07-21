@@ -188,3 +188,814 @@ public ResponseEntity<User> createUser(@RequestBody User user) {
 }
 
 
+////////////////////////////////////////////////////////////////////
+
+
+
+
+=========================
+1) What is Webservice ?
+=========================
+
+=> Webservices are used to develop distributed applications.
+
+=> If one application is communicating with another application then we will call it as distributed application.
+
+		Passport <----------> AADHAR App
+
+		MakeMyTrip <--------> IRCTC App
+
+		GPay <-------------> Banking App
+
+=> Every Distributed application should maintain intereoperability.
+
+=> Intereoperability means irrespective of the platform and language if applications are communicating then we will call them as Intereoperable applications.
+
+		Java App <---------> .Net App
+
+		.Net App <----------> Python
+
+		Python App <--------> PHP
+
+		Angular <-------------> JAVA
+
+		React JS <----------> JAVA
+
+
+====================================================
+Q)  Why we should develop Distributed application?
+====================================================
+
+-> Distributed applications are used for Business to Business Communication ( B 2 B )
+
+-> We can resue the functionality of one project in another project.
+
+
+Ex: 
+
+-> IRCTC project contains logic to book train tickets
+
+-> MakeMyTrip application will communicate with IRCTC to book train ticket
+
+Note: In this scenario, MakeMyTrip application is re-using IRCTC application logic	to book train tickets.
+
+
+=> Distributed applications can be developed in 2 ways
+
+		1) SOAP Webservices (outdated)
+
+		2) RESTFul Services (Trending)
+
+
+====================
+What is REST API ?
+=====================			
+
+=> REST API means an application which provides business logic to other applications through internet.
+
+!!!  Distributed App = rest api / restful service / restful webservice / microservice   !!!!
+
+======================
+REST API Architecture
+=======================
+
+1) Provider / Resource
+
+2) Consumer / Client
+
+
+=> Provider means the application which is providing business services to other applications.
+
+=> Consumer means the application which is accessing business services from other applications.
+
+		Ex: IRCTC is provider and MakeMyTrip is consmer.
+
+Note: We will use JSON to exchange data between provider & consumer.
+		
+
+======
+JSON
+======
+
+=> JSON stands for Java Script Object Notation.
+
+=> JSON represents data in key-value format.
+
+Ex: 
+
+
+{
+	"id" : 101,
+	"name" : "Ashok",
+	"phone" : 8686868
+}
+
+=> JSON is very light weight.
+
+=> JSON is platform independent & language independent.
+
+=> JSON is used to transfer data over a network.
+
+=> Distributed applications will use JSON data for request & response.
+
+=========================================
+Working with JSON in Java Applications
+==========================================
+
+=> Java Applications can use JSON data
+
+=> To work with JSON data in Java app, we have third party libraries
+
+		1) JACKSON
+
+		2) GSON
+
+=> By using above libraries we can convert JSON data to Java Object and vice versa.
+
+=> The process of converting java obj to json is called as Serialization.
+
+=> The process of converting json data to java obj is called as de-serialization.
+
+
+---------------------------
+@Data
+public class Customer {
+
+    private Integer id;
+    private String name;
+    private Long phno;
+}
+------------------------------  
+public class App {
+    public static void main(String[] args) throws Exception {
+        App a = new App();
+        // a.convertJavaToJson();
+        a.convertJsonToJava();
+    }
+
+    public void convertJsonToJava() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        Customer[] customers = mapper.readValue(new File("customer.json"), Customer[].class);
+        for(Customer c : customers){
+            System.out.println(c);
+        }
+    }
+
+    public void convertJavaToJson() throws Exception {
+
+        Customer c1 = new Customer();
+        c1.setId(101);
+        c1.setName("Ashok");
+        c1.setPhno(7979799l);
+
+        Customer c2 = new Customer();
+        c2.setId(102);
+        c2.setName("John");
+        c2.setPhno(7565699l);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(new File("customer.json"), Arrays.asList(c1,c2));
+        mapper.writeValue(System.out, Arrays.asList(c1,c2));
+
+        System.out.println("JSON created...");
+
+    }
+}
+
+----------------------------------------------------- 
+
+
+===========
+GSON API
+===========
+
+### Git Hub Rep : https://github.com/ashokitschool/GSON-JSON-APP.git
+
+-----------------------------------------------
+<dependency>
+	<groupId>com.google.code.gson</groupId>
+	<artifactId>gson</artifactId>
+	<version>2.3.1</version>
+</dependency>
+---------------------------------------------
+
+Gson gson  = new Gson ( );
+
+gson.toJson(Object obj);
+
+gson.fromJson(File file);
+
+=================
+What is HTTP
+=================
+
+=> HTTP stands for Hyper Text Transfer Protocol.
+
+=> HTTP acts as mediator between Client & Server.
+
+=> HTTP is stateless protocol (can't remember converstation happended between client & server)
+
+=> We need to know about 
+
+        1) HTTP Request
+
+        2) HTTP Response
+
+        3) HTTP Methods
+
+        4) HTTP Status Codes
+
+========================
+HTTP Request Structure
+========================        
+
+=> It contains below parts
+
+        1) Request Line ( HTTP Method + Server URL )
+
+        2) Request Headers (Metadata) ==> (KEY - VALUE format)
+
+        3) Request Body (Payload ---> text  / xml / json)
+
+
+=============================
+HTTP Response Structure
+=============================
+
+=> It contains below parts
+
+        1) Response Line (Status Code + Status MSG)
+
+        2) Response Headers  (Metadata - K & V)
+
+        3) Response Body (Payload - text / xml / json)
+
+
+==============
+HTTP Methods
+==============
+
+GET  ---> It is used to get the data (no request body)
+
+POST ---> Send data (create record)
+
+PUT ---> Update record (complete update)
+
+PATCH ---> Partial Update
+
+DELETE  ---> Delete Record 
+
+===================
+HTTP Status Codes
+===================
+
+2XX (200 - 299) : Success
+
+4xx (400 - 499) : Client Error
+
+5xx (500 - 599) : Server Error
+
+
+
+=======================================
+Developing REST APIs using Spring Boot
+=======================================
+
+=> We will use 'spring-boot-starter-web' dependency in pom.xml
+
+=> As part of REST API development we need to learn both
+
+        1) Provider Development
+
+        2) Consumer Development
+
+=> For provider development we will use below annotations
+
+        -- @RestController (@Controller + @ResponseBody)
+
+        -- @GetMapping
+        -- @PostMapping
+        -- @PutMapping
+        -- @PatchMapping
+        -- @DeleteMapping
+
+        -- @RequestParam
+        -- @PathVariable
+
+        -- @RequestBody
+
+=> For Consumer development we have below 3 options
+
+        -- RestTemplate
+        -- WebClient
+        -- FeignClient (spring cloud)       
+
+
+Note : We will use POSTMAN to test provider functionality.        
+
+Note: We will use Swagger to generate provider documentation.
+
+
+=================
+HTTP GET Request
+=================
+
+=> GET request is used to get data from Server/Provider.
+
+=> GET request will not contain request body.
+
+=> If we want to send data in GET request then we need to use
+
+        1) Query Parameters
+        2) Path Parameters
+
+    Ex-1 : http://localhost:8081/welcome?name=raju
+
+    Ex-2: : http://localhost:8081/greet/john
+
+=> Query Parameters we can read using @RequestParam annotation
+
+=> Path Parameters we can read using @PathVariable annotation.
+
+------------------------------------------------------------------------
+@RestController
+public class MsgRestController {
+
+    @GetMapping(value = "/welcome", produces = "text/plain")
+    public String getWelcomeMsg(@RequestParam String name){
+        String msg = name+ ", Welcome to REST API";
+        return msg;
+    }
+
+    @GetMapping(value = "/greet/{name}", produces = "text/plain")
+    public ResponseEntity<String> getGreetMsg(@PathVariable String name){
+        String msg = name+", Good Morning..!!";
+        return new ResponseEntity(msg, HttpStatus.OK);
+    }
+}
+--------------------------------------------------------------------------------------------------
+
+ResponseEntity : It is a predefined class, it is used to customize response data with status code.
+
+produces : It represents in which format our API method sending response to consumer.
+
+--------------------------------------------------------------------------------------------------
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Customer {
+
+    private Integer cid;
+    private String name;
+    private String email;
+}
+
+--------------------------------------------------------
+
+@RestController
+public class CustomerRestController {
+
+    @GetMapping(value="/customer", produces = "application/json")
+    public ResponseEntity<Customer> getCustomer(){
+
+        Customer c1 = new Customer(1, "John", "john@gmail.com");
+
+        return new ResponseEntity<>(c1, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/customers", produces = "application/json")
+    public ResponseEntity<List<Customer>> getCustomers(){
+
+        Customer c1 = new Customer(1, "John", "john@gmail.com");
+        Customer c2 = new Customer(2, "Smith", "smith@gmail.com");
+        Customer c3 = new Customer(3, "David", "david@gmail.com");
+
+        List<Customer> customerList = Arrays.asList(c1, c2, c3);
+
+        return new ResponseEntity<>(customerList, HttpStatus.OK);
+
+    }
+}
+-----------------------------------------------------------------------------------------------------
+
+Note: When our REST API Method is returning object, internally that object will be converted into JSON data and that json data will go to consumer application in response body.
+
+-----------------------------------------------------------------------------------------------------
+
+
+
+==================
+HTTP Post Request
+==================
+
+=> POST method is used for creating new resource/record
+
+=> POST method contains request body
+
+=> To read the data from request body we can use @RequestBody annotation.
+
+
+---------------------------------------------------------------------------------
+
+@PostMapping(
+        value = "/customer",
+        consumes = "application/json",
+        produces = "application/json"
+)
+public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
+
+    System.out.println(customer);
+
+    // logic to save customer in DB
+
+    return new ResponseEntity<>(customer, HttpStatus.CREATED);
+}
+
+---------------------------------------------------------------------------------    
+
+==================
+HTTP PUT Request
+==================
+
+=> PUT method is used for updating resource/record
+
+=> PUT method contains request body
+
+------------------------------------------------------------------
+
+@PutMapping(
+        value = "/customer/{cid}",
+        consumes = "application/json",
+        produces = "application/json"
+)
+public ResponseEntity<Customer> updateCustomer(@PathVariable Integer cid, @RequestBody Customer customer) {
+
+    System.out.println(customer);
+
+    // logic to update the customer in DB based on given CID
+
+    return new ResponseEntity<>(customer, HttpStatus.OK);
+}
+
+------------------------------------------------------------------------    
+
+
+==================
+HTTP DELETE Request
+==================
+
+=> DELETE method is used for deleting resource/record
+
+=> DELETE method contains request body
+
+-----------------------------------------------------------------------------------------------
+
+@DeleteMapping("/customer/{cid}")
+public ResponseEntity<String> deleteCustomer(@PathVariable Integer cid) {
+
+    // logic to delete customer in DB based on given CID
+
+    return new ResponseEntity<>("Customer Deleted", HttpStatus.OK);
+}
+
+------------------------------------------------------------------------------------------------    
+
+=======================================================================================================
+
+Assignment -1 : Develop Spring Boot REST API to perform Crud operations with Database table using Spring Data jpa and test it using Swagger documentation.
+
+@@ Referenece Video : https://www.youtube.com/watch?v=_rOUDhCE-x4
+
+========================================================================================================
+
+==================
+What is Swagger ?
+==================
+
+=> Swagger is used to generate documentation for REST API.
+
+=> Using Swagger we can test rest api. It provides user interface for testing.
+
+=> To enable swagger documentation, add below dependency in project pom.xml file
+
+```
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>2.5.0</version>
+</dependency>
+
+```
+
+=> After running the application use below url to access swaager-documentation
+
+        @@@ Swagger UI URL : http://localhost:8080/swagger-ui/index.html/
+
+        @@@ Swagger Doc JSON URL : http://localhost:8080/v3/api-docs
+
+
+===================
+What is xml ?
+===================
+
+-> XML stands for extensible markup language
+
+-> xml is free and open source
+
+-> xml governed by w3c org
+
+-> xml represents data in the form of elements
+
+Ex:  <id>101</id>
+
+-> XML is used to represent the data
+
+-> XML is intereoperable (language independent)
+
+----------
+syntax:
+----------
+
+<person>
+    <id>101</id>
+    <name>Ashok</name>
+</person>
+
+-> We have 2 types of elements in xml
+
+    1) simple element (contains data directley)
+
+    2) compound element (contains child elements)
+
+============================================
+Dealing with xml data in java applications  
+============================================    
+
+=> Upto java 8v we have JAX-B api in jdk to deal with xml files in java.
+
+=> Using JAX-B api we can convert java object to xml and vice versa.
+
+Note: From java 9 onwards jax-b api is not part of JDK software.        
+
+=> If we want to deal with xml data in java applications, we need to add dependency.
+
+    Marshalling : Converting java object to xml data
+
+    Un-Marshalling : Converting xml data to java object
+
+=> To deal with xml data in spring boot rest api we need to add below dependency in pom.xml file
+
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+
+
+-------------------------------------------------------------------
+@GetMapping(
+        value = "/customer",
+        produces = { "application/json", "application/xml" }
+)
+public ResponseEntity<Customer> getCustomer() {
+
+    Customer c1 = new Customer(1, "John", "john@gmail.com");
+
+    return new ResponseEntity<>(c1, HttpStatus.OK);
+}
+-------------------------------------------------------------------    
+
+======================
+Consumer Development
+======================
+
+=> The application which is accessing other applications is called as Consumer application.
+
+    Ex: MakeMyTrip app accessing services from IRCTC application.
+
+=> Using Spring Boot we can develop Consumer in 3 ways
+
+        1) RestTemplate (outdated)
+
+        2) WebClient
+
+        3) FeignClient
+
+=> RestTemplate supports only Synchronus communication.
+
+=> WebClient supports both sync & async communication (spring 5.x).
+
+=> Feign Client is used for inter service communication in Microservices.
+
+
+===================================
+What is Synchronus Communication ?
+===================================
+
+=> After sending request to provider if consumer is waiting for the response then it is called as Synchronus communication.
+
+===================================
+What is Asynchronus Communication ?
+===================================
+
+=> After sending request to provider if consumer is not waiting for the response then it is called as asynchronus communication.
+
+
+================
+Third Party API
+================
+
+URL : https://api.restful-api.dev/objects/1
+
+GET Request 
+
+Output : application/json
+
+----------------------------------------------------------------------------------------
+
+@Service
+public class ProductService {
+
+    public void getProductById_1(int id) {
+
+        String url = "https://api.restful-api.dev/objects/{id}";
+
+        RestTemplate rt = new RestTemplate();
+
+        ResponseEntity<String> forEntity = rt.getForEntity(url, String.class, id);
+
+        String body = forEntity.getBody();
+
+        System.out.println(body);
+    }
+
+    public void getProductById_2(int id) {
+
+        String url = "https://api.restful-api.dev/objects/{id}";
+
+        RestTemplate rt = new RestTemplate();
+
+        ResponseEntity<Product> forEntity = rt.getForEntity(url, Product.class, id);
+
+        Product p = forEntity.getBody();
+
+        System.out.println(p);
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+
+======================
+What is WebClient ?
+======================
+
+=> It is pre-defined interface which is part of 'spring-webflux-starter' (reactive-web) 
+
+=> Using WebClient interface we can send HTTP requests to provider applications. 
+
+=> WebClient supports both sync & async communications.
+
+
+--------------------------------------------------------------
+
+@Service
+public class ProductService {
+    
+    private String apiUrl = "https://api.restful-api.dev/objects/{id}";
+    
+    private String addProductURL = "https://api.restful-api.dev/objects";
+    
+    public void getProductJson(int id) {
+        
+        WebClient webClient = WebClient.create(); // it will give impl cls obj
+        
+          Mono<String> bodyToMono = webClient.get()
+                                             .uri(apiUrl, 1)
+                                             .retrieve()
+                                             .bodyToMono(String.class);
+          
+        String block = bodyToMono.block(); //sync call
+        System.out.println(block);
+    }
+    
+    public void getProductObj(int id) {
+        
+        WebClient webClient = WebClient.create(); // it will give impl cls obj
+        
+          Mono<Product> bodyToMono = webClient.get()
+                                             .uri(apiUrl, 1)
+                                             .retrieve()
+                                             .bodyToMono(Product.class);
+          
+          Product p = bodyToMono.block(); //sync call
+          
+          System.out.println(p);
+    }
+    
+    public void getProductObjAsync(int id) {
+        
+        WebClient webClient = WebClient.create(); // it will give impl cls obj
+        
+            webClient.get()
+                     .uri(apiUrl, 1)
+                     .retrieve()
+                     .bodyToMono(Product.class)
+                     .subscribe(response -> { // async call
+                         handleResponse(response);
+                     });      
+                  
+        System.out.println("========= Request sending completed =============");
+    }
+    
+    
+    private void handleResponse(Product p) {
+        System.out.println(p);
+    }
+    
+    
+    public void addProduct() {
+        
+        Data d = new Data();
+        d.setColor("Blue");
+        d.setCapacity("512 GB");
+        
+        Product p = new Product();
+        p.setName("Apple 19 Pro");
+        p.setData(d);
+        
+        WebClient webClient = WebClient.create(); // it will give impl cls obj
+        
+          Mono<String> bodyToMono = webClient.post()
+                                             .uri(addProductURL)
+                                             .header("Content-Type", "application/json")
+                                             .header("Accept", "application/json")
+                                             .body(BodyInserters.fromValue(p)) // payload in req body
+                                             .retrieve()
+                                             .bodyToMono(String.class);
+          String block = bodyToMono.block();
+          System.out.println(block);
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+1) What is Webservice and Why ?
+
+2) What is intereoperability
+
+3) REST Architecture (Provider & Consumer)
+
+4) HTTP Protocol
+        
+        - Request Structure
+        - Response Structures
+        - Status Codes
+        - HTTP Methods
+
+5) JSON with Jackson API       
+
+6) REST API Development
+
+        - @RestController
+
+        - @GetMapping
+        - @PostMapping
+        - @PutMapping
+        - @DeleteMapping
+
+        - @RequestParam
+        - @PathVariable
+        - @RequestBody
+
+        - ResponseEntity class
+
+7) Postman tool     
+
+8) consumes & produces (media types)
+
+9) Accept & Content-Type headers   
+
+10) Working with XML Data in REST API
+
+11) Swagger Documentation
+
+12) SpringBoot REST API with Data JPA to perform CRUD Operations.
+
+13) Consumer Development
+
+        - RestTemplate
+
+        - WebClient
+
+14) Sync & Async client development        
+
+=====================================Assignment===================================================
+
+Develop SpringBoot web application using Thymeleaf to display products in table format.
+
+Get Products From Third Party REST API by sending GET request : 
+
+@@@@@ Third Party REST API URL : https://api.restful-api.dev/objects
+
+======================================================================================================

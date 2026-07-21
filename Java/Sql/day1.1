@@ -39,7 +39,7 @@ in mysql ; optional
 
 create table tablename(colname,)
 
-numeriacal data type int float
+numeriacal data type int float  bigint 
 float- accent decimal
 character /String datatype-char,varchar
 char : fixed lengt
@@ -482,7 +482,7 @@ select * from ashokdb;
 
 
 #DCL
-
+...................................
 GRANT SELECT, INSERT
 ON ashokdb
 TO sunil;
@@ -615,12 +615,13 @@ insert into category values (1,'ss'),(1,'ee');
 
 
  #Check  -ensures that all values in a column satisfy a specific condition or rule
- 
+ ..........................
  create table users (userid int, name varchar(20),age int CHECK (age>=18));
 insert into users values (1,'john',21);
 insert into users values (2,'sam',12);  #not  insert check constrsint chk is voilted 
 
 # Default key - allows us to set any defalut value-- The DEFAULT constraint allows us to set a default value for a column when we don't want to-- provide any value during the insertion of a row.
+.......................
 create table orders(order_id int,order_status varchar(20) DEFAULT 'pending');
 insert into orders(order_id)  values (1),(2) ;-- here we need to insert data for remaining columns only
 
@@ -633,7 +634,7 @@ insert into cus(order_id)  values (1),(2) ;-- here we need to insert data for re
 
 
 # forign KEy  :- relationship bt two table (refer to another table pk) 
-
+...............................
 
 # forign KEy  :- relationship bt two table (refer to another table pk) 
 
@@ -657,7 +658,9 @@ truncate table Course_Details
 drop table Course_Details
 -- If we use trunacte/drop on Course_Details, it throws error because we used references
 -- of this table in students table
--- So to remove Course_Details table /Parent table we have 2 options-- Option-1. We can drop Students table/child table. By doing this foreign key relation-- will be deleted and then we use trunacte/drop on Course_Details table
+-- So to remove Course_Details table /Parent table we have 2 options
+-- Option-1. We can drop Students table/child table. By doing this foreign key relation
+-- will be deleted and then we use trunacte/drop on Course_Details table
 
 Drop table students
 

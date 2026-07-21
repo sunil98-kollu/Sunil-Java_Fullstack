@@ -10,6 +10,17 @@ select * from table1
 inner join table2
 on table1.commoncol = table2.commoncol;
 
+-- right join  display right &  matching of left  , non matching return null
+select * from table1
+right join table2
+on table1.commoncol = table2.commoncol;
+
+
+-- left join  display left &  matching of right  , non matching return null
+ select * from customers 
+ left join age 
+ on customers.id=age.id;
+
 
 # Full join - In mysql we cannot perform full join-- but if we want to perform we need to use Union-- Union - used to combine the result set of two or more select queries-- syntax
 
@@ -21,16 +32,83 @@ select * from table1
 right join table2
 on table1.commoncol = table2.commoncol;
 
--- left join  display left &  matching of right  , non matching return null
- select * from customers 
- left join age 
- on customers.id=age.id;
+
+
+
+-- Natural join - if there is common col b/w 2 tables,
+-- it will create a join b/w them 
+-- it displays common data b/w them just like inner join
+
+
+Both tables have a common column:
+
+dept_id
+
+SELECT *
+FROM Employee
+NATURAL JOIN Department;
+
+Output
+
+emp_id	emp_name	dept_id	  dept_name
+101	  Sunil	            1	         IT
+102	  Anil	            2	        HR
+103	  Ravi	            1	        IT
+
+Notice that dept_id appears only once in the result because NATURAL JOIN merges the common column.
+
+
+
+- -- Cross Join - cartesian product
+-- it will combine each row with all the rows in other table
+
+
+-- Self join - joining any table with itself
+..........................................................
+..........................................................
+Employee → Manager
+Parent → Child
+Category → Subcategory
+
+Since the same table is used twice, table aliases are required.
 
 
 
 
+-- Group by Clause-- Having Clause
+..........................................................
+..........................................................
+-- Group by clause - When we want to analyse about the group of data we use group by clause.
+-- Group by clause - is used with aggregate functions like min(),max(),sum(),avg(),count() to
+# summarize-- the data based on specific columns-- grouping will be done based on gender,score,location or any other columns based on our
 
 
+-- Having Clause - If we want to filter the grouped data, then we use having clause
+
+
+
+sub query 
+..........................................................
+..........................................................
+-- If a query is nested in another query to retrive
+-- the results, then that query is called as sub query-- Basically sub query contains 2 parts
+-- 1.Inner query/sub query
+-- 2. Outer query/ main query
+
+
+A Single Row Subquery is a subquery that returns exactly one row and one value. It is commonly used with comparison operators such as =, >, <, >=, and <=.
+
+commnly use as = > < >= <= <>
+
+-- Multi Row Subquery - if a sub query returns more than 1 row as a output, then it is called as Multi Row Subquery
+  use as In bw count etx 
+
+-- - Non Correlated Sub query - If inner query/sub query is not related-- to outer query then that is called as Non Correlated Sub query
+-- If we can able to execute inner queries seperatly, then it is-- Non Correlated Sub query
+
+-- Correlated sub query - If inner query/sub query is related-- to outer query then that is called as Correlated Sub query
+
+/////////////////////////////////////////////////////////////////////////////////////////
 create database joinstable;
 
 use joinstable;
@@ -615,7 +693,9 @@ This returns all employees whose department exists in the Department table
 
 
 */
--- - Non Correlated Sub query - If inner query/sub query is not related-- to outer query then that is called as Non Correlated Sub query-- If we can able to execute inner queries seperatly, then it is-- Non Correlated Sub query
+-- - Non Correlated Sub query - If inner query/sub query is not related-- to outer query then that is called as Non Correlated Sub query
+-- If we can able to execute inner queries seperatly, then it is-- Non Correlated Sub query
+
 -- Correlated sub query - If inner query/sub query is related-- to outer query then that is called as Correlated Sub query
 ..........................................................
 ..........................................................

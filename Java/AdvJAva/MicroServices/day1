@@ -393,9 +393,28 @@ public class WelcomeRestController {
 8) Check Zipkin Server UI and click on Run Query button
 	(it will display trace-id with details)
 
+package in.ashokit.rest;
 
-=========================================================================
-How to reload config properties dynamically without restarting servers 
+@RestController
+@RefreshScope
+public class WelcomeRestController {
+
+	@Value("${msg}")
+	private String msg;
+
+	@Autowired
+	private Environment env;
+
+	@GetMapping("/welcome")
+	public String getWelcomeMsg() {
+
+		String port = env.getProperty("server.port");
+ 
+		return msg + "(" + port + ")";       config file lo msg ni return chestadu file name should same in git congig file 
+}
+
+=========================================================================  @RefreshScope
+How to reload config properties dynamically without restarting servers  
 =========================================================================	
 
 => We need to make below 3 changes in "config-client-app" to reload latest config props
@@ -481,8 +500,13 @@ public class GreetRestController {
 8) Check Zipkin Server UI and click on Run Query button
 	(it will display trace-id with details)
 
+rest temp talk only single srver loadbalance not achive 
+feign clinet we can
+=============================================  https://
 
-=============================================
+ashok-it.teachable.com/courses/2901687/lectures/64120171
+
+ashok-it.teachable.com/courses/2901687/lectures/64120171
 Interservice communication using FeignClient
 =============================================
 
@@ -537,7 +561,116 @@ public class GreetRestController {
 
 	(It should give combined response)
 
-----------------------------------------------------------------------
+
+we want access3 diff apis we can create 3 diff api create 
+
+
+Real-Time Banking Example
+.......................................................
+Suppose we have two microservices:
+
+Customer Service (Port:8081)
+
+↓
+
+Account Service (Port:8082)
+
+When the customer logs in, Customer Service needs account details from Account Service.
+
+<dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-starter-openfeign</artifactId> </dependency>
+
+Step 2: Enable Feign
+@SpringBootApplication
+@EnableFeignClients
+public class CustomerApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(CustomerApplication.class, args);
+    }
+}
+
+@EnableFeignClients scans for interfaces annotated with @FeignClient.
+
+Step 3: Account Service
+..........
+Controller
+@RestController
+@RequestMapping("/accounts")
+public class AccountController {
+
+    @GetMapping("/{id}")
+    public Account getAccount(@PathVariable Long id) {
+
+        return new Account(id, "Sunil", 50000);
+    }
+}
+
+Account Class
+public class Account {
+
+    private Long id;
+    private String customerName;
+    private double balance;
+
+    public Account(Long id, String customerName, double balance) {
+        this.id = id;
+        this.customerName = customerName;
+        this.balance = balance;
+    }
+
+    // Getters and Setters
+}
+
+Step 4: Customer Service
+............................
+Feign Client Interface
+@FeignClient(name = "account-service", url = "http://localhost:8082")
+public interface AccountClient {
+
+    @GetMapping("/accounts/{id}")
+    Account getAccount(@PathVariable Long id);
+}
+
+Spring automatically creates the implementation at runtime.
+
+Step 5: Service Class
+..................
+@Service
+public class CustomerService {
+
+    @Autowired
+    private AccountClient accountClient;
+
+    public Account getCustomerAccount(Long id) {
+
+        return accountClient.getAccount(id);
+    }
+}
+
+Notice that it looks like calling a normal Java method.
+
+
+Step 6: Controller
+...................
+@RestController
+@RequestMapping("/customers")
+public class CustomerController {
+
+    @Autowired
+    private CustomerService service;
+
+    @GetMapping("/{id}")
+    public Account getAccount(@PathVariable Long id) {
+
+        return service.getCustomerAccount(id);
+    }
+}
+
+
+
+
+
+
 
 
 ==================

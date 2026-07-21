@@ -1,4 +1,24 @@
 
+The following are some of important classes present in java.lang package.  
+1. Object class  
+2. String class  
+3. StringBuffer class  
+4. StringBuilder class (1.5 v) 
+5. Wrapper Classes  
+6. Autoboxing and Autounboxing(1.5 v)  
+
+
+As object class acts as a root (or) parent (or) super for all java classes, by default 
+its methods are available to every java class. 
+
+ Note : If our class doesn't extends any other class then it is the direct child class 
+of object  
+If our class extends any other class then it is the indirect child class of Object. 
+
+
+
+
+
 The following is the list of all methods present in java.lang Object class : 
 1. public String toString();  
 2. public native int hashCode(); 
@@ -215,6 +235,155 @@ String s2 = "Java";
 System.out.println(s1 == s2); // true 
 
 
+Shallow Cloning
+...................................
+In shallow cloning:
+
+A new object is created.
+Primitive fields are copied.
+Object references are copied, not the objects themselves.
+
+If the referenced object is modified, both the original and cloned objects see the change.
+
+Example
+class Address {
+    String city;
+
+    Address(String city) {
+        this.city = city;
+    }
+}
+
+class Employee implements Cloneable {
+
+    int id;
+    String name;
+    Address address;
+
+    Employee(int id, String name, Address address) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();   // Shallow Copy
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+
+        Address address = new Address("Hyderabad");
+
+        Employee e1 = new Employee(101, "Sunil", address);
+
+        Employee e2 = (Employee) e1.clone();
+
+        e2.address.city = "Bangalore";
+
+        System.out.println(e1.address.city);
+        System.out.println(e2.address.city);
+    }
+}
+Output
+Bangalore
+Bangalore
+
+
+Memory Diagram
+Original Employee
+        |
+        |-------> Address("Hyderabad")
+
+Clone Employee
+        |
+        |-------> Same Address Object
+
+Both objects point to the same Address.
+
+
+
+Deep Cloning
+....................................
+In deep cloning:
+
+A new object is created.
+All nested objects are also copied.
+No references are shared.
+Example
+class Address {
+
+    String city;
+
+    Address(String city) {
+        this.city = city;
+    }
+}
+
+class Employee implements Cloneable {
+
+    int id;
+    String name;
+    Address address;
+
+    Employee(int id, String name, Address address) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+
+        Employee emp = (Employee) super.clone();
+
+        emp.address = new Address(address.city);
+
+        return emp;
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+
+        Employee e1 =
+                new Employee(101, "Sunil", new Address("Hyderabad"));
+
+        Employee e2 = (Employee) e1.clone();
+
+        e2.address.city = "Bangalore";
+
+        System.out.println(e1.address.city);
+        System.out.println(e2.address.city);
+    }
+}
+Output
+Hyderabad
+Bangalore
+
+
+Memory Diagram
+Employee1
+     |
+     |----> Address("Hyderabad")
+
+Employee2
+     |
+     |----> Address("Hyderabad")
+
+
+
+  Difference Between Shallow and Deep Cloning
+
+Shallow Cloning	                   Deep Cloning
+Copies object references	    Copies the referenced objects too
+Nested objects are shared	    Nested objects are independent
+
+
 getClass() method : 
 ....................................
 
@@ -245,14 +414,137 @@ wait( ) , notify( ) , notifyAll( )
 We can use these methods for inter thread communication  
 
 
+Immutable program : 
+ ..................................
+
+final class CreateImmutable  { 
+ private int i; 
+ CreateImmutable(int i)  { 
+  this.i=i; 
+ } 
+ public CreateImmutable modify(int i)  { 
+  if(this.i==i) 
+   return this; 
+  else 
+   return (new CreateImmutable(i)); 
+ } 
+ public static void main(String[] args)  { 
+ CreateImmutable c1=new CreateImmutable(10); 
+ CreateImmutable c2=c1.modify(100); 
+ CreateImmutable c3=c1.modify(10); 
+ System.out.println(c1==c2);//false 
+ System.out.println(c1==c3);//true 
+ CreateImmutable c4=c1.modify(100); 
+ System.out.println(c2==c4);//false 
+ } 
+}
+
+
+Final vs immutability : 
+.......................
+1. final modifier applicable for variables where as immutability concept applicable 
+for objects
+
+If reference variable declared as final then we can't perform reassignment for 
+the reference variable it doesn't mean we can't perform any change in that 
+object.
+
+1. final variable (valid)  
+2. final object (invalid)  
+3. immutable variable (invalid)  
+4. immutable object (valid)  
+
+
 
 StringBuffer                                                             StringBuilder  
+.................................
 Every method present in StringBuffer is                                     No method present in StringBuilder is  synchronized.
 synchronized. 
                                                                              No method present in StringBuilder is synchronized. 
  Thread  safe.                                                                    Not  Thread  safe.
-                                                                                  
+
+
+StringBuffer : 
+...........................................
+1. If the content will change frequently then never recommended to go for String 
+object because for every change a new object will be created internally. 
+2. To handle this type of requirement we should go for StringBuffer concept. 
+3. The main advantage of StringBuffer over String is, all required changes will be 
+performed in the existing object only instead of creating new object.(won't create 
+new object) 
+ 
+ 
+Constructors : 
+1. StringBuffer sb=new StringBuffer();  
+.....................................
+Creates an empty StringBuffer object with default initialcapacity "16". 
+Once StringBuffer object reaches its maximum capacity a new StringBuffer 
+object will be created with  
+Newcapacity=(currentcapacity+1)*2. 
+ 
+ 
+Example: 
+class StringBufferDemo  { 
+ public static void main(String[] args)  { 
+ StringBuffer sb=new StringBuffer(); 
+ System.out.println(sb.capacity());//16 
+ sb.append("abcdefghijklmnop"); 
+ System.out.println(sb.capacity());//16 
+ sb.append("q"); 
+ System.out.println(sb.capacity());//34 
+ } 
+} 
+2. StringBuffer sb=new StringBuffer(int initialcapacity);  
+...........................................................................
+Creates an empty StringBuffer object with the specified initial capacity. 
+Example: 
+ 
+class StringBufferDemo  { 
+ public static void main(String[] args)  { 
+ StringBuffer sb=new StringBuffer(19); 
+ System.out.println(sb.capacity());//19 
+ } 
+} 
+3. StringBuffer sb=new StringBuffer(String s);  
+.......................................................
 operate simultaneously on the StringBuilder                                       object hence StringBuilder is not Thread safe.
+
+Creates an equivalent StringBuffer object for the given String with 
+capacity=s.length()+16;  
+Example: 
+ 
+class StringBufferDemo { 
+ public static void main(String[] args)  { 
+ StringBuffer sb=new StringBuffer("ashok"); 
+ System.out.println(sb.capacity());//21 
+ } 
+}
+
+
+Important methods of StringBuffer : 
+...........................
+1. public int length();  
+Return the no of characters present in the StringBuffer. 
+2. public int capacity(); 
+Returns the total no of characters StringBuffer can accommodate(hold). 
+3. public char charAt(int index); 
+It returns the character located at specified index.  
+Example: 
+class StringBufferDemo { 
+ public static void main(String[] args)  { 
+ StringBuffer sb=new StringBuffer("saiashokkumarreddy"); 
+ System.out.println(sb.length());//18 
+ System.out.println(sb.capacity());//34 
+ System.out.println(sb.charAt(14));//e 
+ System.out.println(sb.charAt(30));//RE : 
+StringIndexOutofBoundsException 
+ } 
+} 
+4. public void setCharAt(int index, char ch);  
+To replace the character locating at specified index with the provided character. 
+
+
+
 
 String vs StringBuffer vs StringBuilder : 
 ..........................................................
@@ -295,8 +587,16 @@ public static void main(String[] args) {
 
         System.out.println(list);
 
+Constructors : 
+1. All most all wrapper classes define the following 2 constructors one can take 
+corresponding primitive as argument and the other can take String as argument. 
+2. Example: 
+3. 1) Integer i=new Integer(10); 
+4. 2) Integer i=new Integer("10");
+
+
 Utility Methods
-        .
+.............................
 int num = Integer.parseInt("123");
 
 System.out.println(num);
@@ -305,11 +605,137 @@ Output:
 
 123
 
+Utility methods : 
+1. valueOf() method.  
+2. XXXValue() method.  
+3. parseXxx() method. 
+4. toString() method. 
 
+valueOf() method :  
+........................
+We can use valueOf() method to create wrapper object for the given primitive or String 
+this method is alternative to constructor.  
+
+Every wrapper class except Character class contains a static valueOf() method to create 
+wrapper object for the given String. 
+public static wrapper valueOf(String s);  
+Example: 
+class WrapperClassDemo { 
+ public static void main(String[] args)throws Exception  { 
+ Integer i=Integer.valueOf("10"); 
+ Double d=Double.valueOf("10.5"); 
+ Boolean b=Boolean.valueOf("ashok"); 
+ System.out.println(i);//10 
+ System.out.println(d);//10.5 
+ System.out.println(b);//false 
+ } 
+}
+
+Form 3 : 
+Every wrapper class including Character class defines valueOf() method to convert 
+primitive to wrapper object. 
+public static wrapper valueOf(primitive p);  
+Example: 
+class WrapperClassDemo { 
+ public static void main(String[] args)throws Exception   { 
+ Integer i=Integer.valueOf(10); 
+ Double d=Double.valueOf(10.5); 
+ Boolean b=Boolean.valueOf(true); 
+ Character ch=Character.valueOf('a'); 
+ System.out.println(ch); //a 
+ System.out.println(i);//10 
+ System.out.println(d);//10.5 
+ System.out.println(b);//true 
+ } 
+} 
+
+xxxValue() method :  
+.........................
+We can use xxxValue() methods to convert wrapper object to primitive. 
+
+Every number type wrapper class (Byte, Short, Integer, Long, Float, Double) contains 
+the following 6 xxxValue() methods to convert wrapper object to primitives. 
+ 
+1)public byte byteValue()  
+2)public short shortValue()  
+3)public int intValue()  
+4)public long longValue()  
+5)public float floatValue()  
+6)public double doubleValue();  
+Example: 
+class WrapperClassDemo  { 
+ public static void main(String[] args)throws Exception   { 
+ Integer i=new Integer(130); 
+ System.out.println(i.byteValue());//-126 
+ System.out.println(i.shortValue());//130 
+ System.out.println(i.intValue());//130 
+ System.out.println(i.longValue());//130 
+ System.out.println(i.floatValue());//130.0 
+ System.out.println(i.doubleValue());//130.0 
+ } 
+
+charValue() method: 
+Character class contains charValue() method to convert Character object to char 
+primitive. 
+public char charValue();  
+Example: 
+class WrapperClassDemo  { 
+ public static void main(String[] args)  { 
+ Character ch=new Character('a'); 
+ char c=ch.charValue(); 
+ System.out.println(c);//a 
+ } 
+} 
+
+booleanValue() method:  
+Boolean class contains booleanValue() method to convert Boolean object to boolean 
+primitive. 
+public boolean booleanValue( );  
+Example: 
+class WrapperClassDemo  { 
+ public static void main(String[] args)  { 
+ Boolean b=new Boolean("ashok"); 
+ boolean b1=b.booleanValue(); 
+ System.out.println(b1);//false 
+ } 
+}
+
+
+parseXxx() method :  
+We can use this method to convert String to corresponding primitive.  
+ 
+Form1 : 
+Every wrapper class except Character class contains a static parseXxx() method to 
+convert String to corresponding primitive. 
+public static primitive parseXxx(String s);  
+Example: 
+class WrapperClassDemo { 
+ public static void main(String[] args)  { 
+ int i=Integer.parseInt("10"); 
+ boolean b=Boolean.parseBoolean("ashok"); 
+ double d=Double.parseDouble("10.5"); 
+ System.out.println(i);//10 
+ System.out.println(b);//false 
+ System.out.println(d);//10.5 
+ } 
+} 
+
+toString() method :  
+We can use toString() method to convert wrapper object (or) primitive to String.  
+ 
+Form 1 :
+
+class WrapperClassDemo { 
+ public static void main(String[] args) { 
+ Integer i=Integer.valueOf("10"); 
+ System.out.println(i);//10 
+ System.out.println(i.toString());//10 
+ } 
+} 
 
 
 Autoboxing
-/////////////////////////////
+.........................................
 
 Automatic conversion of a primitive type into its wrapper object.
 

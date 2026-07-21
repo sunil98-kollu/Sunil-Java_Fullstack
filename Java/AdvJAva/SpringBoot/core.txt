@@ -94,15 +94,19 @@ method level
 2. @Component vs @Service vs @Repository vs @Controller
 ...........
 
+Component
+.......
 class is managed by ioc container 
 rep java class as spring bean
 spring will auto detech this class  through component scanning ,register it as spring bean 
 
-also called as component, specially our  class contains Busoiness logic , we use as @servie
+servie:- also called as component, specially our  class contains Busoiness logic , we use as @servie
 
 intreact woth Db,  used to automate (DAO) class as sprign bean
 automate exception transclation from jdbc into pring Databse exception 
 
+controller
+.......
 handle mvc ,return viwname
 
 return Api response 
@@ -231,8 +235,7 @@ Marks one bean as the default bean.
 
 @Service
 @Primary
-public class CreditCardPaymentService
-        implements PaymentService {
+public class CreditCardPaymentService implements PaymentService {
 
     public void pay() {
         System.out.println("Credit Card Payment");

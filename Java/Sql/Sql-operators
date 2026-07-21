@@ -1,11 +1,70 @@
-🔥 Summary Table
+1. Arithmetic Operators
+.......................
+Used for mathematical calculations.
+
+Operator	Description	Example
++	Addition	SELECT salary + 1000 FROM employees;
+-	Subtraction	SELECT salary - 500 FROM employees;
+*	Multiplication	SELECT salary * 12 FROM employees;
+/	Division	SELECT salary / 2 FROM employees;
+%	Modulus (remainder)	SELECT 10 % 3;
+
+2. Comparison Operators
+..................
+=	Equal to	WHERE age = 25
+!= or <>	Not equal to	WHERE age <> 25
+>	Greater than	WHERE salary > 50000
+<	Less than	WHERE salary < 50000
+>=	Greater than or equal to	WHERE age >= 18
+<=	Less than or equal to	WHERE age <= 60
+
+3. Logical Operators
+..........
+Used to combine conditions.
+
+Operator	Description	Example
+AND	All conditions must be true	WHERE age > 18 AND city = 'London'
+OR	At least one condition must be true	WHERE city = 'Paris' OR city = 'Rome'
+NOT	Negates a condition	WHERE NOT age = 18
+4. Special Operators
+.........................
+
+5. Set Operators
+
+Used to combine results from multiple queries.
+
+Operator	Description
+UNION	Combines results and removes duplicates
+UNION ALL	Combines results including duplicates
+INTERSECT	Returns common rows
+EXCEPT / MINUS	Returns rows from first query not in second
+
+BETWEEN
+LIKE  
+IN 
+LIKE
+ IS NULL
+  EXISTS
+   ANY / ALL
+
+ limit   Number of rows to show	     LIMIT 5	                  
+
+ offset  number of rows to skip         OFFSET 10
+  
+
+
+
+ Summary Table
+ ...........................
 Operation	Foreign Key Impact
 INSERT	Must exist in parent table
 UPDATE	Cannot change to invalid parent value
 DELETE	Restricted or cascades
 TRUNCATE	Usually blocked if referenced
 DROP	Must drop child table first
-💡 Real-Time Example
+
+ Real-Time Example
+ .
 E-commerce System
 Customer → Orders
 
@@ -59,7 +118,7 @@ Fast answer
 SQL operators are special keywords or symbols used in SQL statements to perform operations on data.
 
 1. Arithmetic Operators
-
+................................
 Used for mathematical calculations.
 
 Operator	Description	Example
@@ -68,8 +127,9 @@ Operator	Description	Example
 *	Multiplication	SELECT salary * 12 FROM employees;
 /	Division	SELECT salary / 2 FROM employees;
 %	Modulus (remainder)	SELECT 10 % 3;
-2. Comparison Operators
 
+2. Comparison Operators
+...........................
 Used to compare values.
 
 Operator	Description	Example
@@ -79,29 +139,31 @@ Operator	Description	Example
 <	Less than	WHERE salary < 50000
 >=	Greater than or equal to	WHERE age >= 18
 <=	Less than or equal to	WHERE age <= 60
-3. Logical Operators
 
+3. Logical Operators
+................
 Used to combine conditions.
 
 Operator	Description	Example
 AND	All conditions must be true	WHERE age > 18 AND city = 'London'
 OR	At least one condition must be true	WHERE city = 'Paris' OR city = 'Rome'
 NOT	Negates a condition	WHERE NOT age = 18
+
 4. Special Operators
 BETWEEN
-
+.........................
 Checks whether a value lies within a range.
 
 SELECT * FROM employees
 WHERE salary BETWEEN 30000 AND 50000;
-IN
+IN 
 
 Checks whether a value matches any value in a list.
 
 SELECT * FROM employees
 WHERE department IN ('HR', 'IT', 'Finance');
 LIKE
-
+....................
 Used for pattern matching.
 
 SELECT * FROM employees
@@ -112,13 +174,14 @@ Common wildcards:
 % → any number of characters
 _ → exactly one character
 IS NULL
-
+..................
 Checks for NULL values.
 
 SELECT * FROM employees
 WHERE manager_id IS NULL;
-EXISTS
 
+EXISTS
+..........
 Checks whether a subquery returns any rows.
 
 SELECT * FROM departments d
@@ -127,8 +190,9 @@ WHERE EXISTS (
     FROM employees e
     WHERE e.department_id = d.department_id
 );
-ANY / ALL
 
+ANY / ALL
+.............
 Compare a value with a set of values returned by a subquery.
 
 WHERE salary > ALL (
@@ -136,8 +200,9 @@ WHERE salary > ALL (
     FROM employees
     WHERE department = 'HR'
 );
-5. Set Operators
 
+5. Set Operators
+...........................
 Used to combine results from multiple queries.
 
 Operator	Description
@@ -147,7 +212,7 @@ INTERSECT	Returns common rows
 EXCEPT / MINUS	Returns rows from first query not in second
 
 Example:
-
+...................................
 SELECT city FROM customers
 UNION
 SELECT city FROM suppliers;
@@ -179,6 +244,7 @@ LIMIT n;
 Example 1: Get first 5 employees
 SELECT * FROM Employee
 LIMIT 5;
+
 Example 2: Top 3 highest salaries
 SELECT * FROM Employee
 ORDER BY salary DESC
@@ -216,7 +282,8 @@ SELECT * FROM Employee
 FETCH FIRST 5 ROWS ONLY;
 Interview Answer
 
-The LIMIT clause is used to restrict the number of rows returned by a query. It is commonly used in pagination and fetching top records from a database.
+The LIMIT clause is used to restrict the number of rows returned by a query. 
+It is commonly used in pagination and fetching top records from a database.
 
 One-Line Memory Trick
 

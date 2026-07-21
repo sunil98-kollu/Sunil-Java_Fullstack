@@ -1,5 +1,192 @@
 
 
+Java source file structure: 
+
+{  
+public static void main(String args[]){  
+System.out.println("A class main method is executed");  
+}  
+}  
+class B  
+{  
+public static void main(String args[]){  
+System.out.println("B class main method is executed");  
+}  
+}  
+class C  
+{  
+public static void main(String args[]){  
+System.out.println("C class main method is executed");  
+}  
+}  
+class D  
+{  
+}  
+
+
+ We can compile a java Program but not java class in that Program for every 
+class one dot class file will be created. 
+ We can run a java class but not java source file whenever we are trying to run a 
+class the corresponding class main method will be executed. 
+ If the class won't contain main method then we will get runtime exception saying 
+"NoSuchMethodError: main". 
+ If we are trying to execute a java class and if the corresponding .class file is not 
+available then we will get runtime execution saying "NoClassDefFoundError: 
+Ashok
+
+
+Import statement: 
+........................
+
+  
+import java.util.ArrayList;  
+class Test{  
+public static void main(String args[]){  
+ArrayList l=new ArrayList();  
+}   
+}  
+Output:  
+D:\Java>javac Test.java  
+
+
+Case 1: Types of Import Statements: 
+There are 2 types of import statements. 
+1) Explicit class import  
+2) Implicit class import.  
+Explicit class import: 
+.......................................
+Example: Import java.util.ArrayList  
+ This type of import is highly recommended to use because it improves 
+readability of the code. 
+ Best suitable for Hi-Tech city where readability is important. 
+Implicit class import: 
+......................
+Example: import java.util.*;  
+ It is never recommended to use because it reduces readability of the code. 
+ Best suitable for Ameerpet where typing is important. 
+
+
+
+
+1.5 versions new features :  
+..........................................
+1. For-Each 
+2. Var-arg 
+3. Queue 
+4. Generics 
+5. Auto boxing and Auto unboxing 
+6. Co-varient return types 
+7. Annotations 
+8. Enum 
+9. Static import 
+10. String builder
+
+
+
+
+What is the difference between general import and static import ?  
+ We can use normal imports to import classes and interfaces of a package. 
+whenever we are using normal import we can access class and interfaces directly 
+by their short name it is not require to use fully qualified names. 
+ We can use static import to import static members of a particular class. 
+whenever we are using static import it is not require to use class name we can 
+access static members directly.
+
+Package statement: 
+................
+It is an encapsulation mechanism to group related classes and interfaces into a single 
+module. 
+The main objectives of packages are:  
+ To resolve name confects. 
+ To improve modularity of the application. 
+ To provide security. 
+ There is one universally accepted naming conversion for packages that is to use 
+internet domain name in reverse.
+
+
+
+Abstract Modifier:  
+........................
+
+Abstract is the modifier applicable only for methods and classes but not for variables.
+
+Abstract Methods: 
+.............................
+Even though we don't have implementation still we can declare a method with abstract 
+modifier. 
+That is abstract methods have only declaration but not implementation. 
+Hence abstract method declaration should compulsory ends with semicolon. 
+
+
+Strictfp:  applycable for methods 
+..............................
+strictfp is the modifier applicable for methods and classes but not for variables. 
+ Strictfp modifier introduced in 1.2 versions. 
+ Usually the result of floating point of arithmetic is varing from platform to 
+platform , to overcome this problem we should use strictfp modifier. 
+ If a method declare as the Strictfp then all the floating point calculations in that 
+method has to follow IEEE754 standard, So that we will get platform 
+independent results. 
+
+
+
+public
+............................
+................................
+Public members: 
+..................
+If a member declared as the public then we can access that member from anywhere 
+package pack1; 
+class A 
+{ 
+public void methodOne(){ 
+System.out.println("a class method"); 
+}} 
+D:\Java>javac -d . A.java
+
+Default member:  
+
+.....................
+If a member declared as the default then we can access that member only within the 
+current package hence default member is also known as package level access. 
+Program 1:  
+package pack1; 
+class A 
+{ 
+void methodOne(){ 
+System.out.println("methodOne is executed"); 
+}} 
+
+
+Private members:  with in class same package 
+............................
+ If a member declared as the private then we can access that member only with in 
+the current class.
+
+Protected members:  : with in package outsidepackage  of child class 
+..................................
+
+If a member declared as the protected then we can access that member within 
+the current package anywhere but outside package only in child classes.  
+Protected=default+kids. 
+
+Final variables: 
+Final instance variables: 
+............................
+Program 2:  
+class Test 
+{ 
+final int i; 
+} 
+Output: 
+Compile time error. 
+D:\Java>javac Test.java 
+Test.java:1: variable i might not have been initialized
+
+
+
+
+
 final modifier 
 ....................
 Final is the modifier applicable for classes, methods and variables. 
@@ -199,3 +386,70 @@ class Server {
         System.out.println("Server Stopped");
     }
 }
+
+
+Declaration and implementation of an interface: 
+
+......................................
+
+Note2:  
+Whenever we are implementing an interface method compulsory it should be declared 
+as public otherwise we will get compile time error. 
+Example:  
+interface Interf 
+{ 
+void methodOne(); 
+void methodTwo(); 
+}
+
+
+Extends vs implements: 
+.........................
+A class can extends only one class at a time. 
+
+A class can implements any no. Of interfaces at a time. 
+
+public void methodOne(){ 
+} 
+} 
+class Two extends One{ 
+} 
+
+///
+interface One{ 
+public void methodOne(); 
+} 
+interface Two{ 
+public void methodTwo(); 
+} 
+class Three implements One,Two{ 
+public void methodOne(){ 
+} 
+public void methodTwo(){ 
+} 
+} 
+
+
+Interface methods: 
+....................
+
+
+Marker interface:  not contain any methods  by impl that inteface
+........................
+if an interface doesn't contain any methods and by implementing that interface if our 
+objects will get some ability such type of interfaces are called Marker interface (or) Tag 
+interface (or) Ability interface.  
+
+interface Serializable {
+
+}
+
+There are no methods inside the interface.
+
+Example:
+
+class Employee implements Serializable {
+
+}
+
+By implementing Serializable, the Employee class is marked as serializable.

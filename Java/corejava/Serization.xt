@@ -1,15 +1,21 @@
-serilization 
+serilization :The process of saving (or) writing state of an object to a file is called serialization 
+..............................
  writing state of an object to a file is called serialization 
 
   By using FileOutputStream and ObjectOutputStream classes we can achieve 
 serialization process. 
-4. Ex: big ballon
 
-e-Serialization: 
-1. The process of reading state of an object from a file is called DeSerialization 
 
-. By using FileInputStream and ObjectInputStream classes we can achieve 
-DeSerialization. 
+
+Test  ObjectOutputStream  FileOutputStream abc.ser
+oos.writeObject(d);
+
+De-Serialization: 
+................................
+the process of reading state of an object from a file is called DeSerialization 
+3. By using FileInputStream and ObjectInputStream classes we can achieve 
+
+
 
 
 import java.io.*; 
@@ -18,6 +24,7 @@ class Dog implements Serializable
 int i=10; 
 int j=20; 
 } 
+
 classSerializableDemo 
 { 
 public static void main(String args[])throws Exception{ 
@@ -49,7 +56,8 @@ Deserialization ended
 10................20 
 
 
-Transient keyword: 
+Transient keyword:  : appliacble for variable
+..............................................
 1. transient is the modifier applicable only for variables. 
 2. If you declare a variable as transient, it will not be serialized.
 
@@ -62,4 +70,104 @@ Transient Vs Final:
 1. final variables will be participated into serialization directly by their values. 
 Hence declaring a final variable as transient there is no use.  
 //the compiler assign the value to final variable
+
+Why is it Needed?
+.............................
+Suppose you serialize an object today and save it to a file.
+
+Tomorrow, you modify the class by adding or removing fields.
+
+During deserialization, the JVM compares the serialVersionUID in the serialized object with the one in the current class.
+
+If they match → Deserialization succeeds.
+If they don't match → InvalidClassException is thrown.
+
+
+
+Banking Example
+Step 1: Serializable Class
+import java.io.Serializable;
+
+public class BankAccount implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private int accountNumber;
+    private String customerName;
+    private double balance;
+
+    public BankAccount(int accountNumber, String customerName, double balance) {
+        this.accountNumber = accountNumber;
+        this.customerName = customerName;
+        this.balance = balance;
+    }
+}
+
+
+Step 2: Serialize Object
+ObjectOutputStream out =
+        new ObjectOutputStream(new FileOutputStream("account.ser"));
+
+BankAccount account =
+        new BankAccount(101, "Sunil", 50000);
+
+out.writeObject(account);
+
+out.close();
+
+Object is saved to:
+
+account.ser
+
+
+Step 3: Deserialize Object
+ObjectInputStream in =
+        new ObjectInputStream(new FileInputStream("account.ser"));
+
+BankAccount account =
+        (BankAccount) in.readObject();
+
+System.out.println(account);
+
+in.close();
+
+If serialVersionUID matches, the object is restored successfully.
+
+
+
+What Happens Without serialVersionUID?
+
+Suppose the original class is:
+
+class BankAccount implements Serializable {
+
+    int accountNumber;
+    double balance;
+}
+
+Later you change it to:
+
+class BankAccount implements Serializable {
+
+    int accountNumber;
+    double balance;
+    String branchName;
+}
+
+The compiler generates a different default serialVersionUID.
+
+During deserialization:
+
+java.io.InvalidClassException
+
+because the version identifiers no longer match.
+
+
+
+
+
+
+
+
+
 

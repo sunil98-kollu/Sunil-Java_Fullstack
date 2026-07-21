@@ -2,9 +2,390 @@
 
 
 
+Introduction 
+Exception: An unwanted unexpected event that disturbs normal flow of the program is 
+called exception. 
+
+Example:  
+SleepingException 
+TyrePunchuredException 
+FileNotFoundException ...etc 
+
+What is the meaning of exception handling?  
+
+ 
+try 
+{ 
+read data from London file 
+} 
+catch(FileNotFoundException e) 
+{ 
+use local file and continue rest of the program normally 
+} 
+
+
+.....
+ 
+class Test 
+{ 
+public static void main(String[] args){ 
+doStuff(); 
+} 
+public static void doStuff(){ 
+doMoreStuff(); 
+} 
+public static void doMoreStuff(){ 
+System.out.println("Hello"); 
+}} 
+ 
+Output: 
+Hello 
+
+
+ 
+class Test 
+{ 
+public static void main(String[] args){ 
+doStuff(); 
+} 
+public static void doStuff(){ 
+doMoreStuff(); 
+} 
+public static void doMoreStuff(){ 
+System.out.println(10/0); 
+}} 
+Output: 
+Exception in thread "main" java.lang.ArithmeticException: / by zero 
+atTest.doMoreStuff(Test.java:10) 
+atTest.doStuff(Test.java:7) 
+atTest.main(Test.java:4) 
+
+
+Exception Hierarchy: 
+.................
+
+
+Throwable acts as a root for exception hierarchy.  
+Throwable class contains the following two child classes. 
+
+
+             Object
+               |
+           throwable 
+              | 
+ Exception        error 
+
+ Most of the cases exceptions are caused by our program and these are recoverable.  
+
+ If FileNotFoundException occurs then we can use local file and we can continue 
+rest of the program execution normally.  
+
+
+Error: 
+Most of the cases errors are not caused by our program these are due to lack of system 
+resources and these are non-recoverable.  
+
+Ex :If OutOfMemoryError occurs being a programmer we can't do anything the 
+
+
+Checked Vs Unchecked Exceptions: 
+.............................
+
+ The exceptions which are checked by the compiler whether programmer 
+handling or not, 
+
+1. HallTicketMissingException 
+2. PenNotWorkingException 
+3. FileNotFoundException 
 
 
 
+The exceptions which are not checked by the compiler whether programmer 
+handing or not ,are called unchecked exceptions.  
+1. BombBlastException 
+2. ArithmeticException 
+3. NullPointerException 
+
+
+Customized Exception Handling by using try-catch: 
+.....................................
+ It is highly recommended to handle exceptions. 
+
+ 
+try 
+{ 
+    Risky code 
+} 
+catch(Exception e) 
+{ 
+    Handling code 
+} 
+
+
+without try catch
+......................
+
+class Test 
+{ 
+public static void main(String[] args){ 
+System.out.println("statement1"); 
+System.out.println(10/0); 
+System.out.println("statement3"); 
+} 
+} 
+output: 
+..................
+statement1 
+RE:AE:/by zero 
+at Test.main() 
+ 
+Abnormal termination.
+
+
+with try catch
+.....................
+class Test{ 
+public static void main(String[] args){ 
+System.out.println("statement1"); 
+try{ 
+System.out.println(10/0); 
+} 
+catch(ArithmeticException e){ 
+System.out.println(10/2); 
+} 
+System.out.println("statement3"); 
+}} 
+
+Output: 
+..................
+statement1 
+5 
+statement3 
+ 
+Normal termination.
+
+Various methods to print exception information: 
+............................................
+.................................
+
+Throwable class defines the following methods to print exception information to the 
+console.  
+
+printStackTrace():          This method prints exception information in the following format. 
+                            Name of the exception: description of exception  
+                            Stack trace 
+toString():      This method prints exception information in the following format. 
+                 Name of the exception: description of exception 
+getMessage():   This method returns only description of the exception.  
+                Description.
+
+
+cclass Test {
+    main(){
+        try{
+            syso(10/0)
+        }catch(Arithematic exception e ){
+            e.printstacktrace();    /////    AE /by zero 
+            syso(e);                // lang .arex / by zero 
+            syso(e.getMessage())   // /by zero 
+        }
+    }
+}
+
+
+Try with multiple catch blocks: 
+.........................................
+The way of handling an exception is varied from exception to exception. Hence for every 
+exception type it is recommended to take a separate catch block. T
+
+try 
+{ 
+
+catch(FileNotFoundException e) 
+{ 
+  use local file 
+} 
+catch(ArithmeticException e) 
+{ 
+  perform these Arithmetic operations 
+} 
+catch(SQLException e) 
+{ 
+  don't use oracle db, use mysqldb 
+} 
+catch(Exception e) 
+{ 
+  default handler 
+} 
+
+The speciality of finally block is it will be executed always irrespective of whether the 
+exception raised or not raised and whether handled or not handled.  
+ 
+Case-1: If there is no Exception: 
+ 
+class Test 
+{ 
+public static void main(String[] args) 
+{ 
+try 
+{ 
+System.out.println("try block executed"); 
+} 
+catch(ArithmeticException e) 
+{ 
+System.out.println("catch block executed"); 
+} 
+finally 
+{ 
+System.out.println("finally block executed"); 
+} 
+} 
+} 
+Output: 
+try block executed 
+Finally block executed
+
+
+block matched: 
+ 
+class Test 
+{ 
+public static void main(String[] args) 
+{ 
+try 
+{ 
+System.out.println("try block executed"); 
+System.out.println(10/0); 
+ 
+} 
+catch(ArithmeticException e) 
+{ 
+System.out.println("catch block executed"); 
+} 
+finally 
+{ 
+System.out.println("finally block executed"); 
+} 
+} 
+} 
+Output: 
+Try block executed 
+Catch block executed 
+Finally block executed
+
+
+Case-3: If an exception raised but the corresponding catch 
+block not matched: 
+class Test 
+{ 
+public static void main(String[] args) 
+{ 
+try 
+{ 
+System.out.println("try block executed"); 
+System.out.println(10/0); 
+ 
+} 
+catch(NullPointerException e) 
+{ 
+System.out.println("catch block executed"); 
+} 
+finally
+{ 
+System.out.println("finally block executed"); 
+} 
+} 
+} 
+Output: 
+Try block executed 
+Finally block executed 
+Exception in thread "main" java.lang.ArithmeticException: / by zero 
+atTest.main(Test.java:8) 
+
+If return statement present try, catch and finally blocks then finally block return 
+statement will be considered.  
+Example: 
+ 
+class Test 
+{ 
+public static void main(String[] args) 
+{ 
+System.out.println(m1()); 
+} 
+public static intm1(){ 
+try 
+{ 
+System.out.println(10/0); 
+return 777; 
+} 
+catch(ArithmeticException e) 
+{ 
+return 888; 
+} 
+finally{ 
+return 999; 
+} 
+}} 
+Output: 
+999
+
+
+ 
+finally vs System.exit(0): 
+========================== 
+There is only one situation where the finally block won't be executed is whenever we are 
+using System.exit(0) method.  
+When ever we are using System.exit(0) then JVM itself will be shutdown , in this case 
+finally block won't be executed
+
+ 
+Example: 
+class Test 
+{ 
+public static void main(String[] args) 
+{ 
+try 
+{ 
+System.out.println("try"); 
+System.exit(0); 
+} 
+catch(ArithmeticException e) 
+{ 
+System.out.println("catch block executed"); 
+} 
+finally 
+{ 
+System.out.println("finally block executed"); 
+} 
+}} 
+Output: 
+try 
+
+final:  
+.....................
+ final is the modifier applicable for classes, methods and variables. 
+ If a class declared as the final then child class creation is not possible. 
+ If a method declared as the final then overriding of that method is not possible. 
+ If a variable declared as the final then reassignment is not possible. 
+ 
+ 
+ 
+finally: 
+........................... 
+ finally is the block always associated with try-catch to maintain clean up code 
+which should be executed always irrespective of whether exception raised or not 
+raised and whether handled or not handled. 
+finalize: 
+
+ finalize 
+ .................................
+  is a method, always invoked by Garbage Collector just before destroying 
+an object to perform cleanup activities. 
+Note:  
+1. finally block meant for cleanup activities related to try block where as finalize() 
+method meant for cleanup activities related to object. 
+2. To maintain clean up code finally block is recommended over finalize() method 
+because we can't expect exact behavior of GC
 
 
 ClassCastException
@@ -173,6 +554,7 @@ Unchecked → Null access, divide by zero
 
 
 throw	                                          throws
+.......................................
 Used to explicitly throw an exception	          Used to declare an exception
 Used inside method body	                          Used in method signature
 Throws one exception at a time	                  Can declare multiple exceptions

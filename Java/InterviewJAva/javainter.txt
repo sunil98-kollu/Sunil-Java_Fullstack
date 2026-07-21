@@ -169,3 +169,40 @@ String s1 = "Java";
 String s2 = "Java";
 
 System.out.println(s1 == s2); // true 
+
+
+
+
+Just we have covered
+didn't have ,don't have
+Have has had 
+?
+
+
+
+@slf4j
+.................
+
+Banking Example
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+@Slf4j
+@Service
+public class BankService {
+
+    public void transferMoney(Long from, Long to, double amount) {
+
+        log.info("Transfer started");
+
+        log.info("From Account : {}", from);
+
+        log.info("To Account : {}", to);
+
+        log.info("Amount : {}", amount);
+
+        // Business Logic
+
+        log.info("Transfer completed successfully");
+    }
+}

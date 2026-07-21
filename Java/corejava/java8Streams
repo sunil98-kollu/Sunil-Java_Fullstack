@@ -670,6 +670,7 @@ List<String> result = names.stream()
 System.out.println(result);
 
 Output
+................................
 
 [JOHN, SUNIL]
 Interview Explanation

@@ -167,3 +167,219 @@ Consumer-2 â†’ partition 1
 Consumer-3 â†’ partition 2  
 
 Note: One partition is read by only one consumer in a group.   
+
+
+
+
+
+/..........................
+
+Producer-Consumer Problem in Java (Interview Guide)
+What is the Producer-Consumer Problem?
+
+The Producer-Consumer Problem is a classic multithreading problem where:
+
+Producer Thread → Produces data and adds it to a shared resource (buffer/queue).
+Consumer Thread → Consumes data from the shared resource.
+
+The challenge is to ensure that:
+
+Producer should not produce when the buffer is full.
+Consumer should not consume when the buffer is empty.
+Both threads work safely without data corruption.
+Real-Time Banking Example
+
+Imagine a banking system.
+
+Producer → ATM generates transactions.
+Consumer → Banking server processes transactions.
+ATM Machine (Producer)
+        │
+        ▼
+ Transaction Queue
+        │
+        ▼
+ Banking Server (Consumer)
+
+If no transactions are available, the server waits.
+
+If the queue is full, the ATM waits.
+
+Solution Using wait() and notify()
+Shared Buffer
+class Buffer {
+
+    private int data;
+    private boolean available = false;
+
+    public synchronized void produce(int value) throws InterruptedException {
+
+        while (available) {
+            wait();
+        }
+
+        data = value;
+        available = true;
+
+        System.out.println("Produced : " + value);
+
+        notify();
+    }
+
+    public synchronized int consume() throws InterruptedException {
+
+        while (!available) {
+            wait();
+        }
+
+        available = false;
+
+        System.out.println("Consumed : " + data);
+
+        notify();
+
+        return data;
+    }
+}
+Producer
+class Producer extends Thread {
+
+    private Buffer buffer;
+
+    Producer(Buffer buffer) {
+        this.buffer = buffer;
+    }
+
+    public void run() {
+
+        try {
+
+            for (int i = 1; i <= 5; i++) {
+
+                buffer.produce(i);
+
+                Thread.sleep(1000);
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+}
+Consumer
+class Consumer extends Thread {
+
+    private Buffer buffer;
+
+    Consumer(Buffer buffer) {
+        this.buffer = buffer;
+    }
+
+    public void run() {
+
+        try {
+
+            for (int i = 1; i <= 5; i++) {
+
+                buffer.consume();
+
+                Thread.sleep(1500);
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+}
+Main Class
+public class ProducerConsumerDemo {
+
+    public static void main(String[] args) {
+
+        Buffer buffer = new Buffer();
+
+        Producer producer = new Producer(buffer);
+        Consumer consumer = new Consumer(buffer);
+
+        producer.start();
+        consumer.start();
+    }
+}
+Output
+Produced : 1
+Consumed : 1
+
+Produced : 2
+Consumed : 2
+
+Produced : 3
+Consumed : 3
+
+Produced : 4
+Consumed : 4
+
+Produced : 5
+Consumed : 5
+Modern Java Solution (BlockingQueue)
+
+Instead of using wait() and notify(), Java provides BlockingQueue.
+
+import java.util.concurrent.*;
+
+public class ProducerConsumer {
+
+    public static void main(String[] args) {
+
+        BlockingQueue<Integer> queue =
+                new ArrayBlockingQueue<>(5);
+
+        Thread producer = new Thread(() -> {
+
+            try {
+
+                for (int i = 1; i <= 5; i++) {
+
+                    queue.put(i);
+
+                    System.out.println("Produced : " + i);
+                }
+
+            } catch (Exception e) {
+
+            }
+
+        });
+
+        Thread consumer = new Thread(() -> {
+
+            try {
+
+                while (true) {
+
+                    Integer value = queue.take();
+
+                    System.out.println("Consumed : " + value);
+                }
+
+            } catch (Exception e) {
+
+            }
+
+        });
+
+        producer.start();
+        consumer.start();
+    }
+}
+
+BlockingQueue automatically handles synchronization, waiting, and notification.
+
+Real-Time Applications
+Banking transaction processing
+Order processing systems
+Kafka producers and consumers
+RabbitMQ message queues
+Printer spoolers
+Logging systems

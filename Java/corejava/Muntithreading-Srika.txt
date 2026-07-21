@@ -108,6 +108,13 @@ public static void main(String[] args) {
 });
 
 t.start();
+......................
+Case 2: Difference between t.start() and t.run() methods. 
+ In the case of t.start() a new Thread will be created which is responsible for the 
+execution of run() method. 
+
+ But in the case of t.run() no new Thread will be created and run() method will be 
+executed just like a normal method by the main Thread. 
 
 
 thread schedular 
@@ -183,7 +190,7 @@ Example:
 Multiple browser tabs running simultaneously.
 
 Thread Priority
-
+..................................................
 Java provides priorities from:
 
 1  -> MIN_PRIORITY
@@ -264,14 +271,13 @@ Execution order is not guaranteed
 
 
 Thread class constructors: 
+.........................................
+
 1. Thread t=new Thread(); 
 2. Thread t=new Thread(Runnable r); 
 3. Thread t=new Thread(String name); 
  
-JAVA Means DURGA SIR 
-52 DURGASOFT, # 202,2ndFloor,HUDA Maitrivanam,Ameerpet, Hyderabad - 500038,  
- 040 – 64 51 27 86, 80 96 96 96 96, 9246212143 | www.durgasoft.com 
- 
+
 4. Thread t=new Thread(Runnable r,String name); 
 5. Thread t=new Thread(ThreadGroup g,String name); 
 6. Thread t=new Thread(ThreadGroup g,Runnable r); 
@@ -280,13 +286,13 @@ JAVA Means DURGA SIR
 
 
 We can prevent(stop) a Thread execution by using the following methods.  
-1. yield(); 
-2. join(); 
-3. sleep()
+1. yield() :  pause curent threat give chance to another thread 
+2. join(); : If a Thread t1 executes t2.join() then t1 should go for waiting state until completing t2. 
+3. sleep() : 
 
  yield() method causes "to pause current executing Thread for giving the chance 
 of remaining 
-
+..............................
 class MyThread extends Thread 
 { 
  public void run() 
@@ -332,7 +338,7 @@ Note : Some operating systems may not provide proper support for yield() method.
 
 
 Join(): 
-
+..............................
  
 If a Thread wants to wait until completing some other Thread then we should go for 
 join() method.  
@@ -458,7 +464,22 @@ E
 G 
 A
 
-Synchronization 
+                      yield      join                   sleep 
+                 pasue curetnt   thread wants to wait  it should go sleep for some time 
+            thread give chance   completing some other 
+            to another thread 
+
+2) Is it static?       yes        no      yes 
+3) Is it final?        no         yes     no 
+4) Is it overloaded?   No         yes      yes 
+5) Is it throws        no          yes     yes 
+
+
+
+
+Synchronization :  Synchronized is the keyword applicable for methods and blocks(inconsistency prblm)
+.........................implemented by using lock concept.
+...........................
 1. Synchronized is the keyword applicable for methods and blocks but not for 
 classes and variables. 
 2. If a method or block declared as the synchronized then at a time only one 
@@ -610,6 +631,7 @@ public class Main {
     }
 }
 
+
 Possible Output
 User1 withdrew 7000
 Remaining Balance: 3000
@@ -621,7 +643,64 @@ User2 withdrew 5000
 Remaining Balance: 5000
 User1 : Insufficient Ba
 
-Synchronized block: 
+1. Normal Way (Before Java 8) – Anonymous Runnable
+class BankAccount {
+
+    private int balance = 10000;
+
+    public synchronized void withdraw(int amount) {
+
+        if (balance >= amount) {
+
+            balance -= amount;
+
+            System.out.println(Thread.currentThread().getName()
+                    + " withdrew " + amount);
+
+            System.out.println("Remaining Balance: " + balance);
+
+        } else {
+
+            System.out.println(Thread.currentThread().getName()
+                    + " : Insufficient Balance");
+        }
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        BankAccount account = new BankAccount();
+
+        Thread t1 = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                account.withdraw(7000);
+            }
+
+        }, "User1");
+
+        Thread t2 = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                account.withdraw(5000);
+            }
+
+        }, "User2");
+
+        t1.start();
+        t2.start();
+    }
+}
+
+
+Synchronized block:    A synchronized block allows you to synchronize only a specific section of code, instead of locking the entire method.
+
+
+....................
 1. If very few lines of the code required synchronization then it's never 
 recommended to declare entire method as synchronized we have to enclose those 
 few lines of the code with in synchronized block. 
@@ -692,6 +771,7 @@ we can resolve race condition by using synchronized keyword.
 
 
 Example Without Synchronization
+............
 class Counter {
 
     int count = 0;
@@ -854,7 +934,9 @@ class TicketBooking {
         notifyAll();
     }
 }
+
 Main Method
+...................
 public class Main {
 
     public static void main(String[] args) {
@@ -890,7 +972,7 @@ User3 booked ticket
 
 
 
-Demon thread
+Demon thread   executing in the background 
 .................
 
 The Threads which are executing in the background are called daemon Threads. 
@@ -1045,9 +1127,115 @@ Runnable
 ...........................
 executes a task without returning a result, 
 
+class MyTask implements Runnable {
+
+    @Override
+    public void run() {
+
+        for (int i = 1; i <= 5; i++) {
+            System.out.println(Thread.currentThread().getName() + " : " + i);
+        }
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        MyTask task = new MyTask();
+
+        Thread t1 = new Thread(task, "Thread-1");
+        Thread t2 = new Thread(task, "Thread-2");
+
+        t1.start();
+        t2.start();
+    }
+}
+
+Java 8 Runnable Example (Lambda)
+public class Main {
+
+    public static void main(String[] args) {
+
+        Runnable task = () -> {
+            System.out.println("Runnable Task");
+        };
+
+        Thread t = new Thread(task);
+
+        t.start();
+    }
+}
+
+
  Callable
  ...............
   executes a task that can return a value and throw checked exceptions, with the result accessed through a Future
+
+
+import java.util.concurrent.*;
+
+class SumTask implements Callable<Integer> {
+
+    @Override
+    public Integer call() {
+
+        int sum = 0;
+
+        for (int i = 1; i <= 10; i++) {
+            sum += i;
+        }
+
+        return sum;
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+
+        ExecutorService service = Executors.newSingleThreadExecutor();
+
+        Future<Integer> future = service.submit(new SumTask());
+
+        System.out.println("Sum = " + future.get());
+
+        service.shutdown();
+    }
+}
+Output
+Sum = 55
+
+
+import java.util.concurrent.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+
+        ExecutorService service = Executors.newSingleThreadExecutor();
+
+        Callable<Integer> task = () -> {
+
+            int sum = 0;
+
+            for (int i = 1; i <= 100; i++) {
+                sum += i;
+            }
+
+            return sum;
+        };
+
+        Future<Integer> future = service.submit(task);
+
+        System.out.println("Sum = " + future.get());
+
+        service.shutdown();
+    }
+}
+
+
+
 
 Runnable                      Callable
 run()	                      call()
@@ -1430,3 +1618,62 @@ submit()
 shutdown()
 shutdownNow()
 
+
+///////////////////////
+Most Asked Interview Scenarios (5+ Years)
+Even/Odd printing using two threads.
+Producer-Consumer using wait()/notify().
+Deadlock detection and prevention.
+Thread-safe Singleton (Double-Checked Locking).
+Bank account synchronization.
+Ticket booking with concurrent users.
+ExecutorService and thread pools.
+Callable, Future, and CompletableFuture.
+CountDownLatch vs CyclicBarrier.
+AtomicInteger vs synchronized.
+volatile vs synchronized.
+BlockingQueue-based producer-consumer.
+ForkJoinPool and parallel streams.
+ReentrantLock vs synchronized.
+Race conditions and thread safety in real-world applications.
+
+
+1. What is a Thread? 
+2. Which Thread by default runs in every java program?  
+Ans: By default main Thread runs in every java program. 
+3. What is the default priority of the Thread? 
+4. How can you change the priority number of the Thread? 
+5. Which method is executed by any Thread?  
+Ans: A Thread executes only public void run() method. 
+6. How can you stop a Thread which is running? 
+7. Explain the two types of multitasking? 
+8. What is the difference between a process and a Thread? 
+9. What is Thread scheduler? 
+10. Explain the synchronization of Threads? 
+11. What is the difference between synchronized block and synchronized keyword? 
+12. What is Thread deadlock? How can you resolve deadlock situation? 
+13. Which methods are used in Thread communication? 
+14. What is the difference between notify() and notifyAll() methods? 
+15. What is the difference between sleep() and wait() methods? 
+16. Explain the life cycle of a Thread? 
+17. What is daemon Thread? 
+
+
+Java Concurrency API (java.util.concurrent)
+
+Java provides many utilities to simplify concurrent programming.
+
+Class/Interface	Purpose
+ExecutorService	Manages a pool of threads
+Callable	Task that returns a result
+Future	Represents the result of an asynchronous task
+CompletableFuture	Asynchronous programming and task chaining
+BlockingQueue	Producer-Consumer implementation
+Semaphore	Limits concurrent access to a resource
+CountDownLatch	Waits for multiple threads to finish
+CyclicBarrier	Synchronizes a group of threads
+ReentrantLock	Explicit locking
+ReadWriteLock	Multiple readers, one writer
+ConcurrentHashMap	Thread-safe map
+CopyOnWriteArrayList	Thread-safe list for read-heavy workloads
+AtomicInteger	Thread-safe atomic operations

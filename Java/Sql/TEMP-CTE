@@ -1,0 +1,335 @@
+.......
+
+java oops exception multh collection generic java 8 
+sql sdjpa spring boot  microservices  
+kafka  redis  design patterns 
+
+Temporary Tables in SQL
+..............
+- it will exists till the session is opened
+
+00
+It is created like a normal table.
+It is mainly used to store intermediate results.
+It is automatically dropped when the session ends (behavior depends on the database).
+
+Why Use Temporary Tables?
+
+Real-Time Scenarios
+Daily reports
+ETL (Extract, Transform, Load)
+Complex calculations
+Data migration
+Storing intermediate query results\
+
+MySQL Example
+Step 1: Create Temporary Table
+CREATE TEMPORARY TABLE temp_employee (
+    emp_id INT,
+    emp_name VARCHAR(50),
+    salary DECIMAL(10,2)
+);
+Step 2: Insert Data
+INSERT INTO temp_employee
+VALUES
+(101,'Sunil',50000),
+(102,'Anil',60000),
+(103,'Ravi',70000);
+Step 3: Display Data
+SELECT * FROM temp_employee;
+
+Output
+
+emp_id	emp_name	salary
+101	Sunil	50000
+102	Anil	60000
+103	Ravi	70000
+
+
+Step 4: Update Data
+UPDATE temp_employee
+SET salary = 65000
+WHERE emp_id = 102;
+
+Step 5: Delete a Row
+DELETE FROM temp_employee
+WHERE emp_id = 103;
+
+Step 6: Drop Temporary Table
+DROP TEMPORARY TABLE temp_employee;
+
+ CTE - Common table Expression
+ ..........................................
+ ...........................................
+
+ CTE is a kind of temporary table which has the-- exisistance only for that q
+
+
+Definition: A CTE improves the readability and maintainability of complex SQL queries by breaking them into smaller, reusable parts.
+It is created using the WITH keyword.
+
+Syntax
+WITH cte_name AS
+(
+    SELECT column1, column2
+    FROM table_name
+)
+SELECT *
+FROM cte_name;
+
+Real-Time Banking Example
+.................................
+
+Account Table
+
+Account_Id	Customer_Name	Balance	Branch
+
+101	Sunil	50000	Hyderabad
+102	Ravi	70000	Chennai
+103	John	30000	Hyderabad
+104	David	90000	Mumbai
+
+Example 1: Find Customers with Balance > 50,000
+
+WITH HighBalanceAccounts AS
+(
+    SELECT *
+    FROM Account
+    WHERE Balance > 50000
+)
+SELECT *
+FROM HighBalanceAccounts;
+
+Output
+
+Account_Id	Customer_Name	Balance
+102	Ravi	70000
+104	David	90000
+
+Example 3: Multiple CTEs
+WITH Deposits AS
+(
+    SELECT Customer_Name, Balance
+    FROM Account
+),
+HighBalance AS
+(
+    SELECT *
+    FROM Deposits
+    WHERE Balance > 50000
+)
+SELECT *
+FROM HighBalance;
+
+Example 4: Join with CTE
+..............................
+Customer Table
+
+Customer_Id   	Name
+1	            Sunil
+2	            Ravi
+Account Table
+Customer_Id	Balance
+1	50000
+2	70000
+WITH AccountInfo AS
+(
+    SELECT Customer_Id,
+           Balance
+    FROM Account
+)
+SELECT c.Name,
+       a.Balance
+FROM Customer c
+JOIN AccountInfo a
+ON c.Customer_Id = a.Customer_Id;
+
+
+
+CTE	                                         Temporary Table
+....................................................................................................................
+
+Exists only for one SQL statement	                 Exists until dropped or session ends
+Created using WITH	                     Created using CREATE TEMP TABLE or database-specific syntax
+Not stored permanently	                      Stored temporarily in the database
+Cannot have indexes directly                  Can have indexes (database-dependent)
+
+
+
+.................
+
+
+stored procedured          :- stored and reuse query  inside procedure 
+............................
+group of sql stmts which is stored and reuse
+
+select * froom film where rating ='PG'
+select * from payment where amount >555;
+
+create a proceduere and store above 2 queries 
+
+delimeter $$    //start of procedure 
+create procedure sp_rating_transaction()
+begin
+    select * from film where rating ='PG';   statt of query
+    select * from payment where amount >555; end of query 
+end
+$$  // end of procedure 
+
+
+
+delimeter symbol by using sql will understand that is end of query 
+
+by default  semicolun (;)is a delimiter 
+
+
+
+.................................
+
+SQL Normalization (Normal Forms)
+
+Normalization is the process of organizing data in a database to:
+
+Reduce data redundancy (duplicate data)
+Eliminate data inconsistency
+Improve data integrity
+Make the database easier to maintain
+Why Normalization?
+Without Normalization
+Student_ID	Student_Name	Course	Faculty
+101	Sunil	Java	Ramesh
+101	Sunil	SQL	Suresh
+101	Sunil	Spring Boot	Ramesh
+
+Problems:
+
+Student name is repeated.
+Faculty name is repeated.
+Wastes storage.
+Difficult to update.
+
+
+Types of Normal Forms
+..............................
+First Normal Form (1NF)
+Second Normal Form (2NF)
+Third Normal Form (3NF)
+Boyce-Codd Normal Form (BCNF)
+Fourth Normal Form (4NF)
+Fifth Normal Form (5NF)
+
+For interviews, 1NF, 2NF, and 3NF are the most important.
+
+
+1. First Normal Form (1NF)
+...........................
+Rule
+Each column contains atomic (single) values.
+No multiple values in one column.
+No repeating groups.
+
+❌ Not in 1NF
+
+emp_id	    emp_name	skills
+101	          Sunil	      Java, SQL, Spring
+
+The skills column contains multiple values.
+
+✅ In 1NF
+
+emp_id	emp_name	skill
+101	      Sunil	    Java
+101	      Sunil	    SQL
+101	       Sunil	Spring
+
+Each cell contains only one value.
+
+
+
+
+2. Second Normal Form (2NF)
+...................
+Rule
+Must already be in 1NF.
+Remove partial dependency.
+Every non-key column should depend on the entire primary key.
+Example
+
+Student_ID	Course_ID	Student_Name	   Course_Name
+
+101	         C101	              Sunil  	  Java
+101	         C102	               Sunil     	SQL
+
+Primary Key = (Student_ID, Course_ID)
+
+Problems:
+
+Student_Name depends only on Student_ID.
+Course_Name depends only on Course_ID.
+Solution
+
+Student Table
+
+Student_ID	Student_Name
+101	Sunil
+
+Course Table
+
+Course_ID	Course_Name
+C101	Java
+C102	SQL
+
+Enrollment Table
+
+Student_ID	Course_ID
+101	C101
+101	C102
+
+
+
+3. Third Normal Form (3NF)
+............
+Rule
+Must already be in 2NF.
+Remove transitive dependency.
+A non-key column should not depend on another non-key column.
+
+❌ Not in 3NF
+................
+emp_id	emp_name	dept_id	dept_name
+101	Sunil	1	IT
+102	Anil	2	HR
+
+Problem:
+
+emp_id
+   ↓
+dept_id
+   ↓
+dept_name
+
+dept_name depends on dept_id, not directly on emp_id.
+
+✅ In 3NF
+.....................
+Employee Table
+
+emp_id	emp_name	dept_id
+101	Sunil	1
+102	Anil	2
+
+Department Table
+
+dept_id	dept_name
+1	IT
+2	HR
+
+
+
+
+
+
+
+
+
+

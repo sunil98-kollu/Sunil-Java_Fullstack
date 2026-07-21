@@ -1,0 +1,977 @@
+
+=================
+Spring Security
+=================
+
+-> Security is very important for every web application.
+
+-> To protect our application & application data we need to implement security logic.
+
+-> Spring Security is one of the module of spring framework.
+
+-> Spring Security concept we can use to secure our web applications / REST APIs / Microservices.
+
+-> To implment security, we need to know about two concepts
+
+		1) Authentication
+
+		2) Authorization
+
+-> Authentication means verifying who can login into our application (login check).
+
+-> Authorization means verifying which user can access which functionality in the application (Role Based Access).
+
+
+==============================
+Working with Spring Security
+==============================
+
+-> To secure our spring boot application we need to add below starter in pom.xml file
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+
+Note-1: When we add above dependency in pom.xml file then by default our application will be secured with "http basic authentication"
+
+Note-2: It will generate random password to access our application. 
+
+-> We need to use below credentials to access our application
+
+				Username : user
+
+				Password : <copy the pwd from console>
+
+Note-1: When we access application from browser then it will display default login page for authentication.				
+
+Note-2: To access secured REST API from postman, we need to set Authentiation values in POSTMAN to send the request.
+
+				Auth : Basic Auth
+			    Username : user
+				Password : <copy-from-console>				
+
+=====================================================
+How to override Spring Security Default Credentials
+=====================================================		
+
+-> To override Default credentials we can configre security credentials in "application.properties" file or "application.yml" file like below
+
+spring.security.user.name=ashokit
+spring.security.user.password=ashokit@123
+
+===============================================
+Spring Security with In-Memory Authentication
+===============================================
+
+-> In Memory Authentication means storing user credentials in the program for Authentication Purpose.
+
+multiple user store and access ,not match not login 
+
+```
+@Configuration
+public class MyAppSecurityConfig {
+	
+	@Bean
+	public PasswordEncoder pwdEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	public InMemoryUserDetailsManager inMemoryUsers() {		
+	...............................................................	
+		<!-- UserDetails u1 = User.withDefaultPasswordEncoder()
+							 .username("ashokit")
+							 .password("ashokit@123").
+							 .build();
+		
+		UserDetails u2 = User.withDefaultPasswordEncoder()
+							 .username("raj")
+							 .password("raj@1234").						 
+							 .build();
+		
+		UserDetails u3 = User.withDefaultPasswordEncoder()
+							 .username("sam")
+							 .password("sam@123")
+							 .build(); -->
+		
+.........................................
+//using passwoedEncoder   // store encoding format hackers not seen password 
+		UserDetails u1 = User.builder()
+							 .username("ashokit")
+							 .password(pwdEncoder().encode("ashokit@123"))
+							 .roles("ADMIN")
+							 .build();
+		
+		UserDetails u2 = User.builder()
+							 .username("raj")
+							 .password(pwdEncoder().encode("raj@123"))
+							 .roles("MANAGER")
+							 .build();
+		
+		UserDetails u3 = User.builder()
+							 .username("sam")
+							 .password(pwdEncoder().encode("sam@123"))
+							 .roles("USER")
+							 .build();
+
+
+		return new InMemoryUserDetailsManager(u1, u2, u3);
+	}
+	
+}
+```
+
+
+=====================================
+How to secure specific URL Patterns
+=====================================
+
+-> When we add 'security-starter' in pom.xml then it will apply "security-filter" for all the HTTP methods of our application.
+
+-> But in reality we need to secure only few methods not all methods of our application.
+
+		/login-page : secuirty not required (anyone can access)
+
+		/transfer : secuirty required
+
+		/balance : security required
+
+		/about : security not required
+
+		/contact : security not required
+
+
+#### Note: SecurityFilterChain defines security rules for your Spring Boot application. ####
+
+```
+@Bean
+public SecurityFilterChain securityConfig(HttpSecurity http) throws Exception {
+	
+	// permit the urls which doesn't requires security
+	
+	// authenticate the urls which requires security
+	
+	http.authorizeHttpRequests(req -> 
+				 req.requestMatchers("/public/**").permitAll()
+					.anyRequest().authenticated())
+					.httpBasic(Customizer.withDefaults())
+					.formLogin(Customizer.withDefaults());
+	
+	return http.build();
+
+}
+```	
+
+
+=======================
+Role Based Security
+=======================
+
+@RestController
+public class DemoRestController {
+	
+
+	@GetMapping("/admin/home")
+	public String adminHome() {
+		return "This is Admin Home Page";
+	}
+
+	@GetMapping("/manager/home")
+	public String managerHome() {
+		return "This is manager Home Page";
+	}
+
+	@GetMapping("/student/home")
+	public String studentHome() {
+		return "This is Student Home Page";
+	}
+
+	@GetMapping("/public/contact")
+	public String getContactInfo() {
+		return "Please call us on +91-9985396677";
+	}
+
+	@GetMapping("/public/about")
+	public String about() {
+		return "Ashok IT - Software Training institute (Hyd based)";
+	}
+
+}
+
+---------------------------------------------------------------------
+
+@Configuration
+@EnableWebSecurity
+public class MyAppSecurityConfig {
+	
+	@Bean
+	public PasswordEncoder pwdEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	public InMemoryUserDetailsManager inMemoryUsers() {		
+		
+		UserDetails u1 = User.builder()
+							 .username("ashok")
+							 .password(pwdEncoder().encode("ashok@123"))
+							 .roles("ADMIN")
+							 .build();
+		
+		UserDetails u2 = User.builder()
+							 .username("raj")
+							 .password(pwdEncoder().encode("raj@123"))
+							 .roles("MANAGER")
+							 .build();
+		
+		UserDetails u3 = User.builder()
+							 .username("sam")
+							 .password(pwdEncoder().encode("sam@123"))
+							 .roles("STUDENT")
+							 .build();
+		
+		return new InMemoryUserDetailsManager(u1, u2, u3);
+	}
+	
+	// how to secure specific url  using SecurityFilterChain
+	@Bean
+	public SecurityFilterChain securityConfig(HttpSecurity http) throws Exception {
+		
+		// permit the urls which doesn't requires security
+		
+		// authenticate the urls which requires security
+		
+		http.authorizeHttpRequests(req -> 
+		
+					 req.requestMatchers("/public/**").permitAll()  // for public url want to permit (not secut=rity)
+					 
+					 	.requestMatchers("/admin/**").hasRole("ADMIN")
+					 	
+					 	.requestMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN")
+					 	
+					 	.requestMatchers("/student/**").hasRole("STUDENT")
+					 	
+						.anyRequest().authenticated())
+						.httpBasic(Customizer.withDefaults())  / we are checking default  security logic  behaviour 
+						.formLogin(Customizer.withDefaults()); //  you wnat to check your own form formLongn(form-> form.loginpage("/login"))
+		
+		return http.build();
+
+	}
+}
+
+--------------------------------------------------------------------------------------------
+
+
+==============================================
+Login and Registration using Spring Security
+==============================================
+
+=> Develop springboot-rest-api with below 2 functionalities using Spring Security.
+
+		1) User Registration  (name, email, pwd and phno)
+
+		2) User Login (email, pwd)		
+
+Note-1: When user register, we need to store user data in database table by encoding user pwd.
+
+Note-2: When user try to login, if credentials are valid send welcome msg as response. If credentials are invalid then send "Invalid Credential" msg as response.
+
+=====================
+Development Process
+=====================
+
+## 1) Create Boot app with required dependencies ##
+
+			a) web-starter
+			b) data-jpa-starter
+			c) mysql
+			d) security-starter
+			e) devtools
+			f) lombok
+
+
+## 2) Configure Data Source properties in application.properties file			
+
+## 3) Create Entity class & Repository interface ##
+
+## 4) Create Service class and implement UserDetailsService interface ##
+
+## 5) Create Security Config Class ##
+
+		- PwdEncoder
+		- AuthProvider
+		- UserDetailsService
+		- AuthManager
+		- SecurityFilterChain
+
+## 6) Create RestController with required methods
+
+		- /register
+		- /login
+
+## 7) Run the application and test it using postman
+
+postman/ui ---> REST Controller --> Auth Manager (pre-defined) --> Auth Provider(pre-defined) -> UserDetailsServie --> Repository --> DB
+
+........................
+/////////////////.
+
+package in.ashokit.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.Data;
+
+@Entity
+@Data
+public class Student {
+	
+	@Id
+	@GeneratedValue
+	private Integer sid;
+	private String name;
+	private String email;
+	private String pwd;
+	private Long phno;
+}
+
+
+
+.......
+config file 
+..........
+import in.ashokit.service.StudentService;
+
+@Configuration
+@EnableWebSecurity  // define security cof of our app 
+public class AppSecurityConfig {
+
+	@Autowired
+	private StudentService studentService;
+
+	@Bean
+	public PasswordEncoder pwdEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	//  req come from this  this will retrive user data from  db give  autication 
+	//ui - rest controller - auth manager (predefine)  -> auth provider-- userdetailsservice --repo DB
+	@Bean
+	public AuthenticationProvider authProvider() {
+
+		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(studentService);
+		authProvider.setPasswordEncoder(pwdEncoder());
+
+		return authProvider;
+
+	}
+
+	@Bean
+	public AuthenticationManager authManager(AuthenticationConfiguration config) throws Exception {
+		return config.getAuthenticationManager();
+	}
+	
+	// role of secirty filter chain , used to custoimze secty rules in our app 
+	@Bean
+	public SecurityFilterChain security(HttpSecurity http) throws Exception{
+		
+		http.authorizeHttpRequests(req -> {
+			
+			req.requestMatchers("/register", "/login") //  permit this req  any login register we allow  
+				.permitAll()
+			    .anyRequest()
+			    .authenticated();
+				
+		});
+		// your own form submit reg log csrf attacks in app 
+		//using session id another also make request same application 
+		 //hdfc 15k another app another one also make samw req 
+		//CSRF (Cross-Site Request Forgery) attacks
+
+		return http.csrf(csrf -> csrf.disable()).build();
+	}
+}
+
+
+
+repo
+...................
+
+package in.ashokit.repo;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import in.ashokit.entity.Student;
+
+public interface StudentRepo extends JpaRepository<Student, Integer>{
+	
+	public Student findByEmail(String email);
+
+}
+
+controller
+........................
+
+package in.ashokit.rest;
+
+import in.ashokit.entity.Student;
+import in.ashokit.service.StudentService;
+
+@RestController
+public class StudentRestController {
+
+	@Autowired
+	public StudentService studentService;
+
+	@Autowired
+	private AuthenticationManager authManager;
+
+	@PostMapping("/register")
+	//save and return to ui 
+	public ResponseEntity<Student> register(@RequestBody Student student) {
+
+		Student savedStudent = studentService.saveStudent(student);
+
+		return new ResponseEntity<>(savedStudent, HttpStatus.CREATED);
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<String> login(@RequestBody Student student) {
+
+		UsernamePasswordAuthenticationToken authToken = 
+				new UsernamePasswordAuthenticationToken(student.getEmail(), student.getPwd());
+		try {
+
+			// AuthenticationManager delegates authentication to providers
+			// Authentication Provider perform actual authentication
+
+			// calls UserDetailsService
+			// loadUserRecord from DB using loadUserByUsername() method
+			// compare pwd using PwdEncoder
+			// if matches -> authentication success
+			// if not matches -> throws exception
+
+			Authentication authentication = authManager.authenticate(authToken); // login check
+
+			if (authentication.isAuthenticated()) {
+				// login success
+				// TODO: Generate JWT Token for user
+				return new   <>("Welcome to Ashok IT - Login success", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<>("Invalid Credentials", HttpStatus.BAD_REQUEST);
+	}
+}
+
+service
+....................
+package in.ashokit.service;
+
+import java.util.Collections;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import in.ashokit.entity.Student;
+import in.ashokit.repo.StudentRepo;
+
+@Service
+public class StudentService implements UserDetailsService { // load user by user 
+
+	@Autowired
+	private StudentRepo studentRepo;
+
+	@Autowired
+	private PasswordEncoder pwdEncoder;
+
+	@Override
+	// predefine method retrive student record  create user object return 
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+		Student student = studentRepo.findByEmail(email);
+
+		return new User(student.getEmail(), student.getPwd(), Collections.emptyList());
+	}
+
+	public Student saveStudent(Student student) {
+
+		//encoding given pwd using BCryptPwdEncoder
+		String encodedPwd = pwdEncoder.encode(student.getPwd());
+
+		// overriding original pwd with encoded pwd before saving
+		student.setPwd(encodedPwd);
+
+		// saving student record in db
+		return studentRepo.save(student);
+	}
+}
+
+
+
+
+
+'
+
+
+
+
+////////////////////////
+======================
+Spring Boot with JWT
+======================
+
+-> JWT stands for JSON Web Tokens.
+
+-> JWT official Website : https://jwt.io/
+
+-> Below is the sample JWT Token
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30
+
+-> JWT contains below 3 parts
+
+		1) Header
+
+		2) Payload
+
+		3) Signature
+
+Note: JWT 3 parts will be seperated by using dot(.)	
+
+
+Note: Client application should send JWT Token to provider in below format
+
+			###### Authorization=Bearer <JWT> #####
+
+
+=> To implement JWT Token Based API we will develop below 3 classes mainly
+
+
+1) JWT Token Generation Class
+
+		- generateToken ( )
+
+		- validateToken ( )
+
+
+2) JWT Token Validation Filter Class :: OncePerRequestFilter
+
+		- Check Authorization header presence in the request.
+
+		- Retrieve Bearer Token From the header
+
+		- Validate Token
+
+		- If token is valid, update security context to process the request
+
+3) AppSecurityConfig class to customize SecurityFilterChain
+
+		- permit "/api/register" & "/api/login" urls
+
+		- Authenticate other requests using Filter
+
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+
+==============================
+Spring Boot with OAuth 2.0
+==============================	
+
+=> OAuth 2.0 is an open standard authorization framework that allows third-party applications to access a user's resources on another service, without sharing the user's password.
+
+=> Instead of giving your password to every app or website that wants to use your data (like Google contacts or Facebook photos), OAuth 2.0 lets you approve access using a special token.
+
+=> It is commonley used in "Login in with Google / Login with Facebook / Login with GitHub"
+
+
+==================================
+How It Works (Simplified Flow):
+==================================
+
+Step-1 : Visit Hacker Rank website
+
+Step-2 : Select sign in with google (it will redirect to google)
+
+Step-3 : Google will send login page for authentication
+
+Step-4 : Enter Google Account credentials
+
+Step-5 : Google will Verify credentiatials are valid or not
+
+Step-6 : If credentials are valid, google will send token to Hacker Rank 
+
+Step-7 : Hacker will re-direct user to dashboard based on information given by google (name, ...)
+
+========================
+Development Process
+========================
+
+# 1) Create oAuth app in github.com
+
+(Login --> Profile -> Settings --> Developer Settings --> OAuth Apps --> Create App --> Copy Client ID & Client Secret)
+
+		Client ID : Ov23li5bkOoAtmycp6Pj
+
+		Client Secret : 310e1bd9a9b3fce19969aad64bb6343b565d8d31
+
+
+# 2) Create Spring Boot application with below dependencies
+
+		a) web-starter
+		b) security-starter
+		c) oauth-client
+
+
+# 3)Create Rest Controller with method
+
+@RestController
+public class WelcomeRestController {
+
+	@GetMapping("/")
+	public String welcome() {
+		return "Welcome to Ashok IT";
+	}
+}
+
+# 4) Configure GitHub OAuth App client id & client secret in application.yml file like below
+
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: 
+            clientSecret: 
+
+
+# 5) Run the application and test it.
+
+
+=====================================================================
+Assignment : Develop a REST API using OAuth 2.0 with Google Login
+=====================================================================
+
+========================
+Microservices Security
+========================
+
+=> Each microservice should NOT manage users independently.
+
+=> Authentication should be centralized (keep that logic in one microservice)
+
+			Ex: AUTH-SERVICE
+
+=> Authorization should be decentralized. That means role based access should be managed by every microservice on its own.
+
+## API Gateway Level
+
+.requestMatchers("/admin/**").hasRole("ADMIN")
+.requestMatchers("/user/**").hasAnyRole("USER","ADMIN")
+
+## Microservice Level
+
+@PreAuthorize("hasRole('ADMIN')")
+@GetMapping("/admin/data")
+public String adminData() {
+    return "Admin only data";
+}
+
+=> Services should communicate securely
+
+=> No session state (stateless security)
+
+
+### Microservices Security Git Hub repo : https://github.com/ashokitschool/Microservices_Security
+
+=============================================
+
+1) What is Spring Security
+
+2) Authentication vs Authorization
+
+3) Http Basic Authentication
+
+4) Overriding Default Credentials
+
+5) In-Memory Authentication
+
+6) Securing Specific URL Patterns
+
+7) How to implement Role Based Access
+
+8) Security Customization with SecurityFilterChain
+
+9) Register & Login Implementation
+
+10) UserDetailsService & PwdEncoder
+
+11) JWT Implementation (Filters & Routings)
+
+12) OAuth 2.0 (with GitHub Login)
+
+=============================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////
+
+
+What is SecurityFilterChain?
+
+SecurityFilterChain is a Spring Security configuration component introduced in Spring Security 5.7+.
+
+It defines how incoming HTTP requests are secured, including:
+
+Authentication
+Authorization
+Login
+Logout
+JWT Validation
+CSRF
+CORS
+
+Before Spring Security 5.7: We used WebSecurityConfigurerAdapter (now deprecated).
+
+Now: We configure security using SecurityFilterChain.
+
+Why Do We Need SecurityFilterChain?
+
+Suppose you have a Banking Application.
+
+You have APIs like:
+
+POST   /login
+
+GET    /accounts
+
+POST   /transfer
+
+GET    /balance
+
+GET    /admin
+
+Requirements:
+
+Everyone can access /login
+Only logged-in users can access /accounts
+Only ADMIN can access /admin
+
+SecurityFilterChain handles these rules.
+
+Banking Example
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http)
+            throws Exception {
+
+        http
+            .csrf(csrf -> csrf.disable())
+
+            .authorizeHttpRequests(auth -> auth
+
+                .requestMatchers("/login").permitAll()
+
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+
+                .requestMatchers("/accounts/**").authenticated()
+
+                .anyRequest().authenticated()
+            )
+
+            .formLogin(Customizer.withDefaults());
+
+        return http.build();
+    }
+}
+Explanation
+Step 1
+http.csrf(csrf -> csrf.disable());
+
+Disables CSRF protection (commonly done for REST APIs using JWT).
+
+Step 2
+.authorizeHttpRequests(...)
+
+Defines authorization rules.
+
+Step 3
+.requestMatchers("/login").permitAll();
+
+Anyone can access the login API.
+
+Step 4
+.requestMatchers("/admin/**").hasRole("ADMIN");
+
+Only users with the ADMIN role can access admin endpoints.
+
+Step 5
+.requestMatchers("/accounts/**").authenticated();
+
+Users must be logged in.
+
+Step 6
+return http.build();
+
+Builds and returns the SecurityFilterChain.
+
+Request Flow
+Client Request
+      │
+      ▼
+SecurityFilterChain
+      │
+      ▼
+Authentication Filter
+      │
+      ▼
+Authorization Filter
+      │
+      ▼
+Controller
+      │
+      ▼
+Response
+JWT Example
+@Bean
+public SecurityFilterChain filterChain(HttpSecurity http)
+        throws Exception {
+
+    http
+
+        .csrf(csrf -> csrf.disable())
+
+        .sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+        .authorizeHttpRequests(auth -> auth
+
+                .requestMatchers("/login").permitAll()
+
+                .anyRequest().authenticated()
+        );
+
+    return http.build();
+}
+
+For JWT applications:
+
+No HTTP session
+Every request contains a JWT token
+Token is validated before reaching the controller
+Real-Time Banking Flow
+
+Customer requests:
+
+GET /accounts/101
+
+Flow:
+
+Customer
+     │
+     ▼
+SecurityFilterChain
+     │
+Check JWT Token
+     │
+Valid?
+     │
+Yes
+     ▼
+Controller
+     │
+Fetch Account
+     ▼
+Response
+
+If the token is invalid:
+
+401 Unauthorized
+Common Methods
+Method	Purpose
+authorizeHttpRequests()	Configure URL authorization
+requestMatchers()	Match specific URLs
+permitAll()	Allow everyone
+authenticated()	Require authentication
+hasRole()	Restrict access by role
+hasAuthority()	Restrict access by authority
+formLogin()	Enable form-based login
+httpBasic()	Enable HTTP Basic authentication
+csrf()	Configure CSRF
+cors()	Configure CORS
+logout()	Configure logout
+build()	Create the SecurityFilterChain
+SecurityFilterChain vs WebSecurityConfigurerAdapter
+WebSecurityConfigurerAdapter	SecurityFilterChain
+Deprecated	Recommended
+Inheritance-based	Bean-based configuration
+Less flexible	More flexible and modular
+Used before Spring Security 5.7	Used in Spring Security 5.7+
+Advantages
+Modern Spring Security configuration.
+Lambda-based, readable syntax.
+Easy JWT integration.
+Multiple filter chains can be defined.
+More modular than the older approach.
+Interview Questions
+1. What is SecurityFilterChain?
+
+Answer:
+SecurityFilterChain is a Spring Security bean that defines how incoming HTTP requests are authenticated and authorized. It replaces the deprecated WebSecurityConfigurerAdapter.
+
+2. Why was WebSecurityConfigurerAdapter deprecated?
+
+To encourage a more flexible, component-based configuration using beans instead of inheritance.
+
+3. What does http.build() do?
+
+It builds the configured SecurityFilterChain instance after all security rules have been applied.
+
+4. How does SecurityFilterChain work with JWT?
+Receives the request.
+Extracts the JWT from the Authorization header.
+Validates the token.
+Authenticates the user if the token is valid.
+Allows the request to reach the controller.
+Rejects invalid or missing tokens with 401 Unauthorized.
+
+
+

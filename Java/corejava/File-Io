@@ -1,0 +1,287 @@
+
+Agenda:  
+1. File 
+2. FileWriter 
+3. FileReader 
+4. BufferedWriter 
+5. BufferedReader 
+
+File: 
+...................
+File f=new File("abc.txt");  
+
+This line 1st checks whether abc.txt file is already available (or) not if it is already 
+available then "f" simply refers that file. 
+
+
+import java.io.*; 
+class  FileDemo 
+{ 
+ public static void main(String[] args)throws IOException 
+ { 
+  File f=new File("cricket.txt"); 
+  System.out.println(f.exists());//false 
+  f.createNewFile(); 
+  System.out.println(f.exists());//true 
+  } 
+}
+
+
+Requirement: Write code to create a file named with demo.txt in current working 
+directory.  
+Program: 
+import java.io.*; 
+class  FileDemo 
+{ 
+ public static void main(String[] args)throws IOException 
+ { 
+  File f=new File("demo.txt"); 
+  f.createNewFile(); 
+ } 
+} 
+
+Requirement: Write code to create a directory named with SaiCharan123 in current 
+working directory and create a file named with abc.txt in that directory.  
+Program: 
+import java.io.*; 
+class  FileDemo 
+{ 
+ public static void main(String[] args)throws IOException 
+ { 
+  File f1=new File("SaiCharan123"); 
+  f1.mkdir(); 
+  File f2=new File("SaiCharan123","abc.txt"); 
+  f2.createNewFile(); 
+ } 
+}
+
+Requirement: Write code to create a file named with demo.txt present in c:\saicharan 
+folder.  
+Program: 
+import java.io.*; 
+class  FileDemo 
+{ 
+ public static void main(String[] args)throws IOException 
+ { 
+  File f=new File("c:\\saiCharan","demo.txt"); 
+  f.createNewFile(); 
+ } 
+}
+
+Import methods of file class: 
+1. boolean exists(); 
+Returns true if the physical file or directory available. 
+2. booleancreateNewFile();  
+This method 1st checks whether the physical file is already available or not if it is 
+already available then this method simply returns false without creating any 
+physical file. 
+If this file is not already available then it will create a new file and returns true 
+3. booleanmkdir(); 
+This method 1st checks whether the directory is already available or not if it is 
+already available then this method simply returns false without creating any 
+directory. 
+If this directory is not already available then it will create a new directory and 
+returns true 
+4. booleanisFile(); 
+Returns true if the File object represents a physical file. 
+5. booleanisDirectory(); 
+Returns true if the File object represents a directory. 
+6. String[] list(); 
+It returns the names of all files and subdirectories present in the specified 
+directory. 
+7. long length(); 
+Returns the no of characters present in the file. 
+8. boolean delete(); 
+To delete a file or directory. 
+
+
+
+
+ 
+Requirement: Write a program to display the names of all files and directories present 
+in c:\\charan_classes.  
+Program: 
+import java.io.*; 
+class  FileDemo 
+{ 
+ public static void main(String[] args)throws IOException 
+ { int count=0; 
+  File f=new File("c:\\charan_classes"); 
+  String[] s=f.list(); 
+  for(String s1=s) { 
+  count++; 
+  System.out.println(s1); 
+      } 
+ System.out.println("total number : "+count); 
+ 
+ } 
+} 
+
+
+ 
+Requirement: Write a program to display only file names  
+Program: 
+import java.io.*; 
+class  FileDemo 
+{ 
+ public static void main(String[] args)throws IOException 
+ { int count=0; 
+  File f=new File("c:\\charan_classes");
+String[] s=f.list(); 
+  for(String s1=s) { 
+   File f1=new file(f,s1); 
+  if(f1.isFile()) { 
+  count++; 
+  System.out.println(s1); 
+      } 
+     } 
+ System.out.println("total number : "+count); 
+ 
+ } 
+}
+
+ 
+Requirement: Write a program to display only directory names  
+Program: 
+import java.io.*; 
+class  FileDemo 
+{ 
+ public static void main(String[] args)throws IOException 
+ { int count=0; 
+  File f=new File("c:\\charan_classes"); 
+  String[] s=f.list(); 
+  for(String s1=s) { 
+   File f1=new file(f,s1); 
+  if(f1.isDirectory()) { 
+  count++; 
+  System.out.println(s1); 
+      } 
+     } 
+ System.out.println("total number : "+count); 
+ 
+ } 
+} 
+
+FileWriter: 
+ 
+By using FileWriter object we can write character data to the file. 
+
+
+Constructors: 
+
+FileWriterfw=new FileWriter(String name); 
+FileWriterfw=new FileWriter(File f); 
+The above 2 constructors meant for overriding. 
+
+Methods: 
+..............
+1. write(intch); 
+To write a single character to the file. 
+2. write(char[] ch); 
+To write an array of characters to the file. 
+3. write(String s); 
+To write a String to the file. 
+4. flush(); 
+To give the guarantee the total data include last character also written to the file. 
+5. close(); 
+To close the stream. 
+
+FileWriter
+...............................
+
+classFileWriterDemo
+{ 
+ public static void main(String[] args)throws IOException 
+ { 
+  FileWriterfw=new FileWriter("cricket.txt",true); 
+  fw.write(99);//adding a single character 
+  fw.write("haran\nsoftware solutions"); 
+  fw.write("\n"); 
+  char[] ch={'a','b','c'}; 
+  fw.write(ch); 
+  fw.write("\n"); 
+  fw.flush(); 
+fw.close(); 
+ } 
+} 
+Output: 
+charan 
+software solutions 
+abc 
+Note : 
+..............
+ The main problem with FileWriter is we have to insert line separator manually , 
+which is difficult to the programmer. ('\n') 
+ And even line separator varing from system to system. 
+
+classFileReaderDemo 
+{ 
+ public static void main(String[] args)throws IOException 
+ { 
+  FileReaderfr=new FileReader("cricket.txt"); 
+  int i=fr.read();     //more amount of data 
+  while(i!=-1) 
+  { 
+   System.out.print((char)i); 
+   i=fr.read(); 
+  } 
+ } 
+} 
+Output: 
+Charan 
+Software solutions 
+ABC 
+Approach 2: 
+import java.io.*; 
+classFileReaderDemo 
+{ 
+ public static void main(String[] args)throws IOException 
+ { 
+  File f=new File("cricket.txt"); 
+  FileReaderfr=new FileReader(f); 
+  char[] ch=new char[(int)f.length()];  //small 
+amount of data 
+  fr.read(ch); 
+  for(char ch1:ch) 
+  { 
+   System.out.print(ch1); 
+  } 
+ } 
+} 
+Output: 
+XYZ 
+Software solutions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

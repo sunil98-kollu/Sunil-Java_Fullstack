@@ -1,0 +1,120 @@
+What are the most important Java features after Java 8?
+Java 9 → Module System
+Java 10 → var
+Java 11 → HttpClient API
+Java 14/16 → Records
+Java 17 → Sealed Classes
+Java 21 → Virtual Threads, Pattern Matching for Switch
+
+
+java 5
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+........................
+
+
+
+Feature	                    Example
+Generics	            List<String>
+Enhanced For Loop	       for(String s : list)
+Autoboxing	              Integer i = 10
+Unboxing	           int x = i
+Enum	                 Status.ACTIVE
+Varargs	               sum(int... nums)
+Annotations         	@Override
+Static Import	         import static Math.*
+Concurrency API	          ExecutorService
+
+
+
+java 9 
+...................
+
+
+
+Interview Summary
+Feature       	Description
+Module System	    Strong encapsulation
+JShell	                  REPL tool
+Collection Factory	      Immutable collections
+Stream API updates	      takeWhile, dropWhile
+Optional updates	       ifPresentOrElse
+Interface improvements	  Private methods
+Try-with-resources       	Simplified syntax
+
+
+
+.........................
+.........................
+
+he Module System helps split a large application into independent modules with clear dependencies.
+
+Without Modules
+...........................
+In a banking application:
+
+Banking Application
+|
+|-- Account Service
+|-- Customer Service
+|-- Loan Service
+|-- Payment Service
+
+All classes are accessible everywhere.
+
+Problems:
+..............................
+ Tight coupling
+ Difficult maintenance
+ No strong encapsulation
+
+With Modules
+bank-account
+bank-customer
+bank-loan
+bank-payment
+
+Each module exposes only required packages.
+........................................
+Module: bank-account
+...........................
+..........................
+module-info.java
+module bank.account {
+    exports com.bank.account.service;
+}
+
+Service Class
+
+package com.bank.account.service;
+
+public class AccountService {
+
+    public void createAccount() {
+        System.out.println("Account Created");
+    }
+}
+
+Module: bank-loan
+...........................
+module-info.java
+module bank.loan {
+
+    requires bank.account;
+}
+
+Loan Service
+;...................
+package com.bank.loan.service;
+
+import com.bank.account.service.AccountService;
+
+public class LoanService {
+
+    public static void main(String[] args) {
+
+        AccountService service =
+                new AccountService();
+
+        service.createAccount();
+    }
+}

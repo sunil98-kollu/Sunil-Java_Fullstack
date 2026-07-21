@@ -1,0 +1,388 @@
+
+
+
+A Regular Expression is a expression which represents a group of Strings according to a 
+particular pattern. 
+
+Example:  
+ We can write a Regular Expression to represent all valid mail ids. 
+ We can write a Regular Expression to represent all valid mobile numbers.
+
+
+The main important application areas of Regular Expression are:  
+
+
+To implement validation logic. 
+ To develop Pattern matching applications. 
+ To develop translators like compilers, interpreters etc. 
+To develop digital circuits. 
+ To develop communication protocols like TCP/IP, UDP etc. 
+
+classRegularExpressionDemo 
+{ 
+ public static void main(String[] args)  
+ { 
+  int count=0; 
+  Pattern p=Pattern.compile("ab"); 
+  Matcher m=p.matcher("abbbabbaba"); 
+  while(m.find()) 
+  { 
+  count++;
+System.out.println(m.start()+"------"+m.end()+"------"+m.group()); 
+  } 
+  System.out.println("The no of occurences 
+:"+count); 
+ } 
+} 
+Output: 
+0------2------ab 
+4------6------ab 
+7------9------ab 
+The no of occurrences: 3 
+
+
+Character classes: 
+1. [abc]-------------------Either 'a' or 'b' or 'c' 
+2. [^abc] -----------------Except 'a' and 'b' and 'c' 
+3. [a-z] --------------------Any lower case alphabet symbol 
+4. [A-Z] --------------------Any upper case alphabet symbol 
+5. [a-zA-Z] ----------------Any alphabet symbol 
+6. [0-9] --------------------Any digit from 0 to 9 
+7. [a-zA-Z0-9] ------------Any alphanumeric character 
+8. [^a-zA-Z0-9] ------------Any special character 
+
+
+Predefined character classes: 
+\s---------------------space character  
+\d---------------------Any digit from o to 9[o-9]  
+\w---------------------Any word character[a-zA-Z0-9] 
+. ---------------------Any character including special characters.  
+ 
+\S---------------------any character except space character  
+\D---------------------any character except digit  
+\W---------------------any character except word character(special character) 
+
+
+Example: 
+importjava.util.regex.*; 
+classRegularExpressionDemo 
+{ 
+ public static void main(String[] args)  
+ { 
+  Pattern p=Pattern.compile("x"); 
+  Matcher m=p.matcher("a1b7 @z#"); 
+  while(m.find()) 
+  { 
+   System.out.println(m.start()+"------
+"+m.group()); 
+  } 
+ } 
+}
+
+
+Quantifiers: 
+,.......................
+
+Quantifiers can be used to specify no of characters to match. 
+a-----------------------Exactly one 'a' 
+a+----------------------At least one 'a' 
+a*----------------------Any no of a's including zero number 
+a? ----------------------At most one 'a' 
+Example: 
+importjava.util.regex.*; 
+classRegularExpressionDemo 
+{ 
+ public static void main(String[] args)  
+ { 
+  Pattern p=Pattern.compile("x"); 
+  Matcher m=p.matcher("abaabaaab"); 
+  while(m.find()) 
+{ 
+   System.out.println(m.start()+"------
+"+m.group()); 
+  } 
+ } 
+}
+
+
+Pattern class split() method: 
+Pattern class contains split() method to split the given string against a regular expression.
+public static void main(String[] args)  
+ { 
+  Pattern p=Pattern.compile("\\s"); 
+  String[] s=p.split("ashok software solutions");
+for(String s1:s) 
+  { 
+   System.out.println(s1);//ashok 
+      //software 
+       //solutions 
+  } 
+ } 
+
+
+
+ public static void main(String[] args)  
+ { 
+  Pattern p=Pattern.compile("\\.");  //(or)[.] 
+  String[] s=p.split("www.dugrajobs.com"); 
+  for(String s1:s) 
+  { 
+   System.out.println(s1);//www 
+      //dugrajobs 
+       //com 
+  } 
+ } 
+
+
+
+
+String class split() method: 
+String class also contains split() method to split the given string against a regular 
+expression.  
+Example: 
+importjava.util.regex.*; 
+classRegularExpressionDemo 
+{ 
+ public static void main(String[] args)  
+ { 
+  String s="www.saijobs.com"; 
+  String[] s1=s.split("\\."); 
+  for(String s2:s1) 
+  { 
+   System.out.println(s2);//www
+     //saijobs 
+       //com 
+  } 
+ } 
+} 
+
+
+
+
+Why Use Regex?
+
+Common real-world uses include:
+
+Email validation
+Mobile number validation
+Password validation
+PAN/Aadhaar validation
+Log file parsing
+Search and replace
+Input validation in Spring Boot
+
+Symbol	Meaning	Example
+.	Any single character	a.c → abc, axc
+*	Zero or more	ab* → a, ab, abb
++	One or more	ab+ → ab, abb
+?	Zero or one	colou?r → color, colour
+^	Start of string	^Java
+$	End of string	Java$
+[abc]	Any one of a, b, c	[abc]
+[^abc]	Not a, b, c	[^abc]
+[0-9]	Digit	5
+[a-z]	Lowercase letter	k
+[A-Z]	Uppercase letter	S
+[A-Za-z]	Alphabet	Sunil
+\\d	Digit	123
+\\D	Non-digit	ABC
+\\w	Word character	A1_b
+\\W	Non-word character	@, #
+\\s	Whitespace	Space, tab
+\\S	Non-whitespace	Java
+
+
+Example 1: Mobile Number Validation
+
+Must contain exactly 10 digits.
+
+public class MobileValidation {
+
+    public static void main(String[] args) {
+
+        String mobile = "9876543210";
+
+        System.out.println(
+                mobile.matches("\\d{10}")
+        );
+    }
+}
+
+Output
+
+true
+
+
+Example 2: Email Validation
+public class EmailValidation {
+
+    public static void main(String[] args) {
+
+        String email = "sunil@gmail.com";
+
+        boolean valid = email.matches(
+                "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"
+        );
+
+        System.out.println(valid);
+    }
+}
+
+Output
+
+true
+
+
+atches() vs find()
+matches()	find()
+Checks the entire string	Searches for the next matching substring
+Returns true only if the whole string matches	Returns true if any matching part is found
+
+Example:
+
+"Java123".matches("\\d+");
+
+Output:
+
+false
+
+Example:
+
+Pattern p = Pattern.compile("\\d+");
+Matcher m = p.matcher("Java123");
+
+System.out.println(m.find());
+
+Output:
+
+true
+
+
+
+
+Common Interview Regex Patterns
+Requirement	Regex
+Digits only	\\d+
+Letters only	[A-Za-z]+
+Alphanumeric	[A-Za-z0-9]+
+10-digit mobile	\\d{10}
+12-digit Aadhaar	\\d{12}
+PAN	[A-Z]{5}[0-9]{4}[A-Z]
+PIN Code	\\d{6}
+Email	^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$
+
+
+
+
+What is StringTokenizer?
+..............................
+StringTokenizer is a class in the java.util package used to split a string into multiple tokens based on a delimiter.
+
+
+Syntax
+StringTokenizer st = new StringTokenizer(String str);
+
+Or
+
+StringTokenizer st = new StringTokenizer(String str, ",");
+
+
+Split by Space
+import java.util.StringTokenizer;
+
+public class Demo {
+
+    public static void main(String[] args) {
+
+        StringTokenizer st =
+                new StringTokenizer("Java Spring Boot");
+
+        while (st.hasMoreTokens()) {
+
+            System.out.println(st.nextToken());
+        }
+    }
+}
+Output
+Java
+Spring
+Boot
+
+
+Example 2: Split by Comma
+import java.util.StringTokenizer;
+
+public class Demo {
+
+    public static void main(String[] args) {
+
+        String data = "Java,Spring,SQL,React";
+
+        StringTokenizer st =
+                new StringTokenizer(data, ",");
+
+        while (st.hasMoreTokens()) {
+
+            System.out.println(st.nextToken());
+        }
+    }
+}
+Output
+Java
+Spring
+SQL
+React
+
+
+Banking Example
+
+Customer transaction details:
+
+101,Sunil,50000,Savings
+import java.util.StringTokenizer;
+
+public class Bank {
+
+    public static void main(String[] args) {
+
+        String customer =
+                "101,Sunil,50000,Savings";
+
+        StringTokenizer st =
+                new StringTokenizer(customer, ",");
+
+        while (st.hasMoreTokens()) {
+
+            System.out.println(st.nextToken());
+        }
+    }
+}
+Output
+101
+Sunil
+50000
+Savings
+
+Count Tokens
+import java.util.StringTokenizer;
+
+public class Demo {
+
+    public static void main(String[] args) {
+
+        StringTokenizer st =
+                new StringTokenizer("Java Spring SQL");
+
+        System.out.println(st.countTokens());
+    }
+}
+Output
+3
+
+Important Methods
+Method	Description
+hasMoreTokens()	Returns true if more tokens are available
+nextToken()	Returns the next token
+countTokens()	Returns the number of remaining tokens
+nextToken(String delimiter)	Changes the delimiter and returns the next token
+

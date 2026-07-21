@@ -1,0 +1,56 @@
+
+When to Use Adapter Pattern?
+........................
+
+Use it when:
+
+You want to integrate a third-party library.
+Existing interfaces are incompatible.
+You cannot modify existing code.
+You need backward compatibility.
+..........................................
+interface PaymentProcessor {
+
+    void pay(double amount);
+}
+..............................................
+
+class ThirdPartyPaymentGateway {
+
+    public void makePayment(double amount) {
+
+        System.out.println("Payment of ₹" + amount + " processed by Third Party.");
+    }
+}
+..............................................................
+class PaymentAdapter implements PaymentProcessor {
+
+    private ThirdPartyPaymentGateway gateway;
+
+    public PaymentAdapter(ThirdPartyPaymentGateway gateway) {
+        this.gateway = gateway;
+    }
+
+    @Override
+    public void pay(double amount) {
+
+        gateway.makePayment(amount);
+    }
+}
+
+Step 4: Client
+.....
+public class Main {
+
+    public static void main(String[] args) {
+
+        PaymentProcessor payment =
+                new PaymentAdapter(new ThirdPartyPaymentGateway());
+
+        payment.pay(5000);
+    }
+}
+Output
+Payment of ₹5000.0 processed by Third Party.
+
+

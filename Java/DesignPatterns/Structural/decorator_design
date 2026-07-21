@@ -1,0 +1,133 @@
+The Decorator Pattern is a Structural Design Pattern that allows you to add new functionality to an object dynamically without modifying its existing code.
+
+Why Do We Need Decorator Pattern?
+
+Suppose a bank has a Basic Bank Account.
+
+Some customers also want:
+
+SMS Alerts
+Email Alerts
+Reward Points
+Insurance
+
+Instead of creating classes like:
+
+Banking Example
+................................
+Step 1: Component Interface
+................................
+interface BankAccount {
+
+    void openAccount();
+}
+
+Step 2: Concrete Component
+................................
+class SavingsAccount implements BankAccount {
+
+    @Override
+    public void openAccount() {
+
+        System.out.println("Savings Account Opened");
+    }
+}
+
+Step 3: Abstract Decorator
+................................
+abstract class AccountDecorator implements BankAccount {
+
+    protected BankAccount account;
+
+    public AccountDecorator(BankAccount account) {
+        this.account = account;
+    }
+
+    @Override
+    public void openAccount() {
+        account.openAccount();
+    }
+}
+
+Step 4: Concrete Decorators
+................................
+
+SMS Alert
+................................
+class SMSAlertDecorator extends AccountDecorator {
+
+    public SMSAlertDecorator(BankAccount account) {
+        super(account);
+    }
+
+    @Override
+    public void openAccount() {
+
+        super.openAccount();
+
+        System.out.println("SMS Alert Activated");
+    }
+}
+
+Email Alert
+................................
+class EmailAlertDecorator extends AccountDecorator {
+
+    public EmailAlertDecorator(BankAccount account) {
+        super(account);
+    }
+
+    @Override
+    public void openAccount() {
+
+        super.openAccount();
+
+        System.out.println("Email Alert Activated");
+    }
+}
+
+Step 5: Client
+................................
+public class Main {
+
+    public static void main(String[] args) {
+
+        BankAccount account =
+                new EmailAlertDecorator(
+                    new SMSAlertDecorator(
+                        new SavingsAccount()));
+
+        account.openAccount();
+    }
+}
+
+Output
+................................
+Savings Account Opened
+SMS Alert Activated
+Email Alert Activated
+
+
+Real-Life Examples
+................................
+1. Coffee Shop ☕
+Coffee
+   ↓
++ Milk
+   ↓
++ Sugar
+   ↓
++ Chocolate
+
+Each topping decorates the original coffee.
+
+2. Banking
+Savings Account
+      ↓
+SMS Alert
+      ↓
+Email Alert
+      ↓
+Insurance
+      ↓
+Reward Points

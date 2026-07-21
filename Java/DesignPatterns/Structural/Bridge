@@ -1,0 +1,144 @@
+
+The Bridge Pattern is a Structural Design Pattern that separates an abstraction from its implementation, allowing both to change independently.
+
+Simple Definition: Instead of tightly coupling two classes, the Bridge Pattern connects them through composition.
+
+
+Why Do We Need the Bridge Pattern?
+..................................
+Suppose a bank has different Account Types:
+
+Savings Account
+Current Account
+
+And different Notification Types:
+..........................
+SMS
+Email
+Push Notification
+
+Without the Bridge Pattern, you would need a separate class for every combination:
+
+
+Without the Bridge Pattern, you would need a separate class for every combination:
+...........
+SavingsWithSMS
+SavingsWithEmail
+SavingsWithPush
+CurrentWithSMS
+CurrentWithEmail
+CurrentWithPush
+
+
+As features grow, the number of classes grows rapidly.
+
+The Bridge Pattern solves this by separating:
+
+Abstraction → Account
+Implementation → Notification
+
+
+interface Notification {
+    void send(String message);
+}
+
+...................
+class SMSNotification implements Notification {
+
+    @Override
+    public void send(String message) {
+
+        System.out.println("SMS: " + message);
+    }
+}
+
+class EmailNotification implements Notification {
+
+    @Override
+    public void send(String message) {
+
+        System.out.println("Email: " + message);
+    }
+}
+
+
+Step 3: Abstraction
+................................
+abstract class Account {
+
+    protected Notification notification;
+
+    public Account(Notification notification) {
+        this.notification = notification;
+    }
+
+    abstract void deposit(double amount);
+}
+Step 4: Refined Abstraction
+................................
+class SavingsAccount extends Account {
+
+    public SavingsAccount(Notification notification) {
+        super(notification);
+    }
+
+    @Override
+    void deposit(double amount) {
+
+        System.out.println("Deposited ₹" + amount);
+
+        notification.send("Amount Credited");
+    }
+}
+Step 5: Client
+................................
+public class Main {
+
+    public static void main(String[] args) {
+
+        Notification sms = new SMSNotification();
+
+        Account account = new SavingsAccount(sms);
+
+        account.deposit(5000);
+    }
+}
+................................
+Output
+Deposited ₹5000.0
+SMS: Amount Credited
+UML Diagram
+            Account
+               │
+       ----------------
+       │              │
+SavingsAccount   CurrentAccount
+       │
+       │ has-a
+       ▼
+    Notification
+       ▲
+   -----------------
+   │               │
+SMSNotification  EmailNotification
+Real-Life Examples
+1. TV and Remote
+Remote
+   │
+   │
+   ▼
+Sony TV
+Samsung TV
+LG TV
+
+
+. Banking
+Account
+   │
+   ▼
+Notification
+
+SMS
+Email
+Push
+

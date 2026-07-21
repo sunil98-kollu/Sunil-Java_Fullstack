@@ -1,0 +1,804 @@
+
+
+1. Arithmetic Operators (+, -, *, /, %)
+........................................
+Q1. Write a program to calculate:
+........................................
+
+Sum
+Difference
+Product
+Quotient
+Remainder
+
+using two integers.
+
+Q2. Calculate the total bill of 5 products and print the average.
+........................................
+Q3. Swap two numbers:
+........................................
+Using a third variable
+Without using a third variable (using arithmetic operators)
+2. Unary Operators (++ , --)
+
+Q4. Demonstrate:
+........................................
+
+int a = 10;
+
+System.out.println(a++);
+System.out.println(++a);
+System.out.println(a--);
+System.out.println(--a);
+
+Explain the output.
+........................................
+Q5. Count from 1 to 20 using increment operators only.
+........................................
+3. Assignment Operators (=, +=, -=, *=, /=, %=)
+........................................
+Q6. Perform all assignment operations.
+........................................
+Example:
+
+int salary = 50000;
+
+salary += 5000;
+salary -= 2000;
+salary *= 2;
+salary /= 2;
+salary %= 3000;
+
+Q7. Banking Example
+........................................
+Initial Balance = ₹10000
+
+Deposit ₹5000
+Withdraw ₹3000
+Add interest 5%
+Print final balance
+
+Use assignment operators only.
+
+4. Relational Operators (>, <, >=, <=, ==, !=)
+........................................
+Q8. Check whether a student passed.
+
+Passing marks = 35.
+
+Q9. Compare two employee salaries.
+........................................
+Print:
+
+Higher salary
+Equal salary
+Lower salary
+5. Logical Operators (&&, ||, !)
+........................................
+Q10. Loan Eligibility
+........................................
+Eligible if:
+
+Age >= 21
+Salary > 30000
+
+Q11. Login System
+
+Username = "admin"
+
+Password = "123"
+
+Check using logical operators.
+
+Q12. Voting Eligibility
+........................................
+Age >=18 AND citizen=true
+
+6. Bitwise Operators (&, |, ^, ~)
+........................................
+Q13.
+
+int a=5;
+int b=3;
+
+Find:
+
+a & b
+a | b
+a ^ b
+~a
+
+Q14. Find whether a number is even using bitwise operator.
+........................................
+7. Shift Operators
+........................................
+Q15.
+
+int a=10;
+
+System.out.println(a<<2);
+System.out.println(a>>1);
+
+Explain the output.
+
+Q16. Multiply a number by 8 using left shift only.
+........................................
+8. Ternary Operator
+........................................
+Q17. Find the largest of two numbers.
+........................................
+Q18. Find whether a student passed.
+........................................
+Q19. Find whether a number is even or odd.
+........................................
+9. instanceof Operator
+........................................
+Create
+
+class Animal{}
+class Dog extends Animal{}
+
+Q20.
+
+Check
+
+Dog d=new Dog();
+
+System.out.println(d instanceof Dog);
+System.out.println(d instanceof Animal);
+
+
+10. Mixed Operator Programs
+
+.............................................
+Q21. Employee Bonus
+.............................................
+
+If salary > 50000
+
+Bonus = 10%
+
+Else Bonus = 5%
+
+Use relational + ternary + assignment operators.
+
+Q22. ATM Withdrawal
+.............................................
+Balance = 10000
+
+Withdraw amount = 3000
+
+If balance is sufficient
+
+Deduct amount using -=
+
+Otherwise print "Insufficient Balance"
+
+Q23. Electricity Bill
+.............................................
+Calculate total amount.
+
+If units >100
+
+Extra charge = ₹2 per unit
+
+Otherwise ₹1.5 per unit.
+
+Q24. Shopping Discount
+.............................................
+If purchase >5000
+
+10% discount
+
+Else
+
+5% discount
+
+Q25. Student Grade
+.............................................
+Use ternary operator.
+
+Marks
+
+=90 → A
+
+=75 → B
+
+=60 → C
+
+Else Fail
+Q26. Password Validation
+.............................................
+Password is valid if:
+
+Length >=8
+Contains '@'
+Contains a digit
+
+Use logical operators.
+
+Q27. Insurance Eligibility
+.............................................
+Eligible if:
+
+Age between 18 and 60
+Salary >25000
+Non-smoker
+Q28. Find Largest Among Three Numbers
+.............................................
+Use nested ternary operator only.
+
+Q29. Leap Year
+.............................................
+Use logical operators.
+
+Q30. Calculator
+.............................................
+Take two numbers and one operator (+, -, *, /, %) and perform the corresponding operation.
+
+These 30 questions cover all major Java operator categories and are suitable for beginner to intermediate interview preparation
+
+?????????????????????????????????????
+package com.org.ctrl;
+
+public class First {
+	
+public static void main(String[] args) {
+	//System.out.println("1");
+	
+	int a =2;
+	int b=3 ;
+	a= a+b;
+	b=a-b;
+	a=a-b;
+	System.out.println(a +""+ b);
+	
+  // count
+	int i=1;
+	System.out.println(i++);
+	
+	// 
+	double balance = 10000;
+	// Deposit ₹5000 balance += 5000; 
+	// Withdraw ₹3000 balance -= 3000; 
+	// Add 5% interest balance += balance * 0.05;
+	System.out.println("Final Balance = ₹" + balance);
+	
+	 
+	int a1=10;
+	int b1=12;
+	int c= a>b? a:b;
+	System.out.println(c);
+	
+	int balac=1000;
+	
+	
+	double purchase = 6000; double discount; double finalAmount; if (purchase > 5000) { discount = purchase * 0.10; } else { discount = purchase * 0.05; } finalAmount = purchase - discount; System.out.println("Purchase Amount : ₹" + purchase); System.out.println("Discount : ₹" + discount); System.out.println("Final Amount : ₹" + finalAmount); }
+
+double purchase = 6000;
+double discount;
+double finalAmount;
+
+if (purchase > 5000) {
+
+    discount = purchase * 0.10;
+
+} else {
+
+    discount = purchase * 0.05;
+}
+
+finalAmount = purchase - discount;
+
+System.out.println("Purchase Amount : ₹" + purchase);
+System.out.println("Discount : ₹" + discount);
+System.out.println("Final Amount : ₹" + finalAmount);
+}
+}
+//Output
+Purchase Amount : ₹6000.0
+Discount : ₹600.0
+Final Amount : ₹5400.0
+Solution Using Ternary Operator
+public class ShoppingDiscount {
+
+public static void main(String[] args) {
+
+double purchase = 4500;
+
+double discount = (purchase > 5000)
+        ? purchase * 0.10
+        : purchase * 0.05;
+
+double finalAmount = purchase - discount;
+
+System.out.println("Purchase Amount : ₹" + purchase);
+System.out.println("Discount : ₹" + discount);
+System.out.println("Final Amount : ₹" + finalAmount);
+
+
+String password = "Java@123"; boolean lengthCheck = password.length() >= 8; boolean containsAt = password.contains("@"); boolean containsDigit = false; for (int i = 0; i < password.length(); i++) { if (Character.isDigit(password.charAt(i))) { containsDigit = true; break; } } if (lengthCheck && containsAt && containsDigit) { System.out.println("Valid Password"); } else { System.out.println("Invalid Password"); } }
+//
+
+
+} 
+
+
+???????//////////////////////////////////////////////////
+
+
+Here are Java Loop Assignment Questions covering for, while, do-while, nested loops, break, continue, and enhanced for loop. These are commonly asked in coding rounds and interviews.
+
+Level 1 – Basic Loops
+.........................................
+Print numbers from 1 to 100.
+Print numbers from 100 to 1.
+Print all even numbers from 1 to 100.
+Print all odd numbers from 1 to 100.
+Print the multiplication table of a given number.
+Print tables from 1 to 10.
+Find the sum of numbers from 1 to N.
+Find the sum of even numbers from 1 to N.
+Find the sum of odd numbers from 1 to N.
+Count how many even and odd numbers are between 1 and N.
+
+Level 2 – Number-Based Programs
+.........................................
+Find the factorial of a number.
+Check whether a number is prime.
+Print all prime numbers between 1 and 100.
+Reverse a number.
+Check whether a number is a palindrome.
+Find the sum of digits of a number.
+Count the digits in a number.
+Find the largest digit in a number.
+Find the smallest digit in a number.
+Check whether a number is an Armstrong number.
+
+Level 3 – Series Programs
+.........................................
+Print the Fibonacci series.
+Print the first N Fibonacci numbers.
+Find the sum of the Fibonacci series.
+Print squares from 1 to N.
+Print cubes from 1 to N.
+Print powers of 2 up to N.
+Print powers of 3 up to N.
+
+Level 4 – Pattern Programs (Nested Loops)
+.........................................
+*
+**
+***
+****
+*****
+*****
+****
+***
+**
+*
+*****
+*****
+*****
+*****
+*****
+1
+12
+123
+1234
+12345
+12345
+1234
+123
+12
+1
+1
+22
+333
+4444
+55555
+A
+AB
+ABC
+ABCD
+ABCDE
+*****
+*   *
+*   *
+*****
+Print a pyramid pattern.
+Print an inverted pyramid.
+Print a diamond pattern.
+
+Level 5 – break and continue
+.........................................
+Print numbers from 1 to 100, but stop at 50 using break.
+Print numbers from 1 to 20, skipping multiples of 3 using continue.
+Search for a number in an array and stop when found.
+Print only odd numbers using continue.
+
+Level 6 – while Loop
+.........................................
+Print numbers from 1 to 100 using a while loop.
+Find the factorial using a while loop.
+Reverse a number using a while loop.
+Count digits using a while loop.
+Print the Fibonacci series using a while loop.
+
+
+Level 7 – do-while Loop
+.........................................
+Print numbers from 1 to 10 using a do-while loop.
+Display a simple menu repeatedly until the user chooses Exit.
+Validate a password until the correct one is entered.
+Level 8 – Enhanced for Loop
+.........................................
+Find the sum of all array elements.
+Find the maximum element in an array.
+Find the minimum element in an array.
+Count even and odd numbers in an array.
+Print all employee names stored in an array.
+Level 9 – Real-Time Assignments
+.........................................
+
+
+
+
+
+
+
+
+ATM Simulation – Display a menu (Deposit, Withdraw, Balance, Exit) using loops.
+Bank Interest Calculator – Calculate yearly interest for multiple years.
+Student Marks – Read marks for N students and calculate total, average, highest, and lowest.
+Shopping Cart – Add product prices until the user enters 0, then calculate the total bill.
+Employee Salary Processing – Process salaries for N employees, calculate total payroll, highest salary, lowest salary, and average salary.
+
+public class ATMSimulation {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        double balance = 10000;
+        int choice;
+
+        do {
+
+            System.out.println("\n===== ATM MENU =====");
+            System.out.println("1. Deposit");
+            System.out.println("2. Withdraw");
+            System.out.println("3. Check Balance");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+
+            choice = sc.nextInt();
+
+            switch (choice) {
+
+                case 1:
+
+                    System.out.print("Enter Deposit Amount: ");
+                    double deposit = sc.nextDouble();
+
+                    balance += deposit;
+
+                    System.out.println("₹" + deposit + " Deposited Successfully.");
+                    break;
+
+                case 2:
+
+                    System.out.print("Enter Withdraw Amount: ");
+                    double withdraw = sc.nextDouble();
+
+                    if (withdraw <= balance) {
+
+                        balance -= withdraw;
+
+                        System.out.println("₹" + withdraw + " Withdrawn Successfully.");
+
+                    } else {
+
+                        System.out.println("Insufficient Balance.");
+                    }
+
+                    break;
+
+                case 3:
+
+                    System.out.println("Current Balance: ₹" + balance);
+                    break;
+
+                case 4:
+
+                    System.out.println("Thank You for Using the ATM!");
+                    break;
+
+                default:
+
+                    System.out.println("Invalid Choice. Please Try Again.");
+            }
+
+        } while (choice != 4);
+
+        sc.close();
+    }
+}
+
+# Java Loop Assignment Programs (Real-Time Examples)
+
+## 1. Bank Interest Calculator
+
+### Problem
+
+Calculate yearly interest for multiple years.
+
+### Program
+
+```java
+import java.util.Scanner;
+
+public class BankInterestCalculator {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        double principal, rate;
+
+        int years;
+
+        System.out.print("Enter Principal Amount: ");
+        principal = sc.nextDouble();
+
+        System.out.print("Enter Interest Rate (%): ");
+        rate = sc.nextDouble();
+
+        System.out.print("Enter Number of Years: ");
+        years = sc.nextInt();
+
+        double balance = principal;
+
+        System.out.println("\nYear\tInterest\tBalance");
+
+        for (int i = 1; i <= years; i++) {
+
+            double interest = balance * rate / 100;
+
+            balance += interest;
+
+            System.out.printf("%d\t%.2f\t\t%.2f%n",
+                    i, interest, balance);
+        }
+
+        sc.close();
+    }
+}
+```
+
+### Sample Output
+
+```text
+Enter Principal Amount: 10000
+Enter Interest Rate (%): 5
+Enter Number of Years: 3
+
+Year    Interest    Balance
+1       500.00      10500.00
+2       525.00      11025.00
+3       551.25      11576.25
+```
+
+---
+
+# 2. Student Marks Processing
+
+### Problem
+
+Read marks for **N students** and calculate:
+
+* Total
+* Average
+* Highest
+* Lowest
+
+### Program
+
+```java
+import java.util.Scanner;
+
+public class StudentMarks {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter Number of Students: ");
+        int n = sc.nextInt();
+
+        int total = 0;
+        int highest = Integer.MIN_VALUE;
+        int lowest = Integer.MAX_VALUE;
+
+        for (int i = 1; i <= n; i++) {
+
+            System.out.print("Enter Marks of Student " + i + ": ");
+            int marks = sc.nextInt();
+
+            total += marks;
+
+            if (marks > highest)
+                highest = marks;
+
+            if (marks < lowest)
+                lowest = marks;
+        }
+
+        double average = (double) total / n;
+
+        System.out.println("\nTotal Marks : " + total);
+        System.out.println("Average     : " + average);
+        System.out.println("Highest     : " + highest);
+        System.out.println("Lowest      : " + lowest);
+
+        sc.close();
+    }
+}
+```
+
+---
+
+# 3. Shopping Cart
+
+### Problem
+
+Add product prices until the user enters **0**.
+
+Display:
+
+* Total Bill
+
+### Program
+
+```java
+import java.util.Scanner;
+
+public class ShoppingCart {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        double total = 0;
+
+        while (true) {
+
+            System.out.print("Enter Product Price (0 to Finish): ");
+            double price = sc.nextDouble();
+
+            if (price == 0)
+                break;
+
+            total += price;
+        }
+
+        System.out.println("Total Bill = ₹" + total);
+
+        sc.close();
+    }
+}
+```
+
+### Sample Output
+
+```text
+Enter Product Price: 500
+Enter Product Price: 1200
+Enter Product Price: 300
+Enter Product Price: 0
+
+Total Bill = ₹2000.0
+```
+
+---
+
+# 4. Employee Salary Processing
+
+### Problem
+
+Read salaries for **N employees** and calculate:
+
+* Total Payroll
+* Average Salary
+* Highest Salary
+* Lowest Salary
+
+### Program
+
+```java
+import java.util.Scanner;
+
+public class EmployeeSalary {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter Number of Employees: ");
+        int n = sc.nextInt();
+
+        double total = 0;
+        double highest = Double.MIN_VALUE;
+        double lowest = Double.MAX_VALUE;
+
+        for (int i = 1; i <= n; i++) {
+
+            System.out.print("Enter Salary of Employee " + i + ": ");
+
+            double salary = sc.nextDouble();
+
+            total += salary;
+
+            if (salary > highest)
+                highest = salary;
+
+            if (salary < lowest)
+                lowest = salary;
+        }
+
+        double average = total / n;
+
+        System.out.println("\nTotal Payroll  : ₹" + total);
+        System.out.println("Average Salary : ₹" + average);
+        System.out.println("Highest Salary : ₹" + highest);
+        System.out.println("Lowest Salary  : ₹" + lowest);
+
+        sc.close();
+    }
+}
+```
+
+---
+
+# Java Concepts Used
+
+* `for` loop
+* `while` loop
+* `break`
+* `Scanner`
+* `if` statement
+* Variables and arithmetic operators
+* Finding maximum and minimum values
+* Average calculation
+
+---
+
+# Interview Questions
+
+### 1. Why initialize `highest` with `Integer.MIN_VALUE` or `Double.MIN_VALUE`?
+
+To ensure the first entered value becomes the initial highest value.
+
+### 2. Why initialize `lowest` with `Integer.MAX_VALUE` or `Double.MAX_VALUE`?
+
+To ensure the first entered value becomes the initial lowest value.
+
+### 3. Which loop is best for these problems?
+
+* **`for` loop** → When the number of iterations (`N`) is known.
+* **`while` loop** → When the number of inputs is unknown (e.g., shopping cart until `0` is entered).
+
+### 4. What is the time complexity?
+
+All four programs process each input exactly once.
+
+**Time Complexity:** **O(N)**
+
+---
+
+# Interview One-Liner
+
+> These are real-time loop-based programs that demonstrate input processing, aggregation (total and average), maximum/minimum calculations, and menu-driven or sentinel-controlled loops. They are frequently asked in Java interviews to assess knowledge of loops, conditional statements, and basic problem-solving.
+
+
+

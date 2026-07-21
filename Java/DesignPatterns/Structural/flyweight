@@ -1,0 +1,226 @@
+
+
+What is the Flyweight Design Pattern?
+..................................................................
+The Flyweight Pattern is a Structural Design Pattern used to reduce memory usage by sharing common objects instead of creating new ones repeatedly.
+
+Definition: The Flyweight Pattern shares objects that have the same state, minimizing memory consumption and improving performance.
+
+Why Do We Need Flyweight?
+..................................................................
+Suppose a banking application displays 10,000 customer accounts.
+
+Without Flyweight:
+..................................................................
+Customer 1 → Bank Logo
+Customer 2 → Bank Logo
+Customer 3 → Bank Logo
+...
+Customer 10000 → Bank Logo
+
+The application creates 10,000 Bank Logo objects, wasting memory.
+
+With Flyweight:
+..................................................................
+                Bank Logo
+                    ▲
+      ┌─────────────┼─────────────┐
+      │             │             │
+Customer1      Customer2     Customer10000
+
+Only one Bank Logo object is shared by all customers.
+
+Real-Time Banking Example
+..................................................................
+Suppose every ATM screen displays the same:
+
+Bank Logo
+Bank Name
+Theme
+
+Instead of creating these objects for every ATM session, create them once and share them.
+..................................................................
+Step 1: Flyweight Interface
+..................................................................
+public interface BankLogo {
+
+    void display(String branchName);
+}
+
+Step 2: Concrete Flyweight
+..................................................................
+public class SBIBankLogo implements BankLogo {
+
+    public SBIBankLogo() {
+        System.out.println("Creating Bank Logo...");
+    }
+
+    @Override
+    public void display(String branchName) {
+
+        System.out.println(
+                "Displaying SBI Logo for " + branchName);
+    }
+}
+
+Step 3: Flyweight Factory
+..................................................................
+import java.util.HashMap;
+import java.util.Map;
+
+public class BankLogoFactory {
+
+    private static Map<String, BankLogo> map = new HashMap<>();
+
+    public static BankLogo getLogo(String bank) {
+
+        if (!map.containsKey(bank)) {
+
+            map.put(bank, new SBIBankLogo());
+        }
+
+        return map.get(bank);
+    }
+}
+
+Step 4: Client
+..................................................................
+public class Main {
+
+    public static void main(String[] args) {
+
+        BankLogo logo1 =
+                BankLogoFactory.getLogo("SBI");
+
+        logo1.display("Hyderabad");
+
+        BankLogo logo2 =
+                BankLogoFactory.getLogo("SBI");
+
+        logo2.display("Chennai");
+
+        System.out.println(logo1 == logo2);
+    }
+}
+
+Output
+..................................................................
+Creating Bank Logo...
+
+Displaying SBI Logo for Hyderabad
+
+Displaying SBI Logo for Chennai
+
+true
+
+Notice:
+
+Creating Bank Logo...
+
+appears only once.
+
+Class Diagram
+             Client
+                │
+                ▼
+       Flyweight Factory
+                │
+         Returns Shared Object
+                │
+                ▼
+          BankLogo Interface
+                ▲
+                │
+         SBIBankLogo
+Intrinsic vs Extrinsic State
+Intrinsic State (Shared)
+
+Stored inside the Flyweight object.
+
+Example:
+..................................................................
+Bank Logo
+Bank Name
+Logo Color
+
+These values are common for everyone.
+
+Extrinsic State (Not Shared)
+
+Passed by the client.
+
+Example:
+..................................................................
+Branch Name
+Customer Name
+Account Number
+
+These values are different for each request.
+
+Example:
+
+logo.display("Hyderabad");
+
+Here:
+
+Hyderabad
+
+is the extrinsic state.
+
+Another Real-Time Example
+Text Editor (MS Word)
+
+Suppose a document contains:
+
+AAAAAAAAAAAAAAAAAAAA
+
+Without Flyweight:
+
+20 Character Objects
+
+With Flyweight:
+
+One Character Object
+
+↓
+
+Used 20 Times
+
+Memory usage is reduced.
+
+Java Examples
+
+The Flyweight pattern is used in:
+
+String Constant Pool
+Integer Cache (Integer.valueOf())
+Font objects
+Icons
+Image caching
+
+Example:
+
+String s1 = "Java";
+String s2 = "Java";
+
+System.out.println(s1 == s2);
+
+Output
+
+true
+
+Both references point to the same object in the String pool.
+
+Advantages
+..................................................................
+Reduces memory usage.
+Improves performance.
+Avoids duplicate objects.
+Ideal when many similar objects are created.
+
+Disadvantages
+..................................................................
+Increases design complexity.
+Requires separating intrinsic and extrinsic state correctly.
+
+

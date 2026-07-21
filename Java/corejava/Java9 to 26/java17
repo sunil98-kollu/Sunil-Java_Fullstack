@@ -1,0 +1,162 @@
+
+Java 17 Features (Interview Important + Examples) ⭐
+
+Java 17 is a Long-Term Support (LTS) version and is widely used in Spring Boot enterprise applications.
+
+
+1. Sealed Classes ⭐
+...........................
+Sealed classes restrict which classes can extend or implement them.
+
+
+Why Do We Need Sealed Classes?
+
+Suppose you're developing a Banking System.
+
+You have an Account class, and you want only these account types:
+
+SavingsAccount
+CurrentAccount
+LoanAccount
+
+No other developer should be able to create:
+
+GoldAccount
+PremiumAccount
+UnknownAccount
+
+A sealed class enforces this restriction.
+
+
+Example
+public sealed class Payment
+        permits UpiPayment, CardPayment {
+}
+Allowed subclasses
+public final class UpiPayment
+        extends Payment {
+}
+public final class CardPayment
+        extends Payment {
+}
+Invalid ❌
+public class CashPayment
+        extends Payment {
+}
+
+Not allowed → compilation error.
+
+Benefits
+
+✔ Controlled inheritance
+✔ Better security
+✔ Useful with pattern matching
+
+2. Pattern Matching for switch (Preview in Java 17) ⭐
+...........................................
+Improves switch logic with type checks.
+
+Example
+static String process(Object obj) {
+
+    return switch (obj) {
+
+        case Integer i ->
+                "Integer: " + i;
+
+        case String s ->
+                "String: " + s;
+
+        case Double d ->
+                "Double: " + d;
+
+        default ->
+                "Unknown Type";
+    };
+}
+Usage
+System.out.println(process("Java"));
+System.out.println(process(100));
+Output
+String: Java
+Integer: 100
+Benefits
+
+✔ No instanceof checks
+✔ Cleaner code
+✔ More readable switch
+
+3. Strong Encapsulation of JDK Internals ⭐
+.............................................
+Java 17 strongly hides internal APIs.
+
+Before
+Unsafe internal APIs were accessible
+After Java 17
+Internal APIs are strongly encapsulated
+Benefits
+
+✔ Better security
+✔ Stable Java platform
+
+4. Enhanced Pseudo-Random Number Generators
+.................................................
+Improved randomness APIs.
+
+Example
+RandomGenerator random =
+        RandomGenerator.getDefault();
+
+System.out.println(random.nextInt(100));
+Benefits
+
+✔ Better performance
+✔ More algorithms available
+
+5. New macOS Rendering Pipeline
+.....................................
+Improves UI performance on macOS systems.
+
+6.. Removal of Deprecated Features
+...................................................
+Removed:
+
+❌ Applet API
+❌ Security Manager (deprecated)
+
+Real-Time Example (Banking System)
+.....................................
+Sealed Class for Payment Types
+public sealed class Payment
+        permits UpiPayment,
+                CardPayment,
+                NetBankingPayment {
+}
+Processing Payment using Pattern Matching
+static void process(Payment payment) {
+
+    switch (payment) {
+
+        case UpiPayment u ->
+                System.out.println("UPI Payment");
+
+        case CardPayment c ->
+                System.out.println("Card Payment");
+
+        case NetBankingPayment n ->
+                System.out.println("Net Banking");
+
+    }
+}
+Output
+UPI Payment
+Interview Summary
+Feature	Description
+Sealed Classes	Restrict inheritance
+Pattern Matching for switch	Type-based switch
+Strong Encapsulation	Secure JDK internals
+RandomGenerator	Better randomness API
+macOS Pipeline	UI performance improvement
+Removed APIs	Cleaner Java platform
+
+

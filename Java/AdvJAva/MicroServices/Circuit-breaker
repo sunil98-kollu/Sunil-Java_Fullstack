@@ -1,0 +1,164 @@
+
+
+================   https://ashok-it.teachable.com/courses/2901687/lectures/64146043
+Circuit Breaker
+================
+
+=> It is one of the most famous design pattern in microservices development.
+
+=> It is used to implement fault tolerent systems.
+
+=> Fault Tolerant systems also called as Resillence systems.
+
+
+## Requirement : If main logic is failed to execute then we have to execute fallback logic and send success response to client instead of sending error response.
+
+## Usecase : 
+
+main logic : retrieve data from redis cache
+
+fallback logic : retrieve data from database
+
+--------------------------- try-catch approach --------------------------------
+
+class Demo {
+	
+	public void getData (){
+		try{
+			m1 ( );
+		}catch (Exception e){
+			m2( );
+		}
+	}
+
+	m1 ( ) {
+		// get data from redis
+	}
+
+	m2 ( ) {
+		// get data from db
+	}
+}
+
+----------------------------------------------------------------
+
+=> In above scenario always m1 () method will be called, when it fails then m2 ( ) method will be called.
+
+=> when m1 ( ) method failing continusouly then why to call it again and again...
+
+Note: We can resolve this problem using Circuit Breaker concept....
+
+
+=> When m1 ( ) method failing continuously for 5 requests then we shouldn't call m1 ( )for next 30 mins of time... directley call m2 () method... 
+
+Requirement: after 30 mins completed then lets retry calling m1 ( ) method... if it is working then continue with m1 ( ), if it not working then continue with m2 ( ) for another 30 mins... and repeat the retry process for every 30 mins.
+
+Note: We can't achieve above requirement using try-catch blocks thats where Circuit Breaker pattern comes into picture.
+
+
+
+=> Circuit Breaker works based on 3 states
+
+		1) CLOSED
+
+		2) OPEN
+
+		3) HALF_OPEN
+
+
+## CLOSED : System is having normal flow. System working as expected (no need to execute fallback logic).
+
+## OPEN : The circuit interrupted, some fault occured hence normal flow will be stopped and only fallback logic will be executed for given amount time (Ex : 30 mins).	
+
+## HALF_OPEN : System will try for normal flow, if normal flow working as expected then Circuit will go to CLOSED state else it will go to OPEN state.
+
+
+=> In springboot, we can implement circuit breaker in 2 ways
+
+		1) hystrix (outdated)
+
+		2) Spring Cloud Resillence4J (Trending)
+
+
+
+
+================================
+Circuit Breaker Implementation
+================================		
+
+#### 1) Create Spring Boot project with below dependencies
+
+		a) web-starter
+		b) actuator
+		c) aop
+		d) resillence4J
+
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-aop</artifactId>
+</dependency>		
+
+
+### 2) Create Rest Controller with required methods		
+
+
+@RestController
+public class DataRestController {	
+	
+	@GetMapping("/data")
+	@CircuitBreaker(fallbackMethod = "getDataFromDB", name="ashokit")
+	public String getDataFromRedis() {
+		
+		System.out.println("*** redis() method executed... ***");
+		
+		return "redis call success";
+		
+	}
+	
+	public String getDataFromDB(Throwable t) {
+		
+		System.out.println("*** db() method executed... ***");
+		
+		return "db call success";
+		
+	}
+}		
+
+#### 3) Configure CircuitBreaker Properties in application.yml file
+
+---
+spring:
+  application:
+    name: 29-Circuit-Breaker-App
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
+        
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+         registerHealthIndicator: true
+         slidingWindowSize: 10
+         minimumNumberOfCalls: 5
+         failureRateThreshold: 50
+         waitDurationInOpenState: 100s
+         automaticTransitionFromOpenToHalfOpenEnabled: true
+         permittedNumberOfCallsInHalfOpenState: 3
+---
+
+
+#### 4) Test The application and monitor actuator health endpoint to observe Circuit Breaker status. 
+
+	URL To access rest endpoint : http://localhost:8080/data
+
+	URL to monitor CB Status : http://localhost:8080/actuator/health

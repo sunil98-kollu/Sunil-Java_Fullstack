@@ -1,0 +1,208 @@
+
+
+
+What is the Decorator Design Pattern?
+................................
+The Decorator Pattern is a Structural Design Pattern used to add new functionality to an object dynamically without modifying its existing code.
+
+Definition: The Decorator Pattern wraps an existing object with another object (decorator) to add new behavior while keeping the original class unchanged.
+
+Real-Time Banking Example
+................................
+................................
+Suppose a bank has a basic notification service.
+
+Initially:
+
+Transaction
+
+↓
+
+SMS Notification
+
+Later, the business wants:
+
+SMS
+Email
+WhatsApp
+
+Instead of modifying the existing SMS class, we decorate it with additional features.
+
+Notification
+
+↓
+
+SMS
+
+↓
+
+Email
+
+↓
+
+WhatsApp
+
+Step 1: Component Interface
+................................
+public interface Notification {
+
+    void send();
+}
+
+Step 2: Concrete Component
+................................
+public class SmsNotification implements Notification {
+
+    @Override
+    public void send() {
+
+        System.out.println("SMS Notification Sent");
+    }
+}
+
+Step 3: Decorator
+................................
+public abstract class NotificationDecorator
+        implements Notification {
+
+    protected Notification notification;
+
+    public NotificationDecorator(Notification notification) {
+
+        this.notification = notification;
+    }
+}
+
+Step 4: Email Decorator
+................................
+public class EmailNotification
+        extends NotificationDecorator {
+
+    public EmailNotification(Notification notification) {
+
+        super(notification);
+    }
+
+    @Override
+    public void send() {
+
+        notification.send();
+
+        System.out.println("Email Notification Sent");
+    }
+}
+
+Step 5: WhatsApp Decorator
+................................
+public class WhatsAppNotification
+        extends NotificationDecorator {
+
+    public WhatsAppNotification(Notification notification) {
+
+        super(notification);
+    }
+
+    @Override
+    public void send() {
+
+        notification.send();
+
+        System.out.println("WhatsApp Notification Sent");
+    }
+}
+
+Step 6: Main Class
+................................
+public class Main {
+
+    public static void main(String[] args) {
+
+        Notification notification =
+                new WhatsAppNotification(
+                        new EmailNotification(
+                                new SmsNotification()));
+
+        notification.send();
+    }
+}
+
+Output
+................................
+SMS Notification Sent
+
+Email Notification Sent
+
+WhatsApp Notification Sent
+Class Diagram
+                 Notification
+                      ▲
+                      │
+          -------------------------
+          │                       │
+SmsNotification      NotificationDecorator
+                              ▲
+                -------------------------
+                │                       │
+      EmailNotification     WhatsAppNotification
+
+Real-Time Banking Example
+................................
+When money is transferred:
+
+Without Decorator
+
+Transfer Money
+
+↓
+
+SMS Only
+
+With Decorator
+
+Transfer Money
+
+↓
+
+SMS
+
+↓
+
+Email
+
+↓
+
+WhatsApp
+
+No changes are required in the SmsNotification class.
+
+Another Real-Time Example
+Coffee Shop
+
+Base Coffee
+
+Coffee
+₹100
+
+Add Milk
+
+Coffee + Milk
+₹120
+
+Add Sugar
+
+Coffee + Milk + Sugar
+₹130
+
+Each topping decorates the original coffee object without changing its implementation.
+
+Advantages
+................................
+Follows the Open/Closed Principle.
+Adds functionality dynamically.
+Avoids creating many subclasses.
+Promotes flexible and reusable code.
+
+Disadvantages
+................................
+Increases the number of classes.
+Can make the design more complex if many decorators are chained.

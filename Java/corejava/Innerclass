@@ -1,0 +1,342 @@
+
+
+Introduction 
+......................
+
+ Sometimes we can declare a class inside another class such type of classes are 
+called inner classes.
+
+introduced inner classes in 1.1 version as part of "EventHandling" to 
+resolve GUI bugs
+
+1. Normal or Regular inner classes 
+2. Method Local inner classes 
+3. Anonymous inner classes 
+4. Static nested classes. 
+
+1. Normal (or) Regular inner class: 
+
+.......................
+If we are declaring any named class inside another class directly without static modifier
+
+
+class Outer 
+{ 
+ class Inner 
+ { 
+ } 
+} 
+Output: 
+
+
+class Outer 
+{ 
+ class Inner 
+ { 
+ } 
+ public static void main(String[] args) 
+ { 
+  System.out.println("outer class main method"); 
+ } 
+} 
+Output: 
+
+{ 
+ class Inner 
+ { 
+  public static void main(String[] args) 
+  { 
+   System.out.println("inner class main method"); 
+  } 
+ } 
+} 
+Output: 
+
+
+Accessing inner class code from static area of outer class:  
+....................
+
+class Outer 
+{ 
+ class Inner 
+ { 
+  public void methodOne(){ 
+   System.out.println("inner class method"); 
+  } 
+ } 
+ public static void main(String[] args) 
+ { 
+   
+ } 
+} 
+
+Accessing inner class code from instance area of outer class:  
+
+.........................................
+class Inner 
+ { 
+  public void methodOne() 
+  { 
+   System.out.println("inner class method"); 
+  } 
+ } 
+ public void methodTwo() 
+ { 
+  Inner i=new Inner(); 
+  i.methodOne(); 
+ } 
+ public static void main(String[] args) 
+ { 
+  Outer o=new Outer(); 
+  o.methodTwo(); 
+ } 
+} 
+Output: 
+E:\scjp>javac Outer.java 
+E:\scjp>java Outer 
+Inner class method 
+ 
+Accessing inner class code from outside of outer class: 
+ .......................................
+Example:  
+class Outer 
+{ 
+ class Inner 
+ { 
+  public void methodOne() 
+  { 
+   System.out.println("inner class method"); 
+  } 
+ } 
+} 
+class Test 
+{ 
+ public static void main(String[] args) 
+ { 
+  new Outer().new Inner().methodOne(); 
+ } 
+} 
+Output: 
+Inner class method 
+
+
+From inner class we can access all members of outer class (both static and non
+static, private and non private methods and variables) directly. 
+Example:  
+class Outer 
+{ 
+ int x=10; 
+ staticint y=20; 
+ class Inner{ 
+  public void methodOne() 
+  { 
+   System.out.println(x);//10 
+   System.out.println(y);//20 
+  } 
+ } 
+ public static void main(String[] args) 
+ { 
+  new Outer().new Inner().methodOne(); 
+ } 
+} 
+ Within the inner class "this" always refers current inner class object. To refer 
+current outer class object we have to use "outer class name.this"
+
+Example:  
+class Outer 
+{ 
+ int x=10; 
+ class Inner 
+ { 
+  int x=100;
+  public void methodOne() 
+  { 
+   int x=1000; 
+   System.out.println(x);//1000 
+   System.out.println(this.x);//100 
+   System.out.println(Outer.this.x);//10 
+  } 
+ } 
+ public static void main(String[] args) 
+ { 
+  new Outer().new Inner().methodOne(); 
+ }
+}
+
+The applicable modifiers for outer classes are:  
+1. public 
+2. default 
+3. final 
+4. abstract 
+5. strictfp 
+
+Nesting of Inner classes : 
+......................................
+
+We can declare an inner class inside another inner class  
+ 
+ 
+class A  
+{ 
+ class B 
+ { 
+  class C 
+  { 
+ 
+   public void m1() 
+   { 
+    System.out.println("C class method"); 
+   } 
+  } 
+ } 
+ public static void main(String[] args)  
+ { 
+  A a = new A(); 
+  A.B b = a.newB(); 
+  A.B.C c = b.newC(); 
+  c.m1(); 
+ } 
+} 
+
+
+Method local inner classes: 
+
+............................
+Sometimes we can declare a class inside a method such type of inner classes are 
+called method local inner classes. 
+
+Example:  
+class Test 
+{ 
+ public void methodOne() 
+ { 
+  class Inner 
+  { 
+   public void sum(inti,int j) 
+   { 
+    System.out.println("The sum:"+(i+j)); 
+   } 
+  } 
+  Inner i=new Inner(); 
+  i.sum(10,20); 
+  ;;;;;;;;;;;;; 
+  i.sum(100,200); 
+  ;;;;;;;;;;;;;;; 
+  i.sum(1000,2000); 
+  ;;;;;;;;;;;;;;;;; 
+ } 
+ public static void main(String[] args)
+{ 
+  new Test().methodOne(); 
+ } 
+} 
+Output: 
+The sum: 30 
+The sum: 300 
+The sum: 3000
+
+
+Anonymous inner classes: 
+.................................
+................................
+
+ inner classes: 
+ - Sometimes we can declare inner class without name such type of inner classes 
+are called anonymous inner classes. 
+- The main objective of anonymous inner classes is "just for instant use". 
+- There are 3 types of anonymous inner classes  
+1. Anonymous inner class that extends a class. 
+2. Anonymous inner class that implements an interface. 
+3. Anonymous inner class that defined inside method arguments. 
+
+Anonymous inner class that extends a class:  
+.....................................
+classPopCorn 
+{ 
+ public void taste() 
+ { 
+  System.out.println("spicy"); 
+ } 
+} 
+class Test  
+{ 
+ public static void main(String[] args)  
+ { 
+  PopCorn p=new PopCorn() 
+  { 
+   public void taste() 
+   { 
+    System.out.println("salty"); 
+   } 
+  }; 
+  p.taste();//salty 
+  PopCorn p1=new PopCorn() 
+  p1.taste();//spicy 
+ } 
+} 
+
+Analysis:  
+1. PopCorn p=new PopCorn();  
+We are just creating a PopCorn object.  
+2. PopCorn p=new PopCorn() 
+3. { 
+4. }; 
+5. We are creating child class without name for the PopCorn class and for that 
+child class we are creating an object with Parent PopCorn reference.  
+6.  PopCorn p=new PopCorn() 
+ { 
+8.   public void taste() 
+9.   { 
+10.   System.out.println("salty"); 
+11.   } 
+12.  }
+
+Static nested classes: 
+.............................
+...............................
+Sometimes we can declare inner classes with static modifier such type of inner 
+classes are called static nested classes. 
+
+Example:  
+class Test  
+{ 
+ static class Nested 
+ { 
+  public void methodOne() 
+  { 
+   System.out.println("nested class method"); 
+  } 
+ } 
+ public static void main(String[] args) 
+ { 
+  Test.Nested t=new Test.Nested(); 
+  t.methodOne(); 
+ } 
+}
+
+ Inside static nested classes we can declare static members including main() 
+method also. Hence it is possible to invoke static nested class directly from the 
+command prompt. 
+Example:  
+class Test  
+{ 
+ static class Nested
+{ 
+  public static void main(String[] args) 
+  { 
+   System.out.println("nested class main method"); 
+  } 
+ } 
+ public static void main(String[] args) 
+ { 
+  System.out.println("outer class main method"); 
+ } 
+} 
+Output: 
+E:\SCJP>javac Test.java 
+E:\SCJP>java Test 
+Outer class main method 
+E:\SCJP>java Test$Nested 
+
+
+

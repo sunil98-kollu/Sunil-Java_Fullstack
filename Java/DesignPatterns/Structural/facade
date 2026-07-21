@@ -1,0 +1,203 @@
+
+
+What is the Facade Design Pattern?
+..................................................................
+The Facade Pattern is a Structural Design Pattern that provides a single simplified interface to a complex subsystem.
+
+Definition: The Facade Pattern hides the complexity of multiple classes and exposes one easy-to-use interface to the client.
+..................................................................
+Real-Time Banking Example
+..................................................................
+Suppose a customer transfers money.
+
+Without Facade, the application has to call multiple services.
+..................................................................
+Transfer Money
+
+↓
+
+Account Service
+
+↓
+
+Balance Service
+
+↓
+
+Transaction Service
+
+↓
+
+Notification Service
+
+↓
+
+Audit Service
+
+The client has to know all these services.
+
+With Facade
+Customer
+
+↓
+
+BankFacade
+
+↓
+
+Account Service
+
+Balance Service
+
+Transaction Service
+
+Notification Service
+
+Audit Service
+
+The client only calls one method, and the facade coordinates all the internal services.
+
+Step 1: Subsystem Classes
+..................................................................
+Account Service
+public class AccountService {
+
+    public void validateAccount() {
+
+        System.out.println("Account Validated");
+    }
+}
+Balance Service
+public class BalanceService {
+
+    public void checkBalance() {
+
+        System.out.println("Balance Verified");
+    }
+}
+Transaction Service
+public class TransactionService {
+
+    public void transferMoney() {
+
+        System.out.println("Money Transferred");
+    }
+}
+Notification Service
+public class NotificationService {
+
+    public void sendSMS() {
+
+        System.out.println("SMS Sent");
+    }
+}
+
+Step 2: Facade Class
+..................................................................
+public class BankFacade {
+
+    private AccountService accountService =
+            new AccountService();
+
+    private BalanceService balanceService =
+            new BalanceService();
+
+    private TransactionService transactionService =
+            new TransactionService();
+
+    private NotificationService notificationService =
+            new NotificationService();
+
+    public void transfer() {
+
+        accountService.validateAccount();
+
+        balanceService.checkBalance();
+
+        transactionService.transferMoney();
+
+        notificationService.sendSMS();
+    }
+}
+
+Step 3: Client
+..................................................................
+public class Main {
+
+    public static void main(String[] args) {
+
+        BankFacade bankFacade = new BankFacade();
+
+        bankFacade.transfer();
+    }
+}
+..................................................................
+Output
+Account Validated
+Balance Verified
+Money Transferred
+SMS Sent
+Class Diagram
+              Client
+                 │
+                 ▼
+           BankFacade
+        /      |      \
+       ▼       ▼       ▼
+ Account   Balance   Transaction
+ Service    Service     Service
+                 │
+                 ▼
+        Notification Service
+Another Real-Time Example
+Home Theater
+
+Without Facade
+
+Turn on TV
+
+Turn on Speaker
+
+Turn on DVD
+
+Set Volume
+
+Play Movie
+
+With Facade
+
+homeTheater.watchMovie();
+
+One method performs all operations internally.
+
+Spring Boot Example
+Payment Service
+
+Instead of calling multiple services from the controller:
+
+paymentService.validate();
+
+paymentService.debit();
+
+paymentService.credit();
+
+paymentService.sendNotification();
+
+Use a Facade:
+
+bankFacade.transferMoney();
+
+The controller remains simple.
+
+Advantages
+..................................................................
+Simplifies client code.
+Hides subsystem complexity.
+Promotes loose coupling.
+Improves maintainability.
+Centralizes business workflow.
+
+Disadvantages
+..................................................................
+The facade can become too large if it handles too many responsibilities.
+It may hide useful subsystem features that some clients need directly.

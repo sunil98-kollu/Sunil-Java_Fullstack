@@ -1,0 +1,137 @@
+
+
+
+Java 16 Features (Interview Important + Examples)
+
+Java 16 introduced several modern language improvements, especially around immutability and pattern matching.
+
+1. Records (Standard Feature) ⭐
+.............................................
+Records became a permanent feature in Java 16 (not preview anymore).
+
+They are used for immutable data classes (DTOs).
+
+Example
+public record Employee(
+        int id,
+        String name,
+        double salary) {
+}
+Usage
+Employee emp =
+        new Employee(101, "Sunil", 50000);
+
+System.out.println(emp.id());
+System.out.println(emp.name());
+System.out.println(emp.salary());
+Benefits
+
+✔ No boilerplate code
+✔ Immutable object
+✔ Auto-generated constructor, getters, equals, hashCode
+
+2. Pattern Matching for instanceof ⭐
+..............................................
+Simplifies type checking + casting.
+
+Before Java 16
+Object obj = "Java";
+
+if (obj instanceof String) {
+    String s = (String) obj;
+    System.out.println(s);
+}
+Java 16
+Object obj = "Java";
+
+if (obj instanceof String s) {
+    System.out.println(s);
+}
+Benefits
+
+✔ No explicit casting
+✔ Cleaner code
+✔ Less boilerplate
+
+3. Stream toList() (Improvement preview became popular later)
+...............................................
+Simplifies collecting streams.
+
+Example
+List<String> list =
+        List.of("A", "B", "C");
+
+List<String> result =
+        list.stream()
+            .map(String::toLowerCase)
+            .toList();
+
+System.out.println(result);
+Output
+[a, b, c]
+Benefits
+
+✔ No need for Collectors.toList()
+✔ More readable
+
+4. Strong Encapsulation of JDK Internals ⭐
+....................................................
+Java 16 strongly encapsulated internal APIs.
+
+Before
+Access to internal JDK APIs was possible
+After Java 16
+Internal APIs are strongly encapsulated
+Benefits
+
+✔ Better security
+✔ More stable JDK
+
+5. Unix-Domain Socket Channel Support
+..................................
+Improves high-performance communication between processes.
+
+Use Case
+Microservices communication on same machine
+Database connections
+High-performance local IPC
+6. Packaging Tool (jpackage preview)
+..................................................
+Used to create native installers.
+
+Example
+jpackage --name MyApp --input lib --main-jar app.jar
+Output
+Creates .exe / .msi / .dmg installers
+Real-Time Example (Spring Boot DTO)
+Record used as Response DTO
+public record CustomerDTO(
+        Long id,
+        String name,
+        String city) {
+}
+Controller
+@GetMapping("/customer")
+public CustomerDTO getCustomer() {
+
+    return new CustomerDTO(
+            1L,
+            "Sunil",
+            "Hyderabad");
+}
+JSON Output
+{
+  "id": 1,
+  "name": "Sunil",
+  "city": "Hyderabad"
+}
+Interview Summary
+Feature	Description
+Records	Immutable DTOs (finalized)
+Pattern Matching instanceof	No casting needed
+Stream toList()	Cleaner collections
+Strong Encapsulation	Secure JDK internals
+jpackage	Native app packaging
+Unix Socket Channels	High-performance IPC
+
+

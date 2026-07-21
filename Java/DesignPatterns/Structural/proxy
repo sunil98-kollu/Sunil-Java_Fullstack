@@ -1,0 +1,218 @@
+
+
+What is the Proxy Design Pattern?
+..................................................................
+The Proxy Pattern is a Structural Design Pattern that provides a placeholder (proxy) object to control access to another object.
+
+Definition: A Proxy object acts as an intermediary between the client and the real object. It can add security, logging, caching, lazy loading, or access control without modifying the original object.
+..................................................................
+Real-Time Banking Example
+..................................................................
+Suppose only Admin users are allowed to approve loans.
+
+Instead of allowing direct access to the LoanService, all requests go through a Proxy.
+
+Customer
+
+      │
+
+      ▼
+
+LoanServiceProxy
+
+      │
+
+      ▼
+
+LoanService
+
+The proxy checks whether the user is an Admin before forwarding the request.
+
+Step 1: Subject Interface
+..................................................................
+public interface LoanService {
+
+    void approveLoan();
+}
+Step 2: Real Subject
+..................................................................
+public class RealLoanService implements LoanService {
+
+    @Override
+    public void approveLoan() {
+
+        System.out.println("Loan Approved");
+    }
+}
+Step 3: Proxy Class
+..................................................................
+public class LoanServiceProxy implements LoanService {
+
+    private RealLoanService realService = new RealLoanService();
+
+    private String role;
+
+    public LoanServiceProxy(String role) {
+
+        this.role = role;
+    }
+
+    @Override
+    public void approveLoan() {
+
+        if ("ADMIN".equals(role)) {
+
+            realService.approveLoan();
+
+        } else {
+
+            System.out.println("Access Denied");
+        }
+    }
+}
+Step 4: Client
+..................................................................
+public class Main {
+
+    public static void main(String[] args) {
+
+        LoanService admin =
+                new LoanServiceProxy("ADMIN");
+
+        admin.approveLoan();
+
+        LoanService customer =
+                new LoanServiceProxy("CUSTOMER");
+
+        customer.approveLoan();
+    }
+}
+Output
+Loan Approved
+
+Access Denied
+Class Diagram
+              LoanService
+                   ▲
+        ┌──────────┴──────────┐
+        │                     │
+        ▼                     ▼
+RealLoanService      LoanServiceProxy
+                             │
+                             ▼
+                     RealLoanService
+Types of Proxy
+1. Virtual Proxy
+..................................................................
+Creates an object only when it is needed (lazy loading).
+
+Example:
+
+Large Image
+
+↓
+
+Load only when user opens it
+2. Protection Proxy
+..................................................................
+Controls access based on permissions.
+
+Example:
+
+Customer → View Account
+
+Admin → Delete Account
+3. Remote Proxy
+
+Represents an object located on another server.
+
+Example:
+
+Client
+
+↓
+
+Remote Proxy
+
+↓
+
+Payment Service (Remote Server)
+
+4. Caching Proxy
+..................................................................
+Stores previously fetched results to avoid repeated operations.
+
+Example:
+
+Customer Request
+
+↓
+
+Cache
+
+↓
+
+Database
+
+If the data is already in the cache, the database is not called again.
+
+Spring Boot Example
+
+Suppose every transaction should be logged.
+
+Instead of modifying the service:
+
+transactionService.transfer();
+
+Use a proxy:
+
+proxy.transfer();
+
+The proxy can:
+
+Log the request
+Check permissions
+Validate input
+Call the real service
+Real-Time Banking Scenarios
+ATM Authentication
+Customer
+
+↓
+
+ATM Proxy
+
+↓
+
+Bank Server
+
+The ATM verifies the PIN before forwarding the request.
+
+Internet Banking
+User
+
+↓
+
+Security Proxy
+
+↓
+
+Account Service
+
+The proxy validates the JWT token or user role before accessing the service.
+
+Advantages.
+.................................................................
+Controls access to objects.
+Supports lazy initialization.
+Adds logging and auditing.
+Can implement caching.
+Follows the Open/Closed Principle.
+
+
+Disadvantages
+..................................................................
+Adds an extra layer of indirection.
+Increases the number of classes.
+May introduce slight performance overhead.
+

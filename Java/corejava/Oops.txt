@@ -1,5 +1,5 @@
 
-Data Hiding :  
+Data Hiding :   security 
 .................
  Our internal data should not go out directly that is outside person can't access 
 our internal data directly. 
@@ -194,6 +194,20 @@ Composition: Strong HAS-A relationship where the child object cannot exist witho
 .....................
 Aggregation: Weak HAS-A relationship where the child object can exist independently of the parent object.
 ..............................
+
+Ex :
+.................
+class Car {
+  Engine e= new Engine();
+  e.m1();
+}
+
+
+public class Engine {
+  Engine functionalities ;
+   Void m1();
+}
+⇒ class Car has-A engine reference.
 
 
 Examples

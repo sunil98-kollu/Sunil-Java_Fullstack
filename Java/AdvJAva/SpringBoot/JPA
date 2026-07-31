@@ -488,10 +488,10 @@ HQL : select userId, userName from UserInfo
 Ex : 
 
 
-	@Query("from UserInfo")
+	@Query("from UserInfo")    hq l
 	public List<UserInfo> getData1();
 
-	@Query(value = "select * from user_info", nativeQuery = true)
+	@Query(value = "select * from user_info", nativeQuery = true)  / sql nativequery-true 
 	public List<UserInfo> getData2();
 
 
@@ -597,6 +597,102 @@ public void getUserswithPagination() {
 
 }
 ```
+Real-Time Banking Example
+
+Bank Customer Table
+
+CustomerId   Name
+---------------------
+1            Sunil
+2            Ravi
+3            Ram
+...
+1000000      Kiran
+
+API Request
+
+GET /customers?page=0&size=5
+
+Response
+
+Sunil
+Ravi
+Ram
+Raj
+Kiran
+
+Next Page
+
+GET /customers?page=1&size=5
+
+Returns the next 5 customers.
+
+Spring Data JPA Support
+
+Repository
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CustomerRepository
+        extends JpaRepository<Customer, Long> {
+}
+
+No extra code is required because JpaRepository already supports pagination.
+
+Service Layer
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CustomerService {
+
+    @Autowired
+    private CustomerRepository repository;
+
+    public Page<Customer> getCustomers(int page, int size) {
+
+        return repository.findAll(
+                PageRequest.of(page, size));
+    }
+}
+Controller
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/customers")
+public class CustomerController {
+
+    @Autowired
+    private CustomerService service;
+
+    @GetMapping
+    public Page<Customer> getCustomers(
+
+            @RequestParam(defaultValue = "0") int page,
+
+            @RequestParam(defaultValue = "5") int size) {
+
+        return service.getCustomers(page, size);
+    }
+}
+API Calls
+
+First Page
+
+GET /customers?page=0&size=5
+
+Second Page
+
+GET /customers?page=1&size=5
+
+Third Page
+
+GET /customers?page=2&size=5
+
 
 ==================
 Query By Example 

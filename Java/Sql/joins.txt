@@ -39,6 +39,10 @@ on table1.commoncol = table2.commoncol;
 -- it will create a join b/w them 
 -- it displays common data b/w them just like inner join
 
+iNNER JOIN requires an explicit ON condition and is the preferred choice in real-world applications.
+................
+NATURAL JOIN automatically joins all columns that have the same name in both tables and does not require an ON clause. It is rarely used in production because schema changes can unintentionally change the join behavior.
+...........................
 
 Both tables have a common column:
 

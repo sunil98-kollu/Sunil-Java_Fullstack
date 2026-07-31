@@ -34,7 +34,7 @@ Dog d1=new Dog();
 System.out.println("Serialization started"); 
 
 FileOutputStream fos=new FileOutputStream("abc.ser"); 
-ObjectOutputStreamoos=new ObjectOutputStream(fos); 
+ObjectOutputStream oos=new ObjectOutputStream(fos); 
 oos.writeObject(d1); 
 System.out.println("Serialization ended"); 
 

@@ -449,10 +449,43 @@ Level 9 – Real-Time Assignments
 
 
 ATM Simulation – Display a menu (Deposit, Withdraw, Balance, Exit) using loops.
+
+deposti balance=balance +amount
+withdraw blance-amount 
+
 Bank Interest Calculator – Calculate yearly interest for multiple years.
+            double interest = balance * rate / 100;
+
+
 Student Marks – Read marks for N students and calculate total, average, highest, and lowest.
+
+              int total = 0;
+        int highest = Integer.MIN_VALUE;
+        int lowest = Integer.MAX_VALUE;
+
+        for (int i = 1; i <= n; i++) {
+
+            System.out.print("Enter Marks of Student " + i + ": ");
+            int marks = sc.nextInt();
+
+            total += marks;
+
+            if (marks > highest)
+                highest = marks;
+
+            if (marks < lowest)
+                lowest = marks;
+        }
+
+
+
 Shopping Cart – Add product prices until the user enters 0, then calculate the total bill.
+
+total += price;
+
 Employee Salary Processing – Process salaries for N employees, calculate total payroll, highest salary, lowest salary, and average salary.
+
+
 
 public class ATMSimulation {
 
@@ -802,3 +835,268 @@ All four programs process each input exactly once.
 
 
 
+
+...............
+package com.org.controlstatment;
+
+public class Banking {
+	boolean deposit;
+	boolean withdraw;
+	boolean balance;
+	boolean exit;
+	public boolean dp() {
+		if(deposit) {
+			System.out.println();
+		}else if(withdraw) {
+			System.out.println("withdraw");
+		}else if(balance) {
+			System.out.println("Balance Enq");
+		}else if(exit) {
+			System.out.println("exit");
+		}
+		return balance;
+	}
+	public static void main(String[] args) {
+		
+		Banking b =new Banking();
+		b.dp();
+	}
+}
+
+package com.org.controlstatment;
+
+import java.util.Scanner;
+
+public class Category {
+	int categories;
+
+	public void cat(String categ) {
+		switch (categ) {
+		case "ele":
+			System.out.println("electronin");
+			break;
+		case "clo":
+			System.out.println("clot");
+			break;
+		case "gor":
+			System.out.println("gre");
+			break;
+			
+		}
+		
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		Scanner s=new Scanner(System.in);
+		String categ=s.next();
+		
+		Category c= new Category();
+		c.cat(categ);
+				
+				
+	}
+}
+
+
+
+...........................................
+Bank Management System – Account creation, deposit, withdrawal, balance inquiry.
+
+class BankAccount { 
+    private long accountNumber;
+     private String customerName;
+      private double balance;
+       public BankAccount(long accountNumber, String customerName, double balance)
+        {
+      this.accountNumber = accountNumber;
+        this.customerName = customerName;
+        this.balance = balance;
+    }
+
+    public void deposit(double amount) {
+
+        if (amount > 0) {
+
+            balance += amount;
+
+            System.out.println("₹" + amount + " Deposited Successfully.");
+        }
+    }
+
+    public void withdraw(double amount) {
+
+        if (amount <= balance) {
+
+            balance -= amount;
+
+            System.out.println("₹" + amount + " Withdrawn Successfully.");
+
+        } else {
+
+            System.out.println("Insufficient Balance.");
+        }
+    }
+
+    public void displayBalance() {
+
+        System.out.println("\n----- Account Details -----");
+
+        System.out.println("Account No : " + accountNumber);
+
+        System.out.println("Customer   : " + customerName);
+
+        System.out.println("Balance    : ₹" + balance);
+    }
+}
+
+public class BankManagementSystem {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        BankAccount account = null;
+
+        int choice;
+
+        do {
+
+            System.out.println("\n====== BANK MENU ======");
+
+            System.out.println("1. Create Account");
+
+            System.out.println("2. Deposit");
+
+            System.out.println("3. Withdraw");
+
+            System.out.println("4. Balance Inquiry");
+
+            System.out.println("5. Exit");
+
+            System.out.print("Enter Choice: ");
+
+            choice = sc.nextInt();
+
+            switch (choice) {
+
+                case 1:
+
+                    System.out.print("Account Number: ");
+                    long accNo = sc.nextLong();
+
+                    sc.nextLine();
+
+                    System.out.print("Customer Name: ");
+                    String name = sc.nextLine();
+
+                    System.out.print("Initial Balance: ");
+                    double balance = sc.nextDouble();
+
+                    account = new BankAccount(accNo, name, balance);
+
+                    System.out.println("Account Created Successfully.");
+
+                    break;
+
+                case 2:
+
+                    if (account != null) {
+
+                        System.out.print("Deposit Amount: ");
+
+                        double deposit = sc.nextDouble();
+
+                        account.deposit(deposit);
+
+                    } else {
+
+                        System.out.println("Create Account First.");
+                    }
+
+                    break;
+
+                case 3:
+
+                    if (account != null) {
+
+                        System.out.print("Withdraw Amount: ");
+
+                        double withdraw = sc.nextDouble();
+
+                        account.withdraw(withdraw);
+
+                    } else {
+
+                        System.out.println("Create Account First.");
+                    }
+
+                    break;
+
+                case 4:
+
+                    if (account != null) {
+
+                        account.displayBalance();
+
+                    } else {
+
+                        System.out.println("Create Account First.");
+                    }
+
+                    break;
+
+                case 5:
+
+                    System.out.println("Thank You for Banking With Us.");
+
+                    break;
+
+                default:
+
+                    System.out.println("Invalid Choice.");
+            }
+
+        } while (choice != 5);
+
+        sc.close();
+    }
+}
+Sample Output
+====== BANK MENU ======
+1. Create Account
+2. Deposit
+3. Withdraw
+4. Balance Inquiry
+5. Exit
+
+Enter Choice: 1
+
+Account Number: 1001
+Customer Name: Sunil
+Initial Balance: 10000
+
+Account Created Successfully.
+
+====== BANK MENU ======
+Enter Choice: 2
+
+Deposit Amount: 5000
+
+₹5000.0 Deposited Successfully.
+
+====== BANK MENU ======
+Enter Choice: 3
+
+Withdraw Amount: 2000
+
+₹2000.0 Withdrawn Successfully.
+
+====== BANK MENU ======
+Enter Choice: 4
+
+----- Account Details -----
+Account No : 1001
+Customer   : Sunil
+Balance    : ₹13000.0

@@ -135,7 +135,8 @@ Drop table employee
 alter....
 .........
 
-5 use cases in alter 
+5 use cases in alter   : add new column , remove existing col ,  change data type, rename col name , used pk existing table 
+.....................................
 
 1 ) aleter used to add new colum in exiting table 
 alter table tablename
@@ -144,6 +145,7 @@ add  column datatype
 
 
 alter table employee
+.............
 add bonus float
 ( bonus colum addd in exiting )
 
@@ -181,6 +183,53 @@ rename column DOJ to  DateofJoining
 
 ..................................
 
+ALTER TABLE Customer
+ADD PRIMARY KEY (CustomerId);
+
+
+composit key
+.....................
+A Composite Primary Key is a primary key made up of two or more columns. Together, these columns uniquely identify each row.
+
+Individually, each column may contain duplicate values, but the combination of the columns must be unique.
+
+Real-Time Banking Example
+......................
+A customer can have multiple accounts, but the same account number cannot be repeated for the same customer.
+
+Create Table
+CREATE TABLE Account (
+    CustomerId INT,
+    AccountNo INT,
+    AccountType VARCHAR(20),
+    Balance DECIMAL(10,2),
+    PRIMARY KEY (CustomerId, AccountNo)
+);
+
+
+
+
+Add a Composite Primary Key
+,...........................................
+If two columns together uniquely identify a row:
+
+ALTER TABLE Account
+ADD PRIMARY KEY (AccountNo, CustomerId);
+
+Drop a Composite Primary Key
+......................................
+ALTER TABLE Enrollment
+DROP PRIMARY KEY;
+
+Composite Primary Key with Foreign Keys
+............................................
+CREATE TABLE Enrollment (
+    StudentId INT,
+    CourseId INT,
+    PRIMARY KEY (StudentId, CourseId),
+    FOREIGN KEY (StudentId) REFERENCES Student(StudentId),
+    FOREIGN KEY (CourseId) REFERENCES Course(CourseId)
+);
 
 
 

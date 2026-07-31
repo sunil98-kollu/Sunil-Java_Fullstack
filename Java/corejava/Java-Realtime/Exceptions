@@ -1,0 +1,941 @@
+Level 1 – Basics
+Write a program to handle ArithmeticException (division by zero).
+Write a program to handle ArrayIndexOutOfBoundsException.
+Write a program to handle NullPointerException.
+Write a program to handle NumberFormatException.
+Write a program to handle StringIndexOutOfBoundsException.
+Level 2 – try, catch, finally
+Use try-catch to prevent program termination.
+Use multiple catch blocks to handle different exceptions.
+Demonstrate the finally block.
+Show that the finally block executes even after a return statement.
+Demonstrate nested try-catch blocks.
+Level 3 – throw and throws
+Throw an IllegalArgumentException if age is less than 18.
+Create a method that throws an IOException.
+Create a method that throws a ClassNotFoundException.
+Use the throws keyword in multiple methods.
+Throw an exception if the salary is negative.
+Level 4 – Checked vs Unchecked Exceptions
+Read data from a file and handle FileNotFoundException.
+Read user input and handle IOException.
+Demonstrate ClassNotFoundException.
+Demonstrate SQLException (use throws or try-catch).
+Compare checked and unchecked exceptions with examples.
+
+...............................
+
+Level 1 – Basics
+Q1. Handle ArithmeticException (Division by Zero)
+public class ArithmeticExceptionExample {
+
+    public static void main(String[] args) {
+
+        try {
+
+            int result = 10 / 0;
+            System.out.println(result);
+
+        } catch (ArithmeticException e) {
+
+            System.out.println("Cannot divide by zero.");
+        }
+
+        System.out.println("Program Continues...");
+    }
+}
+
+Output
+
+Cannot divide by zero.
+Program Continues...
+Q2. Handle ArrayIndexOutOfBoundsException
+public class ArrayExceptionExample {
+
+    public static void main(String[] args) {
+
+        int[] numbers = {10, 20, 30};
+
+        try {
+
+            System.out.println(numbers[5]);
+
+        } catch (ArrayIndexOutOfBoundsException e) {
+
+            System.out.println("Invalid Array Index.");
+        }
+    }
+}
+Q3. Handle NullPointerException
+public class NullPointerExample {
+
+    public static void main(String[] args) {
+
+        String name = null;
+
+        try {
+
+            System.out.println(name.length());
+
+        } catch (NullPointerException e) {
+
+            System.out.println("String is null.");
+        }
+    }
+}
+Q4. Handle NumberFormatException
+public class NumberFormatExample {
+
+    public static void main(String[] args) {
+
+        String value = "ABC";
+
+        try {
+
+            int number = Integer.parseInt(value);
+
+            System.out.println(number);
+
+        } catch (NumberFormatException e) {
+
+            System.out.println("Invalid Number Format.");
+        }
+    }
+}
+Q5. Handle StringIndexOutOfBoundsException
+public class StringExceptionExample {
+
+    public static void main(String[] args) {
+
+        String str = "Java";
+
+        try {
+
+            System.out.println(str.charAt(10));
+
+        } catch (StringIndexOutOfBoundsException e) {
+
+            System.out.println("Invalid String Index.");
+        }
+    }
+}
+Level 2 – try, catch, finally
+Q6. Prevent Program Termination
+public class TryCatchExample {
+
+    public static void main(String[] args) {
+
+        try {
+
+            int result = 100 / 0;
+
+        } catch (ArithmeticException e) {
+
+            System.out.println("Exception Handled.");
+        }
+
+        System.out.println("Application Continues...");
+    }
+}
+Q7. Multiple Catch Blocks
+public class MultipleCatchExample {
+
+    public static void main(String[] args) {
+
+        try {
+
+            String value = null;
+
+            System.out.println(value.length());
+
+            int number = 10 / 0;
+
+        } catch (ArithmeticException e) {
+
+            System.out.println("Arithmetic Exception");
+
+        } catch (NullPointerException e) {
+
+            System.out.println("Null Pointer Exception");
+        }
+    }
+}
+Q8. Demonstrate finally
+public class FinallyExample {
+
+    public static void main(String[] args) {
+
+        try {
+
+            System.out.println(10 / 0);
+
+        } catch (ArithmeticException e) {
+
+            System.out.println("Exception Handled");
+
+        } finally {
+
+            System.out.println("Database Connection Closed");
+        }
+    }
+}
+Q9. finally Executes Even After return
+public class FinallyReturnExample {
+
+    static int calculate() {
+
+        try {
+
+            return 100;
+
+        } finally {
+
+            System.out.println("Finally Executed");
+        }
+    }
+
+    public static void main(String[] args) {
+
+        System.out.println(calculate());
+    }
+}
+
+Output
+
+Finally Executed
+100
+Q10. Nested try-catch
+public class NestedTryExample {
+
+    public static void main(String[] args) {
+
+        try {
+
+            try {
+
+                System.out.println(10 / 0);
+
+            } catch (ArithmeticException e) {
+
+                System.out.println("Inner Catch");
+            }
+
+            String str = null;
+
+            System.out.println(str.length());
+
+        } catch (NullPointerException e) {
+
+            System.out.println("Outer Catch");
+        }
+    }
+}
+Level 3 – throw and throws
+Q11. Throw IllegalArgumentException
+public class AgeValidation {
+
+    public static void main(String[] args) {
+
+        int age = 15;
+
+        if (age < 18) {
+
+            throw new IllegalArgumentException(
+                    "Age must be at least 18");
+        }
+
+        System.out.println("Eligible");
+    }
+}
+Q12. Method Throws IOException
+import java.io.IOException;
+
+public class IOExceptionExample {
+
+    static void readFile() throws IOException {
+
+        throw new IOException("File Not Found");
+    }
+
+    public static void main(String[] args) {
+
+        try {
+
+            readFile();
+
+        } catch (IOException e) {
+
+            System.out.println(e.getMessage());
+        }
+    }
+}
+Q13. Method Throws ClassNotFoundException
+public class ClassExample {
+
+    static void loadDriver()
+            throws ClassNotFoundException {
+
+        Class.forName("com.mysql.jdbc.Driver");
+    }
+
+    public static void main(String[] args) {
+
+        try {
+
+            loadDriver();
+
+        } catch (ClassNotFoundException e) {
+
+            System.out.println("Driver Not Found");
+        }
+    }
+}
+Q14. throws in Multiple Methods
+import java.io.IOException;
+
+public class ThrowsChain {
+
+    static void method3() throws IOException {
+
+        throw new IOException("Error");
+    }
+
+    static void method2() throws IOException {
+
+        method3();
+    }
+
+    static void method1() throws IOException {
+
+        method2();
+    }
+
+    public static void main(String[] args) {
+
+        try {
+
+            method1();
+
+        } catch (IOException e) {
+
+            System.out.println(e.getMessage());
+        }
+    }
+}
+Q15. Negative Salary Validation
+public class SalaryValidation {
+
+    public static void main(String[] args) {
+
+        double salary = -5000;
+
+        if (salary < 0) {
+
+            throw new IllegalArgumentException(
+                    "Salary Cannot Be Negative");
+        }
+    }
+}
+Level 4 – Checked vs Unchecked Exceptions
+Q16. Handle FileNotFoundException
+import java.io.*;
+
+public class FileExample {
+
+    public static void main(String[] args) {
+
+        try {
+
+            FileReader file =
+                    new FileReader("employee.txt");
+
+        } catch (FileNotFoundException e) {
+
+            System.out.println("File Not Found");
+        }
+    }
+}
+Q17. Handle IOException
+import java.io.*;
+
+public class InputExample {
+
+    public static void main(String[] args) {
+
+        BufferedReader br =
+                new BufferedReader(
+                        new InputStreamReader(System.in));
+
+        try {
+
+            String name = br.readLine();
+
+            System.out.println(name);
+
+        } catch (IOException e) {
+
+            System.out.println("Input Error");
+        }
+    }
+}
+Q18. Demonstrate ClassNotFoundException
+public class DriverExample {
+
+    public static void main(String[] args) {
+
+        try {
+
+            Class.forName("oracle.jdbc.Driver");
+
+        } catch (ClassNotFoundException e) {
+
+            System.out.println("Driver Missing");
+        }
+    }
+}
+Q19. Demonstrate SQLException
+import java.sql.*;
+
+public class DatabaseExample {
+
+    public static void main(String[] args) {
+
+        try {
+
+            DriverManager.getConnection(
+                    "jdbc:mysql://localhost/test",
+                    "root",
+                    "root");
+
+        } catch (SQLException e) {
+
+            System.out.println("Database Connection Failed");
+        }
+    }
+}
+
+
+
+1. InvalidAgeException
+Step 1: Create Custom Exception
+public class InvalidAgeException extends Exception {
+
+    public InvalidAgeException(String message) {
+        super(message);
+    }
+}
+Step 2: Use the Exception
+public class AgeValidation {
+
+    static void validateAge(int age)
+            throws InvalidAgeException {
+
+        if (age < 18) {
+            throw new InvalidAgeException(
+                    "Age must be at least 18.");
+        }
+
+        System.out.println("Eligible to Vote");
+    }
+
+    public static void main(String[] args) {
+
+        try {
+
+            validateAge(16);
+
+        } catch (InvalidAgeException e) {
+
+            System.out.println(e.getMessage());
+        }
+    }
+}
+Output
+Age must be at least 18.
+2. InsufficientBalanceException
+Custom Exception
+public class InsufficientBalanceException extends Exception {
+
+    public InsufficientBalanceException(String message) {
+        super(message);
+    }
+}
+Bank Example
+public class BankAccount {
+
+    private double balance = 10000;
+
+    public void withdraw(double amount)
+            throws InsufficientBalanceException {
+
+        if (amount > balance) {
+
+            throw new InsufficientBalanceException(
+                    "Insufficient Balance.");
+
+        }
+
+        balance -= amount;
+
+        System.out.println("Withdrawal Successful");
+        System.out.println("Remaining Balance : " + balance);
+    }
+
+    public static void main(String[] args) {
+
+        BankAccount account = new BankAccount();
+
+        try {
+
+            account.withdraw(15000);
+
+        } catch (InsufficientBalanceException e) {
+
+            System.out.println(e.getMessage());
+        }
+    }
+}
+Output
+Insufficient Balance.
+3. InvalidPasswordException
+Custom Exception
+public class InvalidPasswordException extends Exception {
+
+    public InvalidPasswordException(String message) {
+        super(message);
+    }
+}
+Password Validation
+public class PasswordValidation {
+
+    static void validate(String password)
+            throws InvalidPasswordException {
+
+        if (password.length() < 8) {
+
+            throw new InvalidPasswordException(
+                    "Password must contain at least 8 characters.");
+        }
+
+        System.out.println("Valid Password");
+    }
+
+    public static void main(String[] args) {
+
+        try {
+
+            validate("java");
+
+        } catch (InvalidPasswordException e) {
+
+            System.out.println(e.getMessage());
+        }
+    }
+}
+Output
+Password must contain at least 8 characters.
+4. InvalidMarksException
+Custom Exception
+public class InvalidMarksException extends Exception {
+
+    public InvalidMarksException(String message) {
+        super(message);
+    }
+}
+Student Validation
+public class Student {
+
+    static void validateMarks(int marks)
+            throws InvalidMarksException {
+
+        if (marks < 0 || marks > 100) {
+
+            throw new InvalidMarksException(
+                    "Marks should be between 0 and 100.");
+        }
+
+        System.out.println("Valid Marks");
+    }
+
+    public static void main(String[] args) {
+
+        try {
+
+            validateMarks(120);
+
+        } catch (InvalidMarksException e) {
+
+            System.out.println(e.getMessage());
+        }
+    }
+}
+Output
+Marks should be between 0 and 100.
+5. LoanNotEligibleException
+Custom Exception
+public class LoanNotEligibleException extends Exception {
+
+    public LoanNotEligibleException(String message) {
+        super(message);
+    }
+}
+Loan Eligibility
+public class LoanApplication {
+
+    static void applyLoan(int age, double salary)
+            throws LoanNotEligibleException {
+
+        if (age < 21 || salary < 30000) {
+
+            throw new LoanNotEligibleException(
+                    "Loan Application Rejected.");
+        }
+
+        System.out.println("Loan Approved");
+    }
+
+    public static void main(String[] args) {
+
+        try {
+
+            applyLoan(20, 25000);
+
+        } catch (LoanNotEligibleException e) {
+
+            System.out.println(e.getMessage());
+        }
+    }
+}
+Output
+Loan Application Rejected.
+Checked vs Unchecked Custom Exceptions
+Checked Exception
+public class InvalidAgeException extends Exception {
+    public InvalidAgeException(String message) {
+        super(message);
+    }
+}
+
+Must be handled using try-catch or declared with throws.
+
+Unchecked Exception
+public class InvalidAgeException extends RuntimeException {
+    public InvalidAgeException(String message) {
+        super(message);
+    }
+}
+
+Handling is optional.
+
+
+
+
+
+
+
+
+
+
+.......................................
+package com.mad.excep;
+
+import java.util.Scanner;
+
+public class Bank {
+
+	public int bal=100;
+	public int withDraw=11;
+	
+	public void WithDraw(int amt) {
+	try {
+		if(amt<bal) {
+		int withdra=bal-amt;
+		System.out.println(withdra);
+		}else {
+			System.out.println("ins");
+		}
+		} catch(Exception e) {
+		e.printStackTrace();
+		System.out.println("insuffient");
+	}
+	}
+	public static void main(String[] args) {
+		Bank b= new Bank();
+		b.WithDraw(444);
+        Scanner sc = new Scanner(System.in);
+
+		try {
+
+            System.out.print("Enter account balance: ");
+            double balance = sc.nextDouble();
+
+            System.out.print("Enter withdrawal amount: ");
+            double withdrawAmount = sc.nextDouble();
+
+            if (withdrawAmount > balance) {
+                throw new Exception("Insufficient balance for withdrawal.");
+            }
+
+            balance = balance - withdrawAmount;
+
+            System.out.println("Withdrawal successful.");
+            System.out.println("Remaining balance: " + balance);
+
+        } catch (Exception e) {
+
+            System.out.println("Error: " + e.getMessage());
+
+        }
+
+        sc.close();
+    }
+	
+}
+
+
+
+
+..................................
+
+
+1. ATM System
+Requirements
+
+Handle the following exceptions:
+
+Invalid PIN
+Insufficient Balance
+Invalid Withdrawal Amount
+Step 1: Custom Exceptions
+InvalidPINException
+public class InvalidPINException extends Exception {
+
+    public InvalidPINException(String message) {
+        super(message);
+    }
+}
+InsufficientBalanceException
+public class InsufficientBalanceException extends Exception {
+
+    public InsufficientBalanceException(String message) {
+        super(message);
+    }
+}
+InvalidWithdrawalAmountException
+public class InvalidWithdrawalAmountException extends Exception {
+
+    public InvalidWithdrawalAmountException(String message) {
+        super(message);
+    }
+}
+ATM Program
+public class ATM {
+
+    private int pin = 1234;
+    private double balance = 10000;
+
+    public void withdraw(int enteredPin, double amount)
+            throws InvalidPINException,
+                   InvalidWithdrawalAmountException,
+                   InsufficientBalanceException {
+
+        if (enteredPin != pin) {
+            throw new InvalidPINException("Invalid PIN.");
+        }
+
+        if (amount <= 0) {
+            throw new InvalidWithdrawalAmountException(
+                    "Withdrawal amount must be greater than zero.");
+        }
+
+        if (amount > balance) {
+            throw new InsufficientBalanceException(
+                    "Insufficient Balance.");
+        }
+
+        balance -= amount;
+
+        System.out.println("Withdrawal Successful");
+        System.out.println("Remaining Balance : ₹" + balance);
+    }
+
+    public static void main(String[] args) {
+
+        ATM atm = new ATM();
+
+        try {
+
+            atm.withdraw(1234, 12000);
+
+        } catch (Exception e) {
+
+            System.out.println(e.getMessage());
+        }
+    }
+}
+Output
+Insufficient Balance.
+2. Bank Management System
+Requirements
+
+Handle:
+
+Account Not Found
+Duplicate Account
+Invalid Transaction
+Custom Exceptions
+public class AccountNotFoundException extends Exception {
+
+    public AccountNotFoundException(String msg) {
+        super(msg);
+    }
+}
+public class DuplicateAccountException extends Exception {
+
+    public DuplicateAccountException(String msg) {
+        super(msg);
+    }
+}
+public class InvalidTransactionException extends Exception {
+
+    public InvalidTransactionException(String msg) {
+        super(msg);
+    }
+}
+Bank Program
+import java.util.HashMap;
+
+public class Bank {
+
+    private HashMap<Integer, Double> accounts = new HashMap<>();
+
+    public void createAccount(int accountNo)
+            throws DuplicateAccountException {
+
+        if (accounts.containsKey(accountNo)) {
+
+            throw new DuplicateAccountException(
+                    "Account Already Exists.");
+        }
+
+        accounts.put(accountNo, 0.0);
+
+        System.out.println("Account Created.");
+    }
+
+    public void deposit(int accountNo, double amount)
+            throws AccountNotFoundException,
+                   InvalidTransactionException {
+
+        if (!accounts.containsKey(accountNo)) {
+
+            throw new AccountNotFoundException(
+                    "Account Not Found.");
+        }
+
+        if (amount <= 0) {
+
+            throw new InvalidTransactionException(
+                    "Invalid Deposit Amount.");
+        }
+
+        accounts.put(accountNo,
+                accounts.get(accountNo) + amount);
+
+        System.out.println("Deposit Successful.");
+    }
+
+    public static void main(String[] args) {
+
+        Bank bank = new Bank();
+
+        try {
+
+            bank.createAccount(101);
+
+            bank.createAccount(101);
+
+        } catch (Exception e) {
+
+            System.out.println(e.getMessage());
+        }
+    }
+}
+Output
+Account Created.
+Account Already Exists.
+3. Library Management System
+Requirements
+
+Handle:
+
+Book Not Found
+Book Already Issued
+Custom Exceptions
+public class BookNotFoundException extends Exception {
+
+    public BookNotFoundException(String msg) {
+        super(msg);
+    }
+}
+public class BookAlreadyIssuedException extends Exception {
+
+    public BookAlreadyIssuedException(String msg) {
+        super(msg);
+    }
+}
+Library Program
+import java.util.HashMap;
+
+public class Library {
+
+    private HashMap<Integer, Boolean> books =
+            new HashMap<>();
+
+    public Library() {
+
+        books.put(101, false);
+        books.put(102, false);
+    }
+
+    public void issueBook(int id)
+            throws BookNotFoundException,
+                   BookAlreadyIssuedException {
+
+        if (!books.containsKey(id)) {
+
+            throw new BookNotFoundException(
+                    "Book Not Found.");
+        }
+
+        if (books.get(id)) {
+
+            throw new BookAlreadyIssuedException(
+                    "Book Already Issued.");
+        }
+
+        books.put(id, true);
+
+        System.out.println("Book Issued Successfully.");
+    }
+
+    public static void main(String[] args) {
+
+        Library library = new Library();
+
+        try {
+
+            library.issueBook(101);
+
+            library.issueBook(101);
+
+        } catch (Exception e) {
+
+            System.out.println(e.getMessage());
+        }
+    }
+}
+Output
+Book Issued Successfully.
+Book Already Issued.
+

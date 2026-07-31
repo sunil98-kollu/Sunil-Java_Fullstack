@@ -1,0 +1,372 @@
+
+
+
+file handling
+....................
+cretae read update  delete files  on disk 
+ File f = new File("C:\\Sri5\\abc.txt");
+
+        System.out.println(f.exists());
+
+        f.createNewFile();
+
+        System.out.println(f.exists());
+        
+createNewFile() : create new file 
+delete() : delete the file
+deleteOnExit() : delete the file when the JVM exits
+exists() : check the file is exist or not
+renameTo()
+
+   File f1=new File("D://Sri5");
+    f1.createNewFile();
+    f1.renameTo(new File("D://Sri5//abc.txt"));
+    f1.delete();
+
+    
+important methods of File class
+...........
+boolean exists() : It returns true if the specified file or directory is already available.
+ 
+
+boolean createNewFile() : First this method will check whether that file is already available or not, if it is already available then this method returns false without creating any physical file.
+
+If it is not already available then this method creates a new file and returns true .
+
+boolean mkdir() :  Same as above
+
+boolean isFile() :  Returns true if the file reference points to a physical file.
+
+boolean isDirectory() : Same as above.
+
+String[] list() : Returns the names of all files and subdirectories present in specified directory.
+
+long length() : Returns the number of characters present in the File.
+
+boolean delete() 
+
+
+
+createNewFile() : create new file 
+delete() : delete the file
+deleteOnExit() : delete the file when the JVM exits
+exists() : check the file is exist or not
+renameTo()
+
+   File f1=new File("D://Sri5");
+    f1.createNewFile();
+    f1.renameTo(new File("D://Sri5//abc.txt"));
+    f1.delete();     
+
+
+/Directory creation
+.......................................
+                File f1=new File("D://Sri5");
+
+                System.out.println(f1.exists());
+
+                f1.mkdir();
+
+                
+
+        //Directory with file name
+
+                File f2= new File("D://Sri5","abc.txt");
+
+                
+
+                try {
+
+                        f2.createNewFile();
+
+                        
+
+                } catch (IOException e) {
+
+                        // TODO Auto-generated catch block
+
+                        e.printStackTrace();
+
+                }
+
+                
+
+                System.out.println(f2.exists());
+
+                
+
+                
+
+                String[] s= f1.list();
+
+                
+
+//                for(String s1:s){
+
+//                        count ++;
+
+//                        System.out.println(s1);
+
+//                }
+
+//                System.out.println("The Total Number : " +count);
+
+        }
+
+}
+
+ public static void main(String[] args) throws IOException {
+
+		 File dir = new File("C:\\Sri5");
+
+	        if (!dir.exists()) {
+	            dir.mkdirs();      // Creates the directory
+	        }
+
+	        File file = new File(dir, "abc.txt");
+
+	        FileWriter fw = new FileWriter(file);
+	        fw.write("Hi Sunil");
+	        
+	        fw.write(68); // Adding Single
+
+            fw.write('\t');
+
+            fw.write("Sri ");
+
+            fw.write('\n');
+
+            char[] ch1={'a', 'b' , 'c'};
+
+            fw.write(ch1);
+
+            fw.flush();
+
+            fw.close();   
+            
+            
+	        fw.close();
+
+	        
+	        System.out.println("File created successfully.");
+	        }
+}
+
+
+ FileReader fr1 = new FileReader("C://Sri5/abc.txt");
+
+          int i= fr1.read();   
+
+          while(i !=-1){
+                  System.out.println((char)i +"***");
+                  i = fr1.read();
+          }
+
+          fr1.close();
+
+
+
+BufferedWriter
+.............................
+We can use BufferedWriter to write character data to the file.
+
+Constructors :
+ BufferedWriter  bw = new BufferedWriter (Writer w);
+
+BufferedWriter  bw = new BufferedWriter (Writer w, int bufferSize);
+
+
+Note :
+        BufferedWriter can’t communicate directly to the file and it can communicate via some writer object.
+
+
+Q: Which of the following are valid?
+
+BufferedWriter  bw = new BufferedWriter (“abc.txt”); → In valid
+
+BufferedWriter  bw = new BufferedWriter (new File (“abc.txt”)); → In valid
+
+BufferedWriter  bw = new BufferedWriter (new FileWriter (“abc.txt”)); → valid
+
+BufferedWriter  bw = new BufferedWriter (new BufferedWriter(new FileWriter (“abc.txt”))); → valid
+
+
+
+Methods :
+        write(int ch);
+
+        write(char[] ch);
+
+        write(String s);
+
+        flush();
+
+        close();
+
+newLine(): To insert a line separator
+
+
+Q: When compared with FileWriter which of the following capabilities is available extra in the method from in BufferedWriter.
+
+Writing data to the file.
+Closing the file.
+flushing the file.
+inserting a newline character  → valid
+
+
+ BufferedWriter bw = new BufferedWriter(
+                new FileWriter("C:\\Sri5\\abc.txt"));
+
+        bw.write("Hi Sunil");
+        bw.newLine();
+        bw.write("Welcome to Java IO");
+
+        bw.close();
+
+        System.out.println("Data written successfully.");
+
+        : Append to a File
+        ...............
+        public class AppendDemo {
+
+    public static void main(String[] args) throws IOException {
+
+        BufferedWriter bw = new BufferedWriter(
+                new FileWriter("C:\\Sri5\\abc.txt", true));
+
+        bw.newLine();
+        bw.write("Appended Data");
+
+        bw.close();
+    }
+}
+
+FileWriter: Simple, small text writes.
+BufferedWriter: Efficient writing of large or frequent text data.
+PrintWriter: Human-readable or formatted text output (reports, logs, CSV, etc.).
+
+
+
+BufferedReader :
+....................................
+We can use BufferedReader to read character data from the file.
+The main advantage of BufferedReader over FileReader is we can read the data line by line instead of character by char.
+
+Constructors :
+
+  BufferedReader  br = new BufferedReader (Reader r);
+
+  BufferedReader  br = new BufferedReader (Reader r, int BufferSize );
+
+
+
+Note :
+
+          BufferedReader  can’t communicate directly with the file and it can communicate via some reader object.
+
+
+Methods :
+
+        int read();
+
+        int read(char ch[]);
+
+
+        void close();
+
+String readLine();
+
+
+It attempts to read the next line in the file and returns it.
+ If the next line is not available then we will get null.
+
+ 
+PrintWriter
+.................
+It is the most enhanced writer to write character data to the file.
+The main advantage of PrintWriter over FileWriter is that we can write any type of primitive data directly to the File.
+
+Constructors :
+.................................
+PrintWriter  pw = new PrintWriter (String fname);
+
+PrintWriter  pw = new PrintWriter (File f);
+
+PrintWriter  pw = new PrintWriter (Writer w);
+.............................................
+
+Note : Printwriter can communicate either directly to the file or via some writer object also.
+
+
+Methods :
+
+write(int ch);
+
+write(Char[] ch);
+
+write(String s);
+
+
+flush();
+
+close();
+
+
+print(char ch);
+
+print(int  i);
+
+print(String s);
+
+print(boolean b);
+
+print(double d );
+
+
+println(char ch);
+
+println(int i);
+
+println(String s);
+
+println(boolean b);
+
+println(double d);
+
+
+
+ FileWriter fw = new FileWriter("C://Sri5/abc.txt");
+
+         PrintWriter out = new PrintWriter(fw);        
+
+//         PrintWriter out = new PrintWriter("D://Sri5/abc.txt");        
+ 
+         out.write(100);     // chaar  D is write to file 
+
+         out.println(100);   // 100 
+
+         out.println(true);
+
+         out.println('c');
+
+         out.println("srikanth");
+
+         out.flush();
+
+         out.close();
+
+
+
+
+
+
+Note :
+The most enhanced writer to write character data to the file is PrintWriter whereas the most enhanced Reader  to read character data from the file is BufferedReader .
+
+Note
+In general readers and writers handle character data whereas we can use streams we handle Binary data (images, audio files, video files ext).
+
+we can use below
+ FileOutputstream to write Binary Data to the file whereas
+
+ FileInputstream to read Binary data from the file.

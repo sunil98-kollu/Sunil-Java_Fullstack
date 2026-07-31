@@ -1,0 +1,320 @@
+
+package com.org.abstractcl;
+
+public abstract class BankAcc {
+
+	abstract void CalInterst();
+	
+	 void displayAccDet() {
+	 
+	 }
+}
+
+package com.org.abstractcl;
+
+public class Current extends BankAcc {
+
+	double principal = 10000;   // loan amount
+    double rate = 5;           // interest rate
+    int time = 2;              // years
+
+    double interest = (principal * rate * time) / 100;
+
+	@Override
+	void CalInterst() {
+	    double interest = (principal * rate * time) / 100;
+
+	    System.out.println(interest);
+	}
+public static void main(String[] args) {
+	Current c= new Current();
+	c.CalInterst();
+}
+}
+
+InterfCE
+...........................
+......................
+package com.org.interfac;
+
+public interface Transaction {
+	void withdraw(int bal);
+	void deposit(int amount);	
+}
+
+package com.org.interfac;
+
+public class BankAcc implements Transaction {
+
+	int currBal;
+	int amountDeposit;
+
+	public BankAcc(int currBal) {
+		this.currBal=currBal;
+	}
+
+	@Override
+	public void withdraw(int bal) {
+         if(currBal>500) {
+		int total=currBal-bal;
+		System.out.println(total);
+	}else {
+	System.out.println("NO insuffient ");
+	}
+	}
+
+	@Override
+	public void deposit(int amount) {
+
+		int tot=amount+currBal;
+		System.out.println(tot);
+	}
+	
+}package com.org.interfac;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		BankAcc b= new BankAcc(1000);
+		b.deposit(12);
+				b.withdraw(600);
+	}
+}
+
+
+
+
+overlaod
+............
+package com.mad.polyOverload;
+
+public class Banking {
+	//public int amountBal;
+   
+	void calBal(int amountBal) {
+		System.out.println(amountBal);
+	}
+	void calBal(int amountBal,int bal) {
+		System.out.println(amountBal+bal);
+	}
+	void calBal(int amountBal,int bal,int balc) {
+		System.out.println(amountBal);
+	}
+	public static void main(String[] args) {
+		
+		Banking b=new Banking();
+		b.calBal(12);
+		b.calBal(12,45);
+		b.calBal(2,3,4);
+	}
+}
+
+override
+........................
+
+package com.mad.polyoverd;
+
+public class BankParent {
+
+	void Account() {
+		System.out.println("Current");
+	}
+}
+
+
+package com.mad.polyoverd;
+
+public class BAnkChild extends BankParent{
+
+	@Override
+	void Account() {
+		System.out.println("Saving Acc");
+	}
+
+	public static void main(String[] args) {
+		BAnkChild b= new BAnkChild();
+		b.Account();
+	}
+}
+
+iNheritance
+.............
+
+package com.mad.inheritance;
+
+public class BankAccount {
+
+		int accNumber;
+		String accHolder;
+		double balance;
+		
+		
+		public BankAccount(int accNumber,String accHolder,double balance) {
+			this.accNumber=accNumber;
+			this.accHolder=accHolder;
+			this.balance=balance;
+		}
+	  void deposit(double currentMoney) {
+			double totalDeposit= balance+currentMoney;
+			System.out.println(totalDeposit);
+
+//	}
+//public static void main(String[] args) {
+//	BankAccount b= new BankAccount(111, "sunil", 1);
+//	
+//	b.deposit(1);
+}
+	
+}
+
+//
+//Bank Account Inheritance 
+//Create a base class BankAccount with attributes such as account number, account holder 
+//name, and balance. Include methods to deposit and display balance. Create a subclass 
+//SavingsAccount that adds an interest rate and a method to calculate and display interest. 
+
+
+package com.mad.inheritance;
+
+public class SavingAccount extends BankAccount {
+	
+	    int interestRate = 3;
+	    int tenure = 2;
+
+	    public SavingAccount(int accNumber, String accHolder, double balance) {
+	        super(accNumber, accHolder, balance);
+	    }
+
+	    void calculateInterest() {
+	        double total = balance * interestRate * tenure / 100;
+	        System.out.println("Interest Amount: " + total);
+	        System.out.println("Total Balance after Interest: " + (balance + total));
+	    }
+
+	    public static void main(String[] args) {
+
+	        SavingAccount sv = new SavingAccount(11, "Sunil", 10000);
+
+	        sv.deposit(2000);
+	        sv.calculateInterest();
+	    }
+}
+
+
+
+.encaplucation
+..................................
+.....................................
+
+package com.mad.enp;
+
+public class Bank {
+
+private int accNum;
+private String accHolder;
+private double balance;
+
+
+
+public Bank(int acNum, String accHolder, double balance){
+		this.accHolder=accHolder;
+		this.accNum=acNum;
+		this.balance=balance;
+	}
+
+public Bank() {
+}
+
+public int getAccNum() {
+	return accNum;
+}
+public void setAccNum(int accNum) {
+	this.accNum = accNum;
+}
+public String getAccHolder() {
+	return accHolder;
+}
+public void setAccHolder(String accHolder) {
+	this.accHolder = accHolder;
+}
+public double getBalance() {
+	return balance;
+}
+public void setBalance(double balance) {
+	this.balance = balance;
+}
+
+
+public void deposit(double amount) {
+	if(amount>0) {
+		balance=balance+amount;
+		System.out.println(balance);
+	}
+		System.out.println(amount);
+	}
+	public void withdraw(double amount) {
+	 balance=balance-amount;
+		System.out.println(balance);
+	}
+	public static void main(String[] args) {
+		Bank b= new Bank();
+		b.setAccHolder("sun");
+		b.setAccNum(12);
+		b.setBalance(12);
+		
+		System.out.println(b.getAccHolder());
+		System.out.println(b.getAccNum());
+		
+		b.deposit(12);
+		
+	}
+}
+
+
+abstraaction
+...........
+
+package com.org.abstractclcom.org.Ecomer;
+
+public abstract class Payment {
+
+	
+	abstract void makePayment(String msg,double amt);
+	
+}
+
+package com.org.abstractclcom.org.Ecomer;
+
+public class CardPAyment extends Payment{
+
+	@Override
+	void makePayment(String msg,double amt) {
+System.out.println(msg +" "+ amt);		
+	}
+
+	public static void main(String[] args) {
+		CardPAyment c = new CardPAyment();
+		c.makePayment("hi card",300);
+	}
+}
+
+
+package com.org.abstractclcom.org.Ecomer;
+
+public class UPIPayment extends Payment {
+
+	@Override
+	void makePayment(String msg,double amt) {
+System.out.println(msg+""+amt);		
+	}
+
+	public static void main(String[] args) {
+		UPIPayment u=new UPIPayment();
+		u.makePayment("hi upi ",111);
+	}
+	
+}
+
+
+..........................

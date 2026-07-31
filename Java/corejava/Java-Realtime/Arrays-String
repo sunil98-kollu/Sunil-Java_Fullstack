@@ -1,0 +1,477 @@
+
+
+public class StudentMarksAnalysis {
+
+    public static void main(String[] args) {
+
+        int[] marks = {85, 45, 78, 92, 30};
+
+        int total = 0;
+        int highest = marks[0];
+        int lowest = marks[0];
+        int passed = 0;
+        int failed = 0;
+
+        for (int mark : marks) {
+
+            total += mark;
+
+            if (mark > highest)
+                highest = mark;
+
+            if (mark < lowest)
+                lowest = mark;
+
+            if (mark >= 35)
+                passed++;
+            else
+                failed++;
+        }
+
+        double average = (double) total / marks.length;
+
+        System.out.println("Total Marks      : " + total);
+        System.out.println("Average Marks    : " + average);
+        System.out.println("Highest Marks    : " + highest);
+        System.out.println("Lowest Marks     : " + lowest);
+        System.out.println("Passed Students  : " + passed);
+        System.out.println("Failed Students  : " + failed);
+    }
+}
+
+Output
+
+Total Marks      : 330
+Average Marks    : 66.0
+Highest Marks    : 92
+Lowest Marks     : 30
+Passed Students  : 4
+Failed Students  : 1
+
+
+Employee Salary Processing
+public class EmployeeSalaryProcessing {
+
+    public static void main(String[] args) {
+
+        int[] salary = {45000, 60000, 75000, 52000, 40000};
+
+        int total = 0;
+        int highest = salary[0];
+        int lowest = salary[0];
+        int above50K = 0;
+
+        for (int s : salary) {
+
+            total += s;
+
+            if (s > highest)
+                highest = s;
+
+            if (s < lowest)
+                lowest = s;
+
+            if (s > 50000)
+                above50K++;
+        }
+
+        double average = (double) total / salary.length;
+
+        System.out.println("Total Payroll      : ₹" + total);
+        System.out.println("Average Salary     : ₹" + average);
+        System.out.println("Highest Salary     : ₹" + highest);
+        System.out.println("Lowest Salary      : ₹" + lowest);
+        System.out.println("Employees > 50000  : " + above50K);
+    }
+}
+
+Output
+
+Total Payroll      : ₹272000
+Average Salary     : ₹54400.0
+Highest Salary     : ₹75000
+Lowest Salary      : ₹40000
+Employees > 50000  : 3
+
+
+
+Banking Transaction Summary
+public class BankingTransactionSummary {
+
+    public static void main(String[] args) {
+
+        int[] transactions = {1000, -500, 2500, -800, 500, -300};
+
+        int deposits = 0;
+        int withdrawals = 0;
+        int depositCount = 0;
+        int withdrawalCount = 0;
+
+        int largestDeposit = 0;
+        int largestWithdrawal = 0;
+
+        for (int amount : transactions) {
+
+            if (amount > 0) {
+
+                deposits += amount;
+                depositCount++;
+
+                if (amount > largestDeposit)
+                    largestDeposit = amount;
+
+            } else {
+
+                withdrawals += Math.abs(amount);
+                withdrawalCount++;
+
+                if (Math.abs(amount) > largestWithdrawal)
+                    largestWithdrawal = Math.abs(amount);
+            }
+        }
+
+        int balance = deposits - withdrawals;
+
+        System.out.println("Total Deposits     : ₹" + deposits);
+        System.out.println("Total Withdrawals  : ₹" + withdrawals);
+        System.out.println("Current Balance    : ₹" + balance);
+        System.out.println("Deposits           : " + depositCount);
+        System.out.println("Withdrawals        : " + withdrawalCount);
+        System.out.println("Largest Deposit    : ₹" + largestDeposit);
+        System.out.println("Largest Withdrawal : ₹" + largestWithdrawal);
+    }
+}
+
+Output
+
+Total Deposits     : ₹4000
+Total Withdrawals  : ₹1600
+Current Balance    : ₹2400
+Deposits           : 3
+Withdrawals        : 3
+Largest Deposit    : ₹2500
+Largest Withdrawal : ₹800
+
+
+
+4. Monthly Sales Report
+public class MonthlySalesReport {
+
+    public static void main(String[] args) {
+
+        int[] sales = {
+                12000,15000,18000,22000,
+                14000,16000,20000,19000,
+                17000,21000,13000,24000
+        };
+
+        String[] months = {
+                "January","February","March","April",
+                "May","June","July","August",
+                "September","October","November","December"
+        };
+
+        int total = 0;
+        int highest = sales[0];
+        int lowest = sales[0];
+
+        int highIndex = 0;
+        int lowIndex = 0;
+
+        for (int i = 0; i < sales.length; i++) {
+
+            total += sales[i];
+
+            if (sales[i] > highest) {
+
+                highest = sales[i];
+                highIndex = i;
+            }
+
+            if (sales[i] < lowest) {
+
+                lowest = sales[i];
+                lowIndex = i;
+            }
+        }
+
+        double average = (double) total / sales.length;
+
+        System.out.println("Total Sales   : ₹" + total);
+        System.out.println("Average Sales : ₹" + average);
+        System.out.println("Highest Sales : ₹" + highest);
+        System.out.println("Lowest Sales  : ₹" + lowest);
+        System.out.println("Best Month    : " + months[highIndex]);
+        System.out.println("Worst Month   : " + months[lowIndex]);
+    }
+}
+
+Output
+
+Total Sales   : ₹211000
+Average Sales : ₹17583.33
+Highest Sales : ₹24000
+Lowest Sales  : ₹12000
+Best Month    : December
+Worst Month   : January
+
+
+5. Inventory Stock Management
+public class InventoryStockManagement {
+
+    public static void main(String[] args) {
+
+        int[] stock = {25, 8, 0, 15, 5, 40};
+
+        int total = 0;
+        int highest = stock[0];
+        int lowest = stock[0];
+
+        int outOfStock = 0;
+        int lowStock = 0;
+        int highestProduct = 1;
+
+        for (int i = 0; i < stock.length; i++) {
+
+            total += stock[i];
+
+            if (stock[i] == 0)
+                outOfStock++;
+
+            if (stock[i] < 10 && stock[i] > 0)
+                lowStock++;
+
+            if (stock[i] > highest) {
+
+                highest = stock[i];
+                highestProduct = i + 1;
+            }
+
+            if (stock[i] < lowest)
+                lowest = stock[i];
+        }
+
+        System.out.println("Total Stock        : " + total);
+        System.out.println("Out of Stock       : " + outOfStock);
+        System.out.println("Low Stock          : " + lowStock);
+        System.out.println("Highest Stock      : " + highest);
+        System.out.println("Lowest Stock       : " + lowest);
+        System.out.println("Highest Stock Item : Product " + highestProduct);
+    }
+}
+
+Output
+
+Total Stock        : 93
+Out of Stock       : 1
+Low Stock          : 2
+Highest Stock      : 40
+Lowest Stock       : 0
+Highest Stock Item : Product 6
+
+
+
+//////////////////////////////////////////
+///
+///
+
+
+1. Password Validation
+Problem
+
+Validate a password with the following rules:
+
+Minimum length = 8
+Contains at least one uppercase letter
+Contains at least one lowercase letter
+Contains at least one digit
+Contains '@'
+Java Program
+public class PasswordValidation {
+
+    public static void main(String[] args) {
+
+        String password = "Java@123";
+
+        boolean upper = false;
+        boolean lower = false;
+        boolean digit = false;
+        boolean special = false;
+
+        for (char ch : password.toCharArray()) {
+
+            if (Character.isUpperCase(ch))
+                upper = true;
+
+            else if (Character.isLowerCase(ch))
+                lower = true;
+
+            else if (Character.isDigit(ch))
+                digit = true;
+
+            else if (ch == '@')
+                special = true;
+        }
+
+        if (password.length() >= 8 && upper && lower && digit && special) {
+
+            System.out.println("Strong Password");
+
+        } else {
+
+            System.out.println("Weak Password");
+        }
+    }
+}
+
+Output
+
+Strong Password
+
+
+2. Email Validation
+Problem
+
+Validate an email if it:
+
+Contains '@'
+Contains '.'
+Ends with ".com"
+Java Program
+public class EmailValidation {
+
+    public static void main(String[] args) {
+
+        String email = "sunil@gmail.com";
+
+        if (email.contains("@")
+                && email.contains(".")
+                && email.endsWith(".com")) {
+
+            System.out.println("Valid Email");
+
+        } else {
+
+            System.out.println("Invalid Email");
+        }
+    }
+}
+
+Output
+
+Valid Email
+3. URL Parsing
+Problem
+
+Extract:
+
+Protocol
+Domain
+Path
+Java Program
+public class URLParsing {
+
+    public static void main(String[] args) {
+
+        String url =
+                "https://www.amazon.com/products/mobile";
+
+        String[] parts = url.split("/");
+
+        System.out.println("Protocol : " + parts[0].replace(":", ""));
+        System.out.println("Domain   : " + parts[2]);
+        System.out.println("Path     : /" + parts[3] + "/" + parts[4]);
+    }
+}
+
+Output
+
+Protocol : https
+Domain   : www.amazon.com
+Path     : /products/mobile
+4. Log File Analysis
+Problem
+
+Analyze log messages and count:
+
+INFO
+ERROR
+WARNING
+Java Program
+public class LogAnalysis {
+
+    public static void main(String[] args) {
+
+        String[] logs = {
+
+                "INFO User Login",
+                "ERROR Database Down",
+                "WARNING Low Memory",
+                "INFO Payment Success",
+                "ERROR Invalid Password"
+        };
+
+        int info = 0;
+        int error = 0;
+        int warning = 0;
+
+        for (String log : logs) {
+
+            if (log.startsWith("INFO"))
+                info++;
+
+            else if (log.startsWith("ERROR"))
+                error++;
+
+            else if (log.startsWith("WARNING"))
+                warning++;
+        }
+
+        System.out.println("INFO    : " + info);
+        System.out.println("ERROR   : " + error);
+        System.out.println("WARNING : " + warning);
+    }
+}
+
+Output
+
+INFO    : 2
+ERROR   : 2
+WARNING : 1
+5. Chat Message Filtering
+Problem
+
+Replace banned words with "****".
+
+Java Program
+public class ChatFilter {
+
+    public static void main(String[] args) {
+
+        String message =
+                "You are a stupid person";
+
+        String[] banned = {
+
+                "stupid",
+                "idiot",
+                "fool"
+        };
+
+        for (String word : banned) {
+
+            message = message.replace(word, "****");
+        }
+
+        System.out.println(message);
+    }
+}
+
+Output
+
+You are a **** person
+
+
+
+
+..

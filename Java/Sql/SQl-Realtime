@@ -1,0 +1,773 @@
+
+
+
+create database BankInfo;
+
+USE BankInfo;
+
+create table Customer(CustomerId int , CustomerName varchar(10), Email varchar(20), Mobile int, Address varchar(10));
+
+ALTER TABLE Customer
+MODIFY COLUMN Email VARCHAR(40);
+
+ALTER TABLE Customer
+RENAME COLUMN Mobile TO PhoneNumber;
+
+ALTER TABLE Customer
+MODIFY COLUMN Mobile BIGINT;
+
+alter table customer
+add column amount decimal;
+
+alter table customer
+MODIFY column amount float;
+
+ALTER TABLE Customer
+ADD PRIMARY KEY (CustomerId);
+
+insert into Customer values (1,'sunil','sunil@gmail.com',98762322,'Nellore',200),(2,'Aunil','Anil@gmail.com',987623212,'Vellore',33),(3,'Dunil','Dunil@gmail.com',9823762322,'Dellore',44),(1,'Eunil','Eunil@gmail.com',928762322,'Eellore',55);
+
+update Customer
+set customerId=4
+where customerName='Eunil';
+
+
+Delete from Customer 
+WHERE amount IS NULL;
+
+select * from customer;
+
+SHOW CREATE TABLE Customer;
+
+SELECT CustomerId, COUNT(*)
+FROM Customer
+GROUP BY CustomerId
+HAVING COUNT(*) > 1;
+
+
+# ???????????????
+
+CREATE TABLE Account (
+    AccountNo INT PRIMARY KEY,
+    CustomerId INT,
+    AccountType VARCHAR(20),
+    Balance DECIMAL(10,2),
+    OpenDate DATE,
+    FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId)
+);
+
+INSERT INTO Account
+VALUES
+(1001,1,'Savings',50000,'2025-01-10'),
+(1002,2,'Current',75000,'2025-02-15'),
+(1003,3,'Savings',30000,'2025-03-20');
+
+select * from Account;
+
+-- Option-1. We can drop Students table/child table. By doing this foreign key relation
+-- -- will be deleted and then we use trunacte/drop on Course_Details table
+
+-- Drop table students;
+
+-- Option-2. Without dropping Students table/child table we can only remove the foreign key
+-- relationship by using below syntax of alter command-- syn
+-- alter table tbname
+-- drop foreign key constraint_name
+
+
+-- Open bank accounts for all customers.
+-- Deposit ₹10,000 into Account No. 1001.  ( update 
+-- Withdraw ₹2,000 from Account No. 1002.  (update)
+-- Update a customer's email address. (update)
+--  Change account type from Savings to Current. (update)
+--  Delete a customer whose account is closed.  delete 
+--  Delete all transactions older than 5 years.
+--  Insert a new loan record. 
+--  Increase all loan amounts by 5%
+ 
+UPDATE Account
+SET Balance = Balance + 10000
+WHERE AccountNo = 1001;
+
+UPDATE Account
+SET Balance = Balance - 2000
+WHERE AccountNo = 1002;
+
+UPDATE Customer
+SET Email = 'sunil.new@gmail.com'
+WHERE CustomerId = 1;
+
+UPDATE Account
+SET AccountType = 'Current'
+WHERE AccountNo = 1001;
+
+DELETE FROM Customer
+WHERE CustomerId = 1;
+
+DELETE FROM Transactions
+WHERE TransactionDate < DATE_SUB(CURDATE(), INTERVAL 5 YEAR);
+
+UPDATE Loan
+SET LoanAmount = LoanAmount * 1.05
+WHERE AccountNo = 1001;
+
+#Create a Branch table.
+
+create table Branch( BranchId INT PRIMARY KEY,
+    BranchName VARCHAR(50),
+    BranchAddress VARCHAR(100),
+    City VARCHAR(50)
+);
+
+INSERT INTO Branch
+VALUES
+(101, 'Hyderabad Branch', 'Madhapur', 'Hyderabad'),
+(102, 'Chennai Branch', 'T Nagar', 'Chennai'),
+(103, 'Bangalore Branch', 'MG Road', 'Bangalore'),
+(104, 'Nellore Branch', 'Stone House Pet', 'Nellore');
+
+
+# Create a Loan table.
+
+CREATE TABLE Loan (
+    LoanId INT PRIMARY KEY,
+    CustomerId INT NOT NULL,
+    LoanType VARCHAR(30) NOT NULL,
+    LoanAmount DECIMAL(12,2) NOT NULL,
+    InterestRate DECIMAL(5,2) NOT NULL,
+    LoanTerm INT NOT NULL,          -- Duration in months
+    EMI DECIMAL(10,2),
+    LoanStatus VARCHAR(20) DEFAULT 'Active',
+    LoanStartDate DATE,
+    LoanEndDate DATE,
+    FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId)
+);
+
+INSERT INTO Loan
+(LoanId, CustomerId, LoanType, LoanAmount, InterestRate, LoanTerm, EMI, LoanStatus, LoanStartDate, LoanEndDate)
+VALUES
+(101, 1, 'Home Loan', 2500000.00, 8.50, 240, 21696.00, 'Active', '2024-01-15', '2044-01-15'),
+(102, 2, 'Car Loan', 800000.00, 9.00, 60, 16606.00, 'Active', '2025-03-10', '2030-03-10'),
+(103, 3, 'Personal Loan', 300000.00, 12.50, 36, 10039.00, 'Closed', '2022-06-01', '2025-06-01'),
+(104, 4, 'Education Loan', 600000.00, 7.50, 84, 9275.00, 'Active', '2023-08-20', '2030-08-20');
+
+
+CREATE TABLE Transactions (
+    TransactionId INT PRIMARY KEY,
+    AccountNo INT,
+    TransactionType VARCHAR(20),
+    Amount DECIMAL(10,2),
+    TransactionDate DATE,
+    FOREIGN KEY (AccountNo) REFERENCES Account(AccountNo)
+);
+
+INSERT INTO Transactions
+VALUES
+(1,1001,'Deposit',10000,'2025-01-10'),
+(2,1002,'Withdraw',2000,'2025-01-15'),
+(3,1001,'Deposit',5000,'2025-02-01'),
+(4,1003,'Withdraw',1000,'2025-02-10');
+
+
+
+.....................................................
+
+
+-- Grant SELECT permission on the Customer table.
+-- Grant INSERT permission on the Transaction table.
+-- Grant UPDATE permission on the Account table.
+-- Grant ALL privileges to the bank manager.
+-- Revoke UPDATE permission from the clerk.
+-- Revoke ALL privileges from a user.
+-- Grant permissions on multiple tables.
+-- Grant privileges with GRANT OPTION.
+-- Revoke GRANT OPTION.
+
+GRANT SELECT
+ON BankInfo.Customer
+TO 'bank_clerk'@'localhost';
+
+grant insert
+on bankinfo.transactions
+TO 'bank_clerk'@'localhost';
+
+grant update 
+on bankinfo.account
+to 'bank_clerk'@'localhost';
+
+GRANT ALL PRIVILEGES
+ON BankInfo.*
+TO 'bank_manager'@'localhost';
+
+REVOKE UPDATE
+ON BankInfo.Account
+FROM 'bank_clerk'@'localhost';
+
+REVOKE ALL PRIVILEGES
+ON BankInfo.*
+FROM 'bank_clerk'@'localhost';
+
+#7. Grant Permissions on Multiple Tables
+GRANT SELECT
+ON BankInfo.Customer
+TO 'bank_clerk'@'localhost';
+
+GRANT INSERT
+ON BankInfo.Transactions
+TO 'bank_clerk'@'localhost';
+
+GRANT UPDATE
+ON BankInfo.Account
+TO 'bank_clerk'@'localhost';
+
+GRANT SELECT, INSERT
+ON BankInfo.*
+TO 'bank_manager'@'localhost'
+WITH GRANT OPTION;
+
+REVOKE GRANT OPTION
+ON BankInfo.*
+FROM 'bank_manager'@'localhost';
+
+
+SHOW GRANTS FOR 'bank_clerk'@'localhost';
+
+
+
+
+
+0. Check User Privileges
+SHOW GRANTS FOR 'bank_clerk'@'localhost';
+
+or
+
+SHOW GRANTS FOR 'bank_manager'@'localhost';
+11. Flush Privileges
+FLUSH PRIVILEGES;
+
+
+Summary Table
+Task	                       SQL Command
+....................................................................
+Grant SELECT	               GRANT SELECT ON BankInfo.Customer TO 'bank_clerk'@'localhost';
+Grant INSERT	                GRANT INSERT ON BankInfo.Transactions TO 'bank_clerk'@'localhost';
+Grant UPDATE	                GRANT UPDATE ON BankInfo.Account TO 'bank_clerk'@'localhost';
+Grant ALL	                     GRANT ALL PRIVILEGES ON BankInfo.* TO 'bank_manager'@'localhost';
+Revoke UPDATE	                 REVOKE UPDATE ON BankInfo.Account FROM 'bank_clerk'@'localhost';
+Revoke ALL                   	REVOKE ALL PRIVILEGES ON BankInfo.* FROM 'bank_clerk'@'localhost';
+Grant Option                   	GRANT SELECT, INSERT ON BankInfo.* TO 'bank_manager'@'localhost' WITH GRANT OPTION;
+Revoke Grant Option	            REVOKE GRANT OPTION ON BankInfo.* FROM 'bank_manager'@'localhost';
+Interview Questions
+
+Q1. What is the difference between GRANT and REVOKE?
+
+GRANT gives permissions to a user.
+REVOKE removes previously granted permissions.
+
+Q2. What does WITH GRANT OPTION do?
+
+It allows the user receiving the privileges to grant those same privileges to other users.
+
+Q3. How do you view a user's permissions?
+
+SHOW GRANTS FOR 'bank_clerk'@'localhost';
+
+
+///////////////////////////
+
+Display all customers.
+Display customers having Savings accounts.
+Find customers with balance greater than ₹1,00,000.
+Find the customer with the highest account balance.
+Find the second highest balance.
+Display total bank balance.
+Count customers in each branch.
+Find customers who never made a transaction.
+Display all deposits greater than ₹50,000.
+Display all withdrawals greater than ₹20,000.
+Find today's transactions.
+Find transactions between two dates.
+Display customer name with account details (JOIN).
+Find customers who have loans.
+Display branch-wise total balance.
+Find duplicate mobile numbers.
+Display top 5 richest customers.
+Find average account balance.
+Display inactive accounts (no transactions in the last year).
+Count total accounts by account type.
+
+
+# dql
+#.............
+
+
+select * from customer;
+
+select * from customer
+ join account 
+on customer.CustomerId=account.AccountNo
+where account.AccountType="savings";
+
+SELECT c.CustomerName,
+       a.AccountNo,
+       a.Balance
+FROM Customer c
+JOIN Account a
+ON c.CustomerId = a.CustomerId
+WHERE a.Balance > 100;
+
+
+SELECT c.CustomerName,
+       a.Balance
+FROM Customer c
+JOIN Account a
+ON c.CustomerId = a.CustomerId
+WHERE a.Balance =
+(
+    SELECT MAX(Balance)
+    FROM Account
+);
+
+
+select sum(balance) from account;
+
+
+SELECT b.BranchName,
+       COUNT(c.CustomerId) AS TotalCustomers
+FROM Branch b
+JOIN Customer c
+ON b.BranchId = c.BranchId
+GROUP BY b.BranchName;
+
+
+SELECT c.CustomerId,
+       c.CustomerName
+FROM Customer c
+WHERE NOT EXISTS
+(
+    SELECT 1
+    FROM Account a
+    JOIN Transactions t
+    ON a.AccountNo=t.AccountNo
+    WHERE a.CustomerId=c.CustomerId
+);
+
+SELECT *
+FROM Transactions
+WHERE TransactionType='Deposit' AND Amount > 50000;
+
+SELECT *
+FROM Transactions
+WHERE TransactionType='Withdraw' AND Amount > 20000;
+
+
+SELECT *
+FROM Transactions
+WHERE TransactionDate = CURDATE();
+
+SELECT *
+FROM Transactions
+WHERE TransactionDate
+BETWEEN '2025-01-01' AND '2025-12-31';
+
+
+SELECT c.CustomerName,
+       a.AccountNo,
+       a.AccountType,
+       a.Balance
+FROM Customer c
+JOIN Account a
+ON c.CustomerId=a.CustomerId;
+
+
+SELECT c.CustomerName,
+       l.LoanAmount,
+       l.LoanType
+FROM Customer c
+JOIN Loan l
+ON c.CustomerId=l.CustomerId;
+
+
+SELECT b.BranchName,
+       SUM(a.Balance) AS TotalBalance
+FROM Branch b
+JOIN Customer c
+ON b.BranchId=c.BranchId
+JOIN Account a
+ON c.CustomerId=a.CustomerId
+GROUP BY b.BranchName;
+
+
+SELECT Mobile,
+       COUNT(*)
+FROM Customer
+GROUP BY Mobile
+HAVING COUNT(*) > 1;
+
+#17. Display top 5 richest customers
+
+SELECT c.CustomerName,
+       a.Balance
+FROM Customer c
+JOIN Account a
+ON c.CustomerId=a.CustomerId
+ORDER BY a.Balance DESC
+LIMIT 5;
+
+#18. Find average account balance
+SELECT AVG(Balance) AS AverageBalance
+FROM Account;
+
+#19. Display inactive accounts (no transactions in the last year)
+
+SELECT a.AccountNo,
+       c.CustomerName
+FROM Account a
+JOIN Customer c
+ON a.CustomerId=c.CustomerId
+WHERE NOT EXISTS
+(
+    SELECT 1
+    FROM Transactions t
+    WHERE t.AccountNo=a.AccountNo
+    AND t.TransactionDate >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+);
+
+
+SELECT AccountType,
+       COUNT(*) AS TotalAccounts
+FROM Account
+GROUP BY AccountType;
+
+/////////////////////////////////////////////////////
+
+Bonus Advanced Banking SQL Interview Questions
+..................
+Find the customer with the highest loan amount
+.................................
+SELECT c.CustomerName,
+       l.LoanAmount
+FROM Customer c
+JOIN Loan l
+ON c.CustomerId=l.CustomerId
+ORDER BY l.LoanAmount DESC
+LIMIT 1;
+
+Display customers having more than one account
+....................................
+SELECT CustomerId,
+       COUNT(AccountNo) AS TotalAccounts
+FROM Account
+GROUP BY CustomerId
+HAVING COUNT(AccountNo) > 1;
+
+Find customers whose balance is below ₹5,000
+..........................
+SELECT c.CustomerName,
+       a.Balance
+FROM Customer c
+JOIN Account a
+ON c.CustomerId=a.CustomerId
+WHERE a.Balance < 5000;
+...............
+Find the branch with the highest total balance...
+............................................
+SELECT b.BranchName,
+       SUM(a.Balance) AS TotalBalance
+FROM Branch b
+JOIN Customer c
+ON b.BranchId=c.BranchId
+JOIN Account a
+ON c.CustomerId=a.CustomerId
+GROUP BY b.BranchName
+ORDER BY TotalBalance DESC
+LIMIT 1;
+..
+Find customers who have both an account and a loan.
+..........................................................
+
+SELECT DISTINCT c.CustomerName
+FROM Customer c
+JOIN Account a
+ON c.CustomerId=a.CustomerId
+JOIN Loan l
+ON c.CustomerId=l.CustomerId;
+
+////////////////////////////////////////////////
+
+..........................
+TCl
+...............
+
+# TCL
+..................
+
+What is TCL?
+..................
+TCL (Transaction Control Language) is used to manage transactions in a database.
+............................................
+A transaction is a group of SQL statements executed as a single unit.
+
+TCL Commands
+......................
+COMMIT
+ROLLBACK
+SAVEPOINT
+START TRANSACTION
+
+COMMIT	                                   ROLLBACK
+................................................................
+
+Saves all changes permanently	            Undoes changes
+Cannot be undone	                        Can be used before COMMIT
+Ends the transaction	                    Restores previous state
+
+
+What is a SAVEPOINT?
+......................
+A SAVEPOINT creates a checkpoint inside a transaction. You can roll back to that checkpoint without undoing the entire transaction.
+
+4. Can we roll back after COMMIT?
+
+No.
+
+5. What happens if the database crashes before COMMIT?
+The transaction is rolled back automatically.
+This behavior is guaranteed by the Atomicity and Durability properties of ACID.
+
+
+What is START TRANSACTION?
+
+START TRANSACTION marks the beginning of a transaction.
+Everything between START TRANSACTION and COMMIT (or ROLLBACK) belongs to the same transaction.
+
+
+7. Why are transactions important in banking applications?
+
+Transactions ensure that money is transferred correctly.
+
+Example
+
+Transfer $1,000 from Account A to Account B.
+
+
+A - Atomicity
+........................
+Either all operations succeed or none do.
+
+Example:
+.....................
+Debit $1,000
+Credit $1,000
+
+If the credit fails, the debit is also undone
+
+C - Consistency
+..................
+The database remains in a valid state.
+
+Example:
+
+Before transfer:
+
+A = $10,000
+B = $5,000
+
+Total = $15,000
+
+After transfer:
+
+A = $9,000
+B = $6,000
+
+Total remains $15,000
+
+I - Isolation
+.......................
+Multiple transactions do not interfere with each other.
+
+Example:
+.........
+Two customers withdrawing money simultaneously should not corrupt the account balance.
+
+
+D - Durability
+........................
+After COMMIT, changes are permanent even if the database crashes.
+
+Q Can a transaction have multiple SAVEPOINTs?
+
+Yes.
+
+
+10. What is the difference between ROLLBACK and ROLLBACK TO SAVEPOINT?
+......................................
+ROLLBACK	                         ROLLBACK TO SAVEPOINT
+......................................
+Undoes the entire transaction	                           Undoes only to a specific savepoint
+Returns to the state before START TRANSACTION	           Returns to the specified savepoint
+Removes all uncommitted changes                          	Preserves changes made before the savepoint
+
+
+# 1. Deposit ₹5,000 into an account and COMMIT
+start transaction;
+update account 
+set balance=balance+5000
+where accoutno=1001;
+
+commit;
+
+#2. Withdraw ₹10,000 and ROLLBACK
+start transaction;
+update account
+set balance=balance-1000
+where accountno=1001;
+
+rollback
+
+#Result: The withdrawal is cancelled, and the balance remains unchanged.
+
+
+#3. Transfer ₹20,000 from Account A to Account B
+
+START TRANSACTION;
+
+UPDATE Account
+SET Balance = Balance - 20000
+WHERE AccountNo = 1001;
+
+UPDATE Account
+SET Balance = Balance + 20000
+WHERE AccountNo = 1002;
+
+COMMIT;
+
+
+# 4. Create a SAVEPOINT before updating account balances
+
+START TRANSACTION;
+
+SAVEPOINT BeforeUpdate;
+
+UPDATE Account
+SET Balance = Balance + 10000
+WHERE AccountNo = 1003;
+
+#5. Roll back to the SAVEPOINT after an incorrect update
+
+START TRANSACTION;
+
+SAVEPOINT BeforeUpdate;
+
+UPDATE Account
+SET Balance = Balance + 10000
+WHERE AccountNo = 1003;
+
+UPDATE Account
+SET Balance = Balance - 50000
+WHERE AccountNo = 1004;
+
+ROLLBACK TO BeforeUpdate;
+
+COMMIT;
+
+#Result: The second update is undone. Changes before the savepoint are preserved.
+
+#6. Commit multiple deposits together
+START TRANSACTION;
+
+UPDATE Account
+SET Balance = Balance + 5000
+WHERE AccountNo = 1001;
+
+UPDATE Account
+SET Balance = Balance + 7000
+WHERE AccountNo = 1002;
+
+UPDATE Account
+SET Balance = Balance + 3000
+WHERE AccountNo = 1003;
+
+COMMIT;
+
+select * from account;
+
+
+#7. Delete old transactions and COMMIT
+
+ START TRANSACTION;
+DELETE FROM Transaction
+WHERE TransactionDate < '2021-01-01';
+
+COMMIT;
+
+#8. Roll back a mistaken customer deletion
+
+ START TRANSACTION;
+
+DELETE FROM Customer
+WHERE CustomerId = 5;
+
+ROLLBACK;
+#Result: The customer record is restored because the transaction was rolled back. 
+
+#9. Perform deposit, withdrawal, and loan update in one transaction
+
+START TRANSACTION;
+
+-- Deposit
+UPDATE Account
+SET Balance = Balance + 10000
+WHERE AccountNo = 1001;
+
+-- Withdrawal
+UPDATE Account
+SET Balance = Balance - 5000
+WHERE AccountNo = 1002;
+
+-- Loan Update
+UPDATE Loan
+SET LoanAmount = LoanAmount - 20000
+WHERE LoanId = 101;
+
+COMMIT;
+
+
+#10. Demonstrate COMMIT, ROLLBACK, and SAVEPOINT
+START TRANSACTION;
+
+UPDATE Account
+SET Balance = Balance + 5000
+WHERE AccountNo = 1001;
+
+COMMIT;
+# Result: The balance update is permanently saved.
+
+
+
+
+
+
+
+SAVEPOINT Example
+START TRANSACTION;
+
+UPDATE Account
+SET Balance = Balance + 5000
+WHERE AccountNo = 1001;
+
+SAVEPOINT SP1;
+
+UPDATE Account
+SET Balance = Balance - 3000
+WHERE AccountNo = 1002;
+
+ROLLBACK TO SP1;
+
+COMMIT;
+
+Result:
+
+The deposit into Account 1001 is saved.
+The withdrawal from Account 1002 is undone.
+COMMIT permanently saves the remaining changes.

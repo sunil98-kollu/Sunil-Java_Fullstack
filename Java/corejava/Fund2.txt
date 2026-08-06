@@ -121,7 +121,7 @@ Or address-comparision.
 instanceof operator :  
 ..............................
  We can use the instanceof operator to check whether the given an object is 
-perticular type or not 
+perticular class  or not 
 
 object instanceof ClassName  
 true  -> if object belongs to the class/subclass

@@ -1,0 +1,227 @@
+Why do we need Saga?
+
+Suppose an online banking application has three microservices:
+
+Account Service
+Payment Service
+Notification Service
+Scenario
+
+A customer transfers ₹10,000.
+
+Account Service
+      ↓
+Debit ₹10,000
+
+      ↓
+Payment Service
+Record Transaction
+
+      ↓
+Notification Service
+Send SMS
+
+If the Payment Service fails after the amount is debited, the system becomes inconsistent unless the debit is reversed.
+
+The Saga Pattern solves this by executing a compensating transaction.
+
+Real-Time Banking Example
+
+Customer transfers ₹10,000.
+
+Step 1
+
+Account Service
+
+Balance = ₹50,000
+
+↓
+
+Debit ₹10,000
+
+↓
+
+Balance = ₹40,000
+Step 2
+
+Payment Service
+
+Create transaction record
+
+Suppose the database is unavailable.
+
+Payment Failed
+Step 3 (Compensation)
+
+Account Service
+
+Credit ₹10,000 back
+
+↓
+
+Balance = ₹50,000
+
+The customer never loses money even though the overall operation failed.
+
+Saga Flow
+Customer
+
+      │
+
+      ▼
+
+Order/Transfer Started
+
+      │
+
+      ▼
+
+Account Service
+Debit Amount
+
+      │
+
+      ▼
+
+Payment Service
+Save Transaction
+
+      │
+
+      ▼
+
+Notification Service
+Send SMS
+
+      │
+
+ Success
+
+If Payment fails:
+
+Debit Completed
+
+      │
+
+Payment Failed
+
+      │
+
+Compensating Transaction
+
+      │
+
+Credit Amount Back
+
+      │
+
+Saga Completed
+Types of Saga
+1. Choreography Saga
+
+Each service publishes events.
+
+Other services listen and continue processing.
+
+Order Service
+
+↓
+
+Order Created Event
+
+↓
+
+Payment Service
+
+↓
+
+Payment Success Event
+
+↓
+
+Inventory Service
+
+↓
+
+Inventory Reserved Event
+
+↓
+
+Notification Service
+
+Advantages
+
+No central coordinator
+Simple for small systems
+
+Disadvantages
+
+Harder to understand as the number of services grows
+Event flow can become complex
+2. Orchestration Saga
+
+A central orchestrator controls the workflow.
+
+Saga Orchestrator
+
+      │
+
+      ▼
+
+Order Service
+
+      ▼
+
+Payment Service
+
+      ▼
+
+Inventory Service
+
+      ▼
+
+Shipping Service
+
+      ▼
+
+Notification Service
+
+Advantages
+
+Easier to monitor and debug
+Better for complex business processes
+
+Disadvantages
+
+Requires an orchestrator component
+Spring Boot Example
+Account Service
+@Transactional
+public void debit(Long accountId, double amount) {
+
+    // Debit account
+}
+Compensation
+@Transactional
+public void credit(Long accountId, double amount) {
+
+    // Reverse debit
+}
+
+The orchestrator invokes credit() if a later step fails.
+
+Technologies Used
+Spring Boot
+Spring Cloud
+Apache Kafka
+RabbitMQ
+EventBridge (AWS)
+Camunda / Temporal (workflow orchestration)
+Axon Framework
+Saga vs Two-Phase Commit (2PC)
+Saga Pattern	Two-Phase Commit (2PC)
+Local transactions	Global transaction
+Uses compensation	Uses commit/rollback across all participants
+High scalability	Lower scalability
+Preferred for microservices	More common in tightly coupled distributed systems
+Eventually consistent	Strongly consistent

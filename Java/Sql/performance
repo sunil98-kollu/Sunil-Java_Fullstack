@@ -1,0 +1,314 @@
+
+SQL Performance Optimization (Interview Questions & Real-Time Examples)
+
+SQL Performance Optimization is the process of making SQL queries execute faster by reducing CPU, memory, disk I/O, and execution time.
+
+1. How do you optimize a slow SQL query?
+..............................................
+Steps
+Use EXPLAIN to analyze the query.
+Create proper indexes.
+Avoid SELECT *.
+Retrieve only required rows.
+Optimize JOINs.
+Replace correlated subqueries with JOINs or CTEs where appropriate.
+Partition large tables.
+Keep database statistics updated.
+
+2. Use EXPLAIN
+..............................................
+Before optimization:
+
+EXPLAIN
+SELECT *
+FROM Customer
+WHERE CustomerId = 10;
+
+Output:
+
+type : ALL
+rows : 1000000
+Extra : Using where
+
+This indicates a Full Table Scan.
+
+3. Create an Index
+..............................................
+Without Index
+
+SELECT *
+FROM Customer
+WHERE Email='sunil@gmail.com';
+
+Searches every row.
+
+Create Index
+
+CREATE INDEX idx_email
+ON Customer(Email);
+
+Now the database can locate the matching rows much faster.
+
+4. Avoid SELECT *
+..............................................
+❌ Bad
+
+SELECT *
+FROM Customer;
+
+✅ Good
+
+SELECT CustomerId,
+       CustomerName
+FROM Customer;
+
+Benefits:
+
+Less memory usage
+Less network traffic
+Better index utilization
+5. Use WHERE Clause
+
+❌
+
+SELECT *
+FROM Transactions;
+
+✅
+
+SELECT *
+FROM Transactions
+WHERE TransactionDate='2026-08-01';
+
+Reads fewer rows.
+
+6. Use Proper JOINs
+..............................................
+❌
+
+SELECT *
+FROM Customer c,
+     Account a
+WHERE c.CustomerId=a.CustomerId;
+
+✅
+
+SELECT c.CustomerName,
+       a.Balance
+FROM Customer c
+INNER JOIN Account a
+ON c.CustomerId=a.CustomerId;
+
+7. EXISTS vs IN
+..............................................
+Large Data
+
+SELECT *
+FROM Customer c
+WHERE EXISTS
+(
+    SELECT 1
+    FROM Account a
+    WHERE a.CustomerId=c.CustomerId
+);
+
+Small List
+
+SELECT *
+FROM Customer
+WHERE CustomerId IN (1,2,3);
+8. WHERE vs HAVING
+
+❌
+
+SELECT AccountType,
+       COUNT(*)
+FROM Account
+GROUP BY AccountType
+HAVING AccountType='Savings';
+
+✅
+
+SELECT AccountType,
+       COUNT(*)
+FROM Account
+WHERE AccountType='Savings'
+GROUP BY AccountType;
+
+WHERE filters before grouping, making it more efficient.
+
+9. Composite Index
+CREATE INDEX idx_name_city
+ON Customer(CustomerName, Address);
+
+Useful Query
+
+SELECT *
+FROM Customer
+WHERE CustomerName='Sunil'
+AND Address='Nellore';
+10. Covering Index
+CREATE INDEX idx_customer
+ON Customer(CustomerId, CustomerName);
+
+Query
+
+SELECT CustomerId,
+       CustomerName
+FROM Customer
+WHERE CustomerId=100;
+
+The database may satisfy the query using only the index.
+
+11. Avoid Functions on Indexed Columns
+
+❌
+
+SELECT *
+FROM Customer
+WHERE UPPER(CustomerName)='SUNIL';
+
+May prevent index usage.
+
+✅
+
+SELECT *
+FROM Customer
+WHERE CustomerName='Sunil';
+12. Pagination
+SELECT *
+FROM Customer
+LIMIT 10 OFFSET 20;
+
+Returns rows 21–30 instead of the entire table.
+
+13. Use LIMIT
+..............................................
+❌
+
+SELECT *
+FROM Account
+ORDER BY Balance DESC;
+
+✅
+
+SELECT *
+FROM Account
+ORDER BY Balance DESC
+LIMIT 10;
+14. Optimize ORDER BY
+
+Create Index
+
+CREATE INDEX idx_balance
+ON Account(Balance);
+
+Query
+
+SELECT *
+FROM Account
+ORDER BY Balance DESC;
+15. Avoid Correlated Subqueries When Possible
+
+❌
+
+SELECT CustomerName
+FROM Customer c
+WHERE EXISTS
+(
+    SELECT 1
+    FROM Account a
+    WHERE a.CustomerId=c.CustomerId
+);
+
+A correlated query can be efficient in some cases, but if it executes repeatedly over very large datasets, consider rewriting it.
+
+✅ JOIN Version
+..............................................
+SELECT DISTINCT c.CustomerName
+FROM Customer c
+JOIN Account a
+ON c.CustomerId=a.CustomerId;
+16. Partition Large Tables
+
+Example
+
+Transactions_2024
+
+Transactions_2025
+
+Transactions_2026
+
+Instead of searching millions of rows in one table.
+
+17. Delete vs Truncate
+
+Delete
+
+DELETE FROM Transactions;
+
+Deletes row by row.
+
+Truncate
+
+TRUNCATE TABLE Transactions;
+
+Faster when removing all rows.
+
+18. Batch Updates
+
+❌
+
+UPDATE Customer
+SET Address='Hyderabad';
+
+Updates every row.
+
+✅
+
+UPDATE Customer
+SET Address='Hyderabad'
+WHERE CustomerId=101;
+19. Index Scan vs Index Seek
+Index Seek	Index Scan
+Searches only matching rows	Reads many index entries
+Very Fast	Slower
+Preferred	Used when necessary
+20. Full Table Scan
+
+Occurs when no suitable index exists.
+
+Example
+
+SELECT *
+FROM Customer
+WHERE Email='abc@gmail.com';
+
+Without an index on Email, the database scans every row.
+
+21. Execution Plan
+EXPLAIN
+SELECT *
+FROM Account
+WHERE Balance > 50000;
+
+Check:
+
+Access type
+Possible keys
+Chosen key
+Rows examined
+Extra information
+22. Real-Time Banking Example
+Problem
+
+Finding an account by account number takes 10 seconds.
+
+SELECT *
+FROM Account
+WHERE AccountNo=1001;
+Solution
+CREATE INDEX idx_account
+ON Account(AccountNo);
+
+Now the database can locate the account directly

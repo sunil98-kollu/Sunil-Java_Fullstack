@@ -1,3 +1,4 @@
+
 Generics allow you to write classes, interfaces, and methods that work with different data types while providing compile-time type safety.
 
 Without Generics:

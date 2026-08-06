@@ -119,7 +119,8 @@ executed just like a normal method by the main Thread.
 
 thread schedular 
 .......................
-A Thread Scheduler is a part of the JVM that decides:
+A Thread Scheduler is a part of the JVM that decides: ,,It manages execution of multiple threads.
+
 
 Which thread should run
 When a thread should run

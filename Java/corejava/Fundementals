@@ -245,7 +245,7 @@ The main() method does not return any value.
 
 main
 
-It is the predefined method name recognized by the JVM as the program's starting point
+It is the predefined method name recognized by the JVM as the programs starting point
 
 String[] args
 
@@ -331,6 +331,36 @@ Command line arguments:
 ........................................
 
 
+The arguments which are passed from the command prompt are called command line arguments.
+
+        Java Test A B C
+
+args[0] args[1] args[2];
+
+args.length=3;
+
+
+→ The main objective of command line arguments is that we can customize the behavior of main().
+
+
+→ Within the main method command line arguments are available in String form.
+
+
+
+Class Test{
+
+        p s v  m(String[] args){
+
+                for(int i=0 ; i<=args.length; i++){
+
+                        sop(args[i]);
+
+                }
+
+}
+
+}
+
 
 
 
@@ -381,7 +411,7 @@ int NuMbEr=30;
 Rule 5: There is no length limit for java identifiers but it is not recommended to take 
 more than 15 lengths.  
  
-Rule 6: We can't use reserved words as identifiers. 
+Rule 6: We cant use reserved words as identifiers. 
 Example:  
  int if=10; --------------invalid 
 Rule 7: All predefined java class names and interface names we use as identifiers.  
@@ -720,7 +750,7 @@ String s='Hello'; ce: incompatible types: char cannot be converted to String
 
 
 
-type ofvariable
+type of variable
 ...........................
 
 primitive variable

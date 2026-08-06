@@ -223,22 +223,370 @@ EX: Start class, pojo classes, entities and form bindings, Config, Constants ...
 
 ---------------------------------------------------
 
-1) @SpringBootTest
+1) @SpringBootTest  Loads the entire Spring Boot application context.
 
-2) @Test
 
-3) @ParameterizedTest
+2) @Test  Marks a method as a JUnit test.
 
-4) @CsvSource
+3) @ParameterizedTest      Runs the same test multiple times using different inputs.
 
-5) @ValueSource
+4) @CsvSource             Multiple inputs.
 
-6) @WebMvcTest
+5) @ValueSource           @ValueSource(ints = {2,4,6,8,10})
 
-7) MockMvcRequestBuilders
+6) @WebMvcTest  Loads only Controller
+Spring MVC Component
 
-8) MockMvc
+7) MockMvcRequestBuilders          Used for creating HTTP Requests.
 
-9) Assertions
+
+8) MockMvc        Used for testing REST APIs without starting Tomcat.
+
+
+9) Assertions         JUnit Assertions verify expected results.
+
 
 -----------------------------------------------------
+
+@SpringBootTest
+Purpose
+
+Loads the entire Spring Boot application context.
+
+Use it for:
+
+Integration Testing
+Service Layer Testing
+Repository Testing
+Complete Application Testing
+Example
+@SpringBootTest
+class AccountServiceTest {
+
+    @Autowired
+    private AccountService accountService;
+
+    @Test
+    void testDeposit() {
+
+        double balance = accountService.deposit(101,5000);
+
+        assertEquals(15000,balance);
+    }
+}
+Real-Time Example
+
+Testing complete Banking Service
+
+Controller
+     ↓
+Service
+     ↓
+Repository
+     ↓
+Database
+
+Entire application is loaded.
+
+2. @Test
+..................................
+Marks a method as a JUnit test.
+
+@Test
+void additionTest(){
+
+    assertEquals(30,10+20);
+
+}
+
+Output
+
+PASS
+3. @ParameterizedTest
+..................................
+Runs the same test multiple times using different inputs.
+
+Example
+@ParameterizedTest
+@ValueSource(ints = {2,4,6,8,10})
+void evenNumberTest(int number){
+
+    assertTrue(number%2==0);
+
+}
+
+Output
+
+2 PASS
+
+4 PASS
+
+6 PASS
+
+8 PASS
+
+10 PASS
+4. @CsvSource
+..................................
+Multiple inputs.
+
+Example
+
+@ParameterizedTest
+@CsvSource({
+
+"10,20,30",
+
+"15,15,30",
+
+"50,50,100"
+
+})
+
+void addTest(int a,int b,int expected){
+
+    assertEquals(expected,a+b);
+
+}
+
+Output
+
+PASS
+
+PASS
+
+PASS
+
+Real-time
+
+Testing EMI Calculator
+
+Loan
+
+Interest
+
+Expected EMI
+..................................
+5. @ValueSource
+..................................
+Single input values.
+
+@ParameterizedTest
+@ValueSource(strings={
+
+"Java",
+
+"Spring",
+
+"JUnit"
+
+})
+
+void stringTest(String name){
+
+    assertFalse(name.isEmpty());
+
+}
+6. @WebMvcTest
+..................................
+Loads only
+
+Controller
+Spring MVC Components
+
+Does NOT load
+
+Service
+Repository
+Database
+
+Usually combined with @MockBean (or @MockitoBean in newer Spring Boot versions) to mock service dependencies.
+
+Example
+..................................
+@WebMvcTest(AccountController.class)
+class AccountControllerTest{
+
+    @Autowired
+    MockMvc mockMvc;
+
+}
+
+Real-time
+
+Testing REST API only.
+
+Browser
+
+↓
+
+Controller
+
+↓
+
+Mock Service
+..................................
+Application starts very fast.
+
+7. MockMvcRequestBuilders
+..................................
+Used for creating HTTP Requests.
+
+Examples
+
+GET
+
+MockMvcRequestBuilders.get("/accounts");
+
+POST
+
+MockMvcRequestBuilders.post("/accounts");
+
+PUT
+
+MockMvcRequestBuilders.put("/accounts/1");
+
+DELETE
+
+MockMvcRequestBuilders.delete("/accounts/1");
+8. MockMvc
+..................................
+Used for testing REST APIs without starting Tomcat.
+
+Example
+
+@WebMvcTest(AccountController.class)
+class AccountControllerTest{
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @Test
+    void testGetAccounts() throws Exception{
+
+        mockMvc.perform(
+
+                MockMvcRequestBuilders.get("/accounts"))
+
+                .andExpect(status().isOk());
+
+    }
+}
+
+Real-time
+
+HTTP Request
+
+↓
+
+MockMvc
+
+↓
+
+Controller
+
+↓
+
+Mock Service
+
+↓
+
+JSON Response
+
+No server is started.
+
+9. Assertions
+..................................
+JUnit Assertions verify expected results.
+
+assertEquals()
+..................................
+assertEquals(100,50+50);
+assertNotEquals()
+..................................
+assertNotEquals(100,20+20);
+assertTrue()
+..................................
+assertTrue(5000>1000);
+assertFalse()
+..................................
+assertFalse(100<50);
+assertNull()
+..................................
+String name=null;
+
+assertNull(name);
+assertNotNull()
+Account account=new Account();
+
+assertNotNull(account);
+assertThrows()
+assertThrows(
+
+ArithmeticException.class,
+
+()->{
+
+int a=10/0;
+
+});
+Complete Controller Test Example
+@WebMvcTest(AccountController.class)
+class AccountControllerTest {
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @MockBean
+    AccountService accountService;
+
+    @Test
+    void getAccountTest() throws Exception {
+
+        when(accountService.getAccount(101))
+                .thenReturn(new Account(101,"Sunil",10000));
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/accounts/101"))
+
+                .andExpect(status().isOk())
+
+                .andExpect(jsonPath("$.name")
+                        .value("Sunil"))
+
+                .andExpect(jsonPath("$.balance")
+                        .value(10000));
+    }
+}
+Interview Questions
+1. Difference between @SpringBootTest and @WebMvcTest?
+..................................
+@SpringBootTest                      	@WebMvcTest
+Loads entire application	     Loads only Controller layer
+Slower                           	Faster
+Integration Testing	              Controller Unit Testing
+Loads Service & Repository          	Uses mocked services
+Starts full Spring context	       Starts MVC slice only
+
+2. Why use MockMvc?
+ ..................................
+Tests REST APIs without starting an embedded server.
+Faster execution.
+Supports GET, POST, PUT, DELETE testing.
+
+3. Difference between @ValueSource and @CsvSource?
+..................................
+@ValueSource	           @CsvSource
+One parameter             	Multiple parameters
+Single input type	                 Multiple values per test case
+Simple data	                         Complex test scenarios
+
+4. What does assertThrows() verify?
+..................................
+It verifies that the expected exception is thrown.
+
+assertThrows(
+    IllegalArgumentException.class,
+    () -> validateAge(15)
+);
+

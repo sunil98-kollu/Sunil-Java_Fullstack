@@ -365,7 +365,8 @@ Static block:
 ..................
  Static blocks will be executed at the time of class loading 
 
-
+instance blocks
+at te time of object creation
 
 Type Casting in Java
 /.......................

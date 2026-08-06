@@ -1,0 +1,637 @@
+
+Java 17
+Spring Boot
+Spring Security
+Spring Data JPA
+MySQL
+Kafka
+Redis
+Docker
+Kubernetes
+AWS
+
+......................
+
+responsility
+.......
+Develop REST APIs
+Database design
+Code reviews
+Bug fixing
+Performance optimization
+Deployment
+Production support
+
+
+3) Spring Boot Starters Used
+spring-boot-starter-web
+spring-boot-starter-data-jpa
+spring-boot-starter-security
+spring-boot-starter-validation
+spring-boot-starter-actuator
+spring-boot-starter-test
+spring-boot-starter-cache
+spring-boot-starter-aop
+spring-boot-starter-amqp
+spring-boot-starter-oauth2-resource-server
+
+
+yml is prefer
+..
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/bankdb
+    username: root
+    password: root
+........................
+
+4) Handle Transactions
+
+Using
+
+@Transactional
+public void transferMoney(...)
+
+Rollback occurs automatically on RuntimeException.
+
+Can specify
+
+@Transactional(
+rollbackFor = Exception.class
+)
+
+Features
+
+Commit
+Rollback
+Isolation
+Propagation
+
+5) Two Databases with Rollback
+..............................
+Options
+
+Local Transaction
+
+Each datasource has its own TransactionManager.
+
+PrimaryTransactionManager
+
+SecondaryTransactionManager
+
+For distributed transactions
+
+Use
+
+Saga Pattern
+XA Transaction
+JTA
+Atomikos
+Narayana
+
+Mostly Microservices use Saga Pattern.
+
+
+6) Code Coverage
+.................
+Tools
+
+JaCoCo
+SonarQube
+
+Coverage includes
+
+Unit Tests
+Integration Tests
+
+Maintain
+
+80-90%
+
+7) Load Testing
+........................
+Tools
+
+JMeter
+Gatling
+Locust
+
+Check
+
+TPS
+Response Time
+Throughput
+CPU
+Memory
+Error Rate
+
+
+8) JWT
+......................................
+JWT = JSON Web Token
+
+Structure
+
+Header
+Payload
+Signature
+
+Flow
+
+Login
+
+↓
+
+Generate Token
+
+↓
+
+Client Stores Token
+
+↓
+
+Send in Authorization Header
+
+↓
+
+Validate Token
+
+
+9) Secure Microservice Communication
+
+Methods
+
+HTTPS
+Mutual TLS
+OAuth2
+JWT
+API Gateway
+Spring Security
+Service Mesh (Istio)
+
+10) Retry Mechanism
+........................
+Spring Retry
+
+@Retryable
+
+Fallback
+
+@Recover
+
+Can also use
+
+Resilience4j Retry.
+
+11) Blue-Green Deployment
+...................
+Two environments
+
+Blue (Current)
+
+Green (New)
+
+Traffic switches after testing.
+
+Benefits
+
+Zero downtime
+Easy rollback
+
+
+
+2) Deploy to AWS
+
+Pipeline
+
+Git
+
+↓
+
+Jenkins/GitHub Actions
+
+↓
+
+Build Jar
+
+↓
+
+Docker Image
+
+↓
+
+Push to ECR
+
+↓
+
+Deploy to ECS/EKS/EC2
+
+↓
+
+Load Balancer
+
+↓
+
+CloudWatch Monitorin
+
+
+4) Payment Gateway Integration
+
+Flow
+
+Client
+
+↓
+
+Backend
+
+↓
+
+Payment Gateway API
+
+↓
+
+Redirect
+
+↓
+
+Payment Success
+
+↓
+
+Webhook
+
+↓
+
+Update DB
+
+Examples
+
+Razorpay
+Stripe
+PayU
+
+
+
+15) WhatsApp Notification
+
+Use
+
+Meta WhatsApp Business API
+
+or
+
+Twilio
+
+Flow
+
+Application
+
+↓
+
+API
+
+↓
+
+WhatsApp
+
+↓
+
+Customer
+
+
+16) Spring Boot Actuator
+
+Provides monitoring endpoints
+
+Examples
+
+/health
+
+/info
+
+/metrics
+
+/beans
+
+/env
+
+/prometheus
+
+Dependency
+
+spring-boot-starter-actuator
+
+17) Auto Configuration
+
+Spring Boot automatically configures beans based on dependencies.
+
+Example
+
+Add
+
+starter-data-jpa
+
+Automatically configures
+
+DataSource
+EntityManager
+Hibernate
+
+
+
+18) Runner
+
+Interfaces
+
+CommandLineRunner
+
+ApplicationRunner
+
+Used for
+
+Initial Data
+Cache Loading
+Default Admin User
+Startup Validation
+
+
+9) Component Scanning
+
+Automatically scans
+
+@Component
+
+@Service
+
+@Repository
+
+@Controller
+
+@RestController
+
+
+20) Controller vs RestController
+Controller	RestController
+Returns View	Returns JSON
+Used in MVC	REST APIs
+Needs @ResponseBody	Included automatically
+
+
+21) Spring Boot Annotations
+
+Frequently used
+
+@SpringBootApplication
+
+@RestController
+
+@RequestMapping
+
+@GetMapping
+
+@PostMapping
+
+@PutMapping
+
+@DeleteMapping
+
+@Service
+
+@Repository
+
+@Component
+
+@Autowired
+
+@Qualifier
+
+@Value
+
+@Configuration
+
+@Bean
+
+@Transactional
+
+@Scheduled
+
+@EnableScheduling
+
+@Async
+
+@EnableAsync
+
+@ConfigurationProperties
+
+@Profile
+
+@Valid
+
+@ExceptionHandler
+
+@ControllerAdvice
+
+22) Exception Handling
+
+Global
+
+@RestControllerAdvice
+@ExceptionHandler
+
+
+23) ExecutorService
+
+Thread Pool Management
+
+Example
+
+ExecutorService service =
+Executors.newFixedThreadPool(10);
+
+Benefits
+
+Thread Reuse
+Better Performance
+Controlled Concurrency
+
+24) Records & Sealed Classes
+...................................
+Record
+
+public record Employee(
+int id,
+String name
+){}
+
+Immutable Data Holder.
+
+Sealed
+
+sealed class Animal
+permits Dog,Cat{}
+
+Restricts inheritance.
+
+25) Spring Cloud
+...........................
+Provides
+
+Eureka
+Config Server
+Gateway
+OpenFeign
+Circuit Breaker
+Load Balancer
+Distributed Config
+
+
+
+26) Sort HashMap by Values
+map.entrySet()
+.stream()
+.sorted(Map.Entry.comparingByValue())
+.forEach(System.out::println);
+
+
+
+27) Optional
+
+Avoids NullPointerException.
+
+Instead of
+
+if(obj!=null)
+
+Use
+
+Optional.ofNullable(obj)
+.ifPresent(System.out::println);
+
+Methods
+
+of()
+ofNullable()
+empty()
+map()
+flatMap()
+filter()
+orElse()
+orElseGet()
+orElseThrow()
+
+
+28) Profiles
+application-dev.properties
+
+application-test.properties
+
+application-prod.properties
+
+spring.profiles.active=prod
+
+
+29) Pagination
+Pageable pageable =
+PageRequest.of(0,10);
+
+repository.findAll(pageable);
+
+Returns
+
+Page<Employee>
+
+0) Properties vs YML
+Properties	YAML
+key=value	Hierarchical
+Longer	Cleaner
+Simple	Better for complex configs
+
+31) Change Embedded Server
+
+Default
+
+Tomcat
+
+Can replace with
+
+Jetty
+Undertow
+
+Exclude Tomcat dependency.
+
+
+
+32) Scheduled Job Every 2 Hours
+@EnableScheduling
+@Scheduled(cron = "0 0 */2 * * *")
+public void executeJob(){
+
+}
+
+
+33) REST API Versioning
+
+Methods
+
+URI
+
+/v1/users
+
+/v2/users
+
+Header
+
+Accept-Version:2
+
+Query Parameter
+
+?version=2
+
+Media Type
+
+application/vnd.company.v2+json
+
+Most common
+
+URI Versioning
+
+
+
+34) Dockerfile
+FROM eclipse-temurin:17-jdk
+
+WORKDIR /app
+
+COPY target/app.jar app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java","-jar","app.jar"]
+
+
+35) Challenges Faced
+
+Good examples
+
+Performance issues
+Slow SQL queries
+Deadlocks
+Kafka message duplication
+Memory leak
+API timeout
+Third-party API failures
+Database migration
+Deployment failures
+Security vulnerabilities
+
+Always explain:
+
+Problem
+Analysis
+Solution
+Result
+

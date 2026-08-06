@@ -395,7 +395,13 @@ public class AppSecurityConfig {
 	}
 }
 
-
+When should you disable CSRF?
+Disable CSRF if:
+REST APIs using JWT (Bearer Token)
+OAuth2 Resource Server
+Mobile applications
+Microservices
+APIs that are stateles
 
 repo
 ...................
@@ -739,12 +745,53 @@ public String adminData() {
 
 
 
+@EnableWebSecurity	Enables Spring Security configuration
+@EnableMethodSecurity	Enables method-level security
+@PreAuthorize	Checks authorization before method execution
+@PostAuthorize	Checks authorization after method execution
+@Secured	Restricts access based on roles
+@RolesAllowed	JSR-250 role-based authorization
+@AuthenticationPrincipal	Gets logged-in user details
+@CurrentSecurityContext	Accesses the current security context
+@CrossOrigin	Enables CORS
+@PermitAll	Allows access to everyone
+@DenyAll	Denies access to everyone
+@WithMockUser	Creates a mock authenticated user for tests
+@WithAnonymousUser	Simulates an anonymous user in tests
+@WithUserDetails	Loads a real user for tests
 
 
+example
+......
 
+@RestController
+@RequestMapping("/bank")
+public class BankController {
 
+    @PermitAll
+    @GetMapping("/offers")
+    public String offers() {
+        return "Today's Offers";
+    }
 
+    @PreAuthorize("hasRole('CUSTOMER')")
+    @GetMapping("/balance")
+    public String balance() {
+        return "Balance = ₹50000";
+    }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/account/{id}")
+    public String deleteAccount(@PathVariable Long id) {
+        return "Account Deleted";
+    }
+
+    @RolesAllowed("MANAGER")
+    @PostMapping("/approve-loan")
+    public String approveLoan() {
+        return "Loan Approved";
+    }
+}
 
 
 

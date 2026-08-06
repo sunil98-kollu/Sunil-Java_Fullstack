@@ -1,0 +1,607 @@
+
+
+cloud
+........................
+deliver of computing services 
+like servers db networking and sw 
+
+processing of accessing high data or app through internet 
+
+
+wt are cloud deployment models 
+..........
+public cloud    shared service over internet 
+private cloud      dedicated to one organization 
+hybrid cloud     both pubic and private cloud
+
+iaas paas saas
+
+iaas :- provids infrastructure( servers storage networking)    ex amazon ec2 
+paas:- pass provides platform for develop and deploy apps    ex google app engine 
+saas:- ready to use software via interner                      salesforce 
+.......................................................
+
+
+
+types 
+
+services models 
+
+ deployment models 
+
+
+
+Ec2 
+...............
+
+ec2  means elastic compute cloud 
+ec2 is a regional service
+ec2 used to create virtual machines 
+
+ec2 instances oe servers or vm servers or vm 
+
+ec2  is a paid services ---> ec2 provide t2.mixro 1 cpu and 1gb ram free tire eligiable for 1 year 
+t3 .micro instances c7i  flex large instance 
+ec2 instances minim billing period 1 hr --? 5mints utlize chestey consider as 1 hr 
+ec2 instance aws will provide default storage and network 
+
+storage will be provided using Ebs services  (elastic block storage)
+network will be provide using vpc services  virtual private cloud 
+
+
+
+name and tag 
+chose AMI           ami id are change based on region 
+instance type 
+freetire 
+t2 or t3.micro                     falimy  3 gnerations  micro  medium large xlarge 2xlarge 
+ --> 1 cpu and 1 gb
+ create key pair
+ network
+ config storagge 
+ summary or review 
+
+
+amazon-linux /centros/redhat   99% --ec2 user
+debian/ubutan
+general purpose  balanced cpu + memory + network 
+compute optmized  morecpu proced inatance 
+mempry optmised  lot of ram data lives on memory  
+storage optmised high read write 
+accelerate computing : gpu support hardware P,G ,trn 
+ high performace computing : high performance computing
+
+ dev/ qa  ==  use  slightly lower confg 
+ t3.medium  c78-flex large 2 cpu 4 gb ram
+
+
+ PEM  privacy enhance mail 
+ PPK  putty private key  software dwara connect 
+
+Method 1: Using PuTTYgen (Recommended)
+Step 1: Open PuTTYgen
+Press Windows key.
+Search for PuTTYgen.
+Open it.
+Step 2: Load the .pem file
+Click Load.
+Change the file filter from PuTTY Private Key Files (*.ppk) to All Files (.).
+Select your .pem file (e.g., aug-devops.pem).
+Step 3: Save as .ppk
+Click Save private key.
+If prompted about saving without a passphrase, click Yes (or set a passphrase if desired).
+Save it as:
+
+Method 2: Using the PuTTY Command-Line Tool
+
+If you have puttygen.exe installed, run:
+
+puttygen aug-devops.pem -o aug-devops.ppk
+
+
+ PEM open ssh terminl dwara connet avachu
+ mobaxterm vscode powershell  super putty dwara connet avachu
+
+ 
+Network
+..
+security group  ec2 instance internet connection  vpc 
+   incoming and outgoing 
+   inbound rules
+   outbound rules
+   ssh   -- secure shell 22  ( every person a role number in btech)
+   http    port default 80
+   https  port 4443
+   rdb 
+
+summary or review 
+
+
+tools 
+gitbash 
+putty
+mobaxterm
+powershell/ terminal 
+web browser
+winscp
+
+
+amazon-linux / centos/redhat 99% --ec2 user
+
+git bash here 
+
+ssh -- secure shell 
+
+$ ssh -i "aug-devops.pem" ec2-user@3.110.176.220
+
+$ ssh -i " Aug-devops.pem" ec2-user@13.60.88.159
+
+
+aug devops.pem  convert to ppk ( putty)
+
+puttygen s/w will use to convert pem to ppk
+
+
+mobexterm  s/w will use to connect ec2 instance using pem file
+
+session ssh advance seting publickey   load pem file ok 
+
+
+powershell  s/w will use to connect ec2 instance using pem file
+ aws ec2 connect lo copy id  , dowload loc open terminal paste
+
+
+
+ [ec2-user@ip-172-31-37-132 ~]$ yum install tree -y
+Error: This command has to be run with superuser privileges (under the root user on most systems).
+
+ [ec2-user@ip-172-31-37-132 ~]$ --> normal user or default user 
+
+ root user switch 
+ sudo -i   super user do , i means initial 
+
+ $ sudo -i
+[root@ip-172-31-37-132 ~]#here all cmd need to execute ( all permisions)
+
+$ normal user 
+# root user or super user 
+
+sudo -i   super user do , i means initial 
+
+pwd  present working directory 
+sudo su  switching users 
+sudo -s 
+exit 
+
+cal 
+cal 2020
+cal -3 ( 3 months print prev present next )
+
+
+Q you want pp to keep runing evven if one data center has a power outage wt should you do 
+
+spread  your resourec at least 2 avalibility 
+
+Q wt is Aws region 
+ is a geographical loc where aws has mul data centers 
+
+ Q) wt is  AZ(avalibility zone)
+ one or more data center  within aws region  each AZ  has independent powe coolimg and network 
+
+Q) y should we deploy resource across mul AZ
+ if one AZ is failure , ahe application continue runnning from other AZ
+
+ .......
+ Q) ec2  instance?
+  elasticcompute  cloud is a virtual server in aws used to run app in cloud 
+
+q) wt is req to launch ec2 
+AMI instance type keyvalue pair security group storae
+
+wt is security group?
+security grouo is a virtual firewall that controls inbound and outbound for an ec2 instance 
+
+
+Q) how do you connect linux ec2 
+
+use ssh key pair 
+ssh - i  key.pem ec2-user@public-ip
+
+wt common linus cmds 
+pwd  show current directory 
+
+is   list files 
+cd change directory 
+mkdir
+rm   remove files / directory 
+cp copy files 
+mv  move or rename file 
+sudo run cmd as administration 
+
+
+..........
+
+date 
+date "+%Y"   2026 
+date "+%y"   26 
+date "+%M"   08
+date "+%d" 14
+date "+%d-%m-%y" 14--5-2026
+
+date "+%a"  thu
+date "+%A"  thursday 
+date "+%b"  aug
+date "+%B"  august
+
+file cmd
+.........................
+
+touch cmd
+cat cmd 
+editor(vim or vi nano)
+
+touch cmd
+......
+by using touch cmd we can create empty files or zero sized files 
+
+syntax
+touch<filename>
+
+touch demo.txt
+ ls 
+
+ ls -l 
+
+ touch demo.txt  ( not get any error ) it will create alog time stmp 
+
+ multiple files create 
+ touch a.txt  b.txt c.txt 
+ ls -i  --> shows files name 
+
+
+cat cmd
+...............
+cat means concatenate
+cat cmd used to create view merge files and redirect file content 
+
+to display file content
+create a new file 
+ append data to file
+ combine mul files 
+ show line number also 
+
+syntax
+cat> file-name 
+
+ct+d  terminal close 
+
+cat>sample.txt 
+linux is free
+into wsa trovel
+
+above 2 lines content insert 
+
+cat sample.txt  
+
+averride avuudi  above content
+
+append
+cat>>sample.txt
+linux are 
+inter are 
+
+show content  --> cat sample.txt
+                     
+o/p
+.......
+linux is free
+into wsa trovel
+linux are 
+inter are 
+
+
+display file content include line number by using  -n option 
+
+syntax
+..
+ cat -n <file-name>
+ it will display content along with line number
+
+iwant to copy one file to another file 
+
+cat sample.txt >input.txt 
+
+tac
+...........
+reverse of cat cmd 
+it will display file content in reverse order  of lines
+first line will becomes --- last line 
+last line will become  --- first line 
+
+cat output.txt 
+
+this is us 
+this is os 
+
+tac output.txt 
+
+this is os 
+this is us 
+
+
+rev cmd
+.......
+rev means reverse cmd 
+here each line  content will be reverse 
+its is horizontal order
+
+rev output.txt
+
+wc cmd.
+..........
+used to count and display the no of lines words characters in a file 
+
+wc file-name
+
+wc -l file-name   noof  lines 
+
+wc -w   noof words 
+we-c    noof  characters
+wc-lwc     non lines words nofs characters 
+
+
+ls comands
+.....
+we can use  ls command  list out all files and directories present in given directory 
+
+ls : display all files and directorise to alphabetical order of name s
+
+ls
+
+touch a.txt  d.txt s.txt
+
+ls 
+ above files names display 
+
+ ls -r display all files and directory in reverse of alpha betcal order 
+
+ ls-r  --> s.txt d.txt. a.txt 
+ ls -l -->display all files and directories long long listing 
+  aa files ki yalati permiisions unayi  ownership yavaru 
+
+  ls-t -->display all files and dit=rectory  on last modify data and time 
+  recent most is top  ols is bottom 
+ 
+ ls -rt --> s.txt d.txt. a.txt 
+ ls-h display file info in hunam readble format 
+ ls-a a means  all to display inclusinf hidden files 
+   
+   winscp
+   ...................
+   file avaliable in windows  transfer to vm  server
+
+
+
+LINUX EDITORS PERMISSIONS
+..........................
+editors
+comand mode
+insert mode 
+save and quite mode
+
+
+
+editors..
+......
+vi or vim : it is an editor used to edit files on linux env
+in vi editor we have diifft types of modes arre there 
+1 command mode 
+2 insert mode
+3 (save and quite) 
+
+command model.
+.........................
+it is a default mode 
+in cmd we can perform all shortcut functionality 
+
+from comand mode we can enter inset mode  using multiple options are there 
+
+vim  sample.txt
+
+
+sample.txt 5l 116B     1 ,1  1st line 1st char daga unam  ani 
+
+``
+`
+`
+` these are unsed lines 
+pres --> i 
+bach to editor to normal cmd mode  esc key then : operator  :wq ( quitor the editor)
+
+inser mode
+
+i ---> insert before cursor
+a --> append after cursor 
+o open new line below and start inserting
+
+I insert at begning of line 
+A insert at the end of line 
+O open a new line above start inserting
+
+
+:w save file data 
+:q  quite editor 
+:wq save and quite 
+:wql force save and quite
+
+short cut
+.........................
+
+shit +h goto top of page 
+shift+g bottom
+shift+a end of line and you will switch insert mode 
+
+cursor navigation
+.....
+
+k  top arrow 
+j bootm arrow 
+i right arrow 
+h left arrow 
+
+
+3k    3 lines jump  to top 
+
+$ cursor move end of line 
+^  cursor move begning of line 
+H cursor move begning of page 
+M cursor move middle of page 
+
+
+
+     ||
+---       --
+     || 
+
+copy and paste
+...........................
+
+Yanking    
+YY  -- to copy a line (yaning)
+3yy   -- to copy 3 lines 
+yw  to copy word 
+3yw   3 words copy 
+p paste above cursor position 
+p paste the content below cursor position 
+
+dd  delete a line 
+3dd 3 lines will eleted
+d$   cusor a loc lo undo akada nundi end of file ki remove 
+
+dgg  delete from begning of content  
+
+ctrl+xctrl+y enter   file lo content save chestu exit 
+
+
+-rw-r--r--,l  root root may 15 2;3- sample txt 
+
+-rw  owners/usrs 
+ r group permjisons
+  r-- others 
+
+
+
+umask value  user mask just hididng permisions
+based on unmask value default permision will there for file and directions 
+default umask value is  0022
+default permisions for  the file 666 -umask -->\
+directories ---> 777 umask  value 
+
+r   read permisions 
+w write permjisions
+x executable permisons 
+- (hifen) no permisions 
+
+based on umans k values deside permisions 
+
+octal number  0-7 
+ number 
+ octal 0-7  base 8 
+ hexa -decimal  0-9
+  10-15 a-f 16 
+
+decimal 0-9 base 10 
+
+0 no permision
+1 rep executable  permisions
+3 write and executable permisions 
+4 r ead 
+5 read and write 
+7 read write executable ga rep 
+
+
+chmode command use chestam  for above 
+
+chmode  change mode
+
+chmod can be used in 2 methods 
+
+symbolic method or text method 
+
+file permisions umask value use chesi kuda chestam
+
+nano
+...
+
+
+
+crontab  ( like alarm (schedule ))
+.............
+crontab is a tool in linux/unix platform to scheule task to run automaticaly at specified time 
+
+cron background service(demaon) run schedule jobs 
+crontab  file where you write the schedule 
+
+ci/cd 
+ trigger bulds scripts 
+ schedule deployment
+ sync artifactss
+
+crontab -I
+
+yum install cronie -i
+
+ systmmctl start crond
+ systemctl enable  crond
+ systemctl  status crond
+
+
+  *            *         *                      *                                 *
+0-59 min    0-23 hrs  day of month 1 -31     month ni  like kan feb etc        day of weak  sun mon tue   
+
+visit 
+
+crontab guru website 
+
+
+create simple job 
+...........
+ vim test.sh
+
+#!/bin/bash 
+ echo " hi i am larning linux">> input.text ( this content ni this file lo storew chstunam)
+
+   crontab -r ( remove crontab)
+   crontab -i list of crontabs  privide cestundi)
+
+
+user commands
+.....
+
+linux is a multi user based  os 
+
+                  home/ashok 
+               
+ home/ec2 user         vm        home/Sunil
+                 
+                  home/navem
+pwd     
+whoami  
+who   
+ 
+w  
+
+id ec2-user ( id cmd gives particular user account  )
+
+user list 
+
+
+sudo useradd <user-name>   to create user 
+id 
+
+sudo useradd suniluser 
+by default oks user groupid ni kuda create chetundi 
+
+sudo passwd <suer-name>
+
+

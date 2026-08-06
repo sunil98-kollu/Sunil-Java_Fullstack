@@ -1,0 +1,88 @@
+# Client Interview Prep — Q&A (Based on Your Resume)
+
+This covers the kind of questions a client or hiring panel typically asks in a technical interview — intro, experience, projects, tech stack, and behavioral questions — with suggested answers based on your resume.
+
+## 1. Introduction / Summary Questions
+
+### Q1: Tell me about yourself / Walk me through your resume.
+**A:** I'm a Java developer with around 4 years of experience building backend applications using Spring Boot, JPA, and REST/GraphQL APIs. Most recently, I worked as a Software Engineer at Syncron Software (Mize), Hyderabad, where I developed a Warranty Management System using MySQL, and a Knowledge Management Document Publishing System using PostgreSQL and GraphQL. I'm comfortable across the full backend stack — from database design to API development — and I've also picked up frontend basics like Bootstrap, Material UI, and Tailwind CSS to work well with cross-functional teams. I follow agile practices and have consistently delivered projects that earned positive client feedback.
+
+### Q2: What are your key strengths?
+**A:** My core strength is backend development with Java and Spring Boot — specifically designing clean REST and GraphQL APIs and translating business requirements into reliable, maintainable code. I'm also strong with relational databases (MySQL, PostgreSQL) and comfortable writing efficient queries and managing schema design. Beyond the technical side, I communicate well with clients and stakeholders, which helped me deliver multiple projects that earned direct client appreciation.
+
+### Q3: Why are you looking for a change / What are you looking for in your next role?
+**A:** *(This is personal — answer honestly, but a safe template is:)* I've enjoyed my time at Syncron and grown a lot technically, but I'm looking for a role where I can take on more ownership, work with a broader tech stack, and continue growing as a full-stack/backend engineer.
+
+---
+
+## 2. Experience & Role-Based Questions
+
+### Q1: What was your day-to-day role at Syncron Software (Mize)?
+**A:** I worked as a Java Developer, primarily responsible for designing and building backend features — writing REST and GraphQL APIs, working with the database team on schema design, and collaborating with QA and frontend developers in an agile setup. I also handled bug fixes, code reviews, and occasionally supported UAT and client demo sessions.
+
+### Q2: You mentioned "client appreciation for successfully delivering multiple projects" — can you elaborate?
+**A:** On both the Warranty Management System and the Document Publishing System, I made sure to keep communication clear with stakeholders about progress, blockers, and timelines, not just write code in isolation. For example, when requirements changed mid-sprint, I proactively flagged the impact on delivery dates rather than silently absorbing the change, which the client appreciated. Consistently hitting deadlines with clean, tested code across multiple releases is what led to that recognition.
+
+### Q3: How do you handle a situation where a client's requirements are unclear or keep changing?
+**A:** I ask clarifying questions early rather than assuming, and I try to get requirements documented (even briefly) so there's a shared reference point. If requirements change mid-development, I assess the impact on the current sprint, communicate it transparently to the client or product owner, and re-prioritize rather than trying to silently absorb scope creep, which usually just leads to missed deadlines and frustration later.
+
+### Q4: Describe a challenging bug or technical problem you solved.
+**A:** *(Tailor this to a real example, but a strong structure is:)* On the Document Publishing System, we had a case where concurrent edits to the same document were silently overwriting each other's changes. I diagnosed it as a missing concurrency control, implemented optimistic locking with a version column, and added proper error handling so the user was notified and prompted to refresh instead of silently losing data.
+
+---
+
+## 3. Project-Specific Questions
+
+### Q1: Walk me through the Warranty Management System.
+**A:** It's a Java/Spring Boot application backed by MySQL that manages product warranties end-to-end — registration, claims processing, and product validation. I built RESTful APIs for each of these flows: registering a new warranty when a product is purchased, allowing customers or support agents to file and track claims, and validating product/serial data against the warranty records before approving claims.
+
+### Q2: Walk me through the Knowledge Management Document Publishing System.
+**A:** This was a Java/Spring Boot application using PostgreSQL and GraphQL, built to manage the lifecycle of documents within an organization — creation, versioning, publishing workflows, and retrieval. I designed the GraphQL schema and resolvers for creating documents, tracking version history so nothing was ever lost on edits, and managing a publishing workflow (draft → review → published) so content went through proper approval before going live.
+
+### Q3: Why did the team choose GraphQL over REST for the second project, but REST for the first?
+**A:** The Warranty Management System had fairly fixed, predictable data needs per screen (claims list, warranty details), so REST endpoints were simple and sufficient. The Document Publishing System had more varied, nested data requirements — clients often needed a document with selective fields, version history, and related metadata in different combinations — so GraphQL let consumers request exactly the fields they needed in a single call, reducing over-fetching.
+
+### Q4: What was the toughest part of building either of these systems?
+**A:** *(Tailor to your real experience — a plausible answer:)* Handling document versioning cleanly was the trickiest part of the second project — making sure every edit was tracked without bloating the database, and making sure rollback to a previous version was itself auditable rather than a silent overwrite.
+
+---
+
+## 4. Technical Deep-Dive Questions
+
+### Q1: What's the difference between REST and GraphQL, and when would you choose one over the other?
+**A:** REST exposes fixed endpoints that return a fixed shape of data, which is simple and cache-friendly but can lead to over-fetching or under-fetching. GraphQL exposes a single endpoint where the client specifies exactly what fields it needs, which is great for complex, nested data and multiple client types (web, mobile) with different needs — but it adds complexity around caching, query depth limits, and N+1 query handling on the backend.
+
+### Q2: How do you handle asynchronous operations in your applications?
+**A:** On the frontend integration side, I used `async`/`await` and Promises when calling REST/GraphQL APIs with axios or fetch, handling loading and error states explicitly rather than letting failures fail silently. On the backend, I relied on Spring's transactional and exception-handling mechanisms to keep operations consistent even when a downstream call failed.
+
+### Q3: How do you approach API design — REST or GraphQL — for a new feature?
+**A:** I start from the client's actual data needs rather than the database schema, define clear request/response contracts (or GraphQL types), and think about versioning and backward compatibility from the start. I also make sure to add proper validation, error handling, and documentation (I've used Swagger/Postman for this) so other teams can integrate without back-and-forth.
+
+### Q4: What version control practices do you follow?
+**A:** I use Git with feature branches, meaningful commit messages, and pull requests for code review before merging into the main branch. I'm comfortable with common Git CLI commands for rebasing, resolving merge conflicts, and cherry-picking when needed.
+
+### Q5: How do you debug issues in production?
+**A:** I start with logs — I've used Kibana for centralized log analysis — to narrow down where in the request flow the failure occurred, then reproduce locally if possible using Postman to isolate the API call. For deeper issues, I'd add temporary logging or use a debugger in IntelliJ/Eclipse before rolling out a fix.
+
+---
+
+## 5. Behavioral / Soft-Skill Questions (Common in Client Interviews)
+
+### Q1: How do you handle disagreements with a client or product owner about a technical approach?
+**A:** I present my reasoning clearly, with trade-offs (e.g., performance, maintainability, delivery time), and I stay open to their business context, since they often know constraints I don't. If we still disagree, I default to their call, since it's ultimately their product, but I make sure the trade-offs are documented so there's no confusion later.
+
+### Q2: Describe a time you had to work under a tight deadline.
+**A:** *(Tailor to your real experience — structure:)* On one of the releases for the Warranty Management System, we had a compressed timeline due to a client's go-live date. I broke the remaining work into smaller, testable chunks, focused on the highest-priority APIs first, and communicated daily progress to the team so there were no surprises near the deadline.
+
+### Q3: How do you handle feedback or criticism on your code/work?
+**A:** I treat it as useful signal, not personal criticism. If a reviewer points out an issue, I address it directly, and if I disagree, I explain my reasoning respectfully rather than just pushing back — usually we land on a solution that's better than either of our starting points.
+
+### Q4: How do you keep yourself updated with new technologies?
+**A:** I follow release notes for the frameworks I use (Spring Boot, PostgreSQL, GraphQL specs), and I try out new tools/libraries in small side projects before considering them for production work.
+
+### Q5: Why should we hire you / choose you for this project?
+**A:** I bring solid, hands-on backend experience with Java, Spring Boot, and both REST and GraphQL APIs, across both MySQL and PostgreSQL — so I can adapt to whichever stack the project needs. Beyond the technical skills, I communicate clearly with clients and have a track record of delivering on time, which has directly earned client appreciation in my current role.
+
+---
+
+*Tip: For any "describe a time when..." question, use the STAR method — Situation, Task, Action, Result — and keep answers to 60–90 seconds. Practice these out loud rather than reading them verbatim so they sound natural in the room.*

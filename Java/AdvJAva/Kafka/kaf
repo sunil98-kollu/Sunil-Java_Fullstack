@@ -383,3 +383,333 @@ Kafka producers and consumers
 RabbitMQ message queues
 Printer spoolers
 Logging systems
+
+
+
+Spring Boot Kafka Annotations (Interview + Real-Time Examples)
+...............................................
+These are the most commonly used Kafka annotations in Spring Boot Microservices.
+
+
+Frequently Used Kafka Annotations
+Annotation	Purpose
+@EnableKafka	Enables Kafka listener support
+@KafkaListener	Consumes messages from a topic
+@SendTo	Sends the listener result to another topic
+@Payload	Accesses the message body
+@Header	Reads a specific Kafka header
+@Headers	Reads all Kafka headers
+@KafkaHandler	Handles different payload types in one listener
+@RetryableTopic	Retries failed messages before DLT
+@DltHandler	Processes messages from the Dead Letter Topic
+@EmbeddedKafka	Creates an embedded Kafka broker for integration tests
+
+
+
+1. @EnableKafka
+Purpose
+
+Enables Kafka listener detection in the Spring application.
+
+@Configuration
+@EnableKafka
+public class KafkaConfig {
+
+}
+Real-Time
+
+Without @EnableKafka, Spring won't detect methods annotated with @KafkaListener.
+
+2. @KafkaListener
+Purpose
+
+Consumes messages from a Kafka topic.
+
+@Service
+public class PaymentConsumer {
+
+    @KafkaListener(
+            topics = "payment-topic",
+            groupId = "payment-group")
+    public void consume(String message) {
+
+        System.out.println(message);
+    }
+}
+Banking Example
+Payment Service
+
+↓
+
+payment-topic
+
+↓
+
+Notification Service
+
+↓
+
+SMS Sent
+3. @SendTo
+Purpose
+
+Sends the result of a listener method to another topic.
+
+@KafkaListener(topics = "order-topic")
+@SendTo("invoice-topic")
+public String process(String order) {
+
+    return "Invoice Created";
+}
+Flow
+order-topic
+
+↓
+
+Order Consumer
+
+↓
+
+invoice-topic
+4. @Payload
+Purpose
+
+Retrieves the message body.
+
+@KafkaListener(topics = "customer-topic")
+public void receive(@Payload String customer) {
+
+    System.out.println(customer);
+}
+5. @Header
+Purpose
+
+Reads Kafka message headers.
+
+@KafkaListener(topics = "payment-topic")
+public void receive(
+
+        @Payload String payment,
+
+        @Header(KafkaHeaders.RECEIVED_TOPIC)
+        String topic) {
+
+    System.out.println(topic);
+}
+
+Output
+
+payment-topic
+6. @Headers
+Purpose
+
+Reads all Kafka headers.
+
+@KafkaListener(topics = "payment-topic")
+public void receive(
+
+        @Payload String payment,
+
+        @Headers Map<String,Object> headers){
+
+    System.out.println(headers);
+
+}
+7. @KafkaHandler
+Purpose
+
+Handles multiple message types inside one listener class.
+
+@KafkaListener(topics = "employee-topic")
+public class EmployeeListener {
+
+    @KafkaHandler
+    public void handle(Employee employee){
+
+    }
+
+    @KafkaHandler
+    public void handle(String message){
+
+    }
+}
+8. @RetryableTopic
+Purpose
+
+Automatically retries failed messages before sending them to a Dead Letter Topic (DLT).
+
+@RetryableTopic(attempts = "3")
+@KafkaListener(topics = "payment-topic")
+public void process(String payment){
+
+}
+Real-Time
+Payment Topic
+
+↓
+
+Attempt 1
+
+↓
+
+Attempt 2
+
+↓
+
+Attempt 3
+
+↓
+
+Dead Letter Topic
+9. @DltHandler
+Purpose
+
+Handles messages that end up in the Dead Letter Topic.
+
+@DltHandler
+public void deadLetter(String message){
+
+    System.out.println("Failed : " + message);
+
+}
+10. @EmbeddedKafka
+Purpose
+
+Used for Kafka integration testing.
+
+@SpringBootTest
+@EmbeddedKafka
+class KafkaTest {
+
+}
+
+Creates an embedded Kafka broker for tests.
+
+Kafka Producer (No Annotation)
+
+The producer usually uses KafkaTemplate.
+
+@Service
+public class PaymentProducer {
+
+    @Autowired
+    private KafkaTemplate<String,String> kafkaTemplate;
+
+    public void send(String message){
+
+        kafkaTemplate.send("payment-topic", message);
+
+    }
+}
+Real-Time Banking Flow
+Customer Transfer
+
+        │
+
+        ▼
+
+Transaction Service
+
+        │
+
+KafkaTemplate.send()
+
+        │
+
+        ▼
+
+payment-topic
+
+        │
+
+        ▼
+
+@KafkaListener
+
+        │
+
+        ▼
+
+Notification Service
+
+        │
+
+        ▼
+
+SMS Sent
+Complete Example
+Producer
+@Service
+public class PaymentProducer {
+
+    @Autowired
+    KafkaTemplate<String,String> kafkaTemplate;
+
+    public void sendPayment(String payment){
+
+        kafkaTemplate.send("payment-topic",payment);
+
+    }
+
+}
+Consumer
+@Service
+public class PaymentConsumer {
+
+    @KafkaListener(
+            topics = "payment-topic",
+            groupId = "payment-group")
+
+    public void receive(String payment){
+
+        System.out.println(payment);
+
+    }
+
+}
+Common Kafka Header Constants
+KafkaHeaders.RECEIVED_TOPIC
+
+KafkaHeaders.RECEIVED_PARTITION
+
+KafkaHeaders.OFFSET
+
+KafkaHeaders.RECEIVED_TIMESTAMP
+
+KafkaHeaders.GROUP_ID
+
+Example
+
+@KafkaListener(topics="payment-topic")
+public void consume(
+
+@Payload String payment,
+
+@Header(KafkaHeaders.OFFSET)
+long offset){
+
+System.out.println(offset);
+
+}
+Interview Questions
+1. What is @KafkaListener?
+
+It listens to Kafka topics and automatically consumes messages.
+
+2. What is groupId?
+
+Consumers with the same groupId form a consumer group. Within a consumer group, each partition is processed by only one consumer instance.
+
+3. What is a Dead Letter Topic (DLT)?
+
+A topic where messages are sent after exhausting the configured retry attempts, allowing failed messages to be analyzed or reprocessed later.
+
+4. What is @RetryableTopic?
+
+It automatically retries processing a failed Kafka message before routing it to the DLT.
+
+5. What is KafkaTemplate?
+
+KafkaTemplate is the Spring Kafka helper class used by producers to publish messages to Kafka topics.
+
+

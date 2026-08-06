@@ -1,0 +1,382 @@
+
+Spring Cloud
+Top 20 Most Asked Microservice Annotations
+Annotation	Purpose
+@SpringBootApplication	Starts Spring Boot application
+@RestController	Creates REST APIs
+@GetMapping	HTTP GET endpoint
+@PostMapping	HTTP POST endpoint
+@Service	Business logic layer
+@Repository	Data access layer
+@Autowired	Dependency injection
+@Bean	Creates Spring-managed bean
+@Transactional	Database transaction management
+@Entity	JPA entity mapping
+@EnableFeignClients	Enables Feign clients
+@FeignClient	Declares a Feign client
+@CircuitBreaker	Fault tolerance
+@Retry	Automatic retries
+@Scheduled	Scheduled jobs
+@Async	Asynchronous execution
+@EnableMethodSecurity	Enables method-level security
+@KafkaListener	Kafka consumer
+@SpringBootTest	Integration testing
+@Operation	Swagger/OpenAPI documentation
+
+
+1. @SpringBootApplication
+Purpose
+
+Main class annotation.
+
+Combination of
+
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan
+@SpringBootApplication
+public class AccountApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(AccountApplication.class,args);
+    }
+
+}
+2. @RestController
+
+Used for REST APIs.
+
+@RestController
+@RequestMapping("/accounts")
+public class AccountController{
+
+}
+3. @RequestMapping
+
+Maps URL.
+
+@RequestMapping("/accounts")
+4. @GetMapping
+@GetMapping("/{id}")
+public Account getAccount(@PathVariable Long id){
+
+}
+5. @PostMapping
+@PostMapping
+public Account save(@RequestBody Account account){
+
+}
+6. @PutMapping
+@PutMapping("/{id}")
+7. @DeleteMapping
+@DeleteMapping("/{id}")
+8. @RequestBody
+
+Reads JSON request.
+
+public Account save(
+@RequestBody Account account)
+9. @PathVariable
+@GetMapping("/{id}")
+
+public Account get(
+
+@PathVariable Long id){
+
+}
+10. @RequestParam
+@GetMapping
+
+public List<Account> search(
+
+@RequestParam String city){
+
+}
+11. @Service
+
+Business logic.
+
+@Service
+public class AccountService{
+
+}
+12. @Repository
+
+DAO Layer.
+
+@Repository
+public interface AccountRepository
+extends JpaRepository<Account,Long>{
+
+}
+13. @Autowired
+
+Dependency Injection.
+
+@Autowired
+AccountService service;
+
+Constructor injection is preferred in new Spring Boot projects.
+
+14. @Qualifier
+@Autowired
+
+@Qualifier("upiPayment")
+
+Payment payment;
+15. @Primary
+@Primary
+@Component
+class CardPayment
+implements Payment{
+}
+16. @Component
+
+Generic Spring Bean.
+
+@Component
+17. @Configuration
+
+Configuration class.
+
+@Configuration
+18. @Bean
+
+Creates bean manually.
+
+@Bean
+RestTemplate restTemplate(){
+
+return new RestTemplate();
+
+}
+19. @Value
+
+Read properties.
+
+@Value("${server.port}")
+
+private int port;
+20. @ConfigurationProperties
+@ConfigurationProperties(prefix="bank")
+21. @Transactional
+
+Database transaction.
+
+@Transactional
+public void transfer(){
+
+}
+22. @Entity
+@Entity
+23. @Table
+@Table(name="accounts")
+24. @Id
+
+Primary key.
+
+@Id
+25. @GeneratedValue
+@GeneratedValue(
+strategy=GenerationType.IDENTITY)
+26. @Column
+@Column(name="balance")
+27. @OneToMany
+@OneToMany
+
+Example:
+
+Customer → Accounts
+
+28. @ManyToOne
+@ManyToOne
+
+Example:
+
+Many Accounts belong to one Customer.
+
+29. @JoinColumn
+@JoinColumn(name="customer_id")
+30. @JsonIgnore
+
+Avoid infinite recursion.
+
+@JsonIgnore
+31. @JsonManagedReference
+
+Parent.
+
+@JsonManagedReference
+32. @JsonBackReference
+
+Child.
+
+@JsonBackReference
+33. @Valid
+
+Validation.
+
+@PostMapping
+
+public Account save(
+
+@Valid
+
+@RequestBody Account account){
+
+}
+34. Validation Annotations
+@NotNull
+
+@NotBlank
+
+@Email
+
+@Size
+
+@Min
+
+@Max
+
+@Pattern
+35. @ExceptionHandler
+@ExceptionHandler(
+AccountNotFoundException.class)
+36. @ControllerAdvice
+
+Global Exception Handling.
+
+@ControllerAdvice
+37. @EnableFeignClients
+
+Enable Feign.
+
+@EnableFeignClients
+38. @FeignClient
+@FeignClient(name="loan-service")
+39. @EnableDiscoveryClient
+
+Registers service with a discovery server such as Eureka (in modern Spring Cloud setups, this is often optional because auto-configuration can handle registration when the discovery client dependency is present).
+
+@EnableDiscoveryClient
+40. @LoadBalanced
+@Bean
+
+@LoadBalanced
+
+RestTemplate restTemplate(){
+
+}
+41. @CircuitBreaker
+
+Resilience4j
+
+@CircuitBreaker(
+name="paymentService",
+fallbackMethod="fallback")
+42. @Retry
+@Retry(name="payment")
+43. @RateLimiter
+@RateLimiter(name="payment")
+44. @Bulkhead
+@Bulkhead(name="payment")
+45. @TimeLimiter
+@TimeLimiter(name="payment")
+46. @Scheduled
+@Scheduled(cron="0 0 */2 * * *")
+
+Runs every 2 hours.
+
+47. @Async
+@Async
+
+Executes method asynchronously.
+
+48. @EnableAsync
+@EnableAsync
+49. @CrossOrigin
+@CrossOrigin(origins="http://localhost:3000")
+50. Security Annotations
+@EnableWebSecurity
+
+@EnableMethodSecurity
+
+@PreAuthorize
+
+@AuthenticationPrincipal
+51. Kafka Annotations
+@EnableKafka
+
+@KafkaListener
+
+@RetryableTopic
+
+@DltHandler
+52. Testing Annotations
+@SpringBootTest
+
+@WebMvcTest
+
+@Test
+
+@MockBean
+
+@Autowired
+
+@InjectMocks
+
+@ExtendWith(MockitoExtension.class)
+53. Actuator
+@Endpoint
+
+@ReadOperation
+
+@WriteOperation
+54. OpenAPI / Swagger
+@Operation
+
+@Tag
+
+@Parameter
+
+@ApiResponse
+Real-Time Banking Architecture
+Client
+   │
+   ▼
+API Gateway
+   │
+   ▼
+Account Service
+   │
+@RestController
+   │
+@Service
+   │
+@Repository
+   │
+MySQL
+
+          │
+
+Feign Client
+
+          │
+
+Loan Service
+
+          │
+
+Kafka
+
+          │
+
+Notification Service
+
+          │
+
+JWT Security
+
+          │
+
+

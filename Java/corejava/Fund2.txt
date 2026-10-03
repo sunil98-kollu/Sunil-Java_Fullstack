@@ -10,6 +10,16 @@
 8. Conditional operator: (?:) 
 9. Assignment operators: += , -= , *= , /= , %= . . .  
 
+1 Arithmetic Operators — used
+mathematical expressions
+2. Relahonal Operators — used
+compare Ewo values
+3. Logical Operators — used to 
+combine cond&ions
+4 Assignment Operators — used
+assign values
+5. unary Operators — Work with
+single operand
 
 ...........................
 ...........................
@@ -118,7 +128,7 @@ Or address-comparision.
 
 
 
-instanceof operator :  
+instanceof operator :    given an object is perticular class  or not 
 ..............................
  We can use the instanceof operator to check whether the given an object is 
 perticular class  or not 
@@ -247,6 +257,14 @@ variable then explicit type casting is required.
  double salary = 50000.75;
  int amount = (int) salary;   // Explicit conversion
   System.out.println(amount);
+
+Always prefer implicit (widening) casting
+Out :
+d = 10.0
+n = 25
+Note •
+In narrowing casting ,decimal part may be lost.
+Use explicit (narrowing) casting carefully avoid data loss.
 
 
 conditional Operator (? :) 

@@ -1,0 +1,2063 @@
+
+
+public interface FuncInt {
+
+	 void draw();
+	
+}
+
+public class FunctionalInterface {
+
+
+ public static void main(String[] args) {
+	
+ FuncInt fi = ()->{
+	 System.out.println("funcinterface");
+	
+ };
+ fi.draw(); 
+ Function<String, Integer> length = s -> s.length();
+ System.out.println(length.apply("Java"));
+
+ Predicate<Integer> isEven = n -> n % 2 == 0;
+ System.out.println(isEven.test(10));
+
+ 
+}
+ 
+
+
+
+Banking – Filter High Balance Accounts
+import java.util.Arrays;
+import java.util.List;
+
+public class HighBalanceAccounts {
+    public static void main(String[] args) {
+
+        List<Double> balances = Arrays.asList(
+                50000.0, 150000.0, 80000.0, 250000.0);
+
+        balances.stream()
+                .filter(balance -> balance > 100000)
+                .forEach(System.out::println);
+    }
+}
+
+Output
+
+150000.0
+250000.0
+12. Banking – Count Active Accounts
+import java.util.Arrays;
+import java.util.List;
+
+public class ActiveAccounts {
+    public static void main(String[] args) {
+
+        List<String> accounts = Arrays.asList(
+                "ACTIVE", "INACTIVE",
+                "ACTIVE", "ACTIVE");
+
+        long count = accounts.stream()
+                .filter(status -> status.equals("ACTIVE"))
+                .count();
+
+        System.out.println("Active Accounts: " + count);
+    }
+}
+
+Output
+
+Active Accounts: 3
+13. Banking – Find Maximum Transaction
+import java.util.Arrays;
+import java.util.List;
+
+public class MaximumTransaction {
+    public static void main(String[] args) {
+
+        List<Double> transactions = Arrays.asList(
+                5000.0, 25000.0, 12000.0, 80000.0);
+
+        double maxTransaction = transactions.stream()
+                .max(Double::compare)
+                .get();
+
+        System.out.println("Highest Transaction: " + maxTransaction);
+    }
+}
+
+Output
+
+Highest Transaction: 80000.0
+14. Insurance – Filter Eligible Customers
+import java.util.Arrays;
+import java.util.List;
+
+public class EligibleCustomers {
+    public static void main(String[] args) {
+
+        List<Integer> ages = Arrays.asList(
+                15, 25, 40, 65, 30);
+
+        ages.stream()
+                .filter(age -> age >= 18 && age <= 60)
+                .forEach(System.out::println);
+    }
+}
+
+Output
+
+25
+40
+30
+15. Insurance – Sum of Claim Amounts
+import java.util.Arrays;
+import java.util.List;
+
+public class ClaimAmountSum {
+    public static void main(String[] args) {
+
+        List<Double> claims = Arrays.asList(
+                100000.0, 200000.0, 150000.0);
+
+        double total = claims.stream()
+                .mapToDouble(Double::doubleValue)
+                .sum();
+
+        System.out.println("Total Claim Amount: " + total);
+    }
+}
+
+Output
+
+Total Claim Amount: 450000.0
+16. Finance – Salary Processing
+import java.util.Arrays;
+import java.util.List;
+
+public class SalaryProcessing {
+    public static void main(String[] args) {
+
+        List<Double> salaries = Arrays.asList(
+                30000.0, 45000.0, 60000.0, 80000.0);
+
+        salaries.stream()
+                .map(salary ->
+                        salary < 50000
+                                ? salary * 1.10
+                                : salary)
+                .forEach(System.out::println);
+    }
+}
+
+Output
+
+33000.0
+49500.0
+60000.0
+80000.0
+17. Finance – Taxable Income List
+import java.util.Arrays;
+import java.util.List;
+
+public class TaxableIncome {
+    public static void main(String[] args) {
+
+        List<Double> incomes = Arrays.asList(
+                300000.0, 600000.0,
+                800000.0, 450000.0);
+
+        incomes.stream()
+                .filter(income -> income > 500000)
+                .forEach(System.out::println);
+    }
+}
+
+Output
+
+600000.0
+800000.0
+18. E-commerce – Filter Expensive Products
+import java.util.Arrays;
+import java.util.List;
+
+public class ExpensiveProducts {
+    public static void main(String[] args) {
+
+        List<Double> prices = Arrays.asList(
+                5000.0, 15000.0,
+                25000.0, 8000.0);
+
+        prices.stream()
+                .filter(price -> price > 10000)
+                .forEach(System.out::println);
+    }
+}
+
+Output
+
+15000.0
+25000.0
+19. E-commerce – Sort Product Prices
+import java.util.Arrays;
+import java.util.List;
+
+public class SortProductPrices {
+    public static void main(String[] args) {
+
+        List<Double> prices = Arrays.asList(
+                15000.0, 5000.0,
+                25000.0, 8000.0);
+
+        prices.stream()
+                .sorted()
+                .forEach(System.out::println);
+    }
+}
+
+Output
+
+5000.0
+8000.0
+15000.0
+25000.0
+20. E-commerce – Count Out-of-Stock Products
+import java.util.Arrays;
+import java.util.List;
+
+public class OutOfStockProducts {
+    public static void main(String[] args) {
+
+        List<Integer> stock = Arrays.asList(
+                10, 0, 25, 0, 15, 0);
+
+        long count = stock.stream()
+                .filter(quantity -> quantity == 0)
+                .count();
+
+        System.out.println("Out Of Stock Products: " + count);
+    }
+}
+
+Output
+
+Out Of Stock Products: 3
+
+
+
+filter() + map() Together
+
+Filter salaries above ₹50,000 and then add a bonus of ₹5,000.
+
+import java.util.Arrays;
+import java.util.List;
+
+public class FilterMapExample {
+    public static void main(String[] args) {
+
+        List<Integer> salaries =
+                Arrays.asList(30000, 60000, 70000, 40000);
+
+        salaries.stream()
+                .filter(salary -> salary > 50000)
+                .map(salary -> salary + 5000)
+                .forEach(System.out::println);
+    }
+}
+Output
+65000
+75000
+What is flatMap()?
+
+flatMap() is used when each element contains a collection, and you want a single flattened stream.
+
+Example
+import java.util.Arrays;
+import java.util.List;
+
+public class FlatMapExample {
+    public static void main(String[] args) {
+
+        List<List<String>> departments = Arrays.asList(
+                Arrays.asList("Sunil", "Ravi"),
+                Arrays.asList("John", "David")
+        );
+
+        departments.stream()
+                .flatMap(List::stream)
+                .forEach(System.out::println);
+    }
+}
+Output
+Sunil
+Ravi
+John
+David
+Interview Question: map() vs flatMap()
+Using map()
+List<List<String>> list = Arrays.asList(
+        Arrays.asList("A", "B"),
+        Arrays.asList("C", "D"));
+
+list.stream()
+    .map(x -> x)
+    .forEach(System.out::println);
+
+Output:
+
+[A, B]
+[C, D]
+
+Using flatMap()
+....
+list.stream()
+    .flatMap(List::stream)
+    .forEach(System.out::println);
+
+Output:
+
+A
+B
+C
+D
+One-Line Interview Answer
+filter() → Select elements.
+map() → Transform elements.
+flatMap() → Transform and flatten nested collections into a single stream.
+
+
+
+
+Frequently Asked Stream API Interview Methods
+filter()    // Select records based on condition
+map()       // Transform data
+sorted()    // Sort elements
+distinct()  // Remove duplicates
+count()     // Count records
+max()       // Maximum value
+min()       // Minimum value
+sum()       // Sum values (IntStream/DoubleStream)
+collect()   // Convert Stream to List/Set
+forEach()   // Iterate and print
+
+
+
+-> Intermediate Operational methods will perform operations on the stream and returns a new Stream
+
+					Ex: filter ( ) , map ( ) etc....
+
+
+-> Terminal Operational methods will take input and will provide result as output.
+
+					Ex:  count ( ) 
+
+
+
+Interview Answer
+Intermediate Operations
+filter()
+map()
+flatMap()
+sorted()
+distinct()
+limit()
+skip()
+peek()
+
+
+Terminal Operations
+
+
+forEach()
+collect()
+count()
+reduce()
+min()
+max()
+findFirst()
+findAny()
+anyMatch()
+allMatch()
+noneMatch()
+
+
+Stream API Interview Examples
+1. filter()
+...............................
+Filters elements based on a condition.
+
+List<Integer> numbers = Arrays.asList(10, 20, 30, 40, 50);
+
+numbers.stream()
+       .filter(n -> n > 30)
+       .forEach(System.out::println);
+
+Output
+................
+40
+50
+2. map()
+....................
+Transforms each element.
+
+List<String> names = Arrays.asList("sunil", "ravi");
+
+names.stream()
+     .map(String::toUpperCase)
+     .forEach(System.out::println);
+
+Output
+
+SUNIL
+RAVI
+
+
+3. .flatMap()
+.................................................
+....................................................
+Flattens nested collections.
+
+List<List<String>> list = Arrays.asList(
+        Arrays.asList("Java", "Spring"),
+        Arrays.asList("React", "JS")
+);
+
+list.stream()
+    .flatMap(List::stream)
+    .forEach(System.out::println);
+
+Output
+
+Java
+Spring
+React
+JS
+4. sorted()
+.................................................
+....................................................
+Sorts elements.
+
+List<Integer> nums = Arrays.asList(40, 10, 30, 20);
+
+nums.stream()
+    .sorted()
+    .forEach(System.out::println);
+
+Output
+
+10
+20
+30
+40
+5. distinct()
+.................................................
+....................................................
+Removes duplicates.
+
+List<Integer> nums = Arrays.asList(10, 20, 20, 30, 30);
+
+nums.stream()
+    .distinct()
+    .forEach(System.out::println);
+
+Output
+
+10
+20
+30
+6. limit()
+.................................................
+....................................................
+Limits the number of elements.
+
+List<Integer> nums = Arrays.asList(10, 20, 30, 40, 50);
+
+nums.stream()
+    .limit(3)
+    .forEach(System.out::println);
+
+Output
+
+10
+20
+30
+7. skip()
+.................................................
+....................................................
+Skips elements.
+
+List<Integer> nums = Arrays.asList(10, 20, 30, 40, 50);
+
+nums.stream()
+    .skip(2)
+    .forEach(System.out::println);
+
+Output
+
+30
+40
+50
+8. peek()
+.................................................
+....................................................
+Used for debugging.
+
+List<Integer> nums = Arrays.asList(10, 20, 30);
+
+nums.stream()
+    .peek(System.out::println)
+    .count();
+
+Output
+
+10
+20
+30
+
+
+
+Terminal Operations
+.................................................
+....................................................
+.................................................
+....................................................
+9. forEach()
+.................................................
+....................................................
+List<String> names = Arrays.asList("Sunil", "Ravi");
+
+names.stream()
+     .forEach(System.out::println);
+10. collect()
+.................................................
+....................................................
+Convert stream to List.
+
+List<Integer> result = Arrays.asList(10, 20, 30)
+                             .stream()
+                             .filter(n -> n > 15)
+                             .collect(Collectors.toList());
+
+System.out.println(result);
+
+Output
+
+[20, 30]
+
+11. count()
+.................................................
+....................................................
+long count = Arrays.asList(10, 20, 30, 40)
+                   .stream()
+                   .filter(n -> n > 20)
+                   .count();
+
+System.out.println(count);
+
+Output
+
+2
+
+12. reduce()
+.................................................
+....................................................
+
+Used for sum/product.
+
+int sum = Arrays.asList(10, 20, 30)
+                .stream()
+                .reduce(0, Integer::sum);
+
+System.out.println(sum);
+
+Output
+
+60
+
+13. min()
+.................................................
+....................................................
+
+int min = Arrays.asList(50, 10, 30)
+                .stream()
+                .min(Integer::compare)
+                .get();
+
+System.out.println(min);
+
+Output
+
+10
+
+14. max()
+
+.................................................
+....................................................
+int max = Arrays.asList(50, 10, 30)
+                .stream()
+                .max(Integer::compare)
+                .get();
+
+System.out.println(max);
+
+Output
+
+50
+15. findFirst()
+.................................................
+....................................................
+
+int first = Arrays.asList(10, 20, 30)
+                  .stream()
+                  .findFirst()
+                  .get();
+
+System.out.println(first);
+
+Output
+
+10
+16. findAny()
+int value = Arrays.asList(10, 20, 30)
+                  .stream()
+                  .findAny()
+                  .get();
+
+System.out.println(value);
+
+Output
+
+10
+
+(In parallel streams, it may return any element.)
+
+17. anyMatch()
+.................................................
+....................................................
+
+Checks whether at least one element matches.
+
+boolean result = Arrays.asList(10, 20, 30)
+                       .stream()
+                       .anyMatch(n -> n > 25);
+
+System.out.println(result);
+
+Output
+
+true
+18. allMatch()
+.................................................
+....................................................
+
+Checks whether all elements match.
+
+boolean result = Arrays.asList(10, 20, 30)
+                       .stream()
+                       .allMatch(n -> n > 5);
+
+System.out.println(result);
+
+Output
+
+true
+
+
+19. noneMatch()
+.................................................
+....................................................
+Checks whether no element matches.
+
+boolean result = Arrays.asList(10, 20, 30)
+                       .stream()
+                       .noneMatch(n -> n > 50);
+
+System.out.println(result);
+
+Output
+
+true
+
+Most Asked Interview Combination
+
+List<String> names = Arrays.asList(
+        "Sunil",
+        "Ravi",
+        "John",
+        "Sunil"
+);
+
+List<String> result = names.stream()
+                           .filter(name -> name.length() > 4)
+                           .map(String::toUpperCase)
+                           .distinct()
+                           .sorted()
+                           .collect(Collectors.toList());
+
+System.out.println(result);
+
+Output
+
+[JOHN, SUNIL]
+Interview Explanation
+filter() → Select records.
+map() → Transform records.
+distinct() → Remove duplicates.
+sorted() → Sort data.
+collect() → Convert Stream to List
+
+
+1) distinct ( )  => To get unique elements from the Stream
+
+2) limit ( long maxSize )  => Get elements from the stream based on given size
+
+3) skip (long n)  => It is used to skip given number of elements from starting position of the stream 
+
+///......................................///////////////////////////////////
+
+Optional in Java 8
+
+Optional is a container object used to avoid NullPointerException.
+
+1. Optional.of()
+.....................................
+.......................................
+Used when value is definitely not null.
+
+import java.util.Optional;
+
+public class OptionalOfExample {
+    public static void main(String[] args) {
+
+        Optional<String> name = Optional.of("Sunil");
+
+        System.out.println(name.get());
+    }
+}
+
+Output
+
+Sunil
+2. Optional.ofNullable()
+.....................................
+.......................................
+
+Used when value may be null.
+
+import java.util.Optional;
+
+public class OptionalOfNullableExample {
+    public static void main(String[] args) {
+
+        String name = null;
+
+        Optional<String> optional = Optional.ofNullable(name);
+
+        System.out.println(optional.isPresent());
+    }
+}
+
+Output
+
+false
+3. Optional.empty()
+.....................................
+.......................................
+Creates an empty Optional.
+
+import java.util.Optional;
+
+public class EmptyExample {
+    public static void main(String[] args) {
+
+        Optional<String> optional = Optional.empty();
+
+        System.out.println(optional.isPresent());
+    }
+}
+
+Output
+
+false
+4. isPresent()
+.....................................
+.......................................
+Checks whether a value exists.
+
+import java.util.Optional;
+
+public class IsPresentExample {
+    public static void main(String[] args) {
+
+        Optional<String> name = Optional.of("Sunil");
+
+        if(name.isPresent()) {
+            System.out.println("Value Found");
+        }
+    }
+}
+
+Output
+
+Value Found
+5. ifPresent()
+.....................................
+.......................................
+Executes code only if value exists.
+
+import java.util.Optional;
+
+public class IfPresentExample {
+    public static void main(String[] args) {
+
+        Optional<String> name = Optional.of("Sunil");
+
+        name.ifPresent(System.out::println);
+    }
+}
+
+Output
+
+Sunil
+6. orElse()
+.....................................
+.......................................
+Returns default value if Optional is empty.
+
+import java.util.Optional;
+
+public class OrElseExample {
+    public static void main(String[] args) {
+
+        String name = null;
+
+        String result =
+                Optional.ofNullable(name)
+                        .orElse("Default User");
+
+        System.out.println(result);
+    }
+}
+
+Output
+
+Default User
+7. orElseGet()
+.....................................
+.......................................
+
+Default value generated using Supplier.
+
+import java.util.Optional;
+
+public class OrElseGetExample {
+    public static void main(String[] args) {
+
+        String result =
+                Optional.ofNullable(null)
+                        .orElseGet(() -> "Generated User");
+
+        System.out.println(result);
+    }
+}
+
+Output
+
+Generated User
+8. orElseThrow()
+.....................................
+.......................................
+Throws exception if value is absent.
+
+import java.util.Optional;
+
+public class OrElseThrowExample {
+    public static void main(String[] args) {
+
+        String name = Optional.ofNullable(null)
+                .orElseThrow(() ->
+                        new RuntimeException("Name Not Found"));
+
+        System.out.println(name);
+    }
+}
+
+Output
+
+Exception in thread "main"
+java.lang.RuntimeException: Name Not Found
+
+9. map() with Optional
+.....................................
+.......................................
+Transform value if present.
+
+import java.util.Optional;
+
+public class OptionalMapExample {
+    public static void main(String[] args) {
+
+        Optional<String> name = Optional.of("sunil");
+
+        String result = name
+                .map(String::toUpperCase)
+                .orElse("NA");
+
+        System.out.println(result);
+    }
+}
+
+Output
+
+SUNIL
+
+10. filter() with Optional
+.....................................
+.......................................
+import java.util.Optional;
+
+public class OptionalFilterExample {
+    public static void main(String[] args) {
+
+        Optional<String> name = Optional.of("Sunil");
+
+        Optional<String> result =
+                name.filter(n -> n.length() > 5);
+
+        System.out.println(result.isPresent());
+    }
+}
+
+Output
+
+true
+
+Real-Time Example (Interview Favorite)
+
+Without Optional:
+.....................................
+.......................................
+Employee emp = repository.findById(101);
+
+if(emp != null){
+    System.out.println(emp.getName());
+}
+
+With Optional:
+.....................................
+.......................................
+Optional<Employee> emp =
+        repository.findById(101);
+
+emp.ifPresent(e ->
+        System.out.println(e.getName()));
+
+Or:
+
+String name = repository.findById(101)
+                        .map(Employee::getName)
+                        .orElse("Employee Not Found");
+                        
+                        
+Frequently Asked Interview Question
+Difference between orElse() and orElseGet()
+Optional<String> name = Optional.of("Sunil");
+
+System.out.println(
+        name.orElse(getDefaultName())
+);
+
+getDefaultName() executes even when the value exists.
+
+Optional<String> name = Optional.of("Sunil");
+
+System.out.println(
+        name.orElseGet(() -> getDefaultName())
+);
+
+getDefaultName() executes only when the Optional is empty.
+
+Interview Answer
+Optional.of() → Value must not be null.
+Optional.ofNullable() → Value may be null.
+isPresent() → Check existence.
+ifPresent() → Execute if value exists.
+orElse() → Return default value.
+orElseGet() → Lazily generate default value.
+orElseThrow() → Throw exception if empty.
+map() → Transform Optional value.
+filter() → Apply condition on Optional value.
+
+
+......................................................................................
+......................................................................................
+
+
+optional Real-Time Examples (Spring Boot / Banking / E-commerce)
+..........................
+......................................
+1. Find Employee by ID (Most Common Spring Boot Example)
+..........................
+......................................
+Without Optional:
+..........................
+......................................
+Employee employee = employeeRepository.findById(101);
+
+if(employee != null) {
+    System.out.println(employee.getName());
+}
+
+Problem:
+
+May throw NullPointerException.
+
+With Optional:
+..........................
+......................................
+Optional<Employee> employee =
+        employeeRepository.findById(101);
+
+employee.ifPresent(emp ->
+        System.out.println(emp.getName()));
+        
+2. User Login
+..........................
+......................................
+Optional<User> user =
+        userRepository.findByEmail(email);
+
+if(user.isPresent()) {
+    System.out.println("Login Success");
+} else {
+    System.out.println("User Not Found");
+}
+
+Better:
+
+userRepository.findByEmail(email)
+              .ifPresent(user ->
+                      System.out.println("Login Success"));
+3. Banking – Find Account
+..........................
+......................................
+
+Optional<Account> account =
+        accountRepository.findByAccountNumber("12345");
+
+Account acc = account.orElse(
+        new Account("Guest", 0)
+);
+
+System.out.println(acc.getName());
+
+Output when account not found:
+
+Guest
+4. E-commerce – Find Product
+..........................
+......................................
+
+String productName =
+        productRepository.findById(101)
+                         .map(Product::getName)
+                         .orElse("Product Not Available");
+
+System.out.println(productName);
+
+If product exists:
+
+iPhone 17
+
+If not:
+
+Product Not Available
+
+5. Insurance – Find Policy
+..........................
+......................................
+
+Policy policy =
+        policyRepository.findByPolicyNumber("POL123")
+                        .orElseThrow(() ->
+                                new RuntimeException("Policy Not Found"));
+
+If policy doesn t exist:
+
+RuntimeException: Policy Not Found
+
+6. Employee Salary Processing
+..........................
+......................................
+Optional<Employee> emp =
+        employeeRepository.findById(101);
+
+double salary = emp.map(Employee::getSalary)
+                   .orElse(0.0);
+
+System.out.println(salary);
+
+7. Customer Mobile Number Validation
+..........................
+......................................
+Optional<String> mobile =
+        Optional.ofNullable(customer.getMobile());
+
+String result =
+        mobile.orElse("Mobile Number Missing");
+
+System.out.println(result);
+
+8. REST API Response
+..........................
+......................................
+Service Layer:
+
+public Employee getEmployee(Long id) {
+
+    return employeeRepository.findById(id)
+            .orElseThrow(() ->
+                    new EmployeeNotFoundException(
+                            "Employee Not Found"));
+}
+
+Controller:
+
+@GetMapping("/{id}")
+public Employee getEmployee(@PathVariable Long id) {
+    return employeeService.getEmployee(id);
+}
+
+This is a very common Spring Boot pattern.
+
+9. Configuration Value
+..........................
+......................................
+
+String serverName =
+        Optional.ofNullable(System.getenv("SERVER_NAME"))
+                .orElse("localhost");
+
+System.out.println(serverName);
+
+10. Nested Object Null Handling
+..........................
+......................................
+Without Optional:
+........................................
+......................................
+if(employee != null &&
+   employee.getDepartment() != null) {
+
+    System.out.println(
+        employee.getDepartment().getName());
+}
+
+With Optional:
+..........................................
+.............................................
+String deptName =
+        Optional.ofNullable(employee)
+                .map(Employee::getDepartment)
+                .map(Department::getName)
+                .orElse("No Department");
+
+System.out.println(deptName);
+Spring Boot Interview Question
+Repository Method
+public interface EmployeeRepository
+        extends JpaRepository<Employee, Long> {
+
+}
+
+findById() returns:
+
+Optional<Employee>
+
+Usage:
+
+Optional<Employee> emp =
+        employeeRepository.findById(1L);
+
+or
+
+Employee emp =
+        employeeRepository.findById(1L)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Employee Not Found"));
+Interview Answer
+
+Why Optional?
+..........................
+......................................
+Avoids NullPointerException.
+Makes null handling explicit.
+Improves readability.
+Commonly used in Spring Data JPA (findById() returns Optional<T>).
+Works well with map(), filter(), ifPresent(), orElse(), and orElseThrow().
+
+Most common real-world usage:
+
+Employee employee =
+        employeeRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Employee Not Found"));
+
+This is one of the most frequently asked Optional examples in Spring Boot interviews.
+
+
+
+..............................
+
+predicate
+........
+
+
+public class PersonPrediact {
+
+	public int age ;
+	public String name;
+	
+	PersonPrediact(int age ,String name){
+		this.age=age;
+		this.name=name;
+		
+	}
+	public static void main(String[] args) {
+		
+		PersonPrediact p1=new PersonPrediact(12, "ss");
+		PersonPrediact p2=new PersonPrediact(13, "ss");
+		PersonPrediact p3=new PersonPrediact(14, "ss");
+
+        List<PersonPrediact> list = Arrays.asList(p1, p2, p3);  // Renamed to avoid shadowing
+        
+        Predicate<PersonPrediact> pre = ps -> ps.age >= 13;
+        for (PersonPrediact pref : list) {  
+            if (pre.test(pref)) {     
+                System.out.println(pref.name);  
+            }
+        }
+		
+		
+		 /*
+		 Predicate<Integer> even=e->e%2==0;
+		 System.out.println(even.test(10));
+		 
+		 
+		 Predicate<String> name=n->n=="sunil";
+		 System.out.println(name.test("sunil"));
+		 
+		 Predicate<Integer> ages=age-> age >18;
+		 
+		 if(ages.test(22))
+		 {
+			 System.out.println("eligable");
+		 } else {
+			 System.out.println("mot eliable");
+		 }
+		 */
+		
+		 
+	}
+}
+
+
+...................................
+
+package com.org.Java8;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Stream;
+
+public class Employee {
+   	
+	 private int id;
+	    private String name;
+	    private double salary;
+
+	    public Employee(int id, String name, double salary) {
+	        this.id = id;
+	        this.name = name;
+	        this.salary = salary;
+	    }
+
+	    public double getSalary() {
+	        return salary;
+	    }
+
+	    public String getName() {
+	        return name;
+	    }
+
+	    @Override
+	    public String toString() {
+	        return name + " : " + salary;
+	    } public static void main(String[] args) {
+
+	        List<Employee> employees = Arrays.asList(
+	                new Employee(1, "Sunil", 50000),
+	                new Employee(2, "Ravi", 80000),
+	                new Employee(3, "Kiran", 70000),
+	                new Employee(4, "Raj", 90000)
+	        );
+
+	        Double secondHighestSalary = employees.stream()
+	                .map(Employee::getSalary)
+	                .distinct()
+	                .sorted(Comparator.reverseOrder())
+	                .skip(1)
+	                .findFirst()
+	                .orElse(null);
+
+	        System.out.println(secondHighestSalary);
+	    }
+//	ArrayList<String> a=new ArrayList<String>();
+//			a.add("anil");
+//			a.add("raja");
+//			a.add("rani");
+//			
+//			  Stream<String> s1 = a.stream();
+//
+//		        s1.filter(s2 -> s2.startsWith("a"))
+//		          .forEach(n -> System.out.println(n));
+					 
+
+}
+
+
+
+
+
+.....................
+Collector
+....................
+
+public class CollectorJAva {
+
+	String name;
+	String country;
+	double sal;
+
+	public CollectorJAva(String name, String country,double sal) {
+		this.name = name;
+		this.country = country;
+		this.sal=sal;
+	} 
+	@Override
+	public String toString() {
+		return "Person [name=" + name + ", country=" + country + ",sal=" + sal + "]";
+	}
+	public static void main(String[] args) {
+		
+		CollectorJAva c1= new CollectorJAva("john","usa",122.1);
+		CollectorJAva c2= new CollectorJAva("Stev","USA",2222.2);
+		CollectorJAva c3= new CollectorJAva("ss","Uk",3434.4);
+
+		// create list obj convert into stream()   process data 
+		//.args. collect(Collect .tolist(0 convert filtered stram back to list ))
+        List<CollectorJAva> persons = Arrays.asList(c1,c2,c3);
+		
+		List<CollectorJAva> indians = persons.stream()
+									  .filter(p -> p.country.startsWith("u"))
+									  .collect(Collectors.toList());
+		
+		indians.forEach(i -> System.out.println(i));
+		
+		
+//		List<CollectorJAva> sal=persons.stream()
+//				.filter(p->p.sal>200).collect(Collectors.toList());
+//		
+//		sal.forEach(i-> System.out.println(i));
+	
+		
+		// categorize the data / grouping the data 
+List<CollectorJAva> list = Arrays.asList(c1,c2,c3);
+		
+		Map<String, List<CollectorJAva>> data = list.stream()
+			.collect(Collectors.groupingBy(e -> e.name));
+		
+		System.out.println(data);
+	
+	}
+	
+}
+
+
+
+
+
+
+///////////////////////////
+ 
+
+ 	 1. Current Date
+	 ...............................
+	 ....................................
+import java.time.LocalDate;
+
+public class CurrentDate {
+    public static void main(String[] args) {
+
+        LocalDate today = LocalDate.now();
+
+        System.out.println(today);
+    }
+}
+
+Output
+
+2026-06-01
+
+
+2. Current Time
+
+	 ...............................
+	 ....................................
+	 
+	 import java.time.LocalTime;
+
+public class CurrentTime {
+    public static void main(String[] args) {
+
+        LocalTime time = LocalTime.now();
+
+        System.out.println(time);
+    }
+}
+
+Output
+
+10:30:25.123
+
+3. Current Date and Time
+	 ...............................
+	 ....................................
+import java.time.LocalDateTime;
+
+public class DateTimeExample {
+    public static void main(String[] args) {
+
+        LocalDateTime dateTime = LocalDateTime.now();
+
+        System.out.println(dateTime);
+    }
+}
+4. Specific Date
+	 ...............................
+	 ....................................
+	 
+import java.time.LocalDate;
+
+public class SpecificDate {
+    public static void main(String[] args) {
+
+        LocalDate date = LocalDate.of(2026, 12, 25);
+
+        System.out.println(date);
+    }
+}
+
+Output
+
+2026-12-25
+
+5. Add Days
+	 ...............................
+	 ....................................
+	 
+import java.time.LocalDate;
+
+public class AddDays {
+    public static void main(String[] args) {
+
+        LocalDate today = LocalDate.now();
+
+        System.out.println(today.plusDays(10));
+    }
+}
+
+6. Subtract Months
+	 ...............................
+	 ....................................
+	 
+
+import java.time.LocalDate;
+
+public class MinusMonths {
+    public static void main(String[] args) {
+
+        LocalDate today = LocalDate.now();
+
+        System.out.println(today.minusMonths(2));
+    }
+}
+
+7. Calculate Age
+	 ...............................
+	 ....................................
+	 
+import java.time.LocalDate;
+import java.time.Period;
+
+public class AgeCalculator {
+    public static void main(String[] args) {
+
+        LocalDate dob = LocalDate.of(1998, 5, 20);
+
+        int age = Period.between(dob, LocalDate.now()).getYears();
+
+        System.out.println(age);
+    }
+}
+
+8. Difference Between Two Dates
+	 ...............................
+	 ....................................
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
+public class DateDifference {
+    public static void main(String[] args) {
+
+        LocalDate start = LocalDate.of(2026, 1, 1);
+        LocalDate end = LocalDate.of(2026, 6, 1);
+
+        long days = ChronoUnit.DAYS.between(start, end);
+
+        System.out.println(days);
+    }
+}
+
+9. Date Formatting
+	 ...............................
+	 ....................................
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class DateFormatExample {
+    public static void main(String[] args) {
+
+        LocalDate date = LocalDate.now();
+
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        System.out.println(date.format(formatter));
+    }
+}
+
+Output
+
+01-06-2026
+
+10. Parse String to Date
+	 ...............................
+	 ....................................
+	 
+	 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class ParseDate {
+    public static void main(String[] args) {
+
+        String dateStr = "01-06-2026";
+
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        LocalDate date =
+                LocalDate.parse(dateStr, formatter);
+
+        System.out.println(date);
+    }
+}
+
+
+Real-Time Interview Examples
+	 ...............................
+	 ....................................
+Banking – Loan Due Date
+	 ...............................
+	 ....................................
+LocalDate loanDate = LocalDate.now();
+
+LocalDate dueDate = loanDate.plusMonths(12);
+
+System.out.println("Loan Due Date: " + dueDate);
+
+Insurance – Policy Expiry
+	 ...............................
+	 ....................................
+LocalDate policyStart = LocalDate.now();
+
+LocalDate expiryDate = policyStart.plusYears(1);
+
+System.out.println("Policy Expiry: " + expiryDate);
+E-Commerce – Delivery Date
+	 ...............................
+	 ....................................
+LocalDate orderDate = LocalDate.now();
+
+LocalDate deliveryDate = orderDate.plusDays(5);
+
+System.out.println(deliveryDate);
+
+Frequently Asked Interview Classes
+
+
+Class	Purpose
+
+LocalDate	Date only
+LocalTime	Time only
+LocalDateTime	Date and Time
+Period	Difference in years/months/days
+Duration	Difference in hours/minutes/seconds
+DateTimeFormatter	Format and parse dates
+ChronoUnit	Calculate date differences
+
+
+Interview Answer
+
+LocalDate → Handles date.
+LocalTime → Handles time.
+LocalDateTime → Handles both date and time.
+Period → Calculate age/date differences.
+DateTimeFormatter → Format and parse dates.
+Java 8 Date-Time API is immutable and thread-safe.
+	 
+	 
+	 	 ...............................
+	 ....................................
+	 
+	 Method	Example	Output
+now()	LocalDate.now()	2026-06-01
+of()	LocalDate.of(2026,6,1)	2026-06-01
+getDayOfMonth()	date.getDayOfMonth()	1
+getMonth()	date.getMonth()	JUNE
+getYear()	date.getYear()	2026
+plusDays()	date.plusDays(10)	2026-06-11
+plusMonths()	date.plusMonths(2)	2026-08-01
+plusYears()	date.plusYears(1)	2027-06-01
+minusDays()	date.minusDays(5)	2026-05-27
+isLeapYear()	date.isLeapYear()	false
+isAfter()	date.isAfter(otherDate)	true/false
+isBefore()	date.isBefore(otherDate)	true/false
+
+Method	Example
+now()	LocalTime.now()
+of()	LocalTime.of(10,30)
+getHour()	time.getHour()
+getMinute()	time.getMinute()
+getSecond()	time.getSecond()
+plusHours()	time.plusHours(2)
+plusMinutes()	time.plusMinutes(30)
+minusHours()	time.minusHours(1)
+
+
+Method	Example
+now()	LocalDateTime.now()
+of()	LocalDateTime.of(2026,6,1,10,30)
+getDayOfMonth()	dt.getDayOfMonth()
+getMonth()	dt.getMonth()
+getYear()	dt.getYear()
+getHour()	dt.getHour()
+getMinute()	dt.getMinute()
+plusDays()	dt.plusDays(5)
+minusMonths()	dt.minusMonths(1)
+
+
+
+
+Method	Example
+between()	Period.between(d1,d2)
+getYears()	period.getYears()
+getMonths()	period.getMonths()
+getDays()	period.getDays()
+
+Important Methods
+Method	Example
+between()	Duration.between(t1,t2)
+toHours()	duration.toHours()
+toMinutes()	duration.toMinutes()
+getSeconds()	duration.getSeconds()
+
+
+............................................
+.......................................................
+
+
+package com.org.emp;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+public class Employee {
+
+	int id;
+	String FirstName;
+	String SecondName;
+	double salary;
+	String state;
+	String country;
+	
+	public Employee(int id, String firstName, String secondName, double salary, String state, String country) {
+		this.id = id;
+		FirstName = firstName;
+		SecondName = secondName;
+		this.salary = salary;
+		this.state = state;
+		this.country = country;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getFirstName() {
+		return FirstName;
+	}
+
+	public void setFirstName(String firstName) {
+		FirstName = firstName;
+	}
+
+	public String getSecondName() {
+		return SecondName;
+	}
+
+	public void setSecondName(String secondName) {
+		SecondName = secondName;
+	}
+
+	public double getSalary() {
+		return salary;
+	}
+
+	public void setSalary(double salary) {
+		this.salary = salary;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", FirstName=" + FirstName + ", SecondName=" + SecondName + ", salary=" + salary
+				+ ", state=" + state + ", country=" + country + "]";
+	}
+	
+	public static void main(String[] args) {
+		
+		Employee e1= new Employee(1, "sunil", "kollu", 2000.0,"Ap" , "India");
+		Employee e2= new Employee(2, "sreenu", "boya", 13000.0,"Gugrath" , "India");
+		Employee e3= new Employee(3, "mahesh", "loya", 4000.0,"Hyderabad" , "India");
+		Employee e4= new Employee(4, "balu", "boya", 22000.0,"Delhi" , "UK");
+		Employee e5= new Employee(5, "naveen", "noya", 12000.0,"WDC" , "USA");
+		Employee e6= new Employee(6, "priya", "poya", 122000.0,"Tz" , "NZ");
+
+		
+		List<Employee> emp= Arrays.asList(e1,e2,e3,e4,e5,e6);
+		
+		//filter
+		List<Employee> indians= emp.stream()
+				.filter(e->e.country.startsWith("I"))
+						 .collect(Collectors.toList());
+						//indians.forEach(i -> System.out.println(i));
+
+	   // 	map 
+						List<Double> trans=emp.stream().map(e -> e.salary + 10).collect(Collectors.toList());
+						 //System.out.println(trans);
+	
+	 // flatmap
+						 List<String> ct = emp.stream()
+							        .map(Employee::getCountry)
+							        .collect(Collectors.toList());
+	                     //System.out.println(ct);  //[India, India, India, UK, USA]
+         //sorted
+	             		List<Employee> indians1=  emp.stream() .sorted(Comparator.comparing(Employee::getSalary))
+	             		        .collect(Collectors.toList());
+                         // System.out.println(indians1);
+	   //reverse dec
+                          List<Employee> indians2 = emp.stream()
+                        	        .sorted(Comparator.comparing(Employee::getSalary).reversed())
+                        	        .collect(Collectors.toList());
+
+                        	//System.out.println(indians2);
+                        	
+                        	// Salary ascending
+                        	//.sorted(Comparator.comparing(Employee::getSalary))
+
+                        	// Salary descending
+                        	//.sorted(Comparator.comparing(Employee::getSalary).reversed())
+
+                        	// Name ascending
+                        	//.sorted(Comparator.comparing(Employee::getFirstName))
+
+                        	// Name descending
+                        	//.sorted(Comparator.comparing(Employee::getFirstName).reversed())
+	  //limit 
+	List<Employee> limit= emp.stream().limit(1).collect(Collectors.toList());
+                 //System.out.println(limit);  
+                 
+                 // skip
+                 List<Employee> skp=emp.stream().skip(2).collect(Collectors.toList());
+                 //System.out.println(skp);
+                 
+                 // peek
+                 List<Employee> pk = emp.stream()
+                	        //.peek(e -> System.out.println("Before filter: " + e))
+                	        //.filter(e -> e.getSalary() > 5000)
+                	      //  .peek(e -> System.out.println("After filter: " + e))
+                	        .collect(Collectors.toList());
+
+                	//System.out.println(pk);
+                 
+                 // foreach
+                	List<Employee> each=emp.stream().collect(Collectors.toList());
+                	each.forEach(e->System.out.println(e));
+                	
+                	//count
+                	long count = emp.stream()
+                	        .filter(e -> e.getSalary() > 10000)
+                	        .count();
+                	System.out.println(count);
+                	
+                	// Name starts with S
+                	long counts = emp.stream()
+                	        .filter(e -> e.getFirstName().startsWith("s"))
+                	        .count();
+                	
+                	Optional<Employee> min = emp.stream()
+                	        .min(Comparator.comparing(Employee::getSalary));
+
+                	System.out.println(min.get());
+
+                	Optional<Employee> max = emp.stream()
+                	        .max(Comparator.comparing(Employee::getSalary));
+
+                	System.out.println(max.get());
+                	
+                //	Compares its two arguments for order.  Returns a negative integer,
+                  //  * zero, or a positive integer as the first argument is less than, equal
+                  //  * to, or greater than the second.<p>
+                	
+                	//reduce 
+                	double maxSalary = emp.stream()
+                			.map(Employee::getSalary)
+                	        .reduce(0.0, (a, b) -> a > b ? a : b);
+
+                	System.out.println(maxSalary);
+                	
+                	double minSalary = emp.stream()
+                	        .map(Employee::getSalary)
+                	        .reduce(Double.MAX_VALUE, (a, b) -> a < b ? a : b);
+
+                	System.out.println(minSalary);
+                	//         .....................................
+                	
+                	List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+                	int result = numbers.stream()
+                	        .reduce(1, (a, b) -> a * b);
+
+                	System.out.println(result);
+                	
+                	//
+                	// Total salary
+                	emp.stream()
+                	   .map(Employee::getSalary)
+                	   .reduce(0.0, Double::sum);
+                	
+                	//
+                	// Maximum salary
+                	emp.stream()
+                	   .map(Employee::getSalary)
+                	   .reduce(0.0, Math::max);
+                	//
+                	// Minimum salary
+                	emp.stream()
+                	   .map(Employee::getSalary)
+                	   .reduce(Double.MAX_VALUE, Math::min);
+                	
+                	//
+                	System.out.println(emp.stream().findFirst());
+                	System.out.println(emp.stream().findAny());
+                	
+                	System.out.println(emp.stream().noneMatch(e -> e.getSalary() > 100000));
+                	System.out.println(emp.stream().anyMatch(e -> e.getSalary() > 100));
+                	System.out.println(emp.stream().allMatch(e -> e.getSalary() > 1000));
+
+                 //
+                	
+                	String names = emp.stream()
+                	        .map(Employee::getFirstName)
+                	        .collect(Collectors.joining(", "));
+
+                	System.out.println(names);  //[sunil, sreenu, mahesh, balu, naveen, priya] 
+                	
+                	
+                	//  summingInt
+                	int totalIds = emp.stream()
+                    .collect(Collectors.summingInt(Employee::getId));
+
+                    System.out.println(totalIds);
+                    
+                	//
+                    double totalSalary = emp.stream()
+                            .collect(Collectors.summingDouble(Employee::getSalary));
+
+                    System.out.println(totalSalary);
+                	
+                	//
+                    long counti = emp.stream()
+                            .collect(Collectors.counting());
+
+                    System.out.println(counti);
+                	
+                    long indianCount = emp.stream()
+                            .filter(e -> e.getCountry().equals("India"))
+                            .collect(Collectors.counting());
+                    
+                    //
+                    double averageId = emp.stream()
+                            .collect(Collectors.averagingInt(Employee::getId));
+
+                    System.out.println(averageId);
+                    
+                    //
+                    double averageSalary = emp.stream()
+                            .collect(Collectors.averagingDouble(Employee::getSalary));
+
+                    System.out.println(averageSalary);
+                    
+                    //
+                    
+                    //It groups employees based on a property. 
+                    Map<String, List<Employee>> result1 = emp.stream()
+                            .collect(Collectors.groupingBy(Employee::getCountry));
+
+                    System.out.println(result1);
+                    
+                    
+//                    India → [Sunil, Sreenu, Mahesh]
+//                    		UK    → [Balu]
+//                    		USA   → [Naveen]
+//                    		NZ    → [Priya]
+                    
+                    Map<String, Long> re = emp.stream()
+                            .collect(Collectors.groupingBy(
+                                    Employee::getCountry,
+                                    Collectors.counting()
+                            ));
+
+                    System.out.println(re);
+                    
+//                    India=3
+//                    		UK=1
+//                    		USA=1
+//                    		NZ=1
+                    		
+                    Map<Boolean, List<Employee>> result11 = emp.stream()
+                            .collect(Collectors.partitioningBy(
+                                    e -> e.getSalary() > 10000
+                            ));
+
+                    System.out.println(result11);
+                    		
+                   // mapping() is usually used inside another collector, especially groupingBy().
+
+                   // Group countries and collect employee names instead of Employee objects
+                    Map<String, List<String>> resu = emp.stream()
+                            .collect(Collectors.groupingBy(
+                                    Employee::getCountry,
+                                    Collectors.mapping(
+                                            Employee::getFirstName,
+                                            Collectors.toList()
+                                    )
+                            ));
+
+
+                    System.out.println(resu);
+                    
+//                    India → [sunil, sreenu, mahesh]
+//                    		UK    → [balu]
+//                    		USA   → [naveen]
+//                    		NZ    → [priya]
+                    
+                    //partitioningBy
+                    Map<Boolean, List<Employee>> res = emp.stream()
+                            .collect(Collectors.partitioningBy(
+                                    e -> e.getSalary() > 10000
+                            ));
+
+                    System.out.println(res);
+                    
+                    // tomap
+                    
+                    Map<Integer, Employee> resmap = emp.stream()
+                            .collect(Collectors.toMap(
+                                    Employee::getId,
+                                    e -> e
+                            ));
+
+                    System.out.println("tomap="+resmap);
+                    
+//                    1 → Sunil
+//                    2 → Sreenu
+//                    3 → Mahesh
+//                    4 → Balu
+//                    5 → Naveen
+                    
+                    Map<Integer, String> res1 = emp.stream()
+                            .collect(Collectors.toMap(
+                                    Employee::getId,
+                                    Employee::getFirstName
+                                   
+                            ));
+
+                    System.out.println("res1"+res1);  //{1=sunil, 2=sreenu, 3=mahesh, 4=balu, 5=naveen}
+                    
+                    Map<String, Double> res2 = emp.stream()
+                            .collect(Collectors.toMap(
+                                    Employee::getFirstName,
+                                    Employee::getSalary
+                            ));
+
+                    System.out.println(res2);
+                    
+                   // {sunil=2000.0, sreenu=3000.0, mahesh=4000.0,
+                    		// balu=22000.0, naveen=12000.0, priya=122000.0}
+	}
+}
+
+

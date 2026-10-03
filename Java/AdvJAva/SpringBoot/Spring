@@ -1,0 +1,362 @@
+
+Spring Framework is lightweight, open- source
+Java framework that provides comprehensive
+Infrastructure support for developing enterprise
+applications.
+
+
+Why Spring Framework ?
+...................................
+@ Lightweight and modular
+@ Inversion of Control (IoC)
+Dependency Injection (DI)
+@ Aspect Oriented Programming (AOP)
+Consistent programming model
+Transaction management
+@ Easy integration with other technologies
+@ Test support
+
+y spring work s1
+......................
+Configuration
+Metadata           SpringContainer  Creates andmanages objects  ( Beans )   
+
+Injects
+dependencies
+
+Application
+Ready
+
+spring frame work 
+............
+spring Framework simplifies
+enterprise Java development
+by providins a flexible,
+scalable and easy to maintain
+way to build applications.
+
+What Developers Needed
+.............
+Loose coupling between components
+Easy configuration
+Better testability
+Lightweight framework
+Modular and flexible design
+Consistent prosrarnmins model
+Faster development
+
+
+Features
+............
+ioc di  aop poj old trasaction management 
+Easy to develop
+Easy to maintain
+flexibility, scalability, maintainability and performance.
+ Easy to scale
+
+Web Layer (Spring MVC / WebFlux) 
+|
+Context Layer (Application Context)
+|
+AOP Layer (Aspect Oriented Programming)
+|
+Core Container Layer(Core, Beans, Context,spEL
+|
+Data Access Layer (Data Access / Integration)
+|
+Test Laser(Spring Test)
+
+
+Spring Boot
+For rapid application
+developmen
+    Auto — configuration
+    Standalone apps
+    Embedded servers
+     Production ready features
+
+Spring Cloud
+   Service discovery
+  Config management
+  Circuit breaker
+  Api Gateway, etc
+  
+Spring Data
+
+   JPA, MongoDB, Redis,
+   Cassandra, Elasticsearch
+   Repositories
+   Less boilerplate code
+
+
+Spring Security
+
+    authentication (Users)
+   Authorization (Roles)
+   CSRF, CORS, OAuth2
+    Secure applications
+
+    
+
+    Spring vs Spring Boot
+..........................
+
+Lightweight and modular framework
+Provides core features like IoC, DI,
+AOP, Transaction, etc.
+Requires manual configuration
+uses XML or Java configuration
+External server (Tomcat, Jetty) deployment
+More setup and boilerplate code
+
+Spring Boot
+..............
+Opinionated framework built on top of Spring
+Auto—configuration reduces manual setup
+Embedded servers (Tomcat, Jetty, Undertow)
+Starter dependencies simplify dependency
+management
+Production ready Actuator, Metrics, etc.
+Less More Convention over Configuration
+used for rapid development of
+standalone applications & microservices
+
+Configuration     Manual configuration (XML/         Auto—configuratio  (Minimal setup   Java)         
+Server             External server deployment          Embedded server (Tomcat, Jetty, Undertow)
+
+Dependency management  Manual dependency management     Starter dependencies (pre —configured)
+
+Code & Setup   More boilerplate code                   Less boilerplate, convention over
+
+Development Speed
+Production Ready       Requires extra configuration   Actuator, Health checks, Metrics built—in
+
+ 
+
+
+Classes are highly dependent on
+• Changes one Class affect the
+• Harder to maintain and test
+Less flexible reusable.
+• Requires concrete implementatio
+
+Loose Coupling
+...............
+ Classes have dependency on abstractions (interfaces).
+eS one Class do affect the other
+• Easter to maintain, test and extend
+More flexible reusable.
+• Follows dependency injection (DI)
+
+What loc?
+
+..................
+In IoC, the container creates
+manages objects 
+
+      defines bean                create manage objects s
+developer  ---------------------------   ioc ---------------------------   objects 
+
+Without IoC (Traditional Way)
+
+..................
+UserService userService = new UserService();
+EmailService emailService = new EmailService();
+userService. setEmailService (emailService) ;
+Objects are created and
+managed by us
+
+
+With IoC (Spring way)
+
+.....................
+< bean "user-Serviceti class: "UserService'i/>
+<bean "emailService" class:
+<bem "userService" class:
+<property name: "emailService" ref=
+Objects are created and
+managed by Spring Container
+
+Real-life Analogy
+
+.................
+Think of IoC as a
+restaurant where
+the chef (Spring
+Container) prepares
+and serves the dishes
+(objects) for you
+
+
+Key Takeaway
+
+..........
+Inversion of Control lets you
+focus on business logic while
+Spring takes care of object
+creation, configuration and
+dependency management
+
+In Spring Framework, Dependency Injection can
+be done in different ways. The main types are:
+1. Constructor Injection
+2. Setter Injection
+3. Field Injectio
+
+Constructor
+Injection
+• Dependencies are provided
+through the constructor.
+• It is the most preferred
+way
+
+@component
+class UserService {
+private final EmailService emailService;
+// Constructor Injection
+@Autowired
+public UserService(EmailService emailService) {
+this.emailService = emailService;
+}}
+
+Ensures mandatory dependencies.
+Makes the class Immutable and
+easy to test.
+
+
+Setter
+Injection
+• Dependencies are provided
+through setter methods.
+• Less preferred than
+constructor injection.
+
+
+Component
+class UserService {
+private EmailService emailService;
+// Setter Injection
+@Autowired
+public void setEmailService(
+EmailService emailService) {
+this.emailService = emailService;
+}
+
+Useful for optional dependencies
+Allows re-injection / modification
+of dependencies.
+
+
+Field
+Injection
+• Dependencies are injected
+directly into fields.
+• Least preferred and should
+be avoided.
+
+Component
+class UserService {
+// Field Injection
+@Autowired
+private EmailService emailService•
+}}
+
+ Simple and less code.
+ Harder to test.
+ Breaks encapsulation.
+
+Use Constructor Injection by
+default for clean, testable and
+maintainable code.
+Use Setter Injection for optional
+dependencies and avoid
+Field Injection.
+
+Constructor Injection
+
+.............................@Component
+<bean u = " userService" class = " com.example.UserService " >
+< constructor-arg ref= " userRepos&ory " / >
+< constructor—ars ref= " emailService / >
+< / bean >
+
+
+setter
+.............
+
+< bean = userService•t class = >
+< property name = userRepos±ory " ref= ' userRepository" / >
+< property name = emailService ref= / >
+< /bean>
+
+< bean ld = userServtce" class = com.ex@mple.UserServtce " >
+< property name = ' user-Repos&ory" ref= " userRepos±ory" / >
+< property name = emailServtce" ref= " emailService / >
+<bean>
+
+y  Constructor Injection 
+
+..................
+Constructor Injecåon Is the most recommended way of
+Dependency Injectlon Spring.
+It leads to clean, reliable, and easy to test code
+
+
+Ensures mandatory Dependencies
+Creates Immutable Objects
+Easy to Test
+Fail Fast
+Promotes Loose Coupling
+
+
+Spring IoC Container
+
+.........................
+The Spring IoC (Inversü)n of Control) Container Is
+the core of the Spring Framework.
+It creates, configures, manages, and assembles the
+objects (beans) of your applicaåon and manages thelr Ilfecycle.
+
+What Does IoC Container Do?
+...........
+Instantiates the beans
+Configures the beans (sets properties).
+Manages dependencies between beans.
+Manages the lifecycle of beans
+Provides the beans when requested
+Destroys the beans when needed
+
+configurarion xml anotation    container initlization  bean lifecycle management 
+
+Types of IoC Containers
+1)BeanFactors — The basic container provides basic IoC support
+2) Application container — Advanced container (extends BeanFactory) with
+enterprise features like events, etc.
+
+ In real applications,
+we mostly use
+ApplicationContext
+
+
+BeanFactory
+.................
+BeanFactory Is the root Giterface of the
+Spring IoC contafrter.
+Is responstble for creting, configuring ,
+and managing the beans In a Spring
+apptcation
+
+works
+...
+congigure metadata(xml java config)  bean factory initlization( reads conguration and property file )         bean req ( when a bean is req for getBean() beanfactory looks for bean)            bean creation(if bean not exis it create the bean resolves dependcy and return )     bean usage( The same bean ins€ance is returned to the caller (for singleton scope ) 
+
+ApplicationContext
+.........................
+ApplicationContext an advanced IoC container Spring .
+
+ApplicationContext a sub-interface
+of BeanFactory
+
+              extends
+beanfactory   ...............        applicationContext
+

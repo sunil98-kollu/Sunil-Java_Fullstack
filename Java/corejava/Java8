@@ -504,7 +504,7 @@ Consumer Functional Interface
 
 -> It contains one abstract method i.e accept (T t)
 
--> Consumer will accept input but it won't return anything
+-> Consumer will accept input but it won t return anything
 
 Note: in java 8 forEach ( ) method got introduced. forEach(Consumer consumer) method will take Consumer as parameter.
 
@@ -2346,6 +2346,7 @@ public class OptionalOfNullableExample {
 Output
 
 false
+
 3. Optional.empty()
 .....................................
 .......................................
@@ -2668,7 +2669,7 @@ Policy policy =
                         .orElseThrow(() ->
                                 new RuntimeException("Policy Not Found"));
 
-If policy doesn't exist:
+If policy doesn t exist:
 
 RuntimeException: Policy Not Found
 
@@ -2708,7 +2709,7 @@ public Employee getEmployee(Long id) {
 }
 
 Controller:
-
+.....................
 @GetMapping("/{id}")
 public Employee getEmployee(@PathVariable Long id) {
     return employeeService.getEmployee(id);
@@ -2717,7 +2718,7 @@ public Employee getEmployee(@PathVariable Long id) {
 This is a very common Spring Boot pattern.
 
 9. Configuration Value
-..........................
+..........................,...............
 ......................................
 
 String serverName =

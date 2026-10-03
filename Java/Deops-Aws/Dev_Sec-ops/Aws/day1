@@ -1,0 +1,71 @@
+
+
+EC2
+....
+
+
+
+
+types of ip adress
+..........
+
+public 
+ private
+  elastic 
+
+  public
+   ............
+   which can be access from internt
+  mostly public ip address dynamical  adress 
+  if you stop  and start instance the ip adress will change 
+
+ aws assign public ip adress with ec2 instance 
+   
+ 
+ private
+ ...........
+ cant be accessed from internet 
+ private ip are mostly static ip 
+
+ elastic ip
+ ..................
+ same as public ip adress elatic is static 
+ if you stat and stop ec2 instance the ip adress will not change
+
+ for every aws account you can have 5 elastic ip adress
+
+ elastic ip adress has to be associated with ec2 instance to be used
+
+ 
+Aws EBS
+.......
+elastic block store volume is a block level storage device that you can attach to your ec2 instance
+
+ebs volumes can be used as primary storage and secondary storage 
+ebs volume act as root volume and should created and attached to instance at time of instance launch 
+
+secondary volume can attach and detacahc and modify at any time
+
+configure storage lo utayi  ec2 -->instance 
+
+general purpose
+provision iops 
+throughput optmized 
+cold hdd
+magnetiCI 
+
+ec2 
+
+ec2 : - is an  aws service provide scalable virtaul server in cloud 
+
+security group : acts as firewall for ec2 instace and isstatefu
+
+network acl :  acts as firewall for a subnet and is statless 
+
+wt is AMI in aws
+....... amazon machine image is a preconfigured template used to launch ec2 instance , it include os  app sw , req configuration 
+
+Aws efs , load balancer
+.............................
+
+volumes 

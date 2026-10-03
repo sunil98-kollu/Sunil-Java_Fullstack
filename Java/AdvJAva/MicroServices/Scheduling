@@ -40,10 +40,10 @@ public void m1(){
 }
 
 
-fixedRate : This attribute specifies the interval between the start times of consecutive task executions. It means that the task will be executed at a fixed rate, regardless of the duration of the previous task execution.
+fixedRate :  It means that the task will be executed at a fixed rate, regardless of the duration of the previous task execution.
 
 
-fixedDelay : This attribute specifies the delay between the completion of the previous task execution and the start of the next execution. It means that the task will be executed with a fixed delay after the completion of the previous execution.
+fixedDelay :  It means that the task will be executed with a fixed delay after the completion of the previous execution.
 
 
 ===========================

@@ -1,4 +1,40 @@
 
+Key Points :
+
+JDK (Java Development Kit) — Provides tools to
+develop Java applicaEions.
+
+JRE (Java Runtime Environment) — Provides
+libraries and other files to run Java programs.
+
+(Java Virtual Machine) — Executes Java
+bytecode and provides runtime environment.
+
+JDk |jre| jvm|
+
+     javac                    jvm 
+.java ----- bytecode(.class)  ........machine code
+
+JVM bytecode, not source code
+
+Write Source Code Hello. java
+Compile Source Code Hello.class (Bytecode)
+JVM Class Loader loads class
+Bytecode Verifier verifies the code
+jvm executes the bytecode
+Output is displayed on the screen
+
+
+Remember :
+................
+
+• .java —> Source Code (Human Readable)
+• .class Bytecode (Platform Independent)
+• JVM Executes Bytecode
+• Java = Compile Once, Run Anywher
+
+
+
 Identifier   :- A name in java program is called identifier. It may be class name, method name, 
 variable name and label name. 
 Rule 1: The only allowed characters in java identifiers are:  
@@ -65,10 +101,11 @@ allowed digits are 0 to 9 and a to f (0-9 and a-f)
 int x=0x10; // prefix with 0x or 0X
 
 
-type ofvariable
+type of variable
 ...........................
 
-primitive variable   :  can be used to rep primitive values  9 int short long float double char boolean byte
+primitive variable   :  
+can be used to rep primitive values  9 int short long float double char boolean byte
 ..........
 int x=10;
 
@@ -105,6 +142,9 @@ Belongs To	  Object	                 Class                   	Method/Block
 Memory	       Heap	                     Method Area (Class Area)	      Stack
 Default Value	  Yes	                      Yes	                    No
 
+static   for variable methods locks 
+
+.........................
 class Employee {
 
     int id;          // Instance variable
@@ -336,32 +376,27 @@ The arguments which are passed from the command prompt are called command line a
         Java Test A B C
 
 args[0] args[1] args[2];
-
 args.length=3;
 
-
 → The main objective of command line arguments is that we can customize the behavior of main().
-
 
 → Within the main method command line arguments are available in String form.
 
 
+p class Demo {
 
-Class Test{
-
-        p s v  m(String[] args){
-
-                for(int i=0 ; i<=args.length; i++){
-
-                        sop(args[i]);
-
-                }
-
+     p s v  m(String[] args){
+         sop("Noof argumnt "+ args.length); // ce: cannot find symbol args
+        sop("first argument"+args[0]); // ce: cannot find symbol args
+    }
 }
 
-}
+o/p
+.....
 
-
+java Demo Hello
+op: nof arguments: 1
+noof argument : hello
 
 
 various memory area in java
@@ -451,8 +486,8 @@ Keywords for modifiers:(11)
 8) native  
 9) strictfp(1.2 version)  
 10) transient 
- 
-
+                               
+                                       
 Keywords for exception handling:(6) 
 1) try 
 2) catch 

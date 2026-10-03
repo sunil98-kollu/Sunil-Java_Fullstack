@@ -1,0 +1,50 @@
+linux
+.........
+os : operating sys is a sw 
+act as mediator b/w users and computers
+users will  comunicate with computer using os 
+
+
+windows
+................
+devploed by microsoft 
+windows os is a GUI based
+security features are very less  in widows anti virus s/1 req 
+
+linux kernal os 
+..........................
+
+linux is a free open source 
+linus is a multi user based os 
+linus is highly secured os ---> anti virus  sw is not req 
+linus cli vased os 
+isa comunity based os  --> is highly recomand  for business use app server db server network jenkins sonarqube docker k8s 
+
+
+
+history of linux 
+..............
+linux kernel os developed by linus torvals
+
+unix os 
+unix kernel, minux os -->linux os 
+
+linus +minux --> linux os --> based on c lang developed
+linux distrbution  or linux flavours 
+
+200 linux  distributors 
+amazon-linux  redhat , centos fedora susue linux 
+
+cli os 
+cmd is a instruction 
+linux cmd are case sensitive 
+
+ demo txt     Demo txt    both are difft case sensitive linux cmds 
+
+ arctire
+ .......
+
+ user   shell  kernel   hardware 
+
+ shell very syntax  cmd is valid or not 
+ kernel  its valid shell interpeter  our cmd kernel ki handover 

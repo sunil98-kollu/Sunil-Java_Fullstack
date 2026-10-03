@@ -68,6 +68,8 @@ DROP TEMPORARY TABLE temp_employee;
 Definition: A CTE improves the readability and maintainability of complex SQL queries by breaking them into smaller, reusable parts.
 It is created using the WITH keyword.
 
+It is mainly used to make complex queries easier to read, write, and maintain.
+
 Syntax
 WITH cte_name AS
 (

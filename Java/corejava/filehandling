@@ -356,10 +356,6 @@ println(double d);
          out.close();
 
 
-
-
-
-
 Note :
 The most enhanced writer to write character data to the file is PrintWriter whereas the most enhanced Reader  to read character data from the file is BufferedReader .
 

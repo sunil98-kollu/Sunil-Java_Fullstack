@@ -606,10 +606,10 @@ Output:
 123
 
 Utility methods : 
-1. valueOf() method.  
-2. XXXValue() method.  
-3. parseXxx() method. 
-4. toString() method. 
+1. valueOf() method.    method to create wrapper object for the given primitive or String
+2. XXXValue() method.  create wrapper object for the given primitive or String  
+3. parseXxx() method.   String to corresponding primitive.
+4. toString() method.   convert wrapper object (or) primitive to String. 
 
 valueOf() method :  
 ........................
@@ -702,6 +702,7 @@ class WrapperClassDemo  {
 
 
 parseXxx() method :  
+.........................
 We can use this method to convert String to corresponding primitive.  
  
 Form1 : 
@@ -720,7 +721,8 @@ class WrapperClassDemo {
  } 
 } 
 
-toString() method :  
+toString() method : 
+.................. 
 We can use toString() method to convert wrapper object (or) primitive to String.  
  
 Form 1 :
@@ -734,7 +736,7 @@ class WrapperClassDemo {
 } 
 
 
-Autoboxing
+Autoboxing    :    primitive to object
 .........................................
 
 Automatic conversion of a primitive type into its wrapper object.
@@ -750,7 +752,7 @@ Output:
 100
 
 
-Unboxing
+Unboxing  :  object to primitive
 ......
 Automatic conversion of a wrapper object into a primitive type.
 
@@ -759,7 +761,7 @@ Integer obj = 200;
 int num = obj; // Unboxing
 
 System.out.println(num);
-
+...........................
 Output:
 
 200
@@ -770,6 +772,11 @@ Useful Wrapper Class Methods
 ..............................
 Convert String to Integer
 ..............................
+Integer obj = new Interger(11);
+int a =obj
+syso(a)
+
+////////......................////////
 String str = "100";
 
 int num = Integer.parseInt(str);
@@ -790,8 +797,16 @@ Find Minimum
 System.out.println(Integer.min(10, 20));
 
 
+wraper clss are final cant inheriated 
+== comparing ref 
+equals() methods 
+Integer(10== new Integer(10))// false  cuz 2 diift obj but equals is true
 
+use value of instead of constructor for better perfoemance 
 
+use in collecctions ger=nerics apis 
+
+Null allowed in wrapper  but not in primitive 
 
 
 

@@ -7,7 +7,7 @@ y mt
  wt is thread 
     thread is a lightweight process
     t allows a program to perform multiple tasks simultaneously.
-    thread isa term came from multitasking
+    thread is a term came from multitasking
 
 multithreading is  a part of multitaskig 
 executing multiple task simultanously concept of multiitasking
@@ -1637,6 +1637,590 @@ BlockingQueue-based producer-consumer.
 ForkJoinPool and parallel streams.
 ReentrantLock vs synchronized.
 Race conditions and thread safety in real-world applications.
+
+
+1. Even/Odd Printing Using Two Threads
+......................................................
+Requirement: One thread prints even numbers and another prints odd numbers sequentially.
+
+class EvenOdd {
+
+    private int number = 1;
+    private final int limit = 10;
+
+    public synchronized void printOdd() throws InterruptedException {
+
+        while (number <= limit) {
+
+            if (number % 2 == 0) {
+                wait();
+            } else {
+                System.out.println("Odd  : " + number++);
+                notify();
+            }
+        }
+    }
+
+    public synchronized void printEven() throws InterruptedException {
+
+        while (number <= limit) {
+
+            if (number % 2 != 0) {
+                wait();
+            } else {
+                System.out.println("Even : " + number++);
+                notify();
+            }
+        }
+    }
+}
+public class Main {
+
+    public static void main(String[] args) {
+
+        EvenOdd obj = new EvenOdd();
+
+        Thread odd = new Thread(() -> {
+            try {
+                obj.printOdd();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
+
+        Thread even = new Thread(() -> {
+            try {
+                obj.printEven();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
+
+        odd.start();
+        even.start();
+    }
+}
+Interview points
+wait() releases the monitor.
+notify() wakes one waiting thread.
+synchronized provides mutual exclusion.
+Use while, not if, around wait().
+
+2. Producer-Consumer Using wait() / notify()
+......................................................
+class SharedBuffer {
+
+    private int value;
+    private boolean available = false;
+
+    public synchronized void produce(int value)
+            throws InterruptedException {
+
+        while (available) {
+            wait();
+        }
+
+        this.value = value;
+        available = true;
+
+        System.out.println("Produced: " + value);
+
+        notifyAll();
+    }
+
+    public synchronized int consume()
+            throws InterruptedException {
+
+        while (!available) {
+            wait();
+        }
+
+        int result = value;
+        available = false;
+
+        System.out.println("Consumed: " + result);
+
+        notifyAll();
+
+        return result;
+    }
+}
+Real-time use
+Producer
+   ↓
+Payment Events
+   ↓
+Shared Buffer
+   ↓
+Consumer
+   ↓
+Notification
+
+Modern preferred solution: BlockingQueue.
+
+3. Deadlock
+......................................................
+A deadlock occurs when threads wait indefinitely for locks held by each other.
+
+Thread 1:
+Lock A → waiting for Lock B
+
+Thread 2:
+Lock B → waiting for Lock A
+Prevention
+Always acquire locks in the same order.
+Avoid nested locks where possible.
+Use tryLock() with timeout.
+Keep synchronized sections small.
+
+Example:
+
+if (lock1.tryLock(2, TimeUnit.SECONDS)) {
+    try {
+        // work
+    } finally {
+        lock1.unlock();
+    }
+}
+4. Thread-Safe Singleton — Double-Checked Locking
+......................................................
+class Singleton {
+
+    private static volatile Singleton instance;
+
+    private Singleton() {
+    }
+
+    public static Singleton getInstance() {
+
+        if (instance == null) {
+
+            synchronized (Singleton.class) {
+
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+
+        return instance;
+    }
+}
+Why volatile?
+
+It prevents problematic instruction reordering and ensures threads see the correctly initialized reference.
+
+5. Bank Account Synchronization
+......................................................
+Problem
+
+Two users withdraw money from the same account simultaneously.
+
+class BankAccount {
+
+    private double balance = 10000;
+
+    public synchronized void withdraw(double amount) {
+
+        if (balance >= amount) {
+
+            System.out.println(
+                Thread.currentThread().getName()
+                + " withdrawing " + amount);
+
+            balance -= amount;
+
+        } else {
+
+            System.out.println("Insufficient balance");
+        }
+    }
+
+    public synchronized double getBalance() {
+        return balance;
+    }
+}
+
+Without synchronization:
+
+Initial Balance = ₹10,000
+
+Thread A → withdraw ₹8,000
+Thread B → withdraw ₹8,000
+
+Both may see ₹10,000
+
+Incorrect result
+
+With synchronization:
+
+Thread A → ₹10,000 → ₹2,000
+
+Thread B → ₹2,000 → Insufficient
+
+6. Ticket Booking with Concurrent Users
+......................................................
+class TicketBooking {
+
+    private int seats = 5;
+
+    public synchronized boolean bookTicket(int requested) {
+
+        if (seats >= requested) {
+
+            seats -= requested;
+
+            System.out.println(
+                requested + " tickets booked");
+
+            return true;
+        }
+
+        System.out.println("Not enough seats");
+        return false;
+    }
+}
+Real-world problem
+User A ─┐
+User B ─┼──> Booking Service ──> Seats
+User C ─┘
+
+The critical section must be protected to prevent overselling.
+
+7. ExecutorService and Thread Pool
+......................................................
+Instead of creating threads manually:
+
+ExecutorService executor =
+        Executors.newFixedThreadPool(5);
+
+for (int i = 1; i <= 10; i++) {
+
+    int task = i;
+
+    executor.submit(() ->
+        System.out.println(
+            "Processing " + task));
+}
+
+executor.shutdown();
+Why thread pools?
+
+Creating a new thread for every request is expensive.
+
+1000 Requests
+      ↓
+Thread Pool
+      ↓
+10–20 reusable threads
+
+Advantages:
+
+Thread reuse
+Controlled concurrency
+Better resource management
+
+8. Callable and Future
+......................................................
+Unlike Runnable, Callable can return a value and throw checked exceptions.
+
+ExecutorService executor =
+        Executors.newSingleThreadExecutor();
+
+Callable<Integer> task = () -> {
+
+    return 100 + 200;
+};
+
+Future<Integer> future =
+        executor.submit(task);
+
+System.out.println(future.get());
+
+executor.shutdown();
+
+Output:
+
+300
+future.get()
+
+It blocks until the result is available.
+
+9. CompletableFuture  : is a etension of futire  , allows async programming with non blocking operation 
+.............................................................
+rep result may be avaliable now or in future 
+support async execution abd callabacks 
+
+......................................................
+Useful for asynchronous and dependent operations.
+
+CompletableFuture i provides more flexibility then future 
+
+supplyAsync(Supplier)  runs supplier async and retur CompletableFuture
+thenApplly(Function)  transform result
+thenAccept(Cunsumer) consumes result
+thenRun(Runnable) run after previous stage Completeexceptionally(function) hanf=dle exception 
+join() get result  throw unchecked exception)
+
+
+
+
+CompletableFuture
+    .supplyAsync(() -> getAccountBalance())
+    .thenApply(balance -> balance * 2)
+    .thenAccept(System.out::println);
+Parallel calls
+CompletableFuture<Account> account =
+    CompletableFuture.supplyAsync(
+        () -> getAccount());
+
+CompletableFuture<List<Transaction>> transactions =
+    CompletableFuture.supplyAsync(
+        () -> getTransactions());
+
+CompletableFuture.allOf(
+    account,
+    transactions
+).join();
+Real-time
+Account API ───────┐
+                   ├──> Dashboard
+Transaction API ───┘
+
+Calls can execute concurrently.
+
+10. CountDownLatch vs CyclicBarrier
+......................................................
+CountDownLatch	CyclicBarrier
+One-time synchronization	Reusable
+Threads wait until count reaches zero	Threads wait for each other
+Count cannot be reset	Can be reused
+countDown()	await()
+CountDownLatch
+CountDownLatch latch =
+        new CountDownLatch(3);
+
+Three services finish initialization:
+
+Service A → countDown()
+Service B → countDown()
+Service C → countDown()
+
+          ↓
+
+Main Thread continues
+CyclicBarrier
+CyclicBarrier barrier =
+        new CyclicBarrier(3);
+
+Three threads wait:
+
+Thread A ─┐
+Thread B ─┼──> Barrier ──> Continue
+Thread C ─┘
+11. AtomicInteger vs synchronized
+AtomicInteger
+AtomicInteger count =
+        new AtomicInteger(0);
+
+count.incrementAndGet();
+
+Good for simple atomic operations.
+
+synchronized
+synchronized void increment() {
+    count++;
+}
+
+Useful when protecting multiple operations or a larger critical section.
+
+Interview answer
+
+"AtomicInteger is useful for lock-free atomic operations on a single variable, whereas synchronized protects a critical section and can maintain consistency across multiple shared variables or operations."
+
+
+12. volatile vs synchronized
+......................................................
+volatile	synchronized
+Guarantees visibility	Visibility + mutual exclusion
+Does not provide atomicity for compound operations	Provides atomicity for protected operations
+No locking	Uses monitor locking
+Good for state flags	Good for critical sections
+
+Example:
+
+private volatile boolean running = true;
+
+One thread updates it and another sees the latest value.
+
+But:
+
+volatile int count;
+
+count++;
+
+is not atomic.
+
+count++ is effectively:
+
+read
++
+1
+write
+
+Multiple threads can interfere.
+
+13. BlockingQueue Producer-Consumer
+......................................................
+This is generally preferable to manually implementing wait() / notify().
+
+BlockingQueue<Integer> queue =
+        new ArrayBlockingQueue<>(10);
+
+Producer:
+
+queue.put(100);
+
+Consumer:
+
+Integer value = queue.take();
+Complete idea
+Producer
+   ↓
+BlockingQueue
+   ↓
+Consumer
+
+The queue handles waiting and notification internally.
+
+14. ForkJoinPool
+......................................................
+Designed for divide-and-conquer parallel tasks.
+
+ForkJoinPool pool =
+        new ForkJoinPool();
+
+pool.submit(() -> {
+    // parallel task
+});
+
+It uses work stealing.
+
+Worker 1 → Tasks
+Worker 2 → Tasks
+Worker 3 → Tasks
+
+Idle worker steals work
+from another worker
+
+15. Parallel Streams
+......................................................
+List<Integer> numbers =
+        List.of(1,2,3,4,5,6,7,8,9,10);
+
+numbers.parallelStream()
+       .forEach(System.out::println);
+
+Parallel streams commonly use the common ForkJoinPool.
+
+Be careful
+
+Don't automatically use parallelStream() just because the collection is large.
+
+It may be inappropriate for:
+
+Small datasets
+Blocking I/O
+Shared mutable state
+Tasks where ordering is important
+
+16. ReentrantLock vs synchronized
+......................................................
+synchronized
+public synchronized void withdraw() {
+
+}
+
+ReentrantLock
+private final ReentrantLock lock =
+        new ReentrantLock();
+
+public void withdraw() {
+
+    lock.lock();
+
+    try {
+        // critical section
+    } finally {
+        lock.unlock();
+    }
+}
+
+ReentrantLock provides additional features such as:
+
+tryLock()
+Timed lock acquisition
+Interruptible lock acquisition
+Fairness option
+17. Race Condition
+
+A race condition occurs when multiple threads access shared mutable data and the result depends on execution timing.
+
+Example:
+
+int balance = 10000;
+
+Two threads:
+
+Thread A → read 10000
+Thread B → read 10000
+
+Thread A → subtract 7000
+Thread B → subtract 7000
+
+Incorrect final state
+Solutions
+synchronized
+Lock
+Atomic classes
+Concurrent collections
+Database transactions/locking when state is persisted
+18. Thread Safety in Real-World Banking
+
+Suppose two requests simultaneously transfer money:
+
+Request 1
+₹10,000 transfer
+
+Request 2
+₹8,000 transfer
+
+        ↓
+
+Account Service
+        ↓
+Shared Account
+
+Thread safety alone is not enough if the balance is stored in a database.
+
+A production solution may involve:
+
+API
+ ↓
+Service
+ ↓
+@Transactional
+ ↓
+Database Row Lock / Optimistic Lock
+ ↓
+Update Balance
+
+For example, JPA optimistic locking:
+
+@Version
+private Long version;
+
+This helps detect concurrent updates.
 
 
 1. What is a Thread? 

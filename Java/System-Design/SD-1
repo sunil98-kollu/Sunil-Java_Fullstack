@@ -1,0 +1,203 @@
+
+
+System design
+..............
+ designing large scale 
+  building scalable ,
+   high traffic  , 
+   fault tlorence 
+
+
+high level arc
+............
+         request
+user    ----------   load balnce     application             db 
+
+                                        server 
+                                        server 
+                                        server
+
+                 meaage queue        worker  server 
+
+
+
+how req travel to  internert
+........................
+when  you type url in browser  press enter  , lot of things happen  
+
+main components involved are 
+
+DNS (domain name system)   conver domain name to ip address 
+load balancer  : distrubte incoming req to mul servers 
+application server : process req  and contains business logic  
+reddis  : stores feq accessed data for  faster resp 
+database : stores persistnce data .
+
+
+
+
+---user enter  a url  press enter 
+---browser sends req to DNS server to resolve domain name \DNS return ip address of server 
+---req is sent to load balancerload balance select appliaiton server  
+---application server checks redis cache  to return data 
+   if data found in cache return data 
+   if data not found return data thorugh DB 
+
+Load balancing              distribute the requests to multiple servers.
+......................
+
+
+=> If we run our application in one server then burden will be increased on that server.
+
+		1) Single Server should handle all the load
+
+		2) Burden on server
+
+		3) Response Delay
+
+		4) Server Can crash
+
+		5) Single Point of failure
+
+
+=> To overcome above problems we will run our application in multiple servers so that we can distribute the requests to multiple servers.
+
+
+
+round robin 
+least connection  
+ip hash
+weighted round rabin 
+
+
+
+Appplication server
+,..............................
+process the req contains the busines logic of app  and intrect with cahce /Db  to get data 
+
+how app server works 
+.....................
+                                 cache hit 
+load balnce       app server 1 ............            reddis(cache)        db
+                  app server 2 
+
+
+
+Reddis 
+..................................
+
+store frequest  accees data in memory , reduce load on DB 
+
+
+how i works 
+
+
+common data structure in reddis 
+
+...................
+
+
+evication
+.........
+
+
+
+Database scaling 
+.................
+
+vertical   : increase power of existing servers , easy but has linmited 
+........
+horizontal  : more servers to handles load , distribute load among mul servers , more complex but highly scalable 
+.........
+
+arcture
+....                                         
+
+clients     load balnce         write b  ......            read replica 1 
+                                                        read replica 2
+
+
+                                                         N 
+
+Api  gateway
+...................
+
+ entry point for all apis 
+
+
+
+
+ 6) microservices
+ .........
+ 
+
+
+ 
+ message queue     : is an  used for async communication bw server / app (handling high traffic)
+ ........................
+
+producer  send msg to queue , not wait for  consumer 
+
+queue  : store msg until  consumer reads 
+
+
+consumer  read msg form queue 
+
+
+retry machnism     processing fails,msg can be retrival  (stop data losss)
+
+
+dead letter queue(DLQ)  : msg  fails even after multile retires  moved to DLQ 
+
+
+arcitecture
+....
+            send msg                        deliver msg                      process msg 
+producer     ...........    broker kafka  ......................consumer      ............           db 
+                               |
+                               |       if failed 
+                                retry queue ...............
+                                  |
+                                | if failed after N tries 
+
+                                 dead letter queue(manual handle)..................
+
+
+
+partition(kafka)
+......... 
+topic is divided into mul partitions                           partition 0             0 1 2 3 4 5 
+messages in a partitions are ordered                           partition 1            0 1 2 3 4 5 
+partitions allow parallel processing by comsumer                partition 2          0 1 2 3 4 5 
+each partition has its own ofset 
+
+
+2) consumer group 
+                              
+                                                                              consumer group
+
+each partition cansumed by only one consumer in a group       topic           partion 0    consumer 0
+                                                                              partion 1    consumer 1 
+                                                                              partion 2    consumer 2    
+
+
+ofset 
+.........
+is unique id for each  msg in a partition                      partition 0 
+consumerr commits offset fter processing                  |0|1|2|3|4|5|6|7|8|9| ---- new msg 
+on restart consumer  reads  from ast committed offset 
+
+                                                                               
+
+  retention policy
+
+
+  ordering  gaurentee
+
+  exactly onee processing (kafka)                                                  
+
+
+
+  CDN  (content delivery network)
+  ...................
+

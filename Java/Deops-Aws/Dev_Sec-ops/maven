@@ -1,0 +1,8 @@
+
+
+automate build toold in java projects 
+download jars, compile  code , execute unit testing,packaging jar or war 
+standard  will be package as jar 
+web application will be package as war 
+
+

@@ -226,6 +226,7 @@ Set: UNION, UNION ALL, INTERSECT, EXCEPT/MINUS
 These are the most commonly used SQL operators in querying and manipulating database data.
 
 limit 
+..............
 LIMIT in SQL
 
 The LIMIT clause is used to restrict the number of rows returned by a query.

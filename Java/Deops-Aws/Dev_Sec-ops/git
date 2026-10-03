@@ -1,0 +1,133 @@
+
+
+git  : distribute version control system used to track code among developer 
+
+git pull. push 
+
+pull: download latest changes 
+puh upload local change to remote repo
+
+git commit 
+
+vcs version control system or software configurationmanagement or source code management 
+
+
+
+create folder 
+goto inside folder 
+create some files 
+make it this folder as git golder 
+adding files into stagging 
+commit files 
+create github acc
+create repo 
+add url into local 
+push 
+
+git init   
+git status 
+git add filename
+git commit -m  "initial-project"
+
+
+git stash  temporary save changes 
+git tagging used to mark important points in reposity 
+
+git tagging 
+used to mark impotant points in repo  such as release version (ex v1.0,v20
+
+git rm  git reset 
+
+git rm : remove file from working directory and git tracking )
+
+git reset : unstagged changes or moves the current branch to previous commit without deleting files 
+
+
+git checkout cmd 
+..................
+checkout cmd to discord unstaged changes in tracking  file of woriking directory 
+
+
+app.java    here 3 line contnt add chesam 
+
+git add app.java 
+git commit -m "msg"
+
+2 lines of stmt extra add 
+
+ mkdir project
+ cd project
+ git init 
+ one empty reppo 
+
+ cat app.py( python file )'
+ num1=int(input("enter 1st num))
+  num2=int(input("enter 1st num))
+
+ print("sumis "num1+num2)
+
+git status 
+
+git add python.py
+
+git commit -m "msaa"
+
+git log --oneline
+
+..................................................
+..................................................
+
+git clone <repository>
+
+git switch -c feature/payment
+
+# Write code
+
+git status
+
+git add .
+
+git commit -m "Implement payment API"
+
+git fetch origin
+
+git rebase origin/main
+
+# Resolve conflicts if needed
+
+git push -u origin feature/payment
+
+
+............
+
+reset
+→ moves branch pointer
+→ can rewrite local/shared history
+
+revert
+→ creates a new reverse commit
+→ safer for already-published commits
+
+
+7. What is HEAD?
+....................
+HEAD points to the commit/branch currently checked out.
+
+Example:
+
+HEAD → feature/payment → latest commit
+
+
+git checkout -b feature
+git add c.txt
+git commit -m "txtfile"
+git log --oneline
+
+git checkout master 
+touch e.txt
+git add e.txtfilegit commit -m "MCM"
+git checkout feature 
+git branch (feature) 
+git rebase master 
+
+git merge feature  

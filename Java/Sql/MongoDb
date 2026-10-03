@@ -1,0 +1,47 @@
+
+
+ Database : A container for collections Collecéion : A group Of MongoDB
+documen cs.Documen± : A see Of key-value pairs.
+
+Flexible
+Fast
+Scalable
+a Easy use
+Open Source
+
+SQL (Structured Query Language)
+table -based and schema-bound.
+NoSQL (Not Only SQL) databases
+flexible and schema- less.
+
+
+database            colleageDb 
+collections    grp og mongodb document        students table teachers table 
+document         set of key value value pair      { _id:ObjectId(24r23 name: "mahi ",age:12}
+filed             name:mahi
+value           mahi 
+
+MongoDB stores data in databases collections documents fields —Y values.
+
+mongodb stores data as BSON format 
+BSon is binary rep of json 
+
+
+json  test based , human readable lang independent  stores data sa strong numbers Booleans arrays objects and null 
+Bson  nbinary format not human , designed for efficient storage and processing , storing dociuments
+
+mongoDB arctire
+..............................
+MongoDB Server
+( Database)
+students (Collection )
+_id: age: 21
+_id: 2, name: • Ravi" , 22
+_ d: 3, name: 20
+courses (Collection )
+_ id: I, course: &
+{ _id: 2, course: "DBMS" }
+{ _id; 3, course: "Web Dev- )
+
+Creating DB
+.................

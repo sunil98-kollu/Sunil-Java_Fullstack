@@ -1,4 +1,55 @@
  
+
+Table	                     View
+.....................................................
+Stores actual data	           Usually stores the query definition
+Physical database object	      Virtual table
+Can contain data directly	          Gets data from underlying tables
+Uses storage for data                  	Generally doesn t store result data
+CREATE TABLE	                 CREATE VIEW
+Used for data storage	                Used for security, abstraction, reuse
+
+#view
+ #................  
+ -- Views - it is a way of storing a query-- view - virtual table
+select * from film;
+select * from film;
+#where rating = 'PG'; 
+-- syn-- create view viewname as-- quer
+
+  # A view is always created using a SELECT query, not an INSERT statement.
+ 
+ create view V_filmPG as
+select * from film
+where rating = 'PG'
+
+select * from V_filmPG
+
+-- update and delete-- distinct clause, or aggregate functions, or group by clause
+-- views will become non updatable
+
+ # ER  
+ # entity relations  : how tables are relate to any dbs 
+
+ cleck database reverseengineer
+
+Index
+...............
+Think of the index in a book.
+
+Without an index: You read every page to find a topic.
+With an index: You go directly to the required page.
+
+A database index works the same way.
+
+Syntax
+................
+Create Index
+
+CREATE INDEX index_name
+ON Employee(emp_id);
+
+
  #view
  #................  
  -- Views - it is a way of storing a query-- view - virtual table
@@ -164,7 +215,7 @@ Duplicate values are not allowed.
 
 
 3. Composite Index
-,.........................
+.........................
 Created on multiple columns.
 
 CREATE INDEX idx_dept_salary
@@ -179,7 +230,7 @@ AND salary>50000;
 
 
 
-1. Clustered Index
+1. Clustered Index  :-  stores the actual table data in the order of the indexed column.
 ........................................
 
 A Clustered Index stores the actual table data in the order of the indexed column.
@@ -225,16 +276,29 @@ account_no	customer	balance
 
 Create:
 ....................................
-CREATE CLUSTERED INDEX idx_account
-ON Account(account_no);
+CREATE CLUSTERED INDEX idx_account_no
+ON Account(AccountNo);
 
-Searching:
+The tables rows are organized according to AccountNo.
 
-SELECT *
-FROM Account
-WHERE account_no = 1002;
+Example data
 
-The database directly locates the record.
+Before:
+
+AccountNo    CustomerName
+3003         Ravi
+1001         Sunil
+2002         Kumar
+1005         Raj
+
+After a clustered organization by AccountNo:
+
+AccountNo    CustomerName
+1001         Sunil
+1005         Raj
+2002         Kumar
+3003         Ravi
+
 
 2. Non-Clustered Index
 ...................................

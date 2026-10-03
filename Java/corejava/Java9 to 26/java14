@@ -42,7 +42,7 @@ Benefits
 ✔ Immutable by default
 ✔ Auto-generated constructor, getters, equals, hashCode
 
-2. Switch Expression (Final in Java 14) ⭐
+2. Switch Expression (Final in Java 14) 
 ....................................
 Makes switch more powerful and cleaner.
 

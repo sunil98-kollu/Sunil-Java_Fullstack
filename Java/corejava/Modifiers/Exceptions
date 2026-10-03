@@ -1,3 +1,38 @@
+
+try	  Fund transfer, withdrawal
+catch	Handle transaction failure
+finally	Close database connection
+throw	Throw "Insufficient Balance" exception
+throws	Declare file/database exceptions
+assert	Verify account balance or business rules during development
+
+
+        try {
+
+            int remainingBalance = balance - withdrawAmount;
+
+            System.out.println("Remaining Balance: " + remainingBalance);
+
+        } catch (Exception e) {
+
+            System.out.println("Transaction Failed");
+        }
+
+assert is used during development to verify assumptions. If the condition is false and assertions are enabled (-ea), an AssertionError is thrown.
+..................
+Banking Example
+public class Bank {
+
+    public static void main(String[] args) {
+
+        double balance = 5000;
+
+        assert balance >= 0 : "Balance cannot be negative";
+
+        System.out.println("Account is Valid");
+    }
+}
+
 1. try
 ....................................
 The try block contains code that may throw an exception.

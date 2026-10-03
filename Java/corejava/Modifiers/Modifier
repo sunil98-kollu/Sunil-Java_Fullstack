@@ -1,5 +1,68 @@
 
 
+////////////////////////////////////
+ final
+..........
+Cannot be modified.
+
+native
+.....................
+Implemented in C/C++ using JNI.
+
+Banking Example
+class FingerPrintScanner {
+
+    native void verifyFinger();
+}
+
+Use Case
+
+ATM fingerprint authentication
+Biometric login
+
+. strictfp
+..........................................
+Ensures floating-point calculations are consistent across platforms.
+
+
+volatile
+...............
+Ensures updates made by one thread are immediately visible to other threads.
+
+Banking Example
+class ATMServer {
+
+    volatile boolean serverRunning = true;
+
+    public void stopServer() {
+        serverRunning = false;
+    }
+}
+
+
+
+
+
+Payment    gateway availability
+Banking          application maintenance mode
+Interview S  ummary
+Modifier	       Banking Example
+public	          Check balance, deposit, transfer methods
+private            	Balance, PIN, password
+protected	           SavingsAccount inherits Account
+static	      Bank name, IFSC code
+final	          RBI minimum balance, GST rate
+abstract	           Payment (UPI, Card, Net Banking)
+synchronized	         ATM withdrawal, money transfer
+native	            Fingerprint scanner, biometric login
+strictfp	       Interest calculation
+transient	          PIN, OTP, CVV
+volatile	         ATM server status, payment gateway flag
+
+
+
+
+////////////////////////////////////////////////////////////////////
 Java Modifiers with Banking Real-Time Examples
 1. public
 
@@ -204,7 +267,7 @@ ATM fingerprint authentication
 Biometric login
 Smart card reader
 9. strictfp
-
+..........................................
 Ensures floating-point calculations are consistent across platforms.
 
 Banking Example

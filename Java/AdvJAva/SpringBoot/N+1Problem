@@ -9,7 +9,8 @@ The N+1 Query Problem occurs when Hibernate executes:
 1 query to fetch parent records.
 N additional queries to fetch each child's records.
 
-If there are 100 parent records, Hibernate executes:
+If there are 100 p
+arent records, Hibernate executes:
 
 1 + 100 = 101 Queries
 

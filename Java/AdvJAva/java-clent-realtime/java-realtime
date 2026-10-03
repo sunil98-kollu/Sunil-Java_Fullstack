@@ -512,7 +512,7 @@ Optional.ofNullable(obj)
 .ifPresent(System.out::println);
 
 Methods
-
+.....................
 of()
 ofNullable()
 empty()

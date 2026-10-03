@@ -213,8 +213,14 @@ Iterator present in java.lang package        Iterator present in java.util packa
 contains only one method iterator()            contains 3 methods hasNext(), next(), remove() 
 Introduced in 1.5 version Introduced in 1.2 version
 
+ for Loop
+ ..................
+for (daEaType variable :array /collecuon))
+// block of code
+}
 
 Transfer statements: 
+......................
 Break statement:  
 We can use break statement in the following cases.  
  Inside switch to stop fall-through. 

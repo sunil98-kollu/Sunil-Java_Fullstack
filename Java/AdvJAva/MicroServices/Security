@@ -764,6 +764,7 @@ public String adminData() {
 example
 ......
 
+
 @RestController
 @RequestMapping("/bank")
 public class BankController {
@@ -1021,4 +1022,11 @@ Allows the request to reach the controller.
 Rejects invalid or missing tokens with 401 Unauthorized.
 
 
+core 
+jpa   
+security 
+microservices 
+exceptions
+ logs
+  atutors 
 

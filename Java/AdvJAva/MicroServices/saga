@@ -1,3 +1,42 @@
+
+
+saga 
+.........
+manage data inconsistency acoss multiple microservices in a distributed trancastion 
+
+
+user   order   payment   inventory   shipping   notification   sucuss 
+
+if any services fail prevoisly completed services rolld backed 
+
+order services        ORDR CREATE 
+payment service          PROCEDD PAYMENT 
+inventory                RESERVE STOCK 
+notification service   sens notificTION 
+
+payment service   refund payment 
+order service cal cle order 
+
+
+types of saga
+.............
+chereography (decentrilized)
+each service publish events and other services listen and continue processing
+
+   a  
+   | 
+b  -  c 
+
+orchestration(centralized)
+.....................
+desides next step more control slightly more coupling 
+
+
+
+
+
+
+...............
 Why do we need Saga?
 
 Suppose an online banking application has three microservices:

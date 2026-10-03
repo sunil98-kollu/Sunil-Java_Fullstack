@@ -24,6 +24,60 @@ Annotation	Purpose
 @Operation	Swagger/OpenAPI documentation
 
 
+@EnableWebSecurity	Enables Spring Security configuration
+@EnableMethodSecurity	Enables method-level security
+@PreAuthorize	Checks authorization before method execution
+@PostAuthorize	Checks authorization after method execution
+@Secured	Restricts access based on roles
+@RolesAllowed	JSR-250 role-based authorization
+@AuthenticationPrincipal	Gets logged-in user details
+@CurrentSecurityContext	Accesses the current security context
+@CrossOrigin	Enables CORS
+@PermitAll	Allows access to everyone
+@DenyAll	Denies access to everyone
+@WithMockUser	Creates a mock authenticated user for tests
+@WithAnonymousUser	Simulates an anonymous user in tests
+@WithUserDetails	Loads a real user for tests
+
+
+Frequently Used Kafka Annotations
+Annotation	Purpose
+@EnableKafka	Enables Kafka listener support
+@KafkaListener	Consumes messages from a topic
+@SendTo	Sends the listener result to another topic
+@Payload	Accesses the message body
+@Header	Reads a specific Kafka header
+@Headers	Reads all Kafka headers
+@KafkaHandler	Handles different payload types in one listener
+@RetryableTopic	Retries failed messages before DLT
+@DltHandler	Processes messages from the Dead Letter Topic
+@EmbeddedKafka	Creates an embedded Kafka broker for integration tests
+
+1) @SpringBootTest  Loads the entire Spring Boot application context.
+
+
+2) @Test  Marks a method as a JUnit test.
+
+3) @ParameterizedTest      Runs the same test multiple times using different inputs.
+
+4) @CsvSource             Multiple inputs.
+
+5) @ValueSource           @ValueSource(ints = {2,4,6,8,10})
+
+6) @WebMvcTest  Loads only Controller
+Spring MVC Component
+
+7) MockMvcRequestBuilders          Used for creating HTTP Requests.
+
+
+8) MockMvc        Used for testing REST APIs without starting Tomcat.
+
+
+9) Assertions         JUnit Assertions verify expected results.
+
+
+
+
 1. @SpringBootApplication
 Purpose
 

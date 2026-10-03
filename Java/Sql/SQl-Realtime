@@ -268,7 +268,7 @@ Q2. What does WITH GRANT OPTION do?
 
 It allows the user receiving the privileges to grant those same privileges to other users.
 
-Q3. How do you view a user's permissions?
+Q3. How do you view a users permissions?
 
 SHOW GRANTS FOR 'bank_clerk'@'localhost';
 
@@ -285,7 +285,7 @@ Count customers in each branch.
 Find customers who never made a transaction.
 Display all deposits greater than ₹50,000.
 Display all withdrawals greater than ₹20,000.
-Find today's transactions.
+Find today s transactions.
 Find transactions between two dates.
 Display customer name with account details (JOIN).
 Find customers who have loans.
@@ -771,3 +771,742 @@ Result:
 The deposit into Account 1001 is saved.
 The withdrawal from Account 1002 is undone.
 COMMIT permanently saves the remaining changes.
+
+
+................................................................
+/////////////////////////////////////////////////////////////////////
+
+-- impotant view cmd 
+-- Create
+CREATE VIEW view_name AS
+SELECT ...;
+
+-- Read
+SELECT * FROM view_name;
+
+-- Modify
+-- CREATE OR REPLACE VIEW view_name AS
+-- SELECT ;
+
+-- Delete
+-- DROP VIEW view_name;
+
+-- Check Views
+-- SHOW FULL TABLES
+-- WHERE Table_type = 'VIEW'; 
+
+# view
+
+create view saving_accout as 
+SELECT AccountNo, CustomerId, Balance
+from account 
+where accounttype="saving"; 
+
+
+SELECT * FROM saving_accout;
+
+CREATE VIEW HighBalanceAccounts AS
+SELECT *
+FROM Account
+WHERE Balance > 100000;
+
+SELECT * FROM Account;
+
+UPDATE saving_accout
+SET Balance = Balance + 5000
+WHERE AccountNo = 1001;
+
+#replace view 
+CREATE OR REPLACE VIEW SavingsAccounts AS
+SELECT AccountNo, CustomerId, Balance, OpenDate
+FROM Account
+WHERE AccountType = 'Savings';
+
+DROP VIEW SavingsAccounts;
+
+-- improves security by hiding sensitive columns.
+-- Simplifies complex SQL queries.
+-- Reuses frequently used queries.
+-- Provides data abstraction.
+-- Restricts user access to selected data.
+
+-- 1. Create a view to display all Savings accounts
+
+CREATE VIEW SavingsAccounts AS
+SELECT AccountNo, CustomerId, AccountType, Balance, OpenDate
+FROM Account
+WHERE AccountType = 'Savings';
+
+SELECT * FROM SavingsAccounts;
+
+-- 2. Create a view showing Customer Name and Account Balance
+CREATE VIEW CustomerAccountBalance AS
+SELECT
+    c.CustomerId,
+    c.CustomerName,
+    a.AccountNo,
+    a.Balance
+FROM Customer c
+JOIN Account a
+ON c.CustomerId = a.CustomerId;
+
+SELECT * FROM CustomerAccountBalance;
+
+drop view CustomerAccountBalance;
+
+-- 3. Create a view for customers with balance greater than ₹1,00,000
+CREATE VIEW HighBalanceCustomers AS
+SELECT
+    c.CustomerId,
+    c.CustomerName,
+    a.AccountNo,
+    a.Balance
+FROM Customer c
+JOIN Account a
+ON c.CustomerId = a.CustomerId
+WHERE a.Balance > 1000;
+
+SELECT * FROM HighBalanceCustomers;
+drop view HighBalanceCustomers;
+
+-- 4. Create a view showing all Active Loans
+CREATE VIEW ActiveLoans AS
+SELECT
+    LoanId,
+    CustomerId,
+    LoanType,
+    LoanAmount,
+    InterestRate,
+    LoanTerm,
+    EMI,
+    LoanStatus,
+    LoanStartDate,
+    LoanEndDate
+FROM Loan
+WHERE LoanStatus = 'Active';
+
+SELECT * FROM ActiveLoans;
+
+-- 5. Create a view displaying today's transactions 
+CREATE VIEW TodaysTransactions AS
+SELECT
+    TransactionId,
+    AccountNo,
+    TransactionType,
+    Amount,
+    TransactionDate
+FROM `Transaction`
+WHERE DATE(TransactionDate) = CURDATE();
+
+SELECT * FROM TodaysTransactions;
+
+
+--6 Create a View joining Customer, Account and Loan
+
+This is an important interview-level JOIN + VIEW question.
+
+CREATE VIEW CustomerAccountLoan AS
+SELECT
+    c.CustomerId,
+    c.CustomerName,
+    a.AccountNo,
+    a.AccountType,
+    a.Balance,
+    l.LoanId,
+    l.LoanType,
+    l.LoanAmount,
+    l.InterestRate,
+    l.LoanStatus
+FROM Customer c
+JOIN Account a
+    ON c.CustomerId = a.CustomerId
+JOIN Loan l
+    ON c.CustomerId = l.CustomerId;
+
+Check:
+
+SELECT * FROM CustomerAccountLoan;
+
+-- 7. Update Account Balance through a View
+
+CREATE VIEW SavingsAccountBalance AS
+SELECT
+    AccountNo,
+    CustomerId,
+    Balance
+FROM Account
+WHERE AccountType = 'Savings';
+
+UPDATE SavingsAccountBalance
+SET Balance = Balance + 5001
+WHERE AccountNo = 1001;
+
+SELECT * 
+FROM SavingsAccountBalance
+WHERE AccountNo = 1001;
+
+-- Replace a View to include additional columns
+
+-- Suppose we already have:
+
+CREATE VIEW SavingsAccounts AS
+SELECT
+    AccountNo,
+    CustomerId,
+    Balance
+FROM Account
+WHERE AccountType = 'Savings';
+
+-- Now we want to add OpenDate and AccountType.
+
+CREATE OR REPLACE VIEW SavingsAccounts AS
+SELECT
+    AccountNo,
+    CustomerId,
+    AccountType,
+    Balance,
+    OpenDate
+FROM Account
+WHERE AccountType = 'Savings';
+
+SELECT * FROM SavingsAccounts;
+
+
+-- 10. Query data from multiple Views
+-- Query 1
+SELECT *
+FROM SavingsAccounts;
+-- Query 2
+SELECT *
+FROM HighBalanceCustomers
+WHERE Balance > 200000;
+-- Query 3
+SELECT *
+FROM ActiveLoans
+WHERE LoanAmount > 1000000;
+
+-- Query 4 — Join two Views
+
+SELECT
+    h.CustomerId,
+    h.CustomerName,
+    h.AccountNo,
+    h.Balance,
+    l.LoanId,
+    l.LoanAmount
+FROM HighBalanceCustomers h
+JOIN ActiveLoans l
+ON h.CustomerId = l.CustomerId;
+
+-- impotant view cmd 
+-- Create
+CREATE VIEW view_name AS
+SELECT ...;
+
+-- Read
+SELECT * FROM view_name;
+
+-- Modify
+-- CREATE OR REPLACE VIEW view_name AS
+-- SELECT ;
+
+-- Delete
+-- DROP VIEW view_name;
+
+-- Check Views
+-- SHOW FULL TABLES
+-- WHERE Table_type = 'VIEW'; 
+
+..............................................................
+
+SQL Views — Interview Questions & Answers
+1. What is a View in SQL?
+
+A View is a virtual table based on the result of a SELECT query.
+
+It does not normally store the actual result data separately. Instead, when you query the view, the database retrieves data from its underlying tables.
+
+Example
+CREATE VIEW SavingsAccounts AS
+SELECT AccountNo, CustomerId, Balance
+FROM Account
+WHERE AccountType = 'Savings';
+
+Now:
+
+SELECT *
+FROM SavingsAccounts;
+2. Why do we use Views?
+
+Main reasons:
+
+1. Security
+
+Hide sensitive columns.
+
+CREATE VIEW CustomerDetails AS
+SELECT CustomerId, CustomerName, Mobile
+FROM Customer;
+
+For example, you can avoid exposing:
+
+AadharNumber
+PANNumber
+Password
+2. Simplify complex queries
+
+Instead of repeatedly writing a complicated JOIN:
+
+SELECT *
+FROM Customer c
+JOIN Account a
+ON c.CustomerId = a.CustomerId;
+
+create a view once:
+
+CREATE VIEW CustomerAccount AS
+SELECT c.CustomerId,
+       c.CustomerName,
+       a.AccountNo,
+       a.Balance
+FROM Customer c
+JOIN Account a
+ON c.CustomerId = a.CustomerId;
+
+Then:
+
+SELECT *
+FROM CustomerAccount;
+3. Reusability
+
+Frequently used queries can be stored as views.
+
+4. Data abstraction
+
+Users can work with the view without knowing the underlying table structure.
+
+Interview answer
+
+"Views are used for security, abstraction, simplifying complex queries, reusability, and creating consistent reporting interfaces."
+
+3. Difference between View and Table
+Table	View
+Stores actual data	Normally stores the query definition
+Physical data object	Virtual table
+Uses storage for its data	Usually doesnt store result data separately
+Created using CREATE TABLE	Created using CREATE VIEW
+Can directly contain data	Gets data from underlying tables
+Used primarily for data storage	Used for abstraction, security, reuse, reporting
+
+Example:
+
+CREATE TABLE Account (...);
+
+vs.
+
+CREATE VIEW SavingsAccounts AS
+SELECT *
+FROM Account
+WHERE AccountType = 'Savings';
+4. Can we INSERT, UPDATE, or DELETE data through a View?
+
+Yes, sometimes.
+
+It depends on whether the view is updatable.
+
+Simple view
+CREATE VIEW SavingsAccounts AS
+SELECT AccountNo, CustomerId, Balance
+FROM Account
+WHERE AccountType = 'Savings';
+
+You may be able to update it:
+
+UPDATE SavingsAccounts
+SET Balance = Balance + 5000
+WHERE AccountNo = 1001;
+
+The underlying Account table is updated.
+
+Complex view
+
+A view containing things such as:
+
+JOIN
+GROUP BY
+Aggregate functions
+DISTINCT
+UNION
+
+may not be directly updatable.
+
+Interview answer
+
+"Yes, a view can be used for INSERT, UPDATE, or DELETE when it is updatable. Simple single-table views are commonly updatable, while complex views may not be."
+
+5. What is a Simple View?
+
+A Simple View is generally created from a single table and doesnt use complex operations such as aggregation or joins.
+
+Example:
+
+CREATE VIEW HighBalanceAccounts AS
+SELECT AccountNo, CustomerId, Balance
+FROM Account
+WHERE Balance > 100000;
+
+It is generally easier to update.
+
+6. What is a Complex View?
+
+A Complex View generally involves:
+
+Multiple tables
+JOIN
+Aggregate functions
+GROUP BY
+DISTINCT
+Calculations
+Other complex query logic
+
+Example:
+
+CREATE VIEW CustomerAccountDetails AS
+SELECT
+    c.CustomerId,
+    c.CustomerName,
+    a.AccountNo,
+    a.AccountType,
+    a.Balance
+FROM Customer c
+JOIN Account a
+ON c.CustomerId = a.CustomerId;
+
+This is a complex view because it uses multiple tables and a JOIN.
+
+7. Difference between CREATE VIEW and CREATE OR REPLACE VIEW
+CREATE VIEW
+
+Creates a new view.
+
+CREATE VIEW SavingsAccounts AS
+SELECT AccountNo, Balance
+FROM Account
+WHERE AccountType = 'Savings';
+
+If SavingsAccounts already exists, you'll generally get an error.
+
+CREATE OR REPLACE VIEW
+
+Creates the view if it doesn't exist or replaces its definition if it does.
+
+CREATE OR REPLACE VIEW SavingsAccounts AS
+SELECT AccountNo, AccountType, Balance, OpenDate
+FROM Account
+WHERE AccountType = 'Savings';
+Interview answer
+
+"CREATE VIEW creates a new view, whereas CREATE OR REPLACE VIEW allows us to replace the existing view definition."
+
+8. Can a View be created from multiple tables?
+
+Yes.
+
+Use JOIN.
+
+Example:
+
+CREATE VIEW CustomerAccount AS
+SELECT
+    c.CustomerId,
+    c.CustomerName,
+    a.AccountNo,
+    a.Balance
+FROM Customer c
+JOIN Account a
+ON c.CustomerId = a.CustomerId;
+
+Here:
+
+Customer
+   ↓ JOIN
+Account
+   ↓
+CustomerAccount View
+9. Can we create a View on another View?
+
+Yes.
+
+A view can use another view as its source.
+
+First View
+CREATE VIEW CustomerAccount AS
+SELECT
+    c.CustomerId,
+    c.CustomerName,
+    a.AccountNo,
+    a.Balance
+FROM Customer c
+JOIN Account a
+ON c.CustomerId = a.CustomerId;
+Second View
+CREATE VIEW HighBalanceCustomers AS
+SELECT *
+FROM CustomerAccount
+WHERE Balance > 100000;
+
+Now:
+
+SELECT *
+FROM HighBalanceCustomers;
+
+The second view depends on the first view.
+
+10. Advantages and Disadvantages of Views
+Advantages
+1. Security
+
+Hide sensitive columns.
+
+2. Simplicity
+
+Complex queries can be accessed using a simple:
+
+SELECT * FROM ViewName;
+3. Reusability
+
+Frequently used queries can be reused.
+
+4. Abstraction
+
+Users dont need to understand the underlying table relationships.
+
+5. Consistency
+
+A common business query can have one centralized definition.
+
+6. Reporting
+
+Views are useful for creating reports and dashboards.
+
+Disadvantages
+1. Performance
+
+A complex view can result in an expensive query.
+
+2. Update limitations
+
+Not every view is updatable.
+
+3. Dependency
+
+If an underlying table or column is changed or removed, the view can be affected.
+
+4. Complex nested views
+
+Too many views built on top of other views can make debugging and performance analysis difficult.
+
+5. Doesnt normally store result data
+
+A normal view generally retrieves data from the underlying tables when queried.
+
+⭐ Simple vs Complex View
+Simple View	Complex View
+Usually one table	Usually multiple tables
+Simple SELECT	May contain JOIN, aggregation, etc.
+Easier to update	Often not directly updatable
+Easy to understand	More complex
+Example: Account filtering	Customer + Account + Loan
+
+
+indexing
+...........
+
+
+
+-- Create an index on CustomerName.
+
+create index customer_Name
+ON Customer(CustomerName);
+
+SELECT * FROM Customer
+WHERE CustomerId = 1;
+
+
+-- 3. Composite Index
+create index acc_type_bal
+on account(accounttype,balance);
+
+SELECT * FROM Account WHERE AccountType = 'Savings'
+AND Balance > 50000;
+
+-- 4. Unique Index
+CREATE UNIQUE INDEX idx_ph
+ON Customer(PhoneNumber);
+
+-- Show all indexes on the Customer table 
+SHOW INDEX
+FROM account;
+
+-- 6. Drop an Index
+DROP INDEX customer_Name
+ON Customer;
+
+-- 8. Compare Query Performance With and Without an Index
+
+-- Without a useful index, the database may perform a full table scan.
+-- With a suitable index, it may perform an index-based lookup, reducing the number of rows it needs to examine.
+-- On a very small table, the difference may be negligible. Index benefits become much more meaningful as the table grows.
+
+-- 9. Create an Index on TransactionDate
+CREATE INDEX idx_transaction_date
+ON `Transaction`(TransactionDate);
+
+SELECT *
+FROM `Transaction`
+WHERE TransactionDate >= '2026-01-01';
+
+SELECT *
+FROM `Transaction`
+WHERE TransactionDate
+BETWEEN '2026-01-01' AND '2026-01-31';
+
+
+
+
+CREATE INDEX idx_customer_name
+ON Customer(CustomerName);
+
+CREATE UNIQUE INDEX idx_email
+ON Customer(Email);
+
+Create a Unique Index
+..................
+CREATE UNIQUE INDEX idx_email
+ON Customer(Email);
+
+drop
+...........
+DROP INDEX idx_customer_name ON Customer;
+
+
+
+
+Important Interview Questions
+1. Does an index always improve performance?
+
+No.
+
+Indexes improve many read queries, but they also:
+
+consume storage
+add maintenance work for INSERT
+add maintenance work for UPDATE
+add maintenance work for DELETE
+2. Should we create an index on every column?
+
+No.
+
+Too many indexes can hurt write performance and consume unnecessary storage.
+
+3. Which columns are good candidates?
+
+Usually columns frequently used in:
+
+WHERE
+JOIN
+ORDER BY
+GROUP BY
+
+and columns requiring uniqueness.
+
+But the correct choice depends on actual query patterns and the optimizer s execution plans.
+
+4. Primary Key vs Index
+CREATE TABLE Account (
+    AccountNo INT PRIMARY KEY
+);
+
+The primary key automatically gets an index in MySQL.
+
+So you normally don t need:
+
+CREATE INDEX idx_account_no
+ON Account(AccountNo);
+
+again.
+
+Most Important Commands to Remember
+-- Create
+CREATE INDEX index_name
+ON table_name(column_name);
+
+-- Unique
+CREATE UNIQUE INDEX index_name
+ON table_name(column_name);
+
+-- Composite
+CREATE INDEX index_name
+ON table_name(column1, column2);
+
+-- Show indexes
+SHOW INDEX FROM table_name;
+
+-- Drop
+DROP INDEX index_name
+ON table_name;
+
+-- Check execution plan
+EXPLAIN
+SELECT ...;
+
+-- Detailed execution analysis
+EXPLAIN ANALYZE
+SELECT ...;
+
+What is Index?        	A data structure used to speed up data retrieval.
+2	Why Index?	                 To improve read/query performance.
+3	Primary Key vs Index?       	PK enforces unique row identity; an index primarily improves access performance.
+4	Composite Index?	        Index on two or more columns.
+5	Unique Index?	            Prevents duplicate indexed values/combinations.
+6	Multiple indexes?	         Yes, a table can have multiple indexes.
+7	INSERT performance?    	Usually decreases because indexes need maintenance.
+8	Beneficial operations?	      WHERE, JOIN, ORDER BY, range queries, and sometimes GROUP BY.
+9	Check indexes?	          SHOW INDEX FROM table_name;
+10	Avoid indexes?	            Small tables, low-selectivity columns, rarely queried columns, and write-heavy workloads.
+
+
+Q1. How many clustered indexes can a table have?
+
+Usually one, because the tables rows can have only one clustered organization.
+
+Q2. How many non-clustered indexes can a table have?
+
+Multiple, subject to database-specific limits and practical performance considerations.
+
+Q3. Which is faster?
+
+There is no universal answer.
+
+It depends on the query, selectivity, index design, table size, and execution plan.
+
+Q4. Why can non-clustered indexes require extra work?
+
+If the index doesnt contain all required columns, the database may need to perform a lookup into the base table to retrieve the remaining columns.
+
+
+Clustered Index
+............
+"Data itself is organized according to the index."
+
+📚 Think:
+
+Book pages arranged in order
+
+Non-Clustered Index
+................
+"Separate structure points to the data."
+
+📖 Think:
+
+Index at the back of a book → page number

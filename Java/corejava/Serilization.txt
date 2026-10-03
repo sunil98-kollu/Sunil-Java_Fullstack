@@ -4,7 +4,7 @@ fileoutputStream f=new fileoutputStream("emp.ser")
 ObjectOutPutStream o = new Objectoutputstream()  
 o.writeObject(emp)
 
-sdeerilization   object to   bytestream  
+deserilization   object to   bytestream  
 fileinputStream f=new fileinputStream("emp.ser")
 ObjectinputStream o = new Objectinputstream()  
 o.readObject()

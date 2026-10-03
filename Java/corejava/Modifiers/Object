@@ -1,8 +1,52 @@
 
+
 1. new
 .....................................
 
 The new keyword is used to create an object in memory.
+
+
+2. instanceof
+.....................................
+The instanceof operator checks whether an object belongs to a particular class or interface.
+Account account = new SavingsAccount();
+
+        System.out.println(account instanceof SavingsAccount);
+        System.out.println(account instanceof Account);
+
+
+
+ super
+.............
+The super keyword refers to the immediate parent class.
+
+It is used to:
+
+Call the parent class constructor.
+Access parent class methods.
+Access parent class variables.
+
+new	Create a new BankAccount object
+instanceof	Check whether an account is a SavingsAccount
+super	Access parent Account class methods or constructor
+this	Initialize current object's account details and chain constructors
+
+
+this vs                                           super
+this	                                                        super
+Refers to the current object	                                    Refers to the immediate parent object
+Accesses current class members	                           Accesses parent class members
+Calls another constructor in the same class using this()	         Calls the parent constructor using super()
+Used for constructor chaining	Used for inheritance
+
+
+
+///////////////////////////////////////////
+1. new
+.....................................
+
+The new keyword is used to create an object in memory.
+ BankAccount account = new BankAccount();
 
 Banking Example
 class BankAccount {
@@ -214,9 +258,9 @@ super	Access parent Account class methods or constructor
 this	Initialize current object's account details and chain constructors
 
 
-this vs super
-this	super
-Refers to the current object	Refers to the immediate parent object
-Accesses current class members	Accesses parent class members
-Calls another constructor in the same class using this()	Calls the parent constructor using super()
+this vs                  super
+this	                                                        super
+Refers to the current object	                                    Refers to the immediate parent object
+Accesses current class members	                           Accesses parent class members
+Calls another constructor in the same class using this()	         Calls the parent constructor using super()
 Used for constructor chaining	Used for inheritance
